@@ -3227,6 +3227,69 @@ class MreArma(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreBook(MelRecord):
+    """Book Item"""
+    classType = 'BOOK'
+
+    # {0x01} 'Teaches Skill',
+    # {0x02} 'Can''t be Taken',
+    # {0x04} 'Teaches Spell',
+    BookTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'teachesSkill'),
+            (1, 'cantBeTaken'),
+            (2, 'teachesSpell'),
+        ))
+
+    # DATA Book Type is wbEnum in TES5Edit
+    # Assigned to 'bookType' for WB
+    # 0, 'Book/Tome',
+    # 255, 'Note/Scroll'
+
+    # DATA has wbSkillEnum in TES5Edit
+    # Assigned to 'skillOrSpell' for WB
+    # -1 :'None',
+    #  7 :'One Handed',
+    #  8 :'Two Handed',
+    #  9 :'Archery',
+    #  10:'Block',
+    #  11:'Smithing',
+    #  12:'Heavy Armor',
+    #  13:'Light Armor',
+    #  14:'Pickpocket',
+    #  15:'Lockpicking',
+    #  16:'Sneak',
+    #  17:'Alchemy',
+    #  18:'Speech',
+    #  19:'Alteration',
+    #  20:'Conjuration',
+    #  21:'Destruction',
+    #  22:'Illusion',
+    #  23:'Restoration',
+    #  24:'Enchanting',
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelVmad(),
+        MelBounds(),
+        MelLString('FULL','full'),
+        MelModel(),
+        MelIcons(),
+        MelLString('DESC','description'),
+        MelDestructible(),
+        MelOptStruct('YNAM','I',(FID,'pickupSound')),
+        MelOptStruct('ZNAM','I',(FID,'dropSound')),
+        MelNull('KSIZ'),
+        MelKeywords('KWDA','keywords'),
+        MelStruct('DATA','2B2siIf',(BookTypeFlags,'flags',0L),('bookType',0),
+            'unused',('skillOrSpell',-1),'value','weight'),
+        MelFid('INAM','inventoryArt'),
+        MelLString('CNAM','description'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# DATA needs to have 'skillOrSpell' save an integer or FormID to be mergable.
+# After syntax checks and DATA is formated correctly, this record is correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

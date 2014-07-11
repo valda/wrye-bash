@@ -5206,13 +5206,14 @@ class MreLeveledList(MreLeveledListBase):
 class MreAppa(MelRecord):
     """Appa record (Alchemical Apparatus)"""
     classType = 'APPA'
-    AppaTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0, 'novice'),
-        (1, 'apprentice'),
-        (2, 'journeyman'),
-        (3, 'expert'),
-        (4, 'master'),
-    ))
+	
+    # QUAL has wbEnum in TES5Edit
+    # Assigned to 'quality' for WB
+    # 0 :'novice',
+    # 1 :'apprentice',
+    # 2 :'journeyman',
+    # 3 :'expert',
+    # 4 :'master',
 
     melSet = MelSet(
         MelString('EDID','eid'),
@@ -5220,17 +5221,11 @@ class MreAppa(MelRecord):
         MelBounds(),
         MelLString('FULL','full'),
         MelModel(),
-        MelString('ICON','icon'),
-        MelString('MICO','mico_n'),
-        MelBase('DEST','dest_p'),
-        MelGroups('destructionData',
-            MelBase('DSTD','dstd_p'),
-            MelModel('model','DMDL'),
-            ),
-        MelBase('DSTF','dstf_p'), # Appears just to signal the end of the destruction data
+        MelIcons(),
+        MelDestructible(),
         MelFid('YNAM','pickupSound'),
         MelFid('ZNAM','dropSound'),
-        MelStruct('QUAL','I',(AppaTypeFlags,'flags',0L)),
+        MelStruct('QUAL','I','quality'),
         MelLString('DESC','description'),
         MelStruct('DATA','If','value','weight'),
         )

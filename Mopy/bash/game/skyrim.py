@@ -5185,6 +5185,23 @@ class MreArto(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreLeveledList(MreLeveledListBase):
+    """Skryim Leveled item/creature/spell list."""
+
+    class MelLevListLvlo(MelGroups):
+        def __init__(self):
+            MelGroups.__init__(self,'entries',
+                MelStruct('LVLO','=3I','level',(FID,'listId',None),('count',1)),
+                MelCoed(),
+                )
+        def dumpData(self,record,out):
+            out.packSub('LLCT','B',len(record.entries))
+            MelGroups.dumpData(self,record,out)
+
+    __slots__ = MreLeveledListBase.__slots__
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
 class MreAppa(MelRecord):
     """Appa record (Alchemical Apparatus)"""
@@ -5248,23 +5265,6 @@ class MreCobj(MelRecord):
         MelStruct('NAM1','H','resultingQuantity'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified Correct for Skyrim 1.8
-#------------------------------------------------------------------------------
-class MreLeveledList(MreLeveledListBase):
-    """Skryim Leveled item/creature/spell list."""
-
-    class MelLevListLvlo(MelGroups):
-        def __init__(self):
-            MelGroups.__init__(self,'entries',
-                MelStruct('LVLO','=3I','level',(FID,'listId',None),('count',1)),
-                MelCoed(),
-                )
-        def dumpData(self,record,out):
-            out.packSub('LLCT','B',len(record.entries))
-            MelGroups.dumpData(self,record,out)
-
-    __slots__ = MreLeveledListBase.__slots__
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------

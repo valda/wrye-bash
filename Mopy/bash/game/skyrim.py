@@ -4217,6 +4217,10 @@ class MreFurn(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+# Marker for organization please don't remove ---------------------------------
+# GLOB ------------------------------------------------------------------------
+# Defined in brec.py as class MreGlob(MelRecord) ------------------------------
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

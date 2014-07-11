@@ -5142,6 +5142,29 @@ class MreAddn(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreArto(MelRecord):
+    """Arto record (Art effect object)"""
+    classType = 'ARTO'
+
+    #{0x00000001} 'Magic Casting',
+    #{0x00000002} 'Magic Hit Effect',
+    #{0x00000004} 'Enchantment Effect'
+    ArtoTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'magic_casting'),
+            (1, 'magic_hit_effect'),
+            (2, 'enchantment_effect'),
+        ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelModel(),
+        MelStruct('DNAM','I',(ArtoTypeFlags,'flags',0L)),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
 class MreAppa(MelRecord):
     """Appa record (Alchemical Apparatus)"""
@@ -5173,29 +5196,6 @@ class MreAppa(MelRecord):
         MelStruct('QUAL','I',(AppaTypeFlags,'flags',0L)),
         MelLString('DESC','description'),
         MelStruct('DATA','If','value','weight'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified Correct for Skyrim 1.8
-#------------------------------------------------------------------------------
-class MreArto(MelRecord):
-    """Arto record (Art effect object)"""
-    classType = 'ARTO'
-
-    #{0x00000001} 'Magic Casting',
-    #{0x00000002} 'Magic Hit Effect',
-    #{0x00000004} 'Enchantment Effect'
-    ArtoTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
-            (0, 'magic_casting'),
-            (1, 'magic_hit_effect'),
-            (2, 'enchantment_effect'),
-        ))
-
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelBounds(),
-        MelModel(),
-        MelStruct('DNAM','I',(ArtoTypeFlags,'flags',0L)),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

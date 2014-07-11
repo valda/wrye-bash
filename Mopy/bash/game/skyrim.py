@@ -5520,6 +5520,32 @@ class MreLgtm(MelRecord):
 
 # If Syntax Correct, Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreMusc(MelRecord):
+    """Music type record."""
+    classType = 'MUSC'
+
+    MuscTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0,'playsOneSelection'),
+            (1,'abruptTransition'),
+            (2,'cycleTracks'),
+            (3,'maintainTrackOrder'),
+            (4,'unknown5'),
+            (5,'ducksCurrentTrack'),
+        ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('FNAM','I',(MuscTypeFlags,'flags',0L),),
+        # Divided by 100 in TES5Edit, probably for editing only
+        MelStruct('PNAM','2H','priority','duckingDB'),
+        MelStruct('WNAM','f','fadeDuration'),
+        MelFids('TNAM','musicTracks'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# If Syntax Correct, Verified Correct for Skyrim 1.8
+# Need to check if TNAM can have more then one FormID if so MelFidList
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

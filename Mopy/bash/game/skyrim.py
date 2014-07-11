@@ -3511,6 +3511,7 @@ class MreSpgd(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'
     melSet = MelSet(

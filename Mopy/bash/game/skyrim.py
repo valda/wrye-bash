@@ -5338,6 +5338,20 @@ class MreIpct(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreIpds(MelRecord):
+    """Ipds Item"""
+    classType = 'IPDS'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        # This is a repeating subrecord of 8 bytes, 2 FormIDs First is MATT second is IPCT
+        MelGroups('data',
+            MelStruct('PNAM','2I',(FID,'material'), (FID,'impact')),
+            ),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

@@ -4221,6 +4221,13 @@ class MreFurn(MelRecord):
 # GLOB ------------------------------------------------------------------------
 # Defined in brec.py as class MreGlob(MelRecord) ------------------------------
 #------------------------------------------------------------------------------
+class MreGmst(MreGmstBase):
+    """Skyrim GMST record"""
+    Master = u'Skyrim'
+    isKeyedByEid = True # NULL fids are acceptable.
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'
@@ -4438,13 +4445,6 @@ class MreCobj(MelRecord):
         MelStruct('NAM1','H','resultingQuantity'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified Correct for Skyrim 1.8
-#------------------------------------------------------------------------------
-class MreGmst(MreGmstBase):
-    """Skyrim GMST record"""
-    Master = u'Skyrim'
-    isKeyedByEid = True # NULL fids are acceptable.
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------

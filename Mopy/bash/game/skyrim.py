@@ -5208,6 +5208,29 @@ class MreCams(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 #------------------------------------------------------------------------------
+class MreCpth(MelRecord):
+    """Camera Path"""
+    classType = 'CPTH'
+
+    # DATA 'Camera Zoom' isn wbEnum
+    # 0, 'Default, Must Have Camera Shots',
+    # 1, 'Disable, Must Have Camera Shots',
+    # 2, 'Shot List, Must Have Camera Shots',
+    # 128, 'Default',
+    # 129, 'Disable',
+    # 130, 'Shot List'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelConditions(),
+        MelFids('ANAM','relatedCameraPaths',),
+        MelStruct('DATA','B','cameraZoom',),
+        MelFids('SNAM','cameraShots',),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

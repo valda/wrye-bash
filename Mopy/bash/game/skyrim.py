@@ -3445,6 +3445,24 @@ class MreClas(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreClmt(MelRecord):
+    """Climate"""
+    classType = 'CLMT'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelGroups('weatherTypes',
+            MelStruct('WLST','IiI',(FID,'weather',None),'chance',(FID,'global',None),),
+            ),
+        MelLString('FNAM','sunTexture'),
+        MelLString('GNAM','sunGlareTexture'),
+        MelModel(),
+        MelStruct('TNAM','6B','sunriseBegin','sunriseEnd','sunsetBegin','sunsetEnd',
+                  'volatility','moonsPhaseLength',),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

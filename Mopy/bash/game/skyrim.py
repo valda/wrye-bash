@@ -2543,8 +2543,6 @@ class MelMODS(MelBase):
             data = [(string,function(fid),unk) for (string,fid,unk) in record.__getattribute__(attr)]
             if save: record.__setattr__(attr,data)
 
-#-------------------------------------------------------------------------------
-
 # Verified Correct for Skyrim
 #-------------------------------------------------------------------------------
 class MelModel(MelGroup):

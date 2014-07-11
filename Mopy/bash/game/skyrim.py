@@ -5440,6 +5440,34 @@ class MreLctn(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreMesg(MelRecord):
+    """Message Record."""
+    classType = 'MESG'
+
+    MesgTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'messageBox'),
+            (1, 'autoDisplay'),
+        ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelString('DESC','description'),
+        MelString('FULL','full'),
+        # 'INAM' leftover
+        MelFid('INAM','iconUnused'),
+        MelFid('QNAM','materialParent'),
+        MelStruct('DNAM','I',(MesgTypeFlags,'flags',0L),),
+        # Don't Show
+        MelStruct('TNAM','I','displayTime',),
+        MelGroups('menuButtons',
+            MelLString('ITXT','buttonText'),
+            MelConditions(),
+            ),
+    )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

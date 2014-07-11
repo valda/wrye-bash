@@ -5254,6 +5254,26 @@ class MreLvsp(MreLeveledList):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreMisc(MelRecord):
+    """Misc. Item"""
+    classType = 'MISC'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelVmad(),
+        MelBounds(),
+        MelLString('FULL','full'),
+        MelModel(),
+        MelIcons(),
+        MelDestructible(),
+        MelOptStruct('YNAM','I',(FID,'pickupSound')),
+        MelOptStruct('ZNAM','I',(FID,'dropSound')),
+        MelNull('KSIZ'),
+        MelKeywords('KWDA','keywords'),
+        MelStruct('DATA','=If','value','weight'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# If VMAD correct then Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
 class MreAppa(MelRecord):
     """Appa record (Alchemical Apparatus)"""
@@ -5314,33 +5334,6 @@ class MreCobj(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 # Verified Correct for Skyrim 1.8
-#------------------------------------------------------------------------------
-class MreMisc(MelRecord):
-    """Misc. Item"""
-    classType = 'MISC'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelVmad(),
-        MelBounds(),
-        MelLString('FULL','full'),
-        MelModel(),
-        MelString('ICON','icon'),
-        MelString('MICO','mico_n'),
-        MelBase('DEST','dest_p'),
-        MelGroups('destructionData',
-            MelBase('DSTD','dstd_p'),
-            MelModel('model','DMDL'),
-            ),
-        MelBase('DSTF','dstf_p'), # Appears just to signal the end of the destruction data
-        MelOptStruct('YNAM','I',(FID,'pickupSound')),
-        MelOptStruct('ZNAM','I',(FID,'dropSound')),
-        MelNull('KSIZ'),
-        MelKeywords('KWDA','keywords'),
-        MelStruct('DATA','=If','value','weight'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# If VMAD correct then Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
 #--Mergeable record types
 mergeClasses = (

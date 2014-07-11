@@ -3378,8 +3378,6 @@ class MreCell(MelRecord):
         MelBase('XWCN','unknown_XWCN'),
         MelBase('XWCS','unknown_XWCS'),
         # unknown_ang = wbByteArray('Unknown', 0) 'XWCU' neds custom unpacker
-        # MelStruct('XWCU','6f','xOffset','yOffset','zOffset','unknown_off',
-        #          'xAngle','yAngle','zAngle','unknown_ang',),
         # MelBase('XWCU','waterVelocity',),
         MelStruct('XWCU','3f4s3f','xOffset','yOffset','zOffset','unknown','xAngle',
                   'yAngle','zAngle',dumpExtra='unknown',),

@@ -4371,6 +4371,31 @@ class MreMstt(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreIdlm(MelRecord):
+    """Idle marker record."""
+    classType = 'IDLM'
+
+    IdlmTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0, 'runInSequence'),
+        (1, 'unknown1'),
+        (2, 'doOnce'),
+        (3, 'unknown3'),
+        (4, 'ignoredBySandbox'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelStruct('IDLF','B',(IdlmTypeFlags,'flags',0L),),
+        MelStruct('IDLC','B','animationCount',),
+        MelStruct('IDLT','f','idleTimerSetting'),
+        MelFidList('IDLA','animations'),
+        MelModel(),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

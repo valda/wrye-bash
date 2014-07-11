@@ -3143,6 +3143,18 @@ class MreAmmo(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreAnio(MelRecord):
+    """Anio record (Animated Object)"""
+    classType = 'ANIO'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelModel(),
+        MelString('BNAM','unloadEvent'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'
@@ -3304,19 +3316,6 @@ class MreArmo(MelRecord):
         MelStruct('DATA','=If','value','weight'),
         MelStruct('DNAM','I','armorRating'),
         MelFid('TNAM','baseItem'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified Correct for Skyrim 1.8
-#------------------------------------------------------------------------------
-#------------------------------------------------------------------------------
-class MreAnio(MelRecord):
-    """Anio record (Animated Object)"""
-    classType = 'ANIO'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelModel(),
-        MelString('BNAM','unloadEvent'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

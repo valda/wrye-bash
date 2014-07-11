@@ -4228,6 +4228,17 @@ class MreGmst(MreGmstBase):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreKywd(MelRecord):
+    """Keyword record."""
+    classType = 'KYWD'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelColorN(),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

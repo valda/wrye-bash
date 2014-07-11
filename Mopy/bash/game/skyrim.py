@@ -5168,6 +5168,46 @@ class MreAvif(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreCams(MelRecord):
+    """Cams Type"""
+    classType = 'CAMS'
+
+    # DATA 'Action','Location','Target' is wbEnum
+    # 'Action-Shoot',
+    # 'Action-Fly',
+    # 'Action-Hit',
+    # 'Action-Zoom'
+
+    # 'Location-Attacker',
+    # 'Location-Projectile',
+    # 'Location-Target',
+    # 'Location-Lead Actor'
+
+    # 'Target-Attacker',
+    # 'Target-Projectile',
+    # 'Target-Target',
+    # 'Target-Lead Actor'
+
+    CamsFlagsFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'positionFollowsLocation'),
+            (1, 'rotationFollowsTarget'),
+            (2, 'dontFollowBone'),
+            (3, 'firstPersonCamera'),
+            (4, 'noTracer'),
+            (5, 'startAtTimeZero'),
+        ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelModel(),
+        MelStruct('SNAM','4I7f','action','location','target',
+                  (CamsFlagsFlags,'flags',0L),'timeMultPlayer',
+                  'timeMultTarget','timeMultGlobal','maxTime','minTime',
+                  'targetPctBetweenActors','nearTargetDistance',),
+        MelFid('MNAM','imageSpaceModifier',),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

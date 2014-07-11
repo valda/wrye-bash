@@ -5468,6 +5468,18 @@ class MreMesg(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreDobj(MelRecord):
+    """Default Object Manager"""
+    classType = 'DOBJ'
+    melSet = MelSet(
+        MelGroups('objects',
+            MelStruct('DNAM','4sI','objectUse',(FID,'objectID',None),),
+            ),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

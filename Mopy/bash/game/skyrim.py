@@ -4349,6 +4349,28 @@ class MreAspc(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreMstt(MelRecord):
+    """Moveable static record."""
+    classType = 'MSTT'
+
+    MsttTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0, 'onLocalMap'),
+        (1, 'unknown2'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelString('FULL','full'),
+        MelModel(),
+        MelDestructible(),
+        MelStruct('DATA','B',(MsttTypeFlags,'flags',0L),),
+        MelFid('SNAM','sound'),
+    )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

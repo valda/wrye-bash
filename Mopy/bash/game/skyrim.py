@@ -4475,6 +4475,36 @@ class MreProj(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreHazd(MelRecord):
+    """Hazard"""
+    classType = 'HAZD'
+
+    # {0x01} 'Affects Player Only',
+    # {0x02} 'Inherit Duration from Spawn Spell',
+    # {0x04} 'Align to Impact Normal',
+    # {0x08} 'Inherit Radius from Spawn Spell',
+    # {0x10} 'Drop to Ground'
+    HazdTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0, 'affectsPlayerOnly'),
+        (1, 'inheritDurationFromSpawnSpell'),
+        (2, 'alignToImpactNormal'),
+        (3, 'inheritRadiusFromSpawnSpell'),
+        (4, 'dropToGround'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelLString('FULL','full'),
+        MelModel(),
+        MelStruct('DATA','I4f5I','limit','radius','lifetime',
+                  'imageSpaceRadius','targetInterval',(HazdTypeFlags,'flags',0L),
+                  (FID,'spell'),(FID,'light'),(FID,'impactDataSet'),(FID,'sound'),),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

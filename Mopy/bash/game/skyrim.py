@@ -5546,6 +5546,18 @@ class MreMusc(MelRecord):
 # If Syntax Correct, Verified Correct for Skyrim 1.8
 # Need to check if TNAM can have more then one FormID if so MelFidList
 #------------------------------------------------------------------------------
+class MreFstp(MelRecord):
+    """Footstep"""
+    classType = 'FSTP'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelFid('DATA','impactSet'),
+        MelString('ANAM','tag'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

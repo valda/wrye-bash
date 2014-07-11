@@ -4250,6 +4250,39 @@ class MreAact(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreTxst(MelRecord):
+    """Texture Set"""
+    classType = 'TXST'
+
+    # {0x0001}'No Specular Map',
+    # {0x0002}'Facegen Textures',
+    # {0x0004}'Has Model Space Normal Map'
+    TxstTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0, 'noSpecularMap'),
+        (1, 'facegenTextures'),
+        (2, 'hasModelSpaceNormalMap'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelGroups('destructionData',
+            MelString('TX00','difuse'),
+            MelString('TX01','normalGloss'),
+            MelString('TX02','enviroMaskSubSurfaceTint'),
+            MelString('TX03','glowDetailMap'),
+            MelString('TX04','height'),
+            MelString('TX05','environment'),
+            MelString('TX06','multilayer'),
+            MelString('TX07','backlightMaskSpecular'),
+            ),
+        MelDecalData(),
+        MelStruct('DNAM','H',(TxstTypeFlags,'flags',0L),),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

@@ -2760,6 +2760,34 @@ class MreActor(MelRecord):
 
 # Probably obsolete.  Included for reference and testing.
 #-------------------------------------------------------------------------------
+class MelIcons(MelGroup):
+    """Handles ICON and MICO."""
+
+#  wbICON := wbRStruct('Icon', [
+#    wbString(ICON, 'Large Icon filename'),
+#    wbString(MICO, 'Small Icon filename')
+#  ], [], cpNormal, False, nil, True);
+
+    def __init__(self,attr='iconsIaM'):
+        """Initialize."""
+        # iconsIaM = icons ICON and MICO
+        MelGroup.__init__(self,attr,
+            MelString('ICON','icon'),
+            MelString('MICO','mico_n'),
+        )
+
+#------------------------------------------------------------------------------
+# Is this required?  How can it be modified to only output what is present in
+# the record.  Example, if ICON is there but MICO is not Skip MICO but if MICO
+# is there but ICON is not Skip ICON
+#------------------------------------------------------------------------------
+#    def dumpData(self,record,out):
+#        """Dumps data from record to outstream."""
+#        if record.iconsIaM and record.iconsIaM.icon:
+#            MelGroup.dumpData(self,record,out)
+
+# Needs syntax check but otherwise Correct for Skyrim
+#-------------------------------------------------------------------------------
 # Skyrim Records ---------------------------------------------------------------
 #-------------------------------------------------------------------------------
 class MreHeader(MreHeaderBase):

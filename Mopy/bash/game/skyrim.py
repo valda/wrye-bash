@@ -3114,6 +3114,35 @@ class MreAlch(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreAmmo(MelRecord):
+    """Ammo record (arrows)"""
+    classType = 'AMMO'
+
+    AmmoTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0, 'notNormalWeapon'),
+        (1, 'nonPlayable'),
+        (2, 'nonBolt'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelLString('FULL','full'),
+        MelModel(),
+        MelIcons(),
+        MelDestructible(),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
+        MelLString('DESC','description'),
+        MelNull('KSIZ'),
+        MelKeywords('KWDA','keywords'),
+        MelStruct('DATA','IIfI',(FID,'projectile'),(AmmoTypeFlags,'flags',0L),'damage','value'),
+        MelString('ONAM','onam_n'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'
@@ -3280,40 +3309,6 @@ class MreArmo(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
-class MreAmmo(MelRecord):
-    """Ammo record (arrows)"""
-    classType = 'AMMO'
-
-    AmmoTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0, 'notNormalWeapon'),
-        (1, 'nonPlayable'),
-        (2, 'nonBolt'),
-    ))
-
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelBounds(),
-        MelLString('FULL','full'),
-        MelModel(),
-        MelString('ICON','icon'),
-        MelString('MICO','mico_n'),
-        MelBase('DEST','dest_p'),
-        MelGroups('destructionData',
-            MelBase('DSTD','dstd_p'),
-            MelModel('model','DMDL'),
-            ),
-        MelBase('DSTF','dstf_p'), # Appears just to signal the end of the destruction data
-        MelFid('YNAM','pickupSound'),
-        MelFid('ZNAM','dropSound'),
-        MelLString('DESC','description'),
-        MelNull('KSIZ'),
-        MelKeywords('KWDA','keywords'),
-        MelStruct('DATA','IIfI',(FID,'projectile'),(AmmoTypeFlags,'flags',0L),'damage','value'),
-        MelString('ONAM','onam_n'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
 class MreAnio(MelRecord):
     """Anio record (Animated Object)"""

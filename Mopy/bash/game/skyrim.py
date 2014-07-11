@@ -2547,6 +2547,7 @@ class MelMODS(MelBase):
 #-------------------------------------------------------------------------------
 class MelModel(MelGroup):
     """Represents a model record."""
+    # MODB and MODD are no longer used by TES5Edit
     typeSets = {
         'MODL': ('MODL','MODT','MODS'),
         'MOD2': ('MOD2','MO2T','MO2S'),

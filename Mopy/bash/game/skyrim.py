@@ -4989,6 +4989,62 @@ class MrePerk(MelRecord):
 # PRKE and EPFD have FormIDs that are unaccounted for Not Mergable
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreBptd(MelRecord):
+    """Bptd Item"""
+    classType = 'BPTD'
+
+    # BPND has two wbEnum in TES5Edit
+	# for 'actorValue' refer to wbActorValueEnum
+	# 'bodyPartType' is defined as follows
+    # 0 :'Torso',
+    # 1 :'Head',
+    # 2 :'Eye',
+    # 3 :'LookAt',
+    # 4 :'Fly Grab',
+    # 5 :'Saddle'
+
+    BptdDamageFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'severable'),
+            (1, 'iKData'),
+            (2, 'iKDataBipedData'),
+            (3, 'explodable'),
+            (4, 'iKDataIsHead'),
+            (5, 'iKDataHeadtracking'),
+            (6, 'toHitChanceAbsolute'),
+        ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelModel(),
+        MelGroups('bodyParts',
+            # BPTN is a Null terminated string with no length Byte
+            MelLString('BPTN','partName'),
+            MelString('PNAM','poseMatching'),
+            MelString('BPNN','partNode'),
+            MelString('BPNT','vATSTarget'),
+            MelString('BPNI','iKDataStartNode'),
+            MelStruct('BPND','f3Bb2BH2I2fi2I7f2I2B2sf','damageMult',
+                      (BptdDamageFlags,'flags',0L),'bodyPartType','healthPercent',
+                      'actorValue','toHitChance','explodableExplosionChancepct',
+                      'explodableDebrisCount',(FID,'explodableDebris'),
+                      (FID,'Explodable - Explosion'),'trackingMaxAngle',
+                      'explodableDebrisScale','severableDebrisCount',
+                      (FID,'Severable - Debris'),(FID,'Severable - Explosion'),
+                      'severableDebrisScale','translate-x','translate-y',
+                      'translate-z','rotation-x','rotation-y','rotation-z',
+                      (FID,'Severable - Impact DataSet'),
+                      (FID,'Explodable - Impact DataSet'),
+                      'severableDecalCount','explodableDecalCount','unknown',
+                      'limbReplacementScale',),
+            MelString('NAM1','limbReplacementModel'),
+            MelString('NAM4','goreEffectsTargetBone'),
+            MelBase('NAM5','Texture files hashes'),
+            ),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

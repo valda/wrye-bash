@@ -2333,6 +2333,37 @@ class MelVmad(MelBase):
         if vmad is None: return
         vmad.mapFids(record,function,save)
 
+# Common/Special Elements
+#------------------------------------------------------------------------------
+class MelDestructible(MelGroup):
+    """Represents a set of destruct record."""
+
+    MelDestTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0, 'capDamage'),
+        (1, 'disable'),
+        (2, 'clothing'),
+        (3, 'ignoreExternalDmg'),
+        ))
+
+    def __init__(self,attr='destructible'):
+        """Initialize elements."""
+        MelGroup.__init__(
+            self,attr,
+            # 'vatsTargetable' is either True or False
+            # wbInteger('Health', itS32),  The S means signed
+            MelStruct('DEST','iBB2s','health','count','vatsTargetable','dest_unused'),
+            # wbRArray('Stages',
+                # wbRStruct('Stage', [
+                    # wbStruct(DSTD, 'Destruction Stage Data', [
+                    # wbRStructSK([0], 'Model', [
+            MelGroups('stages',
+                MelStruct('DSTD','=4B4I','health','index','damageStage',(MelDestructible.MelDestTypeFlags,'flags',0L),
+                          'selfDamagePerSecond',(FID,'explosion',None),(FID,'debris',None),'debrisCount'),
+                MelModel('model','DMDL'),
+            ),
+            MelBase('DSTF','dstf_p'), # Appears just to signal the end of the destruction data
+        )
+
 #-------------------------------------------------------------------------------
 class MelBounds(MelStruct):
     def __init__(self):

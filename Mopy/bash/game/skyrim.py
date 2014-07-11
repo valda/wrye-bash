@@ -3621,6 +3621,109 @@ class MreCsty(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreDial(MelRecord):
+    """Dialogue Records"""
+    classType = 'DIAL'
+
+    # DATA has wbEnum in TES5Edit
+    # Assigned to 'subtype' for WB
+    # it has 102 different values, refer to 
+	# wbStruct(DATA, 'Data', in TES5Edit
+
+    # DATA has wbEnum in TES5Edit
+    # Assigned to 'category' for WB
+    # {0} 'Topic',
+    # {1} 'Favor', // only in DA14 quest topics
+    # {2} 'Scene',
+    # {3} 'Combat',
+    # {4} 'Favors',
+    # {5} 'Detection',
+    # {6} 'Service',
+    # {7} 'Miscellaneous'
+
+    DialTopicFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0, 'doAllBeforeRepeating'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelLString('FULL','full'),
+        MelStruct('PNAM','f','priority',),
+        MelFid('BNAM','branch',),
+        MelFid('QNAM','quest',),
+        MelStruct('DATA','2BH',(DialTopicFlags,'flags_dt',0L),'category',
+                  'subtype',),
+        # SNAM is a 4 byte string no length byte
+        MelStruct('SNAM','4s','subtypeName',),
+        MelStruct('TIFC','I','infoCount',),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
+# Found error.  MobDials in bosh.py is looking for "def loadInfos"
+#------------------------------------------------------------------------------
+#     def __init__(self,header,ins=None,unpack=False):
+#         """Initialize."""
+#         MelRecord.__init__(self,header,ins,unpack)
+#         self.infoStamp = 0 #--Stamp for info GRUP
+#         self.infoStamp2 = 0 #--Stamp for info GRUP
+#         self.infos = []
+#
+#     def loadInfos(self,ins,endPos,infoClass):
+#         """Load infos from ins. Called from MobDials."""
+#         infos = self.infos
+#         recHead = ins.unpackRecHeader
+#         infosAppend = infos.append
+#         while not ins.atEnd(endPos,'INFO Block'):
+#             #--Get record info and handle it
+#             header = recHead()
+#             recType = header[0]
+#             if recType == 'INFO':
+#                 info = infoClass(header,ins,True)
+#                 infosAppend(info)
+#             else:
+#                 raise ModError(ins.inName, _('Unexpected %s record in %s group.')
+#                     % (recType,"INFO"))
+#
+#     def dump(self,out):
+#         """Dumps self., then group header and then records."""
+#         MreRecord.dump(self,out)
+#         if not self.infos: return
+#         size = 20 + sum([20 + info.getSize() for info in self.infos])
+#         out.pack('4sIIIII','GRUP',size,self.fid,7,self.infoStamp,self.infoStamp2)
+#         for info in self.infos: info.dump(out)
+#
+#     def updateMasters(self,masters):
+#         """Updates set of master names according to masters actually used."""
+#         MelRecord.updateMasters(self,masters)
+#         for info in self.infos:
+#             info.updateMasters(masters)
+#
+#     def convertFids(self,mapper,toLong):
+#         """Converts fids between formats according to mapper.
+#         toLong should be True if converting to long format or False if converting to short format."""
+#         MelRecord.convertFids(self,mapper,toLong)
+#         for info in self.infos:
+#             info.convertFids(mapper,toLong)
+#
+#------------------------------------------------------------------------------
+# Above routines need update for Skyrim
+#------------------------------------------------------------------------------
+# Causes unknown errors that don't make sense
+# Error in Dawnguard.esm
+# bosh.py 1526 load:
+# Traceback (most recent call last):
+#   File "bash\bosh.py", line 1520, in load
+#     selfTops[label].load(ins,unpack and (topClass != MobBase))
+#   File "bash\bosh.py", line 495, in load
+#     self.loadData(ins, ins.tell()+self.size-self.header.__class__.size)
+#   File "bash\bosh.py", line 718, in loadData
+#     recordLoadInfos = record.loadInfos
+# AttributeError: 'MreRecord' object has no attribute 'loadInfos'
+#
+# MreDial does not need any custom unpacker
+# Otherwise should be correct for Skyrim
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

@@ -3906,6 +3906,172 @@ class MreEyes(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MelFactCrva(MelStruct):
+    """Fact Crva Custom Unpacker"""
+
+    # These are Boolean values
+    # 'arrest',
+    # 'attackOnSight',
+    def __init__(self,type='CRVA'):
+        MelStruct.__init__(self,type,'2B5Hf2H',
+                  'arrest','attackOnSight','murder','assault',
+                  'trespass','pickpocket','unknown',
+                  'stealMultiplier',
+                  'escape',
+                  'werewolf',
+            )
+
+    def loadData(self,record,ins,type,size,readId):
+        """Reads data from ins into record attribute."""
+        if size == 12:
+            # 12 Bytes for legacy data post Skyrim 1.5 CRVA is always 20 bytes
+            # BBHHHHH + FHH
+            unpacked = ins.unpack('=2B5H',size,readId) + (0,0,0,)
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if action: value = action(value)
+                setter(attr,value)
+            if self._debug:
+                print u' ',zip(self.attrs,unpacked)
+                if len(unpacked) != len(self.attrs):
+                    print u' ',unpacked
+        elif size != 20:
+            raise ModSizeError(ins.inName,readId,20,size,True)
+        else:
+            MelStruct.loadData(self,record,ins,type,size,readId)
+
+class MreFact(MelRecord):
+    """Fact Faction Records"""
+    classType = 'FACT'
+
+    # {0x00000001}'Hidden From NPC',
+    # {0x00000002}'Special Combat',
+    # {0x00000004}'Unknown 3',
+    # {0x00000008}'Unknown 4',
+    # {0x00000010}'Unknown 5',
+    # {0x00000020}'Unknown 6',
+    # {0x00000040}'Track Crime',
+    # {0x00000080}'Ignore Crimes: Murder',
+    # {0x00000100}'Ignore Crimes: Assault',
+    # {0x00000200}'Ignore Crimes: Stealing',
+    # {0x00000400}'Ignore Crimes: Trespass',
+    # {0x00000800}'Do Not Report Crimes Against Members',
+    # {0x00001000}'Crime Gold - Use Defaults',
+    # {0x00002000}'Ignore Crimes: Pickpocket',
+    # {0x00004000}'Vendor',
+    # {0x00008000}'Can Be Owner',
+    # {0x00010000}'Ignore Crimes: Werewolf',
+    # {0x00020000}'Unknown 18',
+    # {0x00040000}'Unknown 19',
+    # {0x00080000}'Unknown 20',
+    # {0x00100000}'Unknown 21',
+    # {0x00200000}'Unknown 22',
+    # {0x00400000}'Unknown 23',
+    # {0x00800000}'Unknown 24',
+    # {0x01000000}'Unknown 25',
+    # {0x02000000}'Unknown 26',
+    # {0x04000000}'Unknown 27',
+    # {0x08000000}'Unknown 28',
+    # {0x10000000}'Unknown 29',
+    # {0x20000000}'Unknown 30',
+    # {0x40000000}'Unknown 31',
+    # {0x80000000}'Unknown 32'
+    FactGeneralTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0, 'hiddenFromNPC'),
+        (1, 'specialCombat'),
+        (2, 'unknown3'),
+        (3, 'unknown4'),
+        (4, 'unknown5'),
+        (5, 'unknown6'),
+        (6, 'irackCrime'),
+        (7, 'ignoreCrimes:Murder'),
+        (8, 'ignoreCrimes:Assult'),
+        (9, 'ignoreCrimes:Stealing'),
+        (10, 'ignoreCrimes:Trespass'),
+        (11, 'doNotReportCrimesAgainstMembers'),
+        (12, 'crimeGold-UseDefaults'),
+        (13, 'ignoreCrimes:Pickpocket'),
+        (14, 'vendor'),
+        (15, 'canBeOwner'),
+        (16, 'ignoreCrimes:Werewolf'),
+        (17, 'unknown18'),
+        (18, 'unknown19'),
+        (19, 'unknown20'),
+        (20, 'unknown21'),
+        (21, 'unknown22'),
+        (22, 'unknown23'),
+        (23, 'unknown24'),
+        (24, 'unknown25'),
+        (25, 'unknown26'),
+        (26, 'unknown27'),
+        (27, 'unknown28'),
+        (28, 'unknown29'),
+        (29, 'unknown30'),
+        (30, 'unknown31'),
+        (31, 'unknown32'),
+    ))
+
+    # ENIT has wbEnum in TES5Edit
+    # Assigned to 'combatReaction' for WB
+    # 0 :'Neutral',
+    # 1 :'Enemy',
+    # 2 :'Ally',
+    # 3 :'Friend'
+
+#   wbPLVD := wbStruct(PLVD, 'Location', [
+#     wbInteger('Type', itS32, wbLocationEnum),
+#     wbUnion('Location Value', wbTypeDecider, [
+#       {0} wbFormIDCkNoReach('Reference', [NULL, DOOR, PLYR, ACHR, REFR, PGRE, PHZD, PARW, PBAR, PBEA, PCON, PFLA]),
+#       {1} wbFormIDCkNoReach('Cell', [NULL, CELL]),
+#       {2} wbByteArray('Near Package Start Location', 4, cpIgnore),
+#       {3} wbByteArray('Near Editor Location', 4, cpIgnore),
+#       {4} wbFormIDCkNoReach('Object ID', [NULL, ACTI, DOOR, STAT, FURN, SPEL, SCRL, NPC_, CONT, ARMO, AMMO, MISC, WEAP, BOOK, KEYM, ALCH, INGR, LIGH, FACT, FLST, IDLM, SHOU]),
+#       {5} wbInteger('Object Type', itU32, wbObjectTypeEnum),
+#       {6} wbFormIDCk('Keyword', [NULL, KYWD]),
+#       {7} wbByteArray('Unknown', 4, cpIgnore),
+#       {8} wbInteger('Alias ID', itU32),
+#       {9} wbFormIDCkNoReach('Reference', [NULL, DOOR, PLYR, ACHR, REFR, PGRE, PHZD, PARW, PBAR, PBEA, PCON, PFLA]),
+#      {10} wbByteArray('Unknown', 4, cpIgnore),
+#      {11} wbByteArray('Unknown', 4, cpIgnore),
+#      {12} wbByteArray('Unknown', 4, cpIgnore)
+#     ]),
+#     wbInteger('Radius', itS32)
+#   ]);
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelLString('FULL','full'),
+        MelGroups('relationArray',
+            MelStruct('XNAM','IiI',(FID,'faction'),'modifier','combatReaction',),
+            ),
+        MelStruct('DATA','I',(FactGeneralTypeFlags,'factionGeneralFlags',0L),),
+        MelFid('JAIL','exteriorJailMarker'),
+        MelFid('WAIT','followerWaitMarker'),
+        MelFid('STOL','stolenGoodsContainer'),
+        MelFid('PLCN','playerInventoryContainer'),
+        MelFid('CRGR','sharedCrimeFactionList'),
+        MelFid('JOUT','jailOutfit'),
+        # MelStruct('CRVA','2B5Hf2H','arrest','attackOnSight','murder','assult',
+		# 'trespass','pickpocket','unknown','stealMultiplier','escape','werewolf'),
+        MelFactCrva(),
+        MelGroups('ranks',
+            MelStruct('RNAM','I','rankNumber'),
+            MelLString('MNAM','maleTitle'),
+            MelLString('FNAM','femaleTitle'),
+            MelString('INAM','insigniaUnused'),
+        ),
+        MelFid('VEND','vendorBuySellList'),
+        MelFid('VENC','merchantContainer'),
+        MelStruct('VENV','3H2s2B2s','startHour','endHour','radius','unknownOne',
+                  'onlyBuysStolenItems','notSellBuy','UnknownTwo'),
+        MelStruct('PLVD','iIi','type','locationValue','radius',),
+        MelConditions(),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# PLVD Needs a Union Decider
+# PLVD has FromIDs currently unacounted for MreFact is Not Mergable
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

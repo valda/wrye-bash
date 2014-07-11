@@ -4684,6 +4684,25 @@ class MreExpl(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreDebr(MelRecord):
+    """Debris record."""
+    classType = 'DEBR'
+
+    ExplTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0, 'hasCollissionData'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelGroups('models',
+            MelStruct('DATA','BsB','percentage','modelFilename',(ExplTypeFlags,'flags',0L),),
+            MelBase('MODT','modt_p'),
+        ),
+    )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

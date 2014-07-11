@@ -3724,6 +3724,35 @@ class MreDial(MelRecord):
 # MreDial does not need any custom unpacker
 # Otherwise should be correct for Skyrim
 #------------------------------------------------------------------------------
+class MreDoor(MelRecord):
+    """Door Record"""
+    classType = 'DOOR'
+
+    DoorTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0, 'unknown1'),
+        (1, 'automatic'),
+        (2, 'hidden'),
+        (3, 'minimalUse'),
+        (4, 'sliding'),
+        (5, 'doNotOpenInCombatSearch'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelVmad(),
+        MelBounds(),
+        MelLString('FULL','full'),
+        MelModel(),
+        MelDestructible(),
+        MelFid('SNAM','openSound'),
+        MelFid('ANAM','openSound'),
+        MelFid('BNAM','openSound'),
+        MelStruct('FNAM','B',(DoorTypeFlags,'flags',0L),),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

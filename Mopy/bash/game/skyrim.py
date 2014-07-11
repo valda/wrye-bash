@@ -5573,6 +5573,28 @@ class MreFsts(MelRecord):
 # Verified Correct for Skyrim 1.8
 # Need to check if DATA can have more then one FormID if so MelFidList
 #------------------------------------------------------------------------------
+class MreSmbn(MelRecord):
+    """Story Manager Branch Node"""
+    classType = 'SMBN'
+
+    SmbnNodeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0,'Random'),
+        (1,'noChildWarn'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelFid('PNAM','parent',),
+        MelFid('SNAM','child',),
+        MelStruct('CITC','I','conditionCount'),
+        MelConditions(),
+        MelStruct('DNAM','I',(SmbnNodeFlags,'nodeFlags',0L),),
+        MelBase('XNAM','xnam_p'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

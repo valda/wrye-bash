@@ -3028,6 +3028,27 @@ class MreActi(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreTact(MelRecord):
+    """Talking Activator"""
+    classType = 'TACT'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelVmad(),
+        MelBounds(),
+        MelLString('FULL','full'),
+        MelModel(),
+        MelDestructible(),
+        MelNull('KSIZ'),
+        MelKeywords('KWDA','keywords'),
+        MelBase('PNAM','pnam_p'),
+        MelOptStruct('SNAM','I',(FID,'loopingSound')),
+        MelBase('FNAM','fnam_p'),
+        MelOptStruct('VNAM','I',(FID,'voiceType')),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

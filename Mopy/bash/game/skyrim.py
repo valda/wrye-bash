@@ -2418,6 +2418,14 @@ class MelPerks(MelStructs):
             out.packSub('PRKZ','<I',len(perks))
             MelStructs.dumpData(self,record,out)
 
+class MelSpells(MelStructs):
+    """Handle writing out the SPCT subrecord for the SPLO subrecord"""
+    def dumpData(self, record, out):
+        spells = record.__getattribute__(self.attr)
+        if spells:
+            out.packSub('SPCT','<I',len(spells))
+            MelStructs.dumpData(self,record,out)
+
 #------------------------------------------------------------------------------
 class MelString16(MelString):
     """Represents a mod record string element."""

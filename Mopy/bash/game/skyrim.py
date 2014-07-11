@@ -4335,6 +4335,20 @@ class MreHdpt(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreAspc(MelRecord):
+    """Aspc record (Acoustic Space)"""
+    classType = 'ASPC'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelOptStruct('SNAM','I',(FID,'ambientSound')),
+        MelOptStruct('RDAT','I',(FID,'regionData')),
+        MelOptStruct('BNAM','I',(FID,'reverb')),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'
@@ -4486,20 +4500,6 @@ class MreArto(MelRecord):
         MelBounds(),
         MelModel(),
         MelStruct('DNAM','I',(ArtoTypeFlags,'flags',0L)),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified Correct for Skyrim 1.8
-#------------------------------------------------------------------------------
-class MreAspc(MelRecord):
-    """Aspc record (Acoustic Space)"""
-    classType = 'ASPC'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelBounds(),
-        MelOptStruct('SNAM','I',(FID,'ambientSound')),
-        MelOptStruct('RDAT','I',(FID,'regionData')),
-        MelOptStruct('BNAM','I',(FID,'reverb')),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

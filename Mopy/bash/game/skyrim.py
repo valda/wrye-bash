@@ -5371,6 +5371,75 @@ class MreEczn(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreLctn(MelRecord):
+    """Location"""
+    classType = 'LCTN'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+
+        MelGroups('actorCellPersistentReference',
+            MelStruct('ACPR','2I2h',(FID,'actor'),(FID,'location'),'gridX','gridY',),
+            ),
+        MelGroups('locationCellPersistentReference',
+            MelStruct('LCPR','2I2h',(FID,'actor'),(FID,'location'),'gridX','gridY',),
+            ),
+        # From Danwguard.esm, Does not follow similar previous patterns
+        MelFidList('RCPR','referenceCellPersistentReference',),
+
+        MelGroups('actorCellUnique',
+            MelStruct('ACUN','3I',(FID,'actor'),(FID,'eef'),(FID,'location'),),
+            ),
+        MelGroups('locationCellUnique',
+            MelStruct('LCUN','3I',(FID,'actor'),(FID,'ref'),(FID,'location'),),
+            ),
+        # in Unofficial Skyrim patch
+        MelFidList('RCUN','referenceCellUnique',),
+
+        MelGroups('actorCellStaticReference',
+            MelStruct('ACSR','3I2h',(FID,'locRefType'),(FID,'marker'),(FID,'location'),
+                  'gridX','gridY',),
+            ),
+        MelGroups('locationCellEncounterCell',
+            MelStruct('LCSR','3I2h',(FID,'locRefType'),(FID,'marker'),(FID,'location'),
+                  'gridX','gridY',),
+            ),
+        # Seen in Open Cities
+        MelFidList('RCSR','referenceCellStaticReference',),
+
+        # MelStruct('ACEC','I',(FID,'Actor'), RepeatingArray('2h','gridX','gridY',)),
+        MelBase('ACEC','actorCellEncounterCell',),
+        # MelStruct('LCEC','I',(FID,'Actor'), RepeatingArray('2h','gridX','gridY',)),
+        MelBase('LCEC','locationCellEncounterCell',),
+        # MelStruct('ACEC','I',(FID,'Actor'), RepeatingArray('2h','gridX','gridY',)),
+        # Seen in Open Cities
+        MelBase('RCEC','referenceCellEncounterCell',),
+
+        MelFidList('ACID','actorCellMarkerReference',),
+        MelFidList('LCID','locationCellMarkerReference',),
+
+        MelGroups('actorCellEnablePoint',
+            MelStruct('ACEP','2I2h',(FID,'Actor'),(FID,'Ref'),'gridX','gridY',),
+            ),
+        MelGroups('locationCellEnablePoint',
+            MelStruct('LCEP','2I2h',(FID,'Actor'),(FID,'Ref'),'gridX','gridY',),
+            ),
+
+        MelLString('FULL','full'),
+        MelNull('KSIZ'),
+        MelKeywords('KWDA','keywords'),
+        MelFid('PNAM','parentLocation',),
+        MelFid('NAM1','music',),
+        MelFid('FNAM','unreportedCrimeFaction',),
+        MelFid('MNAM','worldLocationMarkerRef',),
+        MelStruct('RNAM','f','worldLocationRadius',),
+        MelFid('NAM0','horseMarkerRef',),
+        MelColorN(),
+    )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

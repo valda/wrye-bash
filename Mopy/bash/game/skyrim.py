@@ -5202,6 +5202,25 @@ class MreLeveledList(MreLeveledListBase):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreLvln(MreLeveledList):
+    classType = 'LVLN'
+    copyAttrs = ('chanceNone','model','modt_p',)
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelStruct('LVLD','B','chanceNone'),
+        MelStruct('LVLF','B',(MreLeveledListBase._flags,'flags',0L)),
+        MelOptStruct('LVLG','I',(FID,'glob')),
+		MelOptStruct('LLCT','B','count'),
+        MreLeveledList.MelLevListLvlo(),
+        MelString('MODL','model'),
+        MelBase('MODT','modt_p'),
+        )
+    __slots__ = MreLeveledList.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreLvli(MreLeveledList):
     classType = 'LVLI'
     copyAttrs = ('chanceNone','glob',)
@@ -5277,24 +5296,6 @@ class MreCobj(MelRecord):
         MelStruct('NAM1','H','resultingQuantity'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified Correct for Skyrim 1.8
-#------------------------------------------------------------------------------
-class MreLvln(MreLeveledList):
-    classType = 'LVLN'
-    copyAttrs = ('chanceNone','model','modt_p',)
-
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelBounds(),
-        MelStruct('LVLD','B','chanceNone'),
-        MelStruct('LVLF','B',(MreLeveledListBase._flags,'flags',0L)),
-        MelNull('LLCT'),
-        MreLeveledList.MelLevListLvlo(),
-        MelString('MODL','model'),
-        MelBase('MODT','modt_p'),
-        )
-    __slots__ = MreLeveledList.__slots__ + melSet.getSlotsUsed()
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------

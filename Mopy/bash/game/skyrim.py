@@ -5473,7 +5473,7 @@ class MreDobj(MelRecord):
     classType = 'DOBJ'
     melSet = MelSet(
         MelGroups('objects',
-            MelStruct('DNAM','4sI','objectUse',(FID,'objectID',None),),
+            MelStruct('DNAM','2I','objectUse',(FID,'objectID',None),),
             ),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

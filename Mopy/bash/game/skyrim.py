@@ -2724,6 +2724,29 @@ class MelScrxen(MelFids):
                 if save: scrxen[index] = (isFid,result)
 
 # Probably obsolete.  Included for reference and testing.
+#------------------------------------------------------------------------------
+class MelOwnership(MelGroup):
+    """Handles XOWN, XRNK for cells and cell children."""
+
+#  wbOwnership := wbRStruct('Ownership', [
+#    wbFormIDCkNoReach(XOWN, 'Owner', [FACT, ACHR, NPC_]),
+#    wbInteger(XRNK, 'Faction rank', itS32)
+#  ], []);
+
+    def __init__(self,attr='ownership'):
+        """Initialize."""
+        MelGroup.__init__(self,attr,
+            MelFid('XOWN','owner'),
+            MelOptStruct('XRNK','i',('rank',None)),
+        )
+
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+        if record.ownership and record.ownership.owner:
+            MelGroup.dumpData(self,record,out)
+
+# Needs syntax check but otherwise Correct for Skyrim
+#-------------------------------------------------------------------------------
 # Skyrim Records ---------------------------------------------------------------
 #-------------------------------------------------------------------------------
 class MreHeader(MreHeaderBase):

@@ -5142,6 +5142,26 @@ class MreAddn(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreAstp(MelRecord):
+    """Astp record (Association type)"""
+    classType = 'ASTP'
+
+    # DATA Flags
+    # {0x00000001} 'Related'
+    AstpTypeFlags = bolt.Flags(0L,bolt.Flags.getNames('related'))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelString('MPRT','maleParent'),
+        MelString('FPRT','femaleParent'),
+        MelString('MCHT','maleChild'),
+        MelString('FCHT','femaleChild'),
+        MelStruct('DATA','I',(AstpTypeFlags,'flags',0L)),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreArto(MelRecord):
     """Arto record (Art effect object)"""
     classType = 'ARTO'
@@ -5196,26 +5216,6 @@ class MreAppa(MelRecord):
         MelStruct('QUAL','I',(AppaTypeFlags,'flags',0L)),
         MelLString('DESC','description'),
         MelStruct('DATA','If','value','weight'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified Correct for Skyrim 1.8
-#------------------------------------------------------------------------------
-class MreAstp(MelRecord):
-    """Astp record (Association type)"""
-    classType = 'ASTP'
-
-    # DATA Flags
-    # {0x00000001} 'Related'
-    AstpTypeFlags = bolt.Flags(0L,bolt.Flags.getNames('related'))
-
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelString('MPRT','maleParent'),
-        MelString('FPRT','femaleParent'),
-        MelString('MCHT','maleChild'),
-        MelString('FCHT','femaleChild'),
-        MelStruct('DATA','I',(AstpTypeFlags,'flags',0L)),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

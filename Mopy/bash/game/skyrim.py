@@ -4642,6 +4642,48 @@ class MreNavm(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreExpl(MelRecord):
+    """Explosion record."""
+    classType = 'EXPL'
+
+    # 'Unknown 0',
+    # 'Always Uses World Orientation',
+    # 'Knock Down - Always',
+    # 'Knock Down - By Formula',
+    # 'Ignore LOS Check',
+    # 'Push Explosion Source Ref Only',
+    # 'Ignore Image Space Swap',
+    # 'Chain',
+    # 'No Controller Vibration'
+    ExplTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0, 'unknown1'),
+        (1, 'alwaysUsesWorldOrientation'),
+        (2, 'knockDownAlways'),
+        (3, 'knockDownByFormular'),
+        (4, 'ignoreLosCheck'),
+        (5, 'pushExplosionSourceRefOnly'),
+        (6, 'ignoreImageSpaceSwap'),
+        (7, 'chain'),
+        (8, 'noControllerVibration'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelString('FULL','full'),
+        MelModel(),
+        MelFid('EITM','objectEffect'),
+        MelFid('MNAM','imageSpaceModifier'),
+        MelStruct('DATA','6I5f2I',(FID,'light',None),(FID,'sound1',None),(FID,'sound2',None),
+                  (FID,'impactDataSet',None),(FID,'placedObject',None),(FID,'spawnProjectile',None),
+                  'force','damage','radius','isRadius','verticalOffsetMult',
+                  (ExplTypeFlags,'flags',0L),'soundLevel',
+            ),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

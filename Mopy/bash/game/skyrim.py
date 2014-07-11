@@ -4538,6 +4538,23 @@ class MreSlgm(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreNavi(MelRecord):
+    """Navigation Mesh Info Map"""
+    classType = 'NAVI'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('NVER','I','version'),
+        # NVMI and NVPP would need special routines to handle them
+        # If no mitigation is needed, then leave it as MelBase
+        MelBase('NVMI','navigationMapInfos',),
+        MelBase('NVPP','preferredPathing',),
+        MelFidList('NVSI','navigationMesh'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

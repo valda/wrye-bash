@@ -5480,6 +5480,46 @@ class MreDobj(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MelLgtmData(MelStruct):
+    def __init__(self,type='DALC'):
+        MelStruct.__init__(self,type,'=4B4B4B4B4B4B4Bf',
+                           'red','green','blue','unknown', # 'X+'
+                           'red','green','blue','unknown', # 'X-'
+                           'red','green','blue','unknown', # 'Y+'
+                           'red','green','blue','unknown', # 'Y-'
+                           'red','green','blue','unknown', # 'Z+'
+                           'red','green','blue','unknown', # 'Z-'
+                           'red','green','blue','unknown', # Specular Color Values
+                           'fresnelPower' # Fresnel Power
+                           )
+
+class MreLgtm(MelRecord):
+    """Lgtm Item"""
+    classType = 'LGTM'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        # 92 Bytes
+        MelStruct('DATA','4B4B4B2f2i3f8I4B3fI',
+            'red','green','blue','unknown',
+            'red','green','blue','unknown',
+            'red','green','blue','unknown',
+            'fogNear','fogFar',
+            'dirRotXY','dirRotZ',
+            'directionalFade','fogClipDist','fogPower',
+            'unknown','unknown','unknown','unknown',
+            'unknown','unknown','unknown','unknown',
+            'red','green','blue','unknown',
+            'fogMax',
+            'lightFaceStart','lightFadeEnd',
+            'unknown',),
+        # 32 Bytes
+        MelLgtmData(),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# If Syntax Correct, Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

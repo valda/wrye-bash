@@ -5342,7 +5342,7 @@ class MreLvln(MreLeveledList):
         MelStruct('LVLD','B','chanceNone'),
         MelStruct('LVLF','B',(MreLeveledListBase._flags,'flags',0L)),
         MelOptStruct('LVLG','I',(FID,'glob')),
-		MelOptStruct('LLCT','B','count'),
+		MelNull('LLCT'),
         MreLeveledList.MelLevListLvlo(),
         MelString('MODL','model'),
         MelBase('MODT','modt_p'),

@@ -3883,6 +3883,29 @@ class MreEnch(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreEyes(MelRecord):
+    """Eyes Item"""
+    classType = 'EYES'
+
+    # {0x01}'Playable',
+    # {0x02}'Not Male',
+    # {0x04}'Not Female',
+    EyesTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'playable'),
+            (1, 'notMale'),
+            (2, 'notFemale'),
+        ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelLString('FULL','full'),
+        MelString('ICON','icon'),
+        MelStruct('DATA','B',(EyesTypeFlags,'flags',0L)),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

@@ -3532,6 +3532,63 @@ class MreRfct(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreCont(MelRecord):
+    """Container"""
+    classType = 'CONT'
+
+    # wbCNTO :=
+    #   wbRStructExSK([0], [1], 'Item', [
+    #     wbStructExSK(CNTO, [0], [1], 'Item', [
+    #       wbFormIDCk('Item', [ARMO, AMMO, APPA, MISC, WEAP, BOOK, LVLI, KEYM, ALCH, INGR, LIGH, SLGM, SCRL]),
+    #       wbInteger('Count', itS32)
+    #     ]),
+    #   wbCOED
+    #   ], []);
+    # wbCOCT := wbInteger(COCT, 'Count', itU32)
+    # wbCNTOs := wbRArrayS('Items', wbCNTO)
+
+    class MelContCnto(MelGroups):
+        def __init__(self):
+            MelGroups.__init__(self,'components',
+                MelStruct('CNTO','=2I',(FID,'item',None),'count'),
+                MelCoed(),
+                )
+
+        def dumpData(self,record,out):
+            # Only write the COCT/CNTO/COED subrecords if count > 0
+            out.packSub('COCT','I',len(record.components))
+            MelGroups.dumpData(self,record,out)
+
+
+    # {0x01} 'Allow Sounds When Animation',
+    # {0x02} 'Respawns',
+    # {0x04} 'Show Owner'
+    ContTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0, 'allowSoundsWhenAnimation'),
+        (1, 'respawns'),
+        (2, 'showOwner'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelVmad(),
+        MelBounds(),
+        MelLString('FULL','full'),
+        MelModel(),
+        # One Count: COCT
+        # Handled by MreContCnto
+        MelNull('COCT'),
+        # Repeating CNTO records: CNTO, CNTO, CNTO, CNTO : Of the Count COCT
+        MelContCnto(),
+        MelDestructible(),
+        MelStruct('DATA','Bf',(ContTypeFlags,'flags',0L),'weight'),
+        MelFid('SNAM','openSound'),
+        MelFid('QNAM','closeSound'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# MelContCnto, COCT, and CNTO needs to be finished.
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

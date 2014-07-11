@@ -5231,6 +5231,25 @@ class MreCpth(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreVtyp(MelRecord):
+    """Vtyp Item"""
+    classType = 'VTYP'
+
+    # 'Allow Default Dialog',
+    # 'Female'
+    VtypTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'allowDefaultDialog'),
+            (1, 'female'),
+        ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('DNAM','B',(VtypTypeFlags,'flags',0L),),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

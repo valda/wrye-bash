@@ -4877,6 +4877,118 @@ class MreFlst(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MrePerk(MelRecord):
+    """Perk Item"""
+    classType = 'PERK'
+
+    # EPFT has wbEnum in TES5Edit
+    # Assigned to 'functionParameterType' for WB
+    # {0} 'None',
+    # {1} 'Float',
+    # {2} 'Float/AV,Float',
+    # {3} 'LVLI',
+    # {4} 'SPEL,lstring,flags',
+    # {5} 'SPEL',
+    # {6} 'string',
+    # {7} 'lstring'
+
+    # DATA below PRKE needs union decider
+    # 3B definition has two wbEnum in TES5Edit
+    # Refer to wbEntryPointsEnum for 'entryPoint' 
+    # 'function' is defined as follows
+    # {0} 'Unknown 0',
+    # {1} 'Set Value',  // EPFT=1
+    # {2} 'Add Value', // EPFT=1
+    # {3} 'Multiply Value', // EPFT=1
+    # {4} 'Add Range To Value', // EPFT=2
+    # {5} 'Add Actor Value Mult', // EPFT=2
+    # {6} 'Absolute Value', // no params
+    # {7} 'Negative Absolute Value', // no params
+    # {8} 'Add Leveled List', // EPFT=3
+    # {9} 'Add Activate Choice', // EPFT=4
+    # {10} 'Select Spell', // EPFT=5
+    # {11} 'Select Text', // EPFT=6
+    # {12} 'Set to Actor Value Mult', // EPFT=2
+    # {13} 'Multiply Actor Value Mult', // EPFT=2
+    # {14} 'Multiply 1 + Actor Value Mult', // EPFT=2
+    # {15} 'Set Text' // EPFT=7
+
+    # PRKE has wbEnum in TES5Edit
+    # Assigned to 'effectType' for WB
+    # 'Quest + Stage',
+    # 'Ability',
+    # 'Entry Point'
+
+    # 'Run Immediately',
+    # 'Replace Default'
+    PerkScriptFlagsFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'runImmediately'),
+            (1, 'replaceDefault'),
+        ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelVmad(),
+        MelLString('FULL','full'),
+        MelLString('DESC','description'),
+        MelIcons(),
+        MelConditions(),
+        MelStruct('DATA','5B','trait','level','numRanks','playable','hidden',),
+        MelFid('NNAM','nextPerk',),
+
+        # Sorted Struct: wbRStructsSK('Effects', 'Effect', [0, 1], [
+        MelGroup('effects',
+            MelStruct('PRKE','3B','effectType','rank','priority',),
+            # Needs Union Decider: wbUnion(DATA, 'Effect Data', wbPerkDATADecider, [
+            # 1- MelStruct('DATA','IB3s',(FID,'quest'),'questStage','unused',),
+            # 2- MelFid('DATA','ability',),
+            # 3- MelStruct('DATA','3B','entryPoint','function','perkConditionTabCount',),
+            MelBase('DATA','effectData',),
+            ),
+
+        # Sorted Struct: wbRStructsSK('Perk Conditions', 'Perk Condition', [0], [
+        MelGroup('perkConditions',
+            MelStruct('PRKC','b','runOnTabIndex'),
+            MelConditions(),
+            ),
+
+        MelGroup('functionParameters',
+            MelStruct('EPFT','I','functionParameterType',),
+            # EPF2 is a Null terminated string with no length Byte
+            MelLString('EPF2','buttonLabel'),
+            MelStruct('EPF3','B3s',(PerkScriptFlagsFlags,'flags',0L),'unknown',),
+
+            # case(EPFT) of
+            # 1: EPFD=float
+            # 2: EPFD=float,float
+            # 3: EPFD=LVLI
+            # 4: EPFD=SPEL, EPF2=lstring, EPF3=int32 flags
+            # 5: EPFD=SPEL
+            # 6: EPFD=string
+            # 7: EPFD=lstring
+            # Needs Union Decider: wbUnion(EPFD, 'Data', wbEPFDDecider, [
+            # The following variables are not duplicated, they need to be these names
+            # 1- MelBase('EPFD','unknown'),
+            # 2- MelStruct('EPFD','f','oneFloat',),
+            # 3- MelStruct('EPFD','2f','float1','float2',),
+            # 4- MelFid('EPFD','I','leveledItem',),
+            # 5- MelFid('EPFD','I','spell',),
+            # 6- MelFid('EPFD','I','spell',),
+            # 7- MelString('EPFD','text'),
+            # The following 'Text' is a Null terminated string with no length Byte
+            # 8- MelLString('EPFD','text'),
+            # 9- MelStruct('EPFD','If','actorValue','float',),
+            MelBase('EPFD','functionParametersData',),
+            # End Marker
+            MelNull('PRKF'),
+            ),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# PRKE and EPFD need Union Deciders
+# PRKE and EPFD have FormIDs that are unaccounted for Not Mergable
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

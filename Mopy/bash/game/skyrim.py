@@ -4505,6 +4505,39 @@ class MreHazd(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreSlgm(MelRecord):
+    """Soul gem record."""
+    classType = 'SLGM'
+
+    # SOUL and SLCP have wbEnum in TES5Edit
+    # Assigned to 'soul' and 'capacity' for WB
+    # 0 :'None',
+    # 1 :'Petty',
+    # 2 :'Lesser',
+    # 3 :'Common',
+    # 4 :'Greater',
+    # 5 :'Grand'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelString('FULL','full'),
+        MelModel(),
+        MelIcons(),
+        MelDestructible(),
+        MelFid('YNAM','soundPickUp'),
+        MelFid('ZNAM','soundDrop'),
+        MelNull('KSIZ'),
+        MelKeywords('KWDA','keywords'),
+        MelStruct('DATA','If','value','weight'),
+        MelStruct('SOUL','B',('soul',0),),
+        MelStruct('SLCP','B',('capacity',1),),
+        MelFid('NAM0','linkedTo'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

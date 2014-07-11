@@ -3397,6 +3397,54 @@ class MreCell(MelRecord):
 
 # XCLL Needs Update for Ambient Colors
 #------------------------------------------------------------------------------
+class MreClas(MelRecord):
+    """Clas record (Alchemical Apparatus)"""
+    classType = 'CLAS'
+
+    # DATA has wbEnum in TES5Edit
+    # Assigned to 'teaches' for WB
+    # 0 :'One Handed',
+    # 1 :'Two Handed',
+    # 2 :'Archery',
+    # 3 :'Block',
+    # 4 :'Smithing',
+    # 5 :'Heavy Armor',
+    # 6 :'Light Armor',
+    # 7 :'Pickpocket',
+    # 8 :'Lockpicking',
+    # 9 :'Sneak',
+    # 10 :'Alchemy',
+    # 11 :'Speech',
+    # 12 :'Alteration',
+    # 13 :'Conjuration',
+    # 14 :'Destruction',
+    # 15 :'Illusion',
+    # 16 :'Restoration',
+    # 17 :'Enchanting'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelLString('FULL','full'),
+        MelLString('DESC','description'),
+        MelIcons(),
+        MelStruct('DATA','4sb19BfI4B','unknown','teaches','maximumtraininglevel',
+                  'skillWeightsOneHanded','skillWeightsTwoHanded',
+                  'skillWeightsArchery','skillWeightsBlock',
+                  'skillWeightsSmithing','skillWeightsHeavyArmor',
+                  'skillWeightsLightArmor','skillWeightsPickpocket',
+                  'skillWeightsLockpicking','skillWeightsSneak',
+                  'skillWeightsAlchemy','skillWeightsSpeech',
+                  'skillWeightsAlteration','skillWeightsConjuration',
+                  'skillWeightsDestruction','skillWeightsIllusion',
+                  'skillWeightsRestoration','skillWeightsEnchanting',
+                  'bleedoutDefault','voicePoints',
+                  'attributeWeightsHealth','attributeWeightsMagicka',
+                  'attributeWeightsStamina','attributeWeightsUnknown',),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

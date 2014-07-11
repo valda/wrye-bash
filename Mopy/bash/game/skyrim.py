@@ -5595,6 +5595,42 @@ class MreSmbn(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreSmqn(MelRecord):
+    """Story Manager Quest Node"""
+    classType = 'SMQN'
+
+    # "Do all" = "Do all before repeating"
+    SmqnQuestFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0,'doAll'),
+        (1,'sharesEvent'),
+        (2,'numQuestsToRun'),
+    ))
+
+    SmqnNodeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0,'Random'),
+        (1,'noChildWarn'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelFid('PNAM','parent',),
+        MelFid('SNAM','child',),
+        MelStruct('CITC','I','conditionCount'),
+        MelConditions(),
+        MelStruct('DNAM','2H',(SmqnNodeFlags,'nodeFlags',0L),(SmqnQuestFlags,'questFlags',0L),),
+        MelStruct('XNAM','I','maxConcurrentQuests'),
+        MelStruct('MNAM','I','numQuestsToRun'),
+        MelStruct('QNAM','I','questCount'),
+        MelGroups('quests',
+            MelFid('NNAM','quest',),
+            MelBase('FNAM','fnam_p'),
+            MelStruct('RNAM','f','hoursUntilReset'),
+            )
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

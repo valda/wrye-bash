@@ -2987,17 +2987,6 @@ class MreAchr(MelRecord):
 # PDTO Needs a union decider and contains FormIDs Not Mergable until syntax is
 # updated
 #------------------------------------------------------------------------------
-class MreAact(MelRecord):
-    """Action record."""
-    classType = 'AACT'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelColorN(),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified Correct for Skyrim 1.8
-#------------------------------------------------------------------------------
 class MreActi(MelRecord):
     """Activator."""
     classType = 'ACTI'
@@ -4242,6 +4231,17 @@ class MreKywd(MelRecord):
 class MreLcrt(MelRecord):
     """Location Reference Type record."""
     classType = 'LCRT'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelColorN(),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
+class MreAact(MelRecord):
+    """Action record."""
+    classType = 'AACT'
     melSet = MelSet(
         MelString('EDID','eid'),
         MelColorN(),

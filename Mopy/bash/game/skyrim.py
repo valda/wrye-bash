@@ -2681,6 +2681,22 @@ class MelEffects(MelGroups):
             MelConditions(),
             )
 
+#------------------------------------------------------------------------------
+class MelDecalData(MelStruct):
+    """Represents Decal Data."""
+
+    DecalDataFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'noDecalData'),
+        ))
+
+    def __init__(self,attr='decals'):
+        """Initialize elements."""
+        MelStruct.__init__(self,'DODT','7f2B2s3Bs','minWidth','maxWidth','minHeight',
+                  'maxHeight','depth','shininess','parallaxScale',
+                  'passes',(MelDecalData.DecalDataFlags,'flags',0L),'unknown',
+                  'red','green','blue','unknown',
+            )
+
 # Skyrim Records ---------------------------------------------------------------
 #-------------------------------------------------------------------------------
 class MreHeader(MreHeaderBase):

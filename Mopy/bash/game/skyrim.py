@@ -3192,6 +3192,41 @@ class MreArmo(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreArma(MelRecord):
+    """Armor addon?"""
+    classType = 'ARMA'
+
+    # {0x01} 'Unknown 0',
+    # {0x02} 'Enabled'
+    WeightSliderFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'unknown0'),
+            (1, 'enabled'),
+        ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBipedObjectData(),
+        MelFid('RNAM','race'),
+        MelStruct('DNAM','4B2sBsf','malePriority','femalePriority',
+                  (WeightSliderFlags,'maleFlags',0L),
+                  (WeightSliderFlags,'femaleFlags',0L),
+                  'unknown','detectionSoundValue','unknown','weaponAdjust',),
+        MelModel('male_model','MOD2'),
+        MelModel('female_model','MOD3'),
+        MelModel('male_model_1st','MOD4'),
+        MelModel('female_model_1st','MOD5'),
+        MelOptStruct('NAM0','I',(FID,'skin0')),
+        MelOptStruct('NAM1','I',(FID,'skin1')),
+        MelOptStruct('NAM2','I',(FID,'skin2')),
+        MelOptStruct('NAM3','I',(FID,'skin3')),
+        MelFids('MODL','races'),
+        MelOptStruct('SNDD','I',(FID,'footstepSound')),
+        MelOptStruct('ONAM','I',(FID,'art_object')),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'
@@ -3288,31 +3323,6 @@ class MelBipedObjectData(MelStruct):
             # BOD2 - new style, MelStruct can handle it
             MelStruct.loadData(self,record,ins,type,size,readId)
 
-#------------------------------------------------------------------------------
-class MreArma(MelRecord):
-    """Armor addon?"""
-    classType = 'ARMA'
-
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelBipedObjectData(),
-        MelFid('RNAM','race'),
-        MelBase('DNAM','dnam_p'),
-        MelModel('male_model','MOD2'),
-        MelModel('female_model','MOD3'),
-        MelModel('male_model_1st','MOD4'),
-        MelModel('female_model_1st','MOD5'),
-        MelOptStruct('NAM0','I',(FID,'skin0')),
-        MelOptStruct('NAM1','I',(FID,'skin1')),
-        MelOptStruct('NAM2','I',(FID,'skin2')),
-        MelOptStruct('NAM3','I',(FID,'skin3')),
-        MelFids('MODL','races'),
-        MelOptStruct('SNDD','I',(FID,'footstepSound')),
-        MelOptStruct('ONAM','I',(FID,'art_object')),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
 class MreAppa(MelRecord):

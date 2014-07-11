@@ -5142,6 +5142,32 @@ class MreAddn(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreAvif(MelRecord):
+    """ActorValue Information record."""
+    classType = 'AVIF'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelString('FULL','full'),
+        MelString('DESC','description'),
+        MelString('ANAM','abbreviation'),
+        MelBase('CNAM','cnam_p'),
+        MelStruct('AVSK','4f','skillUseMult','skillOffsetMult','skillImproveMult','skillImproveOffset',),
+        MelGroups('perkTree',
+            MelFid('PNAM', 'perk',),
+            MelBase('FNAM','fnam_p'),
+            MelStruct('XNAM','I','perkGridX'),
+            MelStruct('YNAM','I','perkGridY'),
+            MelStruct('HNAM','f','horizontalPosition'),
+            MelStruct('VNAM','f','verticalPosition'),
+            MelFid('SNAM','associatedSkill',),
+            MelStructs('CNAM','I','connections','lineToIndex',),
+            MelStruct('INAM','I','index',),
+        ),
+    )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

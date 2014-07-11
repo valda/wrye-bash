@@ -3854,6 +3854,35 @@ class MreEfsh(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreEnch(MelRecord):
+    """Enchants"""
+    classType = 'ENCH'
+
+    # ENIT has wbEnum in TES5Edit
+    # Assigned to 'enchantType' for WB
+    # $06, 'Enchantment',
+    # $0C, 'Staff Enchantment'
+
+    EnchGeneralFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0, 'noAutoCalc'),
+        (1, 'unknownTwo'),
+        (2, 'extendDurationOnRecast'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelLString('FULL','full'),
+        MelStruct('ENIT','i2Ii2If2I','enchantmentCost',(EnchGeneralFlags,'generalFlags',0L),'castType',
+                  'enchantmentAmount','targetType','enchantType',
+                  'chargeTime',(FID,'baseEnchantment'),(FID,'wornRestrictions'),
+            ),
+        MelEffects(),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
     classType = 'ADDN'

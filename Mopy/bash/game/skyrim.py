@@ -4123,7 +4123,7 @@ class MreFact(MelRecord):
         MelFid('CRGR','sharedCrimeFactionList'),
         MelFid('JOUT','jailOutfit'),
         # MelStruct('CRVA','2B5Hf2H','arrest','attackOnSight','murder','assult',
-		# 'trespass','pickpocket','unknown','stealMultiplier','escape','werewolf'),
+        # 'trespass','pickpocket','unknown','stealMultiplier','escape','werewolf'),
         MelFactCrva(),
         MelGroups('ranks',
             MelStruct('RNAM','I','rankNumber'),
@@ -4868,8 +4868,8 @@ class MreImad(MelRecord):
 
     melSet = MelSet(
         MelString('EDID','eid'),
-		# unknown1' is 192 bytes in TES5Edit
-		# unknown2' is 4 bytes repeated 3 times for 12 bytes in TES5Edit
+        # 'unknown1' is 192 bytes in TES5Edit
+        # 'unknown2' is 4 bytes repeated 3 times for 12 bytes in TES5Edit
         # MelStruct('DNAM','If192sI2f12sI',(ImadAnimatableFlags,'aniFlags',0L),'duration',
         #           'unknown1',(ImadUseTargetFlags,'flags',0L),'radialBlurCenterX',
         #           'radialBlurCenterY','unknown2',(ImadDoFFlags,'dofFlags',0L),),
@@ -5074,8 +5074,8 @@ class MreBptd(MelRecord):
     classType = 'BPTD'
 
     # BPND has two wbEnum in TES5Edit
-	# for 'actorValue' refer to wbActorValueEnum
-	# 'bodyPartType' is defined as follows
+    # for 'actorValue' refer to wbActorValueEnum
+    # 'bodyPartType' is defined as follows
     # 0 :'Torso',
     # 1 :'Head',
     # 2 :'Eye',
@@ -5284,8 +5284,8 @@ class MreIpctData(MelStruct):
     # 2 :'Bounce',
     # 3 :'Impale',
     # 4 :'Stick'
-	
-	# for 'soundLevel' refer to wbSoundLevelEnum
+
+    # for 'soundLevel' refer to wbSoundLevelEnum
 
     # {0x01} 'No Decal Data'
     IpctTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
@@ -5844,7 +5844,7 @@ class MreScen(MelRecord):
     # 0 :'dialogue'
     # 1 :'package'
     # 2 :'timer'
-	
+
     # DEMO has wbEnum in TES5Edit
     # Assigned to 'emotionType' for WB
     # 0 :'Neutral',
@@ -6171,8 +6171,8 @@ class MreSopm(MelRecord):
 
     # MNAM has wbEnum in TES5Edit
     # Assigned to 'outputType' for WB
-	# 0 :'Uses HRTF'
-	# 1 :'Defined Speaker Output'
+    # 0 :'Uses HRTF'
+    # 1 :'Defined Speaker Output'
 
     # 'Attenuates With Distance',
     # 'Allows Rumble'
@@ -6228,7 +6228,7 @@ class MreClfm(MelRecord):
         MelString('EDID','eid'),
         MelLString('FULL','full'),
         MelColorN(),
-		# 'playable' is a Boolean value
+        # 'playable' is a Boolean value
         MelStruct('FNAM','I','playable'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -6262,14 +6262,14 @@ class MreGras(MelRecord):
 
     # DATA has wbEnum in TES5Edit
     # Assigned to 'unitsFromWaterType' for WB
-	# 0 :'Above - At Least',
-	# 1 :'Above - At Most',
-	# 2 :'Below - At Least',
-	# 3 :'Below - At Most',
-	# 4 :'Either - At Least',
-	# 5 :'Either - At Most',
-	# 6 :'Either - At Most Above',
-	# 7 :'Either - At Most Below'
+    # 0 :'Above - At Least',
+    # 1 :'Above - At Most',
+    # 2 :'Below - At Least',
+    # 3 :'Below - At Most',
+    # 4 :'Either - At Least',
+    # 5 :'Either - At Most',
+    # 6 :'Either - At Most Above',
+    # 7 :'Either - At Most Below'
 
     melSet = MelSet(
         MelString('EDID','eid'),
@@ -6328,10 +6328,10 @@ class MreInfo(MelRecord):
 
     # CNAM has wbEnum in TES5Edit
     # Assigned to 'favorLevel' for WB
-	# 0 :'None',
-	# 1 :'Small',
-	# 2 :'Medium',
-	# 3 :'Large'
+    # 0 :'None',
+    # 1 :'Small',
+    # 2 :'Medium',
+    # 3 :'Large'
 
     # 'Use Emotion Animation'
     InfoResponsesFlags = bolt.Flags(0L,bolt.Flags.getNames(
@@ -6538,11 +6538,11 @@ class MreLigh(MelRecord):
         MelLString('FULL','full'),
         MelIcons(),
         MelStruct('DATA','iI4BI6fIf','time','radius',
-                  'red','green','blue','unknown',
-                  (LighTypeFlags,'flags',0L),'falloffExponent','fov','nearClip',
-				  # fe = 'Flicker Effect'
-                  'fePeriod','feIntensityAmplitude','feMovementAmplitude',
-                  'value','weight',),
+                'red','green','blue','unknown',
+                (LighTypeFlags,'flags',0L),'falloffExponent','fov','nearClip',
+                # fe = 'Flicker Effect'
+                'fePeriod','feIntensityAmplitude','feMovementAmplitude',
+                'value','weight',),
         MelStruct('FNAM','f','fadevalue',),
         MelFid('SNAM','sound',),
         )
@@ -6613,7 +6613,7 @@ class MreLvln(MreLeveledList):
         MelStruct('LVLD','B','chanceNone'),
         MelStruct('LVLF','B',(MreLeveledListBase._flags,'flags',0L)),
         MelOptStruct('LVLG','I',(FID,'glob')),
-		MelNull('LLCT'),
+        MelNull('LLCT'),
         MreLeveledList.MelLevListLvlo(),
         MelString('MODL','model'),
         MelBase('MODT','modt_p'),
@@ -6661,9 +6661,9 @@ class MreMgef(MelRecord):
 
     # MGEF has many wbEnum in TES5Edit
     # 'magicSkill', 'resistValue', 'mgefArchtype',
-	# 'actorValue', 'castingType', 'delivery', 'secondActorValue'
-	# 'castingSoundLevel', 'soundType'
-	# refer to TES5Edit for values 
+    # 'actorValue', 'castingType', 'delivery', 'secondActorValue'
+    # 'castingSoundLevel', 'soundType'
+    # refer to TES5Edit for values 
 
     MgefGeneralFlags = bolt.Flags(0L,bolt.Flags.getNames(
             (0, 'hostile'),
@@ -6708,20 +6708,20 @@ class MreMgef(MelRecord):
         MelNull('KSIZ'),
         MelKeywords('KWDA','keywords'),
         MelStruct('DATA','IfIiiH2sIfIIIIffffIiIIIIiIIIfIfI4s4sIIIIff',
-        	(MgefGeneralFlags,'flags',0L),'baseCost',(FID,'assocItem'),
-			'magicSkill','resistValue',
-			# 'counterEffectCount' is a count of ESCE records
-			'counterEffectCount',
-			'unknown1',(FID,'castingLight'),'taperWeight',(FID,'hitShader'),
-        	(FID,'enchantShader'),'minimumSkillLevel','spellmakingArea',
-        	'spellmakingCastingTime','taperCurve','taperDuration',
-			'secondAvWeight','mgefArchtype','actorValue',(FID,'projectile'),
-        	(FID,'explosion'),'castingType','delivery','secondActorValue',
-			(FID,'castingArt'),(FID,'hitEffectArt'),(FID,'impactData'),
-        	'skillUsageMultiplier',(FID,'dualCastingArt'),'dualCastingScale',
-			(FID,'enchantArt'),'unknown2','unknown3',(FID,'equipAbility'),
-			(FID,'imageSpaceModifier'),(FID,'perkToApply'),'castingSoundLevel',
-			'scriptEffectAiScore','scriptEffectAiDelayTime',
+            (MgefGeneralFlags,'flags',0L),'baseCost',(FID,'assocItem'),
+            'magicSkill','resistValue',
+            # 'counterEffectCount' is a count of ESCE records
+            'counterEffectCount',
+            'unknown1',(FID,'castingLight'),'taperWeight',(FID,'hitShader'),
+            (FID,'enchantShader'),'minimumSkillLevel','spellmakingArea',
+            'spellmakingCastingTime','taperCurve','taperDuration',
+            'secondAvWeight','mgefArchtype','actorValue',(FID,'projectile'),
+            (FID,'explosion'),'castingType','delivery','secondActorValue',
+            (FID,'castingArt'),(FID,'hitEffectArt'),(FID,'impactData'),
+            'skillUsageMultiplier',(FID,'dualCastingArt'),'dualCastingScale',
+            (FID,'enchantArt'),'unknown2','unknown3',(FID,'equipAbility'),
+            (FID,'imageSpaceModifier'),(FID,'perkToApply'),'castingSoundLevel',
+            'scriptEffectAiScore','scriptEffectAiDelayTime',
         ),
         MelFids('ESCE','effects'),
         MelStruct('SNDD','2I','soundType',(FID,'sound')),
@@ -6756,7 +6756,7 @@ class MreMisc(MelRecord):
 class MreAppa(MelRecord):
     """Appa record (Alchemical Apparatus)"""
     classType = 'APPA'
-	
+
     # QUAL has wbEnum in TES5Edit
     # Assigned to 'quality' for WB
     # 0 :'novice',
@@ -7193,8 +7193,8 @@ class MreSpel(MelRecord):
 class MreScrl(MelRecord):
     """Scroll record."""
     classType = 'SCRL'
-	
-	# SPIT has several wbEnum refer to wbSPIT in TES5Edit
+
+    # SPIT has several wbEnum refer to wbSPIT in TES5Edit
 
     ScrollDataFlags = bolt.Flags(0L,bolt.Flags.getNames(
         (0,'manualCostCalc'),
@@ -7263,7 +7263,7 @@ class MreStat(MelRecord):
         MelModel(),
         MelStruct('DNAM','fI','maxAngle30to120',(FID,'material'),),
         # Contains null-terminated mesh filename followed by random data
-		# up to 260 bytes and repeats 4 times
+        # up to 260 bytes and repeats 4 times
         MelBase('MNAM','distantLOD'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -7283,13 +7283,8 @@ class MreTree(MelRecord):
         MelFid('SNAM','harvestSound'),
         MelStruct('PFPC','4B','spring','summer','fall','wsinter',),
         MelLString('FULL','full'),
-        MelStruct('CNAM','ff32sff',
-                  'trunkFlexibility',
-                  'branchFlexibility',
-                  'unknown',
-                  'leafAmplitude',
-                  'leafFrequency',
-		),
+        MelStruct('CNAM','ff32sff','trunkFlexibility','branchFlexibility',
+                  'unknown','leafAmplitude','leafFrequency',),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

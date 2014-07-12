@@ -6914,6 +6914,30 @@ class MreNpc_(MelRecord):
 
 # Not fully tested
 #------------------------------------------------------------------------------
+class MreTree(MelRecord):
+    """Tree Item"""
+    classType = 'TREE'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelModel(),
+        MelFid('PFIG','harvestIngredient'),
+        MelFid('SNAM','harvestSound'),
+        MelStruct('PFPC','4B','spring','summer','fall','wsinter',),
+        MelLString('FULL','full'),
+        MelStruct('CNAM','ff32sff',
+                  'trunkFlexibility',
+                  'branchFlexibility',
+                  'unknown',
+                  'leafAmplitude',
+                  'leafFrequency',
+		),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreFlor(MelRecord):
     """Flor Item"""
     classType = 'FLOR'

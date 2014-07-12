@@ -5676,6 +5676,33 @@ class MreDlbr(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreMust(MelRecord):
+    """Music Track"""
+    classType = 'MUST'
+
+    # CNAM has wbEnum in TES5Edit
+    # Assigned to 'trackType' for WB
+    # Int64($23F678C3) :'Palette',
+    # Int64($6ED7E048) :'Single Track',
+    # Int64($A1A9C4D5) :'Silent Track'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('CNAM','I','trackType'),
+        MelStruct('FLTV','f','duration'),
+        MelStruct('DNAM','I','fadeOut'),
+        MelString('ANAM','trackFilename'),
+        MelString('BNAM','finaleFilename'),
+        MelStructA('FNAM','f','cuePoints'),
+        MelStruct('LNAM','2fI','loopBegins','loopEnds','loopCount',),
+        MelStruct('CITC','I','conditionCount'),
+        MelConditions(),
+        MelFidList('SNAM','tracks',),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

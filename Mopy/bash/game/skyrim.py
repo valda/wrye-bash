@@ -5721,6 +5721,19 @@ class MreDlvw(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreWoop(MelRecord):
+    """Word of Power"""
+    classType = 'WOOP'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelString('FULL','full'),
+        # TNAM is a Null terminated string with no length Byte
+        MelLString('TNAM','translation'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

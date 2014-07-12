@@ -6915,6 +6915,20 @@ class MreNpc_(MelRecord):
 # Not fully tested
 #------------------------------------------------------------------------------
 # Marker for organization please don't remove ---------------------------------
+# QUST ------------------------------------------------------------------------
+class MreQust(MelRecord):
+    """Quest"""
+    classType = 'QUST'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelVmad(),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Needs Updating
+#------------------------------------------------------------------------------
+# Marker for organization please don't remove ---------------------------------
 # RACE ------------------------------------------------------------------------
 class MreRace(MelRecord):
     """Quest"""

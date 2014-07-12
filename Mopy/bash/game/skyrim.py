@@ -6197,6 +6197,30 @@ class MreSopm(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreColl(MelRecord):
+    """Collision Layer"""
+    classType = 'COLL'
+
+    CollisionLayerFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0,'triggerVolume'),
+        (1,'sensor'),
+        (2,'navmeshObstacle'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelLString('DESC','description'),
+        MelStruct('BNAM','I','layerID'),
+        MelStruct('FNAM','=4B','red','green','blue','unused'),
+        MelStruct('GNAM','I',(CollisionLayerFlags,'flags',0L),),
+        MelString('MNAM','name',),
+        MelStruct('INTV','I','interactablesCount'),
+        MelFidList('CNAM','collidesWith',),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreLeveledList(MreLeveledListBase):
     """Skryim Leveled item/creature/spell list."""
 

@@ -6914,6 +6914,85 @@ class MreNpc_(MelRecord):
 
 # Not fully tested
 #------------------------------------------------------------------------------
+class MreWatr(MelRecord):
+    """Water"""
+    classType = 'WATR'
+
+    WatrTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'causesDamage'),
+        ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelLString('FULL','full'),
+        MelGroups('unused',
+            MelString('NNAM','noiseMap',),
+            ),
+        MelStruct('ANAM','B','opacity'),
+        MelStruct('FNAM','B',(WatrTypeFlags,'flags',0L),),
+        MelBase('MNAM','unused1'),
+        MelFid('TNAM','material',),
+        MelFid('SNAM','openSound',),
+        MelFid('XNAM','spell',),
+        MelFid('INAM','imageSpace',),
+        MelStruct('DATA','H','damagePerSecond'),
+        MelStruct('DNAM','7f4s2f3Bs3Bs3B5s43f','unknown','unknown','unknown',
+                  'unknown','specularPropertiesSunSpecularPower',
+                  'waterPropertiesReflectivityAmount',
+                  'waterPropertiesFresnelAmount','unknown',
+                  'fogPropertiesAboveWaterFogDistanceNearPlane',
+                  'fogPropertiesAboveWaterFogDistanceFarPlane',
+                  # Shallow Color
+                  'red_sc','green_sc','blue_sc','unknown_sc',
+                  # Deep Color
+                  'red_dc','green_dc','blue_dc','unknown_dc',
+                  # Reflection Color
+                  'red_rc','green_rc','blue_rc','unknown_rc',
+                  'unknown','unknown','unknown','unknown','unknown',
+                  'displacementSimulatorStartingSize',
+                  'displacementSimulatorForce','displacementSimulatorVelocity',
+                  'displacementSimulatorFalloff','displacementSimulatorDampner',
+                  'unknown','noisePropertiesNoiseFalloff',
+                  'noisePropertiesLayerOneWindDirection',
+                  'noisePropertiesLayerTwoWindDirection',
+                  'noisePropertiesLayerThreeWindDirection',
+                  'noisePropertiesLayerOneWindSpeed',
+                  'noisePropertiesLayerTwoWindSpeed',
+                  'noisePropertiesLayerThreeWindSpeed',
+                  'unknown','unknown','fogPropertiesAboveWaterFogAmount',
+                  'unknown','fogPropertiesUnderWaterFogAmount',
+                  'fogPropertiesUnderWaterFogDistanceNearPlane',
+                  'fogPropertiesUnderWaterFogDistanceFarPlane',
+                  'waterPropertiesRefractionMagnitude',
+                  'specularPropertiesSpecularPower',
+                  'unknown','specularPropertiesSpecularRadius',
+                  'specularPropertiesSpecularBrightness',
+                  'noisePropertiesLayerOneUVScale',
+                  'noisePropertiesLayerTwoUVScale',
+                  'noisePropertiesLayerThreeUVScale',
+                  'noisePropertiesLayerOneAmplitudeScale',
+                  'noisePropertiesLayerTwoAmplitudeScale',
+                  'noisePropertiesLayerThreeAmplitudeScale',
+                  'waterPropertiesReflectionMagnitude',
+                  'specularPropertiesSunSparkleMagnitude',
+                  'specularPropertiesSunSpecularMagnitude',
+                  'depthPropertiesReflections','depthPropertiesRefraction',
+                  'depthPropertiesNormals','depthPropertiesSpecularLighting',
+                  'specularPropertiesSunSparklePower',
+                  ),
+        MelBase('GNAM','unused2'),
+        # Linear Velocity
+        MelStruct('NAM0','3f','linv_x','linv_y','linv_z',),
+        # Angular Velocity
+        MelStruct('NAM1','3f','andv_x','andv_y','andv_z',),
+        MelString('NAM2','noiseTexture'),
+        MelString('NAM3','unused3'),
+        MelString('NAM4','unused4'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreWeap(MelRecord):
     """Weapon"""
     classType = 'WEAP'

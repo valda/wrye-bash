@@ -6221,6 +6221,20 @@ class MreColl(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreClfm(MelRecord):
+    """Clfm Item"""
+    classType = 'CLFM'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelLString('FULL','full'),
+        MelColorN(),
+		# 'playable' is a Boolean value
+        MelStruct('FNAM','I','playable'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreLeveledList(MreLeveledListBase):
     """Skryim Leveled item/creature/spell list."""
 

@@ -7490,7 +7490,7 @@ class MreWeap(MelRecord):
                   'animationAttackMult','unknown','rumbleLeftMotorStrength',
                   'rumbleRightMotorStrength','rumbleDuration','unknown',
                   'skill','unknown','resist','unknown','stagger',),
-        MelStruct('CRDT','H2sfB3sI','damage','unused','pctMult',
+        MelStruct('CRDT','H2sfB3sI','critDamage','unused','pctMult',
                   (WeapFlags3,'flags',0L),'unused',(FID,'Effect'),),
         MelStruct('VNAM','I','detectionSoundLevel'),
         MelFid('CNAM','template',),

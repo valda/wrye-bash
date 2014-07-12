@@ -6915,6 +6915,21 @@ class MreNpc_(MelRecord):
 # Not fully tested
 #------------------------------------------------------------------------------
 # Marker for organization please don't remove ---------------------------------
+# REFR ------------------------------------------------------------------------
+class MreRefr(MelRecord):
+    """Placed Object"""
+    classType = 'REFR'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelVmad(),
+
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Needs Updating
+#------------------------------------------------------------------------------
+# Marker for organization please don't remove ---------------------------------
 # REGN ------------------------------------------------------------------------
 class MreRegn(MelRecord):
     """Placed Object"""

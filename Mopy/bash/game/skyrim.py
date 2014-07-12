@@ -5703,6 +5703,24 @@ class MreMust(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreDlvw(MelRecord):
+    """Dialog View"""
+    classType = 'DLVW'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelFid('QNAM','quest',),
+        MelFids('BNAM','branches',),
+        MelGroups('unknownTNAM',
+            MelBase('TNAM','unknown',),
+            ),
+        MelBase('ENAM','unknownENAM'),
+        MelBase('DNAM','unknownDNAM'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

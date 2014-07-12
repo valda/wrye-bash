@@ -6411,6 +6411,42 @@ class MreInfo(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreIngr(MelRecord):
+    """INGR (ingredient) record."""
+    classType = 'INGR'
+
+    IngrTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'No auto-calculation'),
+            (1, 'Food item'),
+            (2, 'Unknown 3'),
+            (3, 'Unknown 4'),
+            (4, 'Unknown 5'),
+            (5, 'Unknown 6'),
+            (6, 'Unknown 7'),
+            (7, 'Unknown 8'),
+            (8, 'References Persist'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelVmad(),
+        MelBounds(),
+        MelString('FULL','full'),
+        MelNull('KSIZ'),
+        MelKeywords('KWDA','keywords'),
+        MelModel(),
+        MelIcons(),
+        MelFid('ETYP','equipmentType',),
+        MelFid('YNAM','soundPickUp'),
+        MelFid('ZNAM','soundDrop'),
+        MelStruct('DATA','if','value','weight'),
+        MelStruct('ENIT','iI','ingrValue',(IngrTypeFlags,'flags',0L),),
+        MelEffects(),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreLeveledList(MreLeveledListBase):
     """Skryim Leveled item/creature/spell list."""
 

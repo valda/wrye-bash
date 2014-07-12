@@ -5751,6 +5751,19 @@ class MreShou(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreEqup(MelRecord):
+    """Equp Item"""
+    classType = 'EQUP'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelFidList('PNAM','canBeEquipped'),
+        # DATA is either True Of False
+        MelStruct('DATA','I','useAllParents'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

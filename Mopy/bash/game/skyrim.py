@@ -6550,6 +6550,26 @@ class MreLigh(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreLscr(MelRecord):
+    """Load screen."""
+    classType = 'LSCR'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelIcons(),
+        MelString('DESC','text'),
+        MelConditions(),
+        MelFid('NNAM','loadingScreenNIF'),
+        MelStruct('SNAM','f','initialScale',),
+        MelStruct('RNAM','3h','rotGridY','rotGridX''rotGridZ',),
+        MelStruct('ONAM','2h','rotOffsetMin','rotOffsetMax',),
+        MelStruct('XNAM','3h','transGridY','transGridX''transGridZ',),
+        MelString('MOD2','cameraPath'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreLeveledList(MreLeveledListBase):
     """Skryim Leveled item/creature/spell list."""
 

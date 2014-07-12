@@ -5734,6 +5734,23 @@ class MreWoop(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreShou(MelRecord):
+    """Shout Records"""
+    classType = 'SHOU'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelString('FULL','full'),
+        MelFid('MDOB','menuDisplayObject'),
+        MelString('DESC','description'),
+        # Don't sort
+        MelGroups('wordsOfPower',
+            MelStruct('SNAM','2If',(FID,'word',None),(FID,'spell',None),'recoveryTime',),
+            ),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

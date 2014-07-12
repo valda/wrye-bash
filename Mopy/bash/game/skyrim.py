@@ -6813,6 +6813,107 @@ class MreCobj(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreNpc_(MelRecord):
+    """Npc"""
+    classType = 'NPC_'
+
+    class MelNpcCnto(MelGroups):
+        def __init__(self):
+            MelGroups.__init__(self,'container',
+                MelStruct('CNTO','=2I',(FID,'item',None),'count'),
+                MelCoed(),
+                )
+
+        def dumpData(self,record,out):
+            # Only write the COCT/CNTO/COED subrecords if count > 0
+            out.packSub('COCT','I',len(record.container))
+            MelGroups.dumpData(self,record,out)
+
+    melSet = MelSet(
+        MelString('EDID', 'eid'),
+        MelVmad(),
+        MelBounds(),
+        MelStruct('ACBS', '<IHHHHHHHHHH', 'base_flags', 'base_magicka', 'base_stamina',
+                  'base_level', 'base_minlevel', 'base_maxlevel', 'base_speed', 'base_disposition',
+                  'base_template_flags', 'base_health', 'base_bleedout'),
+        MelStructs('SNAM', '<IB3s', 'factions', (FID, 'faction'), 'rank', 'snam_unused'),
+        MelOptStruct('INAM', '<I', (FID, 'deathitem')),
+        MelOptStruct('VTCK', '<I', (FID, 'voicetype')),
+        MelOptStruct('TPLT', '<I', (FID, 'template')),
+        MelStruct('RNAM', '<I', (FID, 'race')),
+        MelDestructible(),
+        MelNull('SPCT'),
+        MelSpells('SPLO', '<I', 'spells', (FID, 'spell')),
+        MelOptStruct('WNAM', '<I', (FID, 'worm_armor')),
+        MelOptStruct('ANAM', '<I', (FID, 'away_model_name')),
+        MelOptStruct('ATKR', '<I', (FID, 'attack_race')),
+        MelStructs('ATKD', '<ffIIfffIfff', 'attack_data', 'damage', 'chance',
+                   (FID, 'spell'), 'flags', 'angle',
+                   'angle', 'stagger', 'type',
+                   'knockdown', 'recovery_time', 'fatigue'),
+        MelStrings('ATKE', 'attack_events'),
+        MelOptStruct('SPOR', '<I', (FID, 'spectator')),
+        MelOptStruct('OCOR', '<I', (FID, 'observe')),
+        MelOptStruct('GWOR', '<I', (FID, 'guard_warn')),
+        MelOptStruct('ECOR', '<I', (FID, 'combat')),
+        MelNull('PRKZ'),
+        MelPerks('PRKR', '<IB3s', 'perks', (FID, 'perk'), 'rank', 'unused'),
+        MelNull('COCT'),
+        MelNpcCnto(),
+        MelStruct('AIDT', '<BBBBBBBBIII', 'aggression', 'confidence',
+                  'engergy', 'morality', 'mood', 'assistance', 'ai_flags',
+                  'ai_unknown', 'warn', 'warn_attack', 'attack'),
+        MelFids('PKID', 'ai_packages',),
+        MelNull('KSIZ'),
+        MelKeywords('KWDA','keywords'),
+        MelFid('CNAM', 'class'),
+        MelLString('FULL','full'),
+        MelLString('SHRT', 'short_alias'),
+        MelBase('DATA', 'marker'),
+        MelStruct('DNAM', '<2B3H2sfB3s', 'base_skills', 'mod_skills',
+                  'calc_health', 'calc_magicka', 'calc_stamina', 'dnam_unused1',
+                  'far_away_distance', 'geared_up_weapons', 'dnam_unused2'),
+        MelFids('PNAM', 'head_part_addons',),
+        MelOptStruct('HCLF', '<I', (FID, 'hair_color')),
+        MelOptStruct('ZNAM', '<I', (FID, 'combat_style')),
+        MelOptStruct('GNAM', '<I', (FID, 'gifts')),
+        MelBase('NAM5', 'nam5_p'),
+        MelStruct('NAM6', '<f', 'height'),
+        MelStruct('NAM7', '<f', 'weight'),
+        MelStruct('NAM8', '<I', 'sound_level'),
+        MelGroups('event_sound',
+            MelStruct('CSDT', '<I', 'sound_type'),
+            MelGroups('sound',
+                MelStruct('CSDI', '<I', (FID, 'sound')),
+                MelStruct('CSDC', '<B', 'chance')
+                )
+            ),
+        MelOptStruct('CSCR', '<I', (FID, 'audio_template')),
+        MelOptStruct('DOFT', '<I', (FID, 'default_outfit')),
+        MelOptStruct('SOFT', '<I', (FID, 'sleep_outfit')),
+        MelOptStruct('DPLT', '<I', (FID, 'default_package')),
+        MelOptStruct('CRIF', '<I', (FID, 'crime_faction')),
+        MelOptStruct('FTST', '<I', (FID, 'face_texture')),
+        MelOptStruct('QNAM', '<fff', 'skin_tone_r' ,'skin_tone_g', 'skin_tone_b'),
+        MelOptStruct('NAM9', '<fffffffffffffffffff', 'nose_long', 'nose_up',
+                     'jaw_up', 'jaw_wide', 'jaw_forward', 'cheeks_up', 'cheeks_back',
+                     'eyes_up', 'eyes_out', 'brows_up', 'brows_out', 'brows_forward',
+                     'lips_up', 'lips_out', 'chin_wide', 'chin_down', 'chin_underbite',
+                     'eyes_back', 'nam9_unused'),
+        MelGroups('face_parts',
+                  MelStruct('NAMA', '<IiII', 'nose', 'unknown', 'eyes', 'mouth'),
+                  ),
+        MelGroups('face_tint_layer',
+            MelStruct('TINI', '<H', 'tint_item'),
+            MelStruct('TINC', '<4B', 'r', 'g', 'b' ,'a'),
+            MelStruct('TINV', '<i', 'tint_value'),
+            MelStruct('TIAS', '<h', 'preset'),
+            ),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Not fully tested
+#------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
 # Unused records, they have empty GRUP in skyrim.esm---------------------------
 # CLDC ------------------------------------------------------------------------

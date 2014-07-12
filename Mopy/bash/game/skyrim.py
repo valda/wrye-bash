@@ -6914,6 +6914,30 @@ class MreNpc_(MelRecord):
 
 # Not fully tested
 #------------------------------------------------------------------------------
+class MreFlor(MelRecord):
+    """Flor Item"""
+    classType = 'FLOR'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelVmad(),
+        MelBounds(),
+        MelLString('FULL','full'),
+        MelModel(),
+        MelDestructible(),
+        MelNull('KSIZ'),
+        MelKeywords('KWDA','keywords'),
+        MelBase('PNAM','unknown01'),
+        MelLString('RNAM','activateTextOverride'),
+        MelBase('FNAM','unknown02'),
+        MelFid('PFIG','harvestIngredient'),
+        MelFid('SNAM','harvestSound'),
+        MelStruct('PFPC','4B','spring','summer','fall','winter',),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreWatr(MelRecord):
     """Water"""
     classType = 'WATR'

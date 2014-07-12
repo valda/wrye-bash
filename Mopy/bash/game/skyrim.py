@@ -6914,6 +6914,21 @@ class MreNpc_(MelRecord):
 
 # Not fully tested
 #------------------------------------------------------------------------------
+# Marker for organization please don't remove ---------------------------------
+# REGN ------------------------------------------------------------------------
+class MreRegn(MelRecord):
+    """Placed Object"""
+    classType = 'REGN'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelVmad(),
+
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Needs Updating
+#------------------------------------------------------------------------------
 class MreSoun(MelRecord):
     """Soun Item"""
     classType = 'SOUN'

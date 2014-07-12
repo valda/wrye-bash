@@ -5631,6 +5631,30 @@ class MreSmqn(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreSmen(MelRecord):
+    """Story Manager Event Node"""
+    classType = 'SMEN'
+
+    SmenNodeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0,'Random'),
+        (1,'noChildWarn'),
+    ))
+
+    # ENAM is four chars with no length byte, like AIPL, or CHRR
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelFid('PNAM','parent',),
+        MelFid('SNAM','child',),
+        MelStruct('CITC','I','conditionCount'),
+        MelConditions(),
+        MelStruct('DNAM','I',(SmenNodeFlags,'nodeFlags',0L),),
+        MelBase('XNAM','xnam_p'),
+        MelString('ENAM','type'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
     classType = 'ASTP'

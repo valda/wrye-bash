@@ -5036,7 +5036,7 @@ class MrePerk(MelRecord):
 
         MelGroup('functionParameters',
             MelStruct('EPFT','I','functionParameterType',),
-            # EPF2 is a Null terminated string with no length Byte
+            # EPF2 can be a string or a 4 byte pointer to a Localized string
             MelLString('EPF2','buttonLabel'),
             MelStruct('EPF3','B3s',(PerkScriptFlagsFlags,'flags',0L),'unknown',),
 
@@ -5057,7 +5057,7 @@ class MrePerk(MelRecord):
             # 5- MelFid('EPFD','I','spell',),
             # 6- MelFid('EPFD','I','spell',),
             # 7- MelString('EPFD','text'),
-            # The following 'Text' is a Null terminated string with no length Byte
+            # The following 'Text' can be a string or a 4 byte pointer to a Localized string
             # 8- MelLString('EPFD','text'),
             # 9- MelStruct('EPFD','If','actorValue','float',),
             MelBase('EPFD','functionParametersData',),
@@ -5099,7 +5099,7 @@ class MreBptd(MelRecord):
         MelString('EDID','eid'),
         MelModel(),
         MelGroups('bodyParts',
-            # BPTN is a Null terminated string with no length Byte
+            # BPTN can be a string or a 4 byte pointer to a Localized string
             MelLString('BPTN','partName'),
             MelString('PNAM','poseMatching'),
             MelString('BPNN','partNode'),
@@ -5727,7 +5727,7 @@ class MreWoop(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelString('FULL','full'),
-        # TNAM is a Null terminated string with no length Byte
+        # TNAM can be a string or a 4 byte pointer to a Localized string
         MelLString('TNAM','translation'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

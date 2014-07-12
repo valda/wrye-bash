@@ -6235,6 +6235,21 @@ class MreClfm(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreRevb(MelRecord):
+    """Reverb Parameters"""
+    classType = 'REVB'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('DATA','2H4b6B','decayTimeMS','hfReferenceHZ','roomFilter',
+                  'hfRoomFilter','reflections','reverbAmp','decayHFRatio',
+                  'reflectDelayMS','reverbDelayMS','diffusion','density',
+                  'unknown',),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreLeveledList(MreLeveledListBase):
     """Skryim Leveled item/creature/spell list."""
 

@@ -3176,8 +3176,8 @@ class MreAlch(MelRecord):
         MelOptStruct('YNAM','I',(FID,'pickupSound')),
         MelOptStruct('ZNAM','I',(FID,'dropSound')),
         MelOptStruct('ETYP','I',(FID,'equipType')),
-        MelStruct('DATA','f','weight_p'),
-        MelStruct('ENIT','i2IfI','value_pd',(IngestibleFlags,'flags',0L),
+        MelStruct('DATA','f','weight'),
+        MelStruct('ENIT','i2IfI','value',(IngestibleFlags,'flags',0L),
                   'addiction','addictionChance','soundConsume',),
         MelEffects(),
         )

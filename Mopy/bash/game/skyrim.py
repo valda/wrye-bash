@@ -6914,6 +6914,22 @@ class MreNpc_(MelRecord):
 
 # Not fully tested
 #------------------------------------------------------------------------------
+class MreSoun(MelRecord):
+    """Soun Item"""
+    classType = 'SOUN'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        # FNAM Leftover, Unused
+        MelString('FNAM','fxPath'),
+        # SNDD Leftover, Unused
+        MelBase('SNDD','soundData'),
+        MelFid('SDSC','soundDescriptor'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 # class MreSpel(MelRecord,MreHasEffects):
 class MreSpel(MelRecord):
     """Spell record."""

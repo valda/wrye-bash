@@ -6915,6 +6915,138 @@ class MreNpc_(MelRecord):
 # Not fully tested
 #------------------------------------------------------------------------------
 # Marker for organization please don't remove ---------------------------------
+# PACK ------------------------------------------------------------------------
+class MrePack(MelRecord):
+    """Package"""
+    classType = 'PACK'
+
+    PackFlags10 = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'successCompletesPackage'),
+        ))
+
+    # 'Repeat when Complete',
+    # 'Unknown 1'
+    PackFlags9 = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'repeatwhenComplete'),
+            (1, 'unknown1'),
+        ))
+
+    # wbPKDTFlags
+    PackFlags1 = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'offersServices'),
+            (1, 'unknown2'),
+            (2, 'mustcomplete'),
+            (3, 'maintainSpeedatGoal'),
+            (4, 'unknown5'),
+            (5, 'unknown6'),
+            (6, 'unlockdoorsatpackagestart'),
+            (7, 'unlockdoorsatpackageend'),
+            (8, 'unknown9'),
+            (9, 'continueifPCNear'),
+            (10, 'onceperday'),
+            (11, 'unknown12'),
+            (12, 'unknown13'),
+            (13, 'preferredSpeed'),
+            (14, 'unknown15'),
+            (15, 'unknown16'),
+            (16, 'unknown17'),
+            (17, 'alwaysSneak'),
+            (18, 'allowSwimming'),
+            (19, 'unknown20'),
+            (20, 'ignoreCombat'),
+            (21, 'weaponsUnequipped'),
+            (22, 'unknown23'),
+            (23, 'weaponDrawn'),
+            (24, 'unknown25'),
+            (25, 'unknown26'),
+            (26, 'unknown27'),
+            (27, 'noCombatAlert'),
+            (28, 'unknown29'),
+            (29, 'wearSleepOutfitunused'),
+            (30, 'unknown31'),
+            (31, 'unknown32'),
+        ))
+
+    # wbPKDTInterruptFlags
+    PackFlags2 = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'hellostoplayer'),
+            (1, 'randomconversations'),
+            (2, 'observecombatbehavior'),
+            (3, 'greetcorpsebehavior'),
+            (4, 'reactiontoplayeractions'),
+            (5, 'friendlyfirecomments'),
+            (6, 'aggroRadiusBehavior'),
+            (7, 'allowIdleChatter'),
+            (8, 'unknown9'),
+            (9, 'worldInteractions'),
+            (10, 'unknown11'),
+            (11, 'unknown12'),
+            (12, 'unknown13'),
+            (13, 'unknown14'),
+            (14, 'unknown15'),
+            (15, 'unknown16'),
+        ))
+
+    # UNAM, Data Inputs Flags
+    PackFlags3 = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'public'),
+        ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelVmad(),
+        MelStruct('PKDT','I3BsH2s',(PackFlags1,'generalFlags',0L),'type','interruptOverride',
+                  'preferredSpeed','unknown',(PackFlags2,'interruptFlags',0L),'unknown',),
+        MelStruct('PSDT','2bB2b3si','month','dayofweek','date','hour','minute',
+                  'unused','durationminutes',),
+        MelConditions(),
+        MelGroup('idleAnimations',
+            MelStruct('IDLF','I','type'),
+            MelStruct('IDLC','B3s','count','unknown',),
+            MelStruct('IDLT','f','timerSetting',),
+            MelFidList('IDLA','animation'),
+            MelBase('IDLB','unknown'),
+        ),
+        MelFid('CNAM','combatStyle',),
+        MelFid('QNAM','ownerQuest',),
+        # Version Count is autoincremented not sure if that means in the CK
+        # or in TES5Edit.  Needs clarification.
+        MelStruct('PKCU','3I','dataInputCount',(FID,'packageTemplate'),'versionCount',),
+        MelGroup('packageData',
+            MelGroups('inputValues',
+                MelString('ANAM','type'),
+                # CNAM Needs Union Decider
+                MelBase('CNAM','unknown',),
+                MelBase('BNAM','unknown',),
+                # PDTO Needs Union Decider
+                MelGroups('topicData',
+                    MelBase('PDTO','unknown',),
+                    ),
+                    # End 'topicData'
+                # PLDT Needs Union Decider
+                MelGroup('locationData',
+                    MelBase('PLDT','unknown',),
+                    ),
+                    # End 'locationData'
+                # PTDA Needs Union Decider
+                MelBase('PTDA','unknown',),
+                MelBase('TPIC','unknown',),
+            ),
+            # End 'inputValues'
+            MelGroups('dataInputs',
+                MelStruct('UNAM','b','index'),
+                MelString('BNAM','name',),
+                MelStruct('PNAM','I',(PackFlags1,'flags',0L),),
+            ),
+            # End 'dataInputs'
+        ),
+        # End 'packageData'
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Needs Updating
+#------------------------------------------------------------------------------
+# Marker for organization please don't remove ---------------------------------
 # QUST ------------------------------------------------------------------------
 class MreQust(MelRecord):
     """Quest"""

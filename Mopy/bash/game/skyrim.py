@@ -6085,6 +6085,37 @@ class MreMovt(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreSndr(MelRecord):
+    """Sound Descriptor"""
+    classType = 'SNDR'
+
+    # LNAM has wbEnum in TES5Edit
+    # Assigned to 'looping' for WB
+    # $00 , 'None',
+    # $08 , 'Loop',
+    # $10 , 'Envelope Fast',
+    # $20 , 'Envelope Slow'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBase('CNAM','cnam_p'),
+        MelFid('GNAM','category',),
+        MelFid('SNAM','alternateSoundFor',),
+        MelGroups('soundFiles',
+            MelString('ANAM','fileName',),
+            ),
+        MelFid('ONAM','outputModel',),
+        MelLString('FNAM','string'),
+        MelConditions(),
+        MelStruct('LNAM','sBsB','unknown1','looping','unknown2',
+                  'rumbleSendValue',),
+        MelStruct('BNAM','2b2BH','pctFrequencyShift','pctFrequencyVariance','priority',
+                  'dbVariance','staticAttenuation',),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreLeveledList(MreLeveledListBase):
     """Skryim Leveled item/creature/spell list."""
 

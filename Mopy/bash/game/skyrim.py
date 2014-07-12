@@ -7747,6 +7747,20 @@ class MreWthr(MelRecord):
 #       MreAchr, MreDial, MreLctn, MreInfo, MreFact, MrePerk,
 #------------------------------------------------------------------------------
 #--Mergeable record types
+#        MreAlch, 
+#        MreAvif, MreBook, MreBptd, MreCams,
+#        MreClas, MreClfm, MreClmt, MreColl, MreCont, MreCpth, MreCsty,
+#        MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual, MreEczn, MreEfsh,
+#        MreEnch, MreEqup, MreExpl, MreEyes, MreFlor, MreFlst, MreFstp, MreFsts,
+#        MreFurn, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm,
+#        MreImgs, MreIngr, MreIpct, MreIpds, MreKeym, MreKywd, MreLcrt, MreLgtm,
+#        MreLigh, MreLscr, MreLtex, MreMato, MreMatt,
+#        MreMesg, MreMgef, MreMovt, MreMstt, MreMusc, MreMust, MreNpc_,
+#        MreOtft, MreProj, MreRela, MreRevb, MreRfct, MreScen, MreScrl, MreShou,
+#        MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun,
+#        MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr,
+#        MreWeap, MreWoop,
+
 mergeClasses = (
         MreAact, MreActi, MreAddn, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo,
         MreArto, MreAspc, MreAstp, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
@@ -7767,6 +7781,19 @@ def init():
 
     #--Record Types
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
+#        MreAlch, 
+#        MreAvif, MreBook, MreBptd, MreCams,
+#        MreClas, MreClfm, MreClmt, MreColl, MreCont, MreCpth, MreCsty,
+#        MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual, MreEczn, MreEfsh,
+#        MreEnch, MreEqup, MreExpl, MreEyes, MreFlor, MreFlst, MreFstp, MreFsts,
+#        MreFurn, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm,
+#        MreImgs, MreIngr, MreIpct, MreIpds, MreKeym, MreKywd, MreLcrt, MreLgtm,
+#        MreLigh, MreLscr, MreLtex, MreMato, MreMatt,
+#        MreMesg, MreMgef, MreMovt, MreMstt, MreMusc, MreMust, MreNpc_,
+#        MreOtft, MreProj, MreRela, MreRevb, MreRfct, MreScen, MreScrl, MreShou,
+#        MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun,
+#        MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr,
+#        MreWeap, MreWoop,
         MreAact, MreActi, MreAddn, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo,
         MreArto, MreAspc, MreAstp, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
         MreLvsp, MreMisc,

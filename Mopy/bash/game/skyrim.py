@@ -6015,6 +6015,17 @@ class MreAstp(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreOtft(MelRecord):
+    """Otft Item"""
+    classType = 'OTFT'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelFidList('INAM','items'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreArto(MelRecord):
     """Arto record (Art effect object)"""
     classType = 'ARTO'

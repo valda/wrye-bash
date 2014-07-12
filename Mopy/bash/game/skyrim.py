@@ -6570,6 +6570,22 @@ class MreLscr(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreLtex(MelRecord):
+    """Landscape Texture."""
+    classType = 'LTEX'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelFid('TNAM','textureSet',),
+        MelFid('MNAM','materialType',),
+        MelStruct('HNAM','BB','friction','restitution',),
+        MelStruct('SNAM','B','textureSpecularExponent',),
+        MelFids('GNAM','grasses'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreLeveledList(MreLeveledListBase):
     """Skryim Leveled item/creature/spell list."""
 

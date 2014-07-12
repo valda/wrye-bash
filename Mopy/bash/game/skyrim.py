@@ -3092,7 +3092,7 @@ class MreActi(MelRecord):
         MelOptStruct('VNAM','I',(FID,'pickupSound')),
         MelOptStruct('WNAM','I',(FID,'water')),
         MelLString('RNAM','rnam_p'),
-        MelStruct('FNAM','I',(ActivatorFlags,'flags',0L),),
+        MelStruct('FNAM','H',(ActivatorFlags,'flags',0L),),
         MelOptStruct('KNAM','I',(FID,'keyword')),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

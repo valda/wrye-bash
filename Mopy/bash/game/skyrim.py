@@ -6915,6 +6915,20 @@ class MreNpc_(MelRecord):
 # Not fully tested
 #------------------------------------------------------------------------------
 # Marker for organization please don't remove ---------------------------------
+# RACE ------------------------------------------------------------------------
+class MreRace(MelRecord):
+    """Quest"""
+    classType = 'RACE'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelLString('FULL','full'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Needs Updating
+#------------------------------------------------------------------------------
+# Marker for organization please don't remove ---------------------------------
 # REFR ------------------------------------------------------------------------
 class MreRefr(MelRecord):
     """Placed Object"""

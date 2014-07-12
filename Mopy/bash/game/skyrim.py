@@ -6073,6 +6073,22 @@ class MreMato(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreMovt(MelRecord):
+    """Movt Item"""
+    classType = 'MOVT'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelString('MNAM','mnam_n'),
+        MelStruct('SPED','11f','leftWalk','leftRun','rightWalk','rightRun',
+                  'forwardWalk','forwardRun','backWalk','backRun',
+                  'rotateInPlaceWalk','rotateInPlaceRun',
+                  'rotateWhileMovingRun'),
+        MelStruct('INAM','3f','directional','movementSpeed','rotationSpeed'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified Correct for Skyrim 1.8
+#------------------------------------------------------------------------------
 class MreLeveledList(MreLeveledListBase):
     """Skryim Leveled item/creature/spell list."""
 

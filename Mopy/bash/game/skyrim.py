@@ -5031,7 +5031,7 @@ class MrePerk(MelRecord):
 
     # DATA below PRKE needs union decider
     # 3B definition has two wbEnum in TES5Edit
-    # Refer to wbEntryPointsEnum for 'entryPoint' 
+    # Refer to wbEntryPointsEnum for 'entryPoint'
     # 'function' is defined as follows
     # {0} 'Unknown 0',
     # {1} 'Set Value',  // EPFT=1

@@ -7290,7 +7290,7 @@ class MreScrl(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelBounds(),
-        MelString('FULL','full'),
+        MelLString('FULL','full'),
         MelNull('KSIZ'),
         MelKeywords('KWDA','keywords'),
         MelFids('MDOB','menuDisplayObject'),

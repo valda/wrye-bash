@@ -4658,7 +4658,7 @@ class MreSlgm(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelBounds(),
-        MelString('FULL','full'),
+        MelLString('FULL','full'),
         MelModel(),
         MelIcons(),
         MelDestructible(),

@@ -3499,15 +3499,13 @@ class MreCell(MelRecord):
         MelFid('LTMP','lightingTemplate',),
         # leftover flags, they are now in XCLC
         MelBase('LNAM','unknown_LNAM'),
-        # XCLW sometimes has $FF7FFFFF and causes invalid floation point
+        # XCLW sometimes has $FF7FFFFF and causes invalid floatation point
         MelStruct('XCLW','f','waterHeight',),
         MelString('XNAM','waterNoiseTexture'),
         MelFidList('XCLR','regions'),
         MelFid('XLCN','location',),
         MelBase('XWCN','unknown_XWCN'),
         MelBase('XWCS','unknown_XWCS'),
-        # unknown_ang = wbByteArray('Unknown', 0) 'XWCU' neds custom unpacker
-        # MelBase('XWCU','waterVelocity',),
         MelStruct('XWCU','3f4s3f','xOffset','yOffset','zOffset','unknown','xAngle',
                   'yAngle','zAngle',dumpExtra='unknown',),
         MelFid('XCWT','water',),

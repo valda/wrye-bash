@@ -4589,7 +4589,7 @@ class MreProj(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelBounds(),
-        MelString('FULL','full'),
+        MelLString('FULL','full'),
         MelModel(),
         MelDestructible(),
         MelProjData('DATA','2H3f2I3f2I3f3I4f2I',(ProjTypeFlags,'flags',0L),'projectileTypes',

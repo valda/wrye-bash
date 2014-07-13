@@ -4807,7 +4807,7 @@ class MreExpl(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelBounds(),
-        MelString('FULL','full'),
+        MelLString('FULL','full'),
         MelModel(),
         MelFid('EITM','objectEffect'),
         MelFid('MNAM','imageSpaceModifier'),

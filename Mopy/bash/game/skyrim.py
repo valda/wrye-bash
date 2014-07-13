@@ -4572,13 +4572,13 @@ class MreProj(MelRecord):
     class MelProjData(MelStruct):
         """Handle older trucated DATA for PROJ subrecord."""
         def loadData(self,record,ins,type,size,readId):
-            if size == 88:
+            if size == 92:
                 MelStruct.loadData(self,record,ins,type,size,readId)
                 return
-            elif size == 80:
-                unpacked = ins.unpack('2H3f2I3f2I3f3I4f',size,readId)
+            elif size == 88:
+                unpacked = ins.unpack('2H3f2I3f2I3f3I4fI',size,readId)
             else:
-                raise "Unexpected size encountered for PROJ:DATA subrecord: %s" % size
+                raise ModSizeError(self.inName,recType+'.'+type,size,expSize,True)
             unpacked += self.defaults[len(unpacked):]
             setter = record.__setattr__
             for attr,value,action in zip(self.attrs,unpacked,self.actions):

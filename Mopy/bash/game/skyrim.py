@@ -6718,7 +6718,7 @@ class MreMgef(MelRecord):
     # 'magicSkill', 'resistValue', 'mgefArchtype',
     # 'actorValue', 'castingType', 'delivery', 'secondActorValue'
     # 'castingSoundLevel', 'soundType'
-    # refer to TES5Edit for values 
+    # refer to TES5Edit for values
 
     MgefGeneralFlags = bolt.Flags(0L,bolt.Flags.getNames(
             (0, 'hostile'),
@@ -6779,13 +6779,14 @@ class MreMgef(MelRecord):
             'scriptEffectAiScore','scriptEffectAiDelayTime',
         ),
         MelFids('ESCE','effects'),
-        MelStruct('SNDD','2I','soundType',(FID,'sound')),
+        MelStructA('SNDD','2I','sounds','soundType',(FID,'sound')),
         MelLString('DNAM','magicItemDescription'),
         MelConditions(),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 # Verified Correct for Skyrim 1.8
+# DATA needs an updating counter
 #------------------------------------------------------------------------------
 class MreMisc(MelRecord):
     """Misc. Item"""

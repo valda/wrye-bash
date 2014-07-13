@@ -5490,7 +5490,7 @@ class MreLctn(MelRecord):
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified Correct for Skyrim 1.8, not mergable
 #------------------------------------------------------------------------------
 class MreMesg(MelRecord):
     """Message Record."""

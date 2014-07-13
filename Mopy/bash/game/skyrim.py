@@ -5790,7 +5790,7 @@ class MreShou(MelRecord):
     classType = 'SHOU'
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelString('FULL','full'),
+        MelLString('FULL','full'),
         MelFid('MDOB','menuDisplayObject'),
         MelString('DESC','description'),
         # Don't sort

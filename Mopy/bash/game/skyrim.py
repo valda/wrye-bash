@@ -4498,7 +4498,7 @@ class MreMstt(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelBounds(),
-        MelString('FULL','full'),
+        MelLString('FULL','full'),
         MelModel(),
         MelDestructible(),
         MelStruct('DATA','B',(MsttTypeFlags,'flags',0L),),

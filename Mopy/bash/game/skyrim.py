@@ -3677,7 +3677,7 @@ class MreCont(MelRecord):
     class MelContCnto(MelGroups):
         def __init__(self):
             MelGroups.__init__(self,'components',
-                MelStruct('CNTO','=2I',(FID,'item',None),'count'),
+                MelStruct('CNTO','Ii',(FID,'item',None),'count'),
                 MelCoed(),
                 )
 
@@ -3708,9 +3708,9 @@ class MreCont(MelRecord):
         # Repeating CNTO records: CNTO, CNTO, CNTO, CNTO : Of the Count COCT
         MelContCnto(),
         MelDestructible(),
-        MelStruct('DATA','Bf',(ContTypeFlags,'flags',0L),'weight'),
-        MelFid('SNAM','openSound'),
-        MelFid('QNAM','closeSound'),
+        MelStruct('DATA','=Bf',(ContTypeFlags,'flags',0L),'weight'),
+        MelFid('SNAM','soundOpen'),
+        MelFid('QNAM','soundClose'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

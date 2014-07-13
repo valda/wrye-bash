@@ -5778,7 +5778,7 @@ class MreWoop(MelRecord):
     classType = 'WOOP'
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelString('FULL','full'),
+        MelLString('FULL','full'),
         MelLString('TNAM','translation'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

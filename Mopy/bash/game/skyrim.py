@@ -3754,8 +3754,8 @@ class MreDial(MelRecord):
 
     # DATA has wbEnum in TES5Edit
     # Assigned to 'subtype' for WB
-    # it has 102 different values, refer to 
-	# wbStruct(DATA, 'Data', in TES5Edit
+    # it has 102 different values, refer to
+    # wbStruct(DATA, 'Data', in TES5Edit
 
     # DATA has wbEnum in TES5Edit
     # Assigned to 'category' for WB

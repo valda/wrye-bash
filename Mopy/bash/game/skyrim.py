@@ -5199,7 +5199,7 @@ class MreAvif(MelRecord):
     classType = 'AVIF'
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelString('FULL','full'),
+        MelLString('FULL','full'),
         MelString('DESC','description'),
         MelString('ANAM','abbreviation'),
         MelBase('CNAM','cnam_p'),

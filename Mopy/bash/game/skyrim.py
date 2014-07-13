@@ -6510,7 +6510,7 @@ class MreKeym(MelRecord):
         MelString('EDID','eid'),
         MelVmad(),
         MelBounds(),
-        MelString('FULL','full'),
+        MelLString('FULL','full'),
         MelModel(),
         MelIcons(),
         MelDestructible(),

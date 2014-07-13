@@ -4328,7 +4328,6 @@ class MreFurn(MelRecord):
         MelStruct('MNAM','I',(FurnActiveMarkerFlags,'activeMarker_f',0L)),
         MelStruct('WBDT','Bb','benchType','usesSkill',),
         MelFid('NAM1','associatedSpell'),
-        # markerArray needs to be a repeating Array
         MelGroups('markerArray',
             MelStruct('ENAM','I','markerIndex',),
             MelStruct('NAM0','2sH','unknown',(MarkerEntryPointFlags,'disabledPoints_f',0L),),

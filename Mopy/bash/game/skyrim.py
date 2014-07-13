@@ -3417,7 +3417,7 @@ class MreBook(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 # DATA needs to have 'skillOrSpell' save an integer or FormID to be mergable.
-# After syntax checks and DATA is formated correctly, this record is correct for Skyrim 1.8
+# After syntax checks and DATA is formatted correctly, this record is correct for Skyrim 1.8
 #------------------------------------------------------------------------------
 class MreCell(MelRecord):
     """Cell"""

@@ -6592,7 +6592,7 @@ class MreLigh(MelRecord):
         MelDestructible(),
         MelLString('FULL','full'),
         MelIcons(),
-        MelStruct('DATA','iI4BI6fIf','time','radius',
+        MelStruct('DATA','iI4BI6fIf','duration','radius',
                 'red','green','blue','unknown',
                 (LighTypeFlags,'flags',0L),'falloffExponent','fov','nearClip',
                 # fe = 'Flicker Effect'

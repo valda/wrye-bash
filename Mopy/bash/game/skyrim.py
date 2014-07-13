@@ -6486,7 +6486,7 @@ class MreIngr(MelRecord):
         MelString('EDID','eid'),
         MelVmad(),
         MelBounds(),
-        MelString('FULL','full'),
+        MelLString('FULL','full'),
         MelNull('KSIZ'),
         MelKeywords('KWDA','keywords'),
         MelModel(),

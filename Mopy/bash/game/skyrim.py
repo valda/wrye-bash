@@ -5504,7 +5504,7 @@ class MreMesg(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelString('DESC','description'),
-        MelString('FULL','full'),
+        MelLString('FULL','full'),
         # 'INAM' leftover
         MelFid('INAM','iconUnused'),
         MelFid('QNAM','materialParent'),

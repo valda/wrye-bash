@@ -1706,8 +1706,8 @@ GmstTweaks = [
 
 #--Patchers available when building a Bashed Patch
 patchers = (
-    u'AliasesPatcher', u'PatchMerger', u'ListsMerger', u'GmstTweaker',
-    u'NamesPatcher', u'StatsPatcher'
+    u'AliasesPatcher', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
+    u'PatchMerger', u'StatsPatcher'
     )
 
 # For ListsMerger

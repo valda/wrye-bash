@@ -1716,12 +1716,17 @@ listTypes = ('LVLI','LVLN','LVSP',)
 namesTypes = set(('ACTI', 'AMMO', 'ARMO', 'APPA', 'MISC',))
 pricesTypes = {'AMMO':{},'ARMO':{},'APPA':{},'MISC':{}}
 statsTypes = {
+            'ALCH': MreAlch.copyAttrs,
             'AMMO':('eid', 'value', 'damage'),
             'ARMO':('eid', 'weight', 'value', 'armorRating'),
             'APPA':('eid', 'weight', 'value'),
             'MISC':('eid', 'weight', 'value'),
             }
 statsHeaders = (
+                #--Alch
+                (u'ALCH',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
                 #--Ammo
                 (u'AMMO',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
@@ -1730,9 +1735,11 @@ statsHeaders = (
                 (u'ARMO',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
                     _(u'Editor Id'),_(u'Weight'),_(u'Value'),_('armorRating'))) + u'"\n')),
+                #--Apparatus
                 (u'APPA',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
                     _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+                #--Misc
                 (u'MISC',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
                     _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
@@ -3181,6 +3188,7 @@ class MreTact(MelRecord):
 class MreAlch(MelRecord):
     """Ingestible"""
     classType = 'ALCH'
+    copyAttrs = ('eid', 'weight', 'value', 'effects.duration',)
 
     # {0x00000001} 'No Auto-Calc (Unused)',
     # {0x00000002} 'Food Item',

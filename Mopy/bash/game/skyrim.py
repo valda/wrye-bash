@@ -1716,7 +1716,7 @@ listTypes = ('LVLI','LVLN','LVSP',)
 namesTypes = set(('ACTI', 'AMMO', 'ARMO', 'APPA', 'MISC',))
 pricesTypes = {'AMMO':{},'ARMO':{},'APPA':{},'MISC':{}}
 statsTypes = {
-            'ALCH': MreAlch.copyAttrs,
+            'ALCH':('eid', 'weight', 'value'),
             'AMMO':('eid', 'value', 'damage'),
             'ARMO':('eid', 'weight', 'value', 'armorRating'),
             'APPA':('eid', 'weight', 'value'),
@@ -3188,7 +3188,6 @@ class MreTact(MelRecord):
 class MreAlch(MelRecord):
     """Ingestible"""
     classType = 'ALCH'
-    copyAttrs = ('eid', 'weight', 'value', 'effects.duration',)
 
     # {0x00000001} 'No Auto-Calc (Unused)',
     # {0x00000002} 'Food Item',

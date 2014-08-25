@@ -17800,15 +17800,9 @@ def InitStatusBar():
     BashStatusBar.buttons.append( # Game
         Oblivion_Button(
             bosh.dirs['app'].join(bush.game.exe),
-<<<<<<< HEAD
             imageList(u'%s%%s.png' % bush.game.fsName.lower()),
             u' '.join((_(u"Launch"),bush.game.displayName)),
             u' '.join((_(u"Launch"),bush.game.displayName,u'%(version)s')),
-=======
-            imageList(u'%s%%s.png' % bush.game.safeName.lower()),
-            u' '.join((_(u"Launch"),bush.game.name)),
-            u' '.join((_(u"Launch"),bush.game.name,u'%(version)s')),
->>>>>>> Game-related fixes
             u'',
             uid=u'Oblivion'))
     BashStatusBar.buttons.append( #TESCS/CreationKit
@@ -18632,8 +18626,21 @@ def InitModLinks():
             exportMenu.links.append(CBash_Mod_CellBlockInfo())
             exportMenu.links.append(Mod_EditorIds_Export())
             exportMenu.links.append(Mod_Groups_Export())
-    ##        exportMenu.links.append(Mod_ItemData_Export())
+            ## exportMenu.links.append(Mod_ItemData_Export())
             if bush.game.fsName == u'Skyrim':
+                exportMenu.links.append(Mod_FullNames_Export())
+                exportMenu.links.append(Mod_Prices_Export())
+                exportMenu.links.append(Mod_Stats_Export())
+            elif bush.game.fsName == u'Fallout New Vegas':
+                # exportMenu.links.append(Mod_Factions_Export())
+                exportMenu.links.append(Mod_FullNames_Export())
+                exportMenu.links.append(Mod_Prices_Export())
+                # exportMenu.links.append(Mod_FactionRelations_Export())
+                # exportMenu.links.append(Mod_IngredientDetails_Export())
+                # exportMenu.links.append(Mod_Scripts_Export())
+                # exportMenu.links.append(Mod_SpellRecords_Export())
+                exportMenu.links.append(Mod_Stats_Export())
+            elif bush.game.fsName == u'Fallout 3':
                 exportMenu.links.append(Mod_FullNames_Export())
                 exportMenu.links.append(Mod_Prices_Export())
                 exportMenu.links.append(Mod_Stats_Export())
@@ -18654,8 +18661,22 @@ def InitModLinks():
             importMenu = MenuLink(_(u"Import"))
             importMenu.links.append(Mod_EditorIds_Import())
             importMenu.links.append(Mod_Groups_Import())
-    ##        importMenu.links.append(Mod_ItemData_Import())
+            ## importMenu.links.append(Mod_ItemData_Import())
             if bush.game.fsName == u'Skyrim':
+                importMenu.links.append(Mod_FullNames_Import())
+                importMenu.links.append(Mod_Prices_Import())
+                importMenu.links.append(Mod_Stats_Import())
+            elif bush.game.fsName == u'Fallout New Vegas':
+                importMenu.links.append(Mod_FullNames_Import())
+                importMenu.links.append(Mod_Prices_Import())
+                # importMenu.links.append(Mod_FactionRelations_Import())
+                # importMenu.links.append(Mod_IngredientDetails_Import())
+                # importMenu.links.append(Mod_Scripts_Import())
+                importMenu.links.append(Mod_Stats_Import())
+                # importMenu.links.append(SeparatorLink())
+                # importMenu.links.append(Mod_Face_Import())
+                # importMenu.links.append(Mod_Fids_Replace())
+            elif bush.game.name == u'Fallout 3':
                 importMenu.links.append(Mod_FullNames_Import())
                 importMenu.links.append(Mod_Prices_Import())
                 importMenu.links.append(Mod_Stats_Import())

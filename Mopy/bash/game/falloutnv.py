@@ -22,7 +22,7 @@
 # =============================================================================
 
 """This modules defines static data for use by bush, when
-   Fallout: New Vegas is set at the active game."""
+   Fallout New Vegas is set at the active game."""
 
 # Imports ----------------------------------------------------------------------
 import struct

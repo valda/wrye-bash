@@ -1716,17 +1716,12 @@ listTypes = ('LVLI','LVLN','LVSP',)
 namesTypes = set(('ACTI', 'AMMO', 'ARMO', 'APPA', 'MISC',))
 pricesTypes = {'AMMO':{},'ARMO':{},'APPA':{},'MISC':{}}
 statsTypes = {
-            'ALCH':('eid', 'weight', 'value'),
             'AMMO':('eid', 'value', 'damage'),
             'ARMO':('eid', 'weight', 'value', 'armorRating'),
             'APPA':('eid', 'weight', 'value'),
             'MISC':('eid', 'weight', 'value'),
             }
 statsHeaders = (
-                #--Alch
-                (u'ALCH',
-                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
-                    _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
                 #--Ammo
                 (u'AMMO',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),

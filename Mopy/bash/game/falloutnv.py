@@ -710,7 +710,7 @@ ignoreDataDirs = set((
 #--Plugin format stuff
 class esp:
     #--Wrye Bash capabilities
-    canBash = False         # Can create Bashed Patches
+    canBash = True         # Can create Bashed Patches
     canCBash = False         # CBash can handle this game's records
     canEditHeader = True   # Can edit basic info in the TES4 record
     
@@ -1144,13 +1144,13 @@ fid4Conditions = set(entry[0] for entry in conditionFunctionData if entry[5] == 
 
 # Magic Info ------------------------------------------------------------------
 weaponTypes = (
-    _('Big gun'),
-    _('Energy'),
-    _('Small gun'),
-    _('Melee'),
-    _('Unarmed'),
-    _('Thrown'),
-    _('Mine'),
+    _(u'Big gun'),
+    _(u'Energy'),
+    _(u'Small gun'),
+    _(u'Melee'),
+    _(u'Unarmed'),
+    _(u'Thrown'),
+    _(u'Mine'),
     )
    
 namesTypes = set((
@@ -1181,102 +1181,102 @@ statsTypes = {
         }
 statsHeaders = (
         #--Alch
-        ('ALCH',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'ALCH',
+            (u'"' + '","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #Ammo
-        ('AMMO',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Speed'),_('Clip Rounds'),_('Proj/Shot'))) + '"\n')),
+        (u'AMMO',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Speed'),_(u'Clip Rounds'),_(u'Proj/Shot'))) + u'"\n')),
         #--Armor
-        ('ARMO',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('AR'),_('DT'))) + '"\n')),
+        (u'ARMO',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Health'),_(u'AR'),_(u'DT'))) + u'"\n')),
         #--Armor Addon
-        ('ARMA',
+        (u'ARMA',
             ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
             _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('AR'),_('DT'))) + '"\n')),
         #Books
-        ('BOOK',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'BOOK',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #Ingredients
-        ('INGR',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'INGR',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #--Keys
-        ('KEYM',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'KEYM',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #Lights
-        ('LIGH',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Duration'))) + '"\n')),
+        (u'LIGH',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Duration'))) + u'"\n')),
         #--Misc
-        ('MISC',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'MISC',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #--Weapons
-        ('WEAP',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('Damage'),_('Clip Size'),
-            _('Animation Multiplier'), _('Reach'), _('Ammo Use'), _('Min Spread'), _('Spread'), _('Sight Fov'), _('Base VATS To-Hit Chance'), _('Projectile Count'),
-            _('Min Range'), _('Max Range'), _('Animation Attack Multiplier'), _('Fire Rate'), _('Override - Action Point'), _('Rumble - Left Motor Strength'),
-            _('rRmble - Right Motor Strength'), _('Rumble - Duration'), _('Override - Damage To Weapon Mult'), _('Attack Shots/Sec'),
-            _('Reload Time'), _('Jam Time'), _('Aim Arc'), _('Ramble - Wavelangth'), _('Limb Dmg Mult'), _('Sight Usage'),
-            _('Semi-Automatic Fire Delay Min'), _('Semi-Automatic Fire Delay Max'),
-            _('Strength Req'), _('Regen Rate'), _('Kill Impulse'), _('Impulse Dist'), _('Skill Req'),
-                _('Critical Damage'), _('Crit % Mult'),
-                _('VATS Skill'), _('VATS Dam. Mult'), _('VATS AP'))) + '"\n')),
+        (u'WEAP',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Health'),_(u'Damage'),_(u'Clip Size'),
+            _(u'Animation Multiplier'), _(u'Reach'), _(u'Ammo Use'), _(u'Min Spread'), _(u'Spread'), _(u'Sight Fov'), _(u'Base VATS To-Hit Chance'), _(u'Projectile Count'),
+            _(u'Min Range'), _(u'Max Range'), _(u'Animation Attack Multiplier'), _(u'Fire Rate'), _(u'Override - Action Point'), _(u'Rumble - Left Motor Strength'),
+            _(u'rRmble - Right Motor Strength'), _(u'Rumble - Duration'), _(u'Override - Damage To Weapon Mult'), _(u'Attack Shots/Sec'),
+            _(u'Reload Time'), _(u'Jam Time'), _(u'Aim Arc'), _(u'Ramble - Wavelangth'), _(u'Limb Dmg Mult'), _(u'Sight Usage'),
+            _(u'Semi-Automatic Fire Delay Min'), _(u'Semi-Automatic Fire Delay Max'),
+            _(u'Strength Req'), _(u'Regen Rate'), _(u'Kill Impulse'), _(u'Impulse Dist'), _(u'Skill Req'),
+                _(u'Critical Damage'), _(u'Crit % Mult'),
+                _(u'VATS Skill'), _(u'VATS Dam. Mult'), _(u'VATS AP'))) + u'"\n')),
         )
 
 # Race Info -------------------------------------------------------------------
 raceNames = {
-    0x000019 : _('Caucasian'),
-    0x0038e5 : _('Hispanic'),
-    0x0038e6 : _('Asian'),
-    0x003b3e : _('Ghoul'),
-    0x00424a : _('AfricanAmerican'),
-    0x0042be : _('AfricanAmerican Child'),
-    0x0042bf : _('AfricanAmerican Old'),
-    0x0042c0 : _('Asian Child'),
-    0x0042c1 : _('Asian Old'),
-    0x0042c2 : _('Caucasian Child'),
-    0x0042c3 : _('Caucasian Old'),
-    0x0042c4 : _('Hispanic Child'),
-    0x0042c5 : _('Hispanic Old'),
-    0x04bb8d : _('Caucasian Raider'),
-    0x04bf70 : _('Hispanic Raider'),
-    0x04bf71 : _('Asian Raider'),
-    0x04bf72 : _('AfricanAmerican Raider'),
-    0x0987dc : _('Hispanic Old Aged'),
-    0x0987dd : _('Asian Old Aged'),
-    0x0987de : _('AfricanAmerican Old Aged'),
-    0x0987df : _('Caucasian Old Aged'),
+    0x000019 : _(u'Caucasian'),
+    0x0038e5 : _(u'Hispanic'),
+    0x0038e6 : _(u'Asian'),
+    0x003b3e : _(u'Ghoul'),
+    0x00424a : _(u'AfricanAmerican'),
+    0x0042be : _(u'AfricanAmerican Child'),
+    0x0042bf : _(u'AfricanAmerican Old'),
+    0x0042c0 : _(u'Asian Child'),
+    0x0042c1 : _(u'Asian Old'),
+    0x0042c2 : _(u'Caucasian Child'),
+    0x0042c3 : _(u'Caucasian Old'),
+    0x0042c4 : _(u'Hispanic Child'),
+    0x0042c5 : _(u'Hispanic Old'),
+    0x04bb8d : _(u'Caucasian Raider'),
+    0x04bf70 : _(u'Hispanic Raider'),
+    0x04bf71 : _(u'Asian Raider'),
+    0x04bf72 : _(u'AfricanAmerican Raider'),
+    0x0987dc : _(u'Hispanic Old Aged'),
+    0x0987dd : _(u'Asian Old Aged'),
+    0x0987de : _(u'AfricanAmerican Old Aged'),
+    0x0987df : _(u'Caucasian Old Aged'),
     }
         
 raceShortNames = {
-    0x000019 : 'Cau',
-    0x0038e5 : 'His',
-    0x0038e6 : 'Asi',
-    0x003b3e : 'Gho',
-    0x00424a : 'Afr',
-    0x0042be : 'AfC',
-    0x0042bf : 'AfO',
-    0x0042c0 : 'AsC',
-    0x0042c1 : 'AsO',
-    0x0042c2 : 'CaC',
-    0x0042c3 : 'CaO',
-    0x0042c4 : 'HiC',
-    0x0042c5 : 'HiO',
-    0x04bb8d : 'CaR',
-    0x04bf70 : 'HiR',
-    0x04bf71 : 'AsR',
-    0x04bf72 : 'AfR',
-    0x0987dc : 'HOA',
-    0x0987dd : 'AOA',
-    0x0987de : 'FOA',
-    0x0987df : 'COA',
+    0x000019 : u'Cau',
+    0x0038e5 : u'His',
+    0x0038e6 : u'Asi',
+    0x003b3e : u'Gho',
+    0x00424a : u'Afr',
+    0x0042be : u'AfC',
+    0x0042bf : u'AfO',
+    0x0042c0 : u'AsC',
+    0x0042c1 : u'AsO',
+    0x0042c2 : u'CaC',
+    0x0042c3 : u'CaO',
+    0x0042c4 : u'HiC',
+    0x0042c5 : u'HiO',
+    0x04bb8d : u'CaR',
+    0x04bf70 : u'HiR',
+    0x04bf71 : u'AsR',
+    0x04bf72 : u'AfR',
+    0x0987dc : u'HOA',
+    0x0987dd : u'AOA',
+    0x0987de : u'FOA',
+    0x0987df : u'COA',
     }
       
 raceHairMale = {
@@ -1411,6 +1411,77 @@ class MelDestructible(MelGroup):
                       ),
             )
 
+# Alternate textures
+#------------------------------------------------------------------------------
+class MelAlternateTextures(MelBase):
+    """Represents a set of alternate textures element."""
+    def __init__(self,type,attr,default=None):
+        """Initialize."""
+        MelBase.__init__(self,type,attr,default)
+        self._debug = False
+    def hasFids(self,formElements):
+        """Include self if has fids."""
+        formElements.add(self)
+    def loadData(self,record,ins,type,size,readId):
+        """Reads data from ins into record attribute."""
+        textures = []
+        numTextures, = struct.unpack('I',ins.read(4,readId))
+        for count in range(numTextures):
+            size, = struct.unpack('I',ins.read(4,readId))
+            name = ins.readString(size,readId)
+            fid = ins.unpackRef(readId)
+            index, = struct.unpack('I',ins.read(4,readId))
+            textures.append((name,fid,index))
+        record.__setattr__(self.attr,textures)
+        if self._debug: print ' ',record.__getattribute__(self.attr)
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+        textures = record.__getattribute__(self.attr)
+        if not textures: return
+        data = ''
+        data += struct.pack('=I',len(textures))
+        for name,fid,index in textures:
+            data += struct.pack('=I',len(name))
+            data += name
+            data += struct.pack('=I',fid)
+            data += struct.pack('=I',index)
+        out.packSub(self.subType,data)
+    def mapFids(self,record,function,save=False):
+        """Applies function to fids. If save is true, then fid is set
+        to result of function."""
+        results = []
+        targets = record.__getattribute__(self.attr)
+        if not targets: return
+        for name,fid,index in targets:
+            result = function(fid)
+            results.append((name,result,index))
+        if save:
+            record.__setattr__(self.attr,results)
+
+#------------------------------------------------------------------------------
+class MelModel(MelGroup):
+    """Represents a model record."""
+    typeSets = (
+        ('MODL','MODB','MODT','MODS','MODD'),
+        ('MOD2','MO2B','MO2T','MO2S','MO2D'),
+        ('MOD3','MO3B','MO3T','MO3S','MOSD'),
+        ('MOD4','MO4B','MO4T','MO4S','MO4D'),)
+
+    def __init__(self,attr='model',index=0):
+        """Initialize. Index is 0,2,3,4 for corresponding type id."""
+        types = MelModel.typeSets[(0,index-1)[index>0]]
+        MelGroup.__init__(self,attr,
+            MelString(types[0],'modPath'),
+            MelBase(types[1],'modb_p'), ### Bound Radius, Float
+            MelBase(types[2],'modt_p'), ###Texture Files Hashes, Byte Array
+            MelAlternateTextures(types[3],'alternateTextures'),
+            MelBase(types[4],'modd_p'),)
+
+    def debug(self,on=True):
+        """Sets debug flag on self."""
+        for element in self.elements[:2]: element.debug(on)
+        return self
+
 #------------------------------------------------------------------------------
 class MelEffects(MelGroups):
     """Represents ingredient/potion/enchantment/spell effects."""
@@ -1533,7 +1604,7 @@ class MelConditions(MelStructs):
             if size != 28 and size != 24 and size != 20:
                 raise ModSizeError(ins.inName,readId,28,size,False)
         else:
-            raise ModError(ins.inName,_('Unexpected subrecord: ')+readId)
+            raise ModError(ins.inName,_(u'Unexpected subrecord: ')+readId)
         #if type == 'CTDT' and size != 20:
         #    raise ModSizeError(ins.inName,readId,20,size,True)
         target = MelObject()
@@ -1543,7 +1614,7 @@ class MelConditions(MelStructs):
         (target.operFlag,target.unused1,target.compValue,ifunc) = unpacked1
         #--Get parameters
         if ifunc not in bush.allConditions:
-            raise BoltError(_('Unknown condition function: %d') % ifunc)
+            raise BoltError(_(u'Unknown condition function: %d') % ifunc)
         form1 = 'iI'[ifunc in bush.fid1Conditions]
         form2 = 'iI'[ifunc in bush.fid2Conditions]
         form3 = 'iI'[ifunc in bush.fid3Conditions]

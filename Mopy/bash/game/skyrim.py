@@ -162,6 +162,9 @@ class ess:
     canReadBasic = True         # All the basic stuff needed for the Saves Tab
     canEditMasters = True       # Adjusting save file masters
     canEditMore = False         # No advanced editing
+    
+    # Save file extension.
+    ext = u'.ess';
 
     @staticmethod
     def load(ins,header):
@@ -257,6 +260,9 @@ iniFiles = [
     u'Skyrim.ini',
     u'SkyrimPrefs.ini',
     ]
+
+#--Name of the default ini file.
+defaultIniFile = u'Skyrim_default.ini'
 
 #--INI setting to setup Save Profiles
 saveProfilesKey = (u'General',u'SLocalSavePath')

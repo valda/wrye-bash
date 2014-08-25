@@ -61,7 +61,7 @@ patchURL = u'http://www.elderscrolls.com/downloads/updates_patches.htm'
 patchTip = u'http://www.elderscrolls.com/'
 
 #--URL to the Nexus site for this game
-nexusUrl = u'http://oblivion.nexusmods.com/'
+nexusUrl = u'http://www.nexusmods.com/oblivion/'
 nexusName = u'TES Nexus'
 nexusKey = 'bash.installers.openTesNexus'
 
@@ -146,6 +146,9 @@ class ess:
     canReadBasic = True         # All the basic stuff needed for the Saves Tab
     canEditMasters = True       # Adjusting save file masters
     canEditMore = True          # advanced editing
+    
+    # Save file extension.
+    ext = u'.ess';
 
     @staticmethod
     def load(ins,header):
@@ -217,6 +220,9 @@ masterFiles = [
 iniFiles = [
     u'Oblivion.ini',
     ]
+
+#--Name of the default ini file.
+defaultIniFile = u'Oblivion_default.ini'
 
 #--INI setting to setup Save Profiles
 saveProfilesKey = (u'General',u'SLocalSavePath')

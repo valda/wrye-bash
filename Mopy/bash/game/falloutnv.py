@@ -3487,6 +3487,24 @@ class MreSoun(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MreAspc(MelRecord):
+    """Acoustic space record."""
+    classType = 'ASPC'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('OBND','=6h',
+                  'corner0X','corner0Y','corner0Z',
+                  'corner1X','corner1Y','corner1Z'),
+	    # Should be a struct
+        MelFids('SNAM','soundLooping'),
+        MelStruct('WNAM','I','wallaTrigerCount'),
+        MelFid('RDAT','useSoundFromRegion'),
+        MelStruct('ANAM','I','environmentType'),
+        MelStruct('INAM','I','isInterior'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
 class MreSpel(MelRecord,MreHasEffects):
     """Spell record."""
     classType = 'SPEL'
@@ -4679,23 +4697,6 @@ class MrePwat(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
-class MreAspc(MelRecord):
-    """Acoustic space record."""
-    classType = 'ASPC'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
-        MelFids('SNAM','soundLooping'),
-        MelStruct('WNAM','I','wallaTrigerCount'),
-        MelFid('RDAT','useSoundFromRegion'),
-        MelStruct('ANAM','I','environmentType'),
-        MelStruct('INAM','I','isInterior'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-#------------------------------------------------------------------------------
 class MreHdpt(MelRecord):
     """Head part record."""
     classType = 'HDPT'
@@ -5674,7 +5675,7 @@ class MreSlpd(MelRecord):
 	
 	# Verified
 mergeClasses = (
-        MreActi, MreAmmo, MreAnio, MreArma, MreArmo
+        MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc
     )
   
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5705,7 +5706,7 @@ def init():
 		
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
 		# Verified
-        MreActi, MreAmmo, MreAnio, MreArma, MreArmo 
+        MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc 
         MreHeader,
         ))
     #--Simple records

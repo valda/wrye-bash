@@ -699,6 +699,54 @@ statsTypes = {
                 'reloadTime','jamTime','aimArc','rambleWavelangth','limbDmgMult','sightUsage',
                 'semiAutomaticFireDelayMin','semiAutomaticFireDelayMax','criticalDamage','criticalMultiplier'),
         }
+statsHeaders = (
+        #--Alch
+        ('ALCH',
+            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
+            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        #Ammo
+        ('AMMO',
+            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
+            _('Editor Id'),_('Speed'),_('Value'),_('Clip Rounds'))) + '"\n')),
+        #--Armor
+        ('ARMO',
+            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
+            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('AR'))) + '"\n')),
+        #--Armor Addon
+        ('ARMA',
+            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
+            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('AR'))) + '"\n')),
+        #Books
+        ('BOOK',
+            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
+            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        #Ingredients
+        ('INGR',
+            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
+            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        #--Keys
+        ('KEYM',
+            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
+            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        #Lights
+        ('LIGH',
+            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
+            _('Editor Id'),_('Weight'),_('Value'),_('Duration'))) + '"\n')),
+        #--Misc
+        ('MISC',
+            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
+            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        #--Weapons
+        ('WEAP',
+            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
+            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('Damage'),_('Clip Size'),
+            _('Animation Multiplier'), _('Reach'), _('Ammo Use'), _('Min Spread'), _('Spread'), _('Sight Fov'), _('Base VATS To-Hit Chance'), _('Projectile Count'),
+            _('Min Range'), _('Max Range'), _('Animation Attack Multiplier'), _('Fire Rate'), _('Override - Action Point'), _('Rumble - Left Motor Strength'),
+            _('rRmble - Right Motor Strength'), _('Rumble - Duration'), _('Override - Damage To Weapon Mult'), _('Attack Shots/Sec'),
+            _('Reload Time'), _('Jam Time'), _('Aim Arc'), _('Ramble - Wavelangth'), _('Limb Dmg Mult'), _('Sight Usage'),
+            _('Semi-Automatic Fire Delay Min'), _('Semi-Automatic Fire Delay Max'),
+            _('Critical Damage'), _('Crit % Mult'))) + '"\n')),
+        )
 
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -801,54 +849,6 @@ class RecordHeader(brec.BaseRecordHeader):
 #--CBash patchers available when building a Bashed Patch
 CBash_patchers = (
 )
-statsHeaders = (
-        #--Alch
-        ('ALCH',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
-        #Ammo
-        ('AMMO',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Speed'),_('Value'),_('Clip Rounds'))) + '"\n')),
-        #--Armor
-        ('ARMO',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('AR'))) + '"\n')),
-        #--Armor Addon
-        ('ARMA',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('AR'))) + '"\n')),
-        #Books
-        ('BOOK',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
-        #Ingredients
-        ('INGR',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
-        #--Keys
-        ('KEYM',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
-        #Lights
-        ('LIGH',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Duration'))) + '"\n')),
-        #--Misc
-        ('MISC',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
-        #--Weapons
-        ('WEAP',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('Damage'),_('Clip Size'),
-            _('Animation Multiplier'), _('Reach'), _('Ammo Use'), _('Min Spread'), _('Spread'), _('Sight Fov'), _('Base VATS To-Hit Chance'), _('Projectile Count'),
-            _('Min Range'), _('Max Range'), _('Animation Attack Multiplier'), _('Fire Rate'), _('Override - Action Point'), _('Rumble - Left Motor Strength'),
-            _('rRmble - Right Motor Strength'), _('Rumble - Duration'), _('Override - Damage To Weapon Mult'), _('Attack Shots/Sec'),
-            _('Reload Time'), _('Jam Time'), _('Aim Arc'), _('Ramble - Wavelangth'), _('Limb Dmg Mult'), _('Sight Usage'),
-            _('Semi-Automatic Fire Delay Min'), _('Semi-Automatic Fire Delay Max'),
-            _('Critical Damage'), _('Crit % Mult'))) + '"\n')),
-        )
 
 # Race Info -------------------------------------------------------------------
 raceNames = {

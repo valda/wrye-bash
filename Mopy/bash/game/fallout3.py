@@ -748,6 +748,9 @@ statsHeaders = (
             _('Critical Damage'), _('Crit % Mult'))) + '"\n')),
         )
 
+#--CBash patchers available when building a Bashed Patch
+CBash_patchers = (
+)
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
 # Constants
@@ -846,9 +849,6 @@ class RecordHeader(brec.BaseRecordHeader):
         else:
             return struct.pack('=4s5I',self.recType,self.size,self.flags1,self.fid,self.flags2,self.flags3)
 	
-#--CBash patchers available when building a Bashed Patch
-CBash_patchers = (
-)
 
 # Race Info -------------------------------------------------------------------
 raceNames = {

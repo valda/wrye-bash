@@ -864,7 +864,7 @@ GmstTweaks = [
 ]
 
 #--Patcher available when building a Bashed Patch (refrerenced by class name)
-patchers = (
+patchers = ( u'ListsMerger',
 )
 
 #--For ListMerger patcher (leveled list patcher)

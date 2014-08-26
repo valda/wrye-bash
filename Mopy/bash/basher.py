@@ -570,6 +570,8 @@ settingDefaults = {
     #--Tes4View/Edit/Trans
     'tes4View.iKnowWhatImDoing':False,
     'tes5View.iKnowWhatImDoing':False,
+    'fo3View.iKnowWhatImDoing':False,
+    'fnvView.iKnowWhatImDoing':False,
     #--BOSS:
     'BOSS.ClearLockTimes':True,
     'BOSS.AlwaysUpdate':True,
@@ -17199,7 +17201,7 @@ class App_Tes4View(App_Button):
         elif( bush.game.name == 'Fallout 3' ):
             self.mainMenu.append(Mods_Fo3ViewExpert())
         elif( bush.game.name == 'Fallout New Vegas' ):
-            self.mainMenu.append(Mods_Fo3ViewExpert())
+            self.mainMenu.append(Mods_FnvViewExpert())
 
     def IsPresent(self):
         if self.exePath in bosh.undefinedPaths or not self.exePath.exists():
@@ -17221,6 +17223,12 @@ class App_Tes4View(App_Button):
                 extraArgs.append(u'-IKnowWhatImDoing')
         if( bush.game.fsName == 'Skyrim' ):
             if settings['tes5View.iKnowWhatImDoing']:
+                extraArgs.append(u'-IKnowWhatImDoing')
+        if( bush.game.name == 'Fallout 3' ):
+            if settings['fo3View.iKnowWhatImDoing']:
+                extraArgs.append(u'-IKnowWhatImDoing')
+        if( bush.game.name == 'Fallout New Vegas' ):
+            if settings['fnvView.iKnowWhatImDoing']:
                 extraArgs.append(u'-IKnowWhatImDoing')
         App_Button.Execute(self,event,tuple(extraArgs))
 

@@ -10850,7 +10850,13 @@ class CBash_PatchFile(ObModFile):
                       'ACRES','REFRS']
 
         iiModeSet = set((u'InventOnly',u'IIM'))
-        levelLists = set(('LVLC','LVLI','LVSP'))
+        if bush.game.safeName == u'Fallout3':
+            levelLists = set(('LVLC','LVLI','LVLN'))
+        elif  bush.game.safeName == u'FalloutNV':
+            levelLists = set(('LVLC','LVLI','LVLN'))
+        else:
+            levelLists = set(('LVLC','LVLI','LVSP'))
+
         nullProgress = bolt.Progress()
 
         IIMSet = set([modName for modName in (self.allSet|self.scanSet) if bool(modInfos[modName].getBashTags() & iiModeSet)])

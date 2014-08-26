@@ -287,6 +287,9 @@ masterFiles = [
     u'Fallout3.esm',
     ]
 
+#--Plugin files that can't be deactivated
+nonDeactivatableFiles = []
+
 #--Game ESM/ESP/BSA files
 # bethDataFiles = set()
 # Moved to fallout3_const
@@ -294,9 +297,6 @@ masterFiles = [
 #--Every file in the Data directory from Bethsoft
 # allBethFiles = set((
 # Moved to fallout3_const
-
-#--Plugin files that can't be deactivated
-nonDeactivatableFiles = []
 
 #--BAIN:
 ## These are the allowed default data directories that BAIN can install to

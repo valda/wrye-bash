@@ -39,11 +39,6 @@ null2 = null1*2
 null3 = null1*3
 null4 = null1*4
 
-# Mod Record Elements ----------------------------------------------------------
-#-------------------------------------------------------------------------------
-# Constants
-FID = 'FID' #--Used by MelStruct classes to indicate fid elements.
-
 #--Name of the game
 name = u'Fallout 3'
 
@@ -531,6 +526,11 @@ ignoreDataDirs = set((
     ur'LSData'
     ))    
   
+# Mod Record Elements ----------------------------------------------------------
+#-------------------------------------------------------------------------------
+# Constants
+FID = 'FID' #--Used by MelStruct classes to indicate fid elements.
+
 #--Plugin format stuff
 class esp:
     #--Wrye Bash capabilities

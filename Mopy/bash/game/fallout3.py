@@ -681,6 +681,7 @@ namesTypes = set(('ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK',
 		'MISC', 'NOTE', 'NPC_', 'RACE', 'SPEL', 'TERM', 
 		'WEAP', 'ACTI', 'TACT'
 		))
+pricesTypes = {}      
 
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -783,7 +784,6 @@ class RecordHeader(brec.BaseRecordHeader):
 #--CBash patchers available when building a Bashed Patch
 CBash_patchers = (
 )
-pricesTypes = {}      
 statsTypes = {
         'ALCH':('eid', 'weight', 'value'),
         'AMMO':('eid', 'speed',  'value', 'clipRounds'),

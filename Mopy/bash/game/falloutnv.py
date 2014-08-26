@@ -272,11 +272,6 @@ class ess:
             out.write(buffer)
         return oldMasters
 
-#--The main plugin Wrye Bash should look for
-masterFiles = [
-    u'FalloutNV.esm',
-    ]
-
 #--INI files that should show up in the INI Edits tab
 iniFiles = [
     u'FalloutPrefs.ini',
@@ -289,6 +284,11 @@ defaultIniFile = u'Fallout_default.ini'
 #-- INI setting used to setup Save Profiles
 ## (section,key)
 saveProfilesKey = (u'General',u'SLocalSavePath')
+
+#--The main plugin Wrye Bash should look for
+masterFiles = [
+    u'FalloutNV.esm',
+    ]
 
 #--Game ESM/ESP/BSA files
 # bethDataFiles = set((

@@ -672,6 +672,9 @@ GmstTweaks = [
 patchers = ( u'ListsMerger',
 )
 
+#--For ListMerger patcher (leveled list patcher)
+listTypes = ('LVLC','LVLI','LVLN')
+
 
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -771,9 +774,6 @@ class RecordHeader(brec.BaseRecordHeader):
         else:
             return struct.pack('=4s5I',self.recType,self.size,self.flags1,self.fid,self.flags2,self.flags3)
 	
-#--For ListMerger patcher (leveled list patcher)
-listTypes = ()
-
 #--CBash patchers available when building a Bashed Patch
 CBash_patchers = (
 )

@@ -675,6 +675,12 @@ patchers = ( u'ListsMerger',
 #--For ListMerger patcher (leveled list patcher)
 listTypes = ('LVLC','LVLI','LVLN')
 
+namesTypes = set(('ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 
+        'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR', 'EYES', 
+		'FACT', 'FLOR', 'HAIR', 'INGR', 'KEYM', 'LIGH', 
+		'MISC', 'NOTE', 'NPC_', 'RACE', 'SPEL', 'TERM', 
+		'WEAP', 'ACTI', 'TACT'
+		))
 
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -777,10 +783,6 @@ class RecordHeader(brec.BaseRecordHeader):
 #--CBash patchers available when building a Bashed Patch
 CBash_patchers = (
 )
-namesTypes = set((
-        'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR',
-        'EYES', 'FACT', 'FLOR', 'HAIR', 'INGR', 'KEYM', 'LIGH', 'MISC', 'NOTE', 'NPC_',
-        'RACE', 'SPEL', 'TERM', 'WEAP', 'ACTI', 'TACT'))
 pricesTypes = {}      
 statsTypes = {
         'ALCH':('eid', 'weight', 'value'),

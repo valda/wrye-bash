@@ -1448,7 +1448,8 @@ gmstEids = ['bAutoAimBasedOnDistance','fActionPointsAttackMagic','fActionPointsA
     ]
 
 #--Tags supported by this game
-allTags = sorted((u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats'))
+allTags = sorted((u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats'
+))
 
 #--GLOB record tweaks used by bosh's GmstTweaker
 #  Each entry is a tuple in the following format:
@@ -1719,7 +1720,8 @@ patchers = (
 # For ListsMerger
 listTypes = ('LVLI','LVLN','LVSP',)
 
-namesTypes = set(('ACTI', 'AMMO', 'ARMO', 'APPA', 'MISC',))
+namesTypes = set(('ACTI', 'AMMO', 'ARMO', 'APPA', 'MISC',
+))
 pricesTypes = {'AMMO':{},'ARMO':{},'APPA':{},'MISC':{}}
 statsTypes = {
             'AMMO':('eid', 'value', 'damage'),
@@ -7971,7 +7973,8 @@ mergeClasses = (
         MreLvsp, MreMisc,
     )
 
-#--Extra read/write classes
+#--Extra read classes: these record types will always be loaded, even if patchers
+#  don't need them directly (for example, for MGEF info)
 readClasses = ()
 writeClasses = ()
 

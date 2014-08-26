@@ -4961,6 +4961,19 @@ class MreLscr(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 
+#------------------------------------------------------------------------------
+# These Are normally not mergable but added to brec.MreRecord.type_class
+#
+#       MreCell,
+#------------------------------------------------------------------------------
+# These have undefined FormIDs Do not merge them
+#
+#       MreNavi, MreNavm,
+#------------------------------------------------------------------------------
+# These need syntax revision but can be merged once that is corrected
+#
+#       MreAchr, MreDial, MreLctn, MreInfo, MreFact, MrePerk,
+#------------------------------------------------------------------------------
 #--Mergeable record types
 mergeClasses = (
     MreActi, MreAlch, MreAmmo, MreAnio, MreAppa, MreArmo, MreBook, MreBsgn, MreClas,
@@ -4999,5 +5012,6 @@ def init():
         MreMusc, MrePwat, MreAspc, MreHdpt, MreDobj, MreIdlm, MreArma, MreTact, MreNavm
     ))
     
+    #--Simple records
     MreRecord.simpleTypes = (set(MreRecord.type_class) -
         set(('TES4','ACHR','ACRE','REFR','CELL','PGRD','ROAD','LAND','WRLD','INFO','DIAL','PGRE','NAVM')))

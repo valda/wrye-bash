@@ -92,7 +92,7 @@ msgstr ""
 
 #: bash\balt.py:384
 msgid "Choose a directory."
-msgstr ""
+msgstr "ディレクトリを選択"
 
 #: bash\balt.py:396 bash\balt.py:441 bash\balt.py:646 bash\balt.py:658
 msgid "Warning"
@@ -100,15 +100,15 @@ msgstr "警告"
 
 #: bash\balt.py:409 bash\balt.py:419 bash\basher.py:3452
 msgid "Don't show this in the future."
-msgstr ""
+msgstr "今後、この画面を表示させない"
 
 #: bash\balt.py:458
 msgid "Don't show this for the rest of operation."
-msgstr ""
+msgstr "この作業の間はこの画面を表示させない"
 
 #: bash\balt.py:468
 msgid "Don't show this for rest of operation."
-msgstr ""
+msgstr "この作業の間はこの画面を表示させない"
 
 #: bash\balt.py:654
 msgid "Error"
@@ -124,15 +124,15 @@ msgstr "(上記+%d個のプラグイン)"
 
 #: bash\balt.py:846
 msgid "Invalid sound file %s."
-msgstr ""
+msgstr "サウンドファイルが不適切です: %s"
 
 #: bash\balt.py:943
 msgid "Are you sure you want to permanently delete these %(count)d items?"
-msgstr ""
+msgstr "これら%(count)個のアイテムを本当に削除してもよろしいですか？"
 
 #: bash\balt.py:945
 msgid "Delete Multiple Items"
-msgstr ""
+msgstr "複数アイテムの削除"
 
 #: bash\balt.py:1148
 msgid "Action"
@@ -166,12 +166,12 @@ msgstr "キャンセル"
 
 #: bash\balt.py:1224
 msgid "Rename to:"
-msgstr ""
+msgstr "リネームするファイル名を決めてください:"
 
 #: bash\balt.py:1228 bash\basher.py:13563 bash\basher.py:15479
 #: bash\basher.py:15502
 msgid "Name must be unique."
-msgstr ""
+msgstr "ユニークなファイル名をつけてください"
 
 #: bash\balt.py:1441
 msgid "Progress"
@@ -179,7 +179,7 @@ msgstr "進行"
 
 #: bash\balt.py:2038 bash\basher.py:13113
 msgid "Delete these items? This operation cannot be undone."
-msgstr ""
+msgstr "これらのアイテムを削除しますか？この操作は元に戻すことはできません。"
 
 #: bash\balt.py:2040 bash\basher.py:993
 msgid "Delete Items"
@@ -192,7 +192,7 @@ msgstr "%sを開く"
 #: bash\balt.py:2170 bash\balt.py:2202 bash\basher.py:8203 bash\basher.py:8686
 #: bash\basher.py:9935 bash\basher.py:11202
 msgid "Open..."
-msgstr ""
+msgstr "開く..."
 
 #: bash\balt.py:2185 bash\basher.py:8313 bash\basher.py:11231
 #: bash\basher.py:11234 bash\basher.py:16663
@@ -201,15 +201,15 @@ msgstr "削除"
 
 #: bash\balt.py:2201
 msgid "Open selected files."
-msgstr ""
+msgstr "選択したファイルを開く"
 
 #: bash\balt.py:2219 bash\basher.py:8341 bash\basher.py:9625
 msgid "Duplicate..."
-msgstr ""
+msgstr "複製"
 
 #: bash\balt.py:2228 bash\basher.py:8384
 msgid "Duplicate as:"
-msgstr ""
+msgstr "名前をつけて複製:"
 
 #: bash\balt.py:2232 bash\basher.py:8388
 msgid "Files cannot be duplicated to themselves!"
@@ -221,7 +221,7 @@ msgstr ""
 
 #: bash\barb.py:215
 msgid "Backup Bash Settings"
-msgstr ""
+msgstr "Wrye Bash設定のバックアップ"
 
 #: bash\barb.py:226 bash\basher.py:11614
 msgid "Do you want to backup your Bash settings now?"
@@ -233,59 +233,59 @@ msgstr "Wrye Bash設定をバックアップしますか？"
 
 #: bash\barb.py:233
 msgid "A different version of Wrye Bash was previously installed."
-msgstr ""
+msgstr "異なるバージョンのWrye Bashが以前インストールされていたようです。"
 
 #: bash\barb.py:234
 msgid "Previous Version: "
-msgstr ""
+msgstr "以前のバージョン: "
 
 #: bash\barb.py:235
 msgid "Current Version: "
-msgstr ""
+msgstr "現在のバージョン: "
 
 #: bash\barb.py:236
 msgid "Do you want to create a backup of your Bash settings before they are overwritten?"
-msgstr ""
+msgstr "Wrye Bashの設定が上書きされる前に、以前の設定をバックアップしますか？"
 
 #: bash\barb.py:241
 msgid "You did not create a backup of the Bash settings."
-msgstr ""
+msgstr "あなたはWrye Bashの設定をバックアップしませんでした。"
 
 #: bash\barb.py:242 bash\barb.py:250
 msgid "If you continue, your current settings may be overwritten."
-msgstr ""
+msgstr "続行すると現在の設定が上書きされる可能性があります。"
 
 #: bash\barb.py:243 bash\barb.py:251
 msgid "Do you want to quit Wrye Bash now?"
-msgstr ""
+msgstr "今Wrye Bashを終了しますか？"
 
 #: bash\barb.py:244
 msgid "No backup created!"
-msgstr ""
+msgstr "バックアップは未作成です！"
 
 #: bash\barb.py:249 bash\barb.py:256
 msgid "There was an error while trying to backup the Bash settings!"
-msgstr ""
+msgstr "Wrye Bash設定のバックアップ中にエラーが発生しました。"
 
 #: bash\barb.py:252 bash\barb.py:258
 msgid "Unable to create backup!"
-msgstr ""
+msgstr "バックアップを作成することができません！"
 
 #: bash\barb.py:257
 msgid "No backup was created."
-msgstr ""
+msgstr "バックアップは作成されませんでした。"
 
 #: bash\barb.py:263
 msgid "Your Bash settings have been backed up successfully."
-msgstr ""
+msgstr "あなたのWrye Bash設定は正常にバックアップされました。"
 
 #: bash\barb.py:264 bash\barb.py:407
 msgid "Backup Path: "
-msgstr ""
+msgstr "バックアップ先: "
 
 #: bash\barb.py:265
 msgid "Backup File Created"
-msgstr ""
+msgstr "バックアップ完了"
 
 #: bash\barb.py:295
 msgid "RESTORE BASH SETTINGS: "
@@ -293,75 +293,75 @@ msgstr ""
 
 #: bash\barb.py:361
 msgid "Restore Bash Settings"
-msgstr ""
+msgstr "Wrye Bash設定を復元"
 
 #: bash\barb.py:371
 msgid "Do you want to restore your Bash settings from a backup?"
-msgstr ""
+msgstr "Wrye Bash設定をバックアップから復元しますか？"
 
 #: bash\barb.py:372
 msgid "This will force a restart of Wrye Bash once your settings are restored."
-msgstr ""
+msgstr "設定の復元後、Wrye Bashは強制的に再起動します。"
 
 #: bash\barb.py:373
 msgid "Restore Bash Settings?"
-msgstr ""
+msgstr "設定を復元しますか？"
 
 #: bash\barb.py:378
 msgid "The version of Bash used to create the selected backup file does not match the current Bash version!"
-msgstr ""
+msgstr "選択したバックアップの作成時に使用したWrye Bashのバージョンは、現在のバージョンと一致しません！"
 
 #: bash\barb.py:379
 msgid "Backup v%s does not match v%s"
-msgstr ""
+msgstr "バックアップのバージョン%sは%sと一致しません"
 
 #: bash\barb.py:381
 msgid "Do you want to restore this backup anyway?"
-msgstr ""
+msgstr "無視してバックアップを復元しますか？"
 
 #: bash\barb.py:382
 msgid "Warning: Version Mismatch!"
-msgstr ""
+msgstr "警告: バージョン不一致"
 
 #: bash\barb.py:388
 msgid "The data format of the selected backup file is newer than the current Bash version!"
-msgstr ""
+msgstr "選択したバックアップファイルのデータ形式は、現在のWrye Bashのバージョンよりも新しいです！"
 
 #: bash\barb.py:389
 msgid "Backup v%s is not compatible with v%s"
-msgstr ""
+msgstr "バックアップのバージョン%sは%sと互換性がありません"
 
 #: bash\barb.py:391
 msgid "You cannot use this backup with this version of Bash."
-msgstr ""
+msgstr "このバージョンのバックアップを使用することはできません。"
 
 #: bash\barb.py:392
 msgid "Error: Version Conflict!"
-msgstr ""
+msgstr "エラー: バージョン不適合"
 
 #: bash\barb.py:399
 msgid "There was an error while trying to restore your settings from the backup file!"
-msgstr ""
+msgstr "バックアップから設定を復元しようとしたときにエラーが発生しました！"
 
 #: bash\barb.py:400
 msgid "No settings were restored."
-msgstr ""
+msgstr "設定は復元されませんでした。"
 
 #: bash\barb.py:401
 msgid "Unable to restore backup!"
-msgstr ""
+msgstr "バックアップを復元することができません！"
 
 #: bash\barb.py:406
 msgid "Your Bash settings have been successfully restored."
-msgstr ""
+msgstr "Wrye Bash設定は正常に復元されました。"
 
 #: bash\barb.py:409
 msgid "Before the settings can take effect, Wrye Bash must restart."
-msgstr ""
+msgstr "設定を有効にする前に、Wrye Bashを再起動する必要があります。"
 
 #: bash\barb.py:410
 msgid "Click OK to restart now."
-msgstr ""
+msgstr "今すぐ再起動するには、OKをクリックします。"
 
 #: bash\barb.py:411
 msgid "Bash Settings Restored"
@@ -370,13 +370,13 @@ msgstr ""
 #: bash\barb.py:425 bash\barb.py:443 bash\bosh.py:7412 bash\bosh.py:7429
 #: bash\bosh.py:7921 bash\bosh.py:7935
 msgid "Compressing files..."
-msgstr ""
+msgstr "ファイルを圧縮中..."
 
 #: bash\barb.py:470 bash\barb.py:495 bash\bosh.py:7176 bash\bosh.py:7207
 #: bash\bosh.py:7464 bash\bosh.py:7485 bash\bosh.py:7616 bash\bosh.py:7640
 #: bash\bosh.py:7709
 msgid "Extracting files..."
-msgstr ""
+msgstr "ファイルを抽出中..."
 
 #: bash\barb.py:507 bash\basher.py:18964 bash\bosh.py:24641
 msgid "Compiled"
@@ -384,7 +384,7 @@ msgstr ""
 
 #: bash\bash.py:132
 msgid "Only one instance of Wrye Bash can run."
-msgstr ""
+msgstr "Wrye Bashは1つだけ実行することができます。"
 
 #: bash\bash.py:146
 msgid "Wrye Bash"
@@ -396,19 +396,19 @@ msgstr ""
 
 #: bash\bash.py:324
 msgid "Wrye Bash could not find a game to manage. Please use -o command line argument to specify the game path"
-msgstr ""
+msgstr "Wrye Bashは管理するゲームを見つけることができませんでした。ゲームのパスを指定するには -o コマンドライン引数を使用してください"
 
 #: bash\bash.py:328 bash\bish.py:97
 msgid "Wrye Bash could not determine which game to manage.  The following games have been detected, please select one to manage."
-msgstr ""
+msgstr "Wrye Bashは管理するゲームを判別することができませんでした。以下のゲームが検出されましたので、管理する対象を選択してください。"
 
 #: bash\bash.py:333 bash\bish.py:99
 msgid "To prevent this message in the future, use the -g command line argument to specify the game"
-msgstr ""
+msgstr "今後このメッセージを表示しない為に、明示的にゲームを指定するには -g コマンドライン引数を使用してください"
 
 #: bash\bash.py:362 bash\bash.py:403 bash\bash.py:524
 msgid "Quit"
-msgstr ""
+msgstr "終了"
 
 #: bash\bash.py:462
 msgid "generating HTML file from: '%s'"
@@ -420,87 +420,87 @@ msgstr ""
 
 #: bash\bash.py:503
 msgid "Error! Unable to start Wrye Bash."
-msgstr ""
+msgstr "エラー！Wrye Bashを開始することができません。"
 
 #: bash\bash.py:505
 msgid "Please ensure Wrye Bash is correctly installed."
-msgstr ""
+msgstr "Wrye Bashが正しくインストールされているか確認してください。"
 
 #: bash\bash.py:546
 msgid "QUIT"
-msgstr ""
+msgstr "終了"
 
 #: bash\bash.py:610
 msgid "Warning: You are using a python version prior to 2.6 and there may be some instances that failures will occur.  Updating to Python 2.7x is recommended but not imperative.  Do you still want to run Wrye Bash right now?"
-msgstr ""
+msgstr "警告: バージョン2.6以前のPythonを使用すると問題が発生するかもしれません。必須ではありませんがPython 2.7xへのアップデートをお勧めします。このままWrye Bashを実行しますか？"
 
 #: bash\bash.py:615 bash\bash.py:623
 msgid "Warning OLD Python version detected"
-msgstr ""
+msgstr "古いバージョンのPythonを検出"
 
 #: bash\bash.py:617
 msgid "Warning: You are using a Python version prior to 2.5x which is totally out of date and ancient and Bash will likely not like it and may totally refuse to work.  Please update to a more recent version of Python(2.7x is preferred).  Do you still want to run Wrye Bash?"
-msgstr ""
+msgstr "警告: バージョン2.5x以前の古いバージョンのPythonを使用しています。これは完全に時代遅れで、Wrye Bashは動作を完全に停止することがあります。 より新しいバージョン（2.7xが好ましい）のPythonにアップデートしてください。このままWrye Bashを実行しますか？"
 
 #: bash\bash.py:641
 msgid "Wrye Bash needs Administrator Privileges to make changes to the %(gameName)s directory.  If you do not start Wrye Bash with elevated privileges, you will be prompted at each operation that requires elevated privileges."
-msgstr ""
+msgstr "Wrye Bashが%(gameName)のディレクトリを変更するには、管理者権限を必要とします。あなたが管理者権限でWrye Bashを起動しなかった場合は、昇格した権限を必要とする各操作時にプロンプトが表示されます。"
 
 #: bash\bash.py:647
 msgid "UAC Protection"
-msgstr ""
+msgstr "UAC保護"
 
 #: bash\bash.py:649
 msgid "Run with Administrator Privileges"
-msgstr ""
+msgstr "管理者権限で実行"
 
 #: bash\bash.py:664
 msgid "Run normally"
-msgstr ""
+msgstr "通常実行"
 
 #: bash\bash.py:667
 msgid "How to avoid this message in the future"
-msgstr ""
+msgstr "今後このメッセージが表示されないようにするには"
 
 #: bash\bash.py:668
 msgid "Less information"
-msgstr ""
+msgstr "ちょっとした情報"
 
 #: bash\bash.py:669
 msgid "Use one of the following command line switches:"
-msgstr ""
+msgstr "次のコマンドラインスイッチの1つを使用してください"
 
 #: bash\bash.py:671
 msgid "--no-uac: always run normally"
-msgstr ""
+msgstr "--no-uac: 常に通常実行"
 
 #: bash\bash.py:673
 msgid "--uac: always run with Admin Privileges"
-msgstr ""
+msgstr "--uac: 常に管理者権限で実行"
 
 #: bash\bash.py:674
 msgid "See the <A href=\"%(readmePath)s\">readme</A> for more information."
-msgstr ""
+msgstr "詳細については、 <A href=\"%(readmePath)s\">readme</A>を参照してください。"
 
 #: bash\bash.py:680
 msgid "Start Wrye Bash with Administrator Privileges?"
-msgstr ""
+msgstr "管理者権限でWrye Bashを開始しますか？"
 
 #: bash\basher.py:97
 msgid "Error initializing installer wizards:"
-msgstr ""
+msgstr "インストーラウィザード初期化エラー:"
 
 #: bash\basher.py:105
 msgid "Comtypes is missing, features utilizing HTML will be disabled"
-msgstr ""
+msgstr "Comtypesが不足している為、HTMLを利用した機能は無効になります。"
 
 #: bash\basher.py:138
 msgid "Default Text"
-msgstr ""
+msgstr "デフォルトテキスト"
 
 #: bash\basher.py:139
 msgid "This is the text color used for list items when no other is specified.  For example, an ESP that is not mergeable or ghosted, and has no other problems."
-msgstr ""
+msgstr "これは他に指定がない時にリスト項目に使用するテキストの色です。例えばESPがマージ可能、またはゴースト化されておらず、他の問題を有していない場合。"
 
 #: bash\basher.py:141
 msgid "Default Background"
@@ -508,7 +508,7 @@ msgstr ""
 
 #: bash\basher.py:142
 msgid "This is the text background color used for list items when no other is specified.  For example, an ESM that is not ghosted."
-msgstr ""
+msgstr "これは他に指定がない場合にリスト項目に使用するテキストの背景色です。例えばESMがゴースト化されていない等。"
 
 #: bash\basher.py:144
 msgid "ESM"
@@ -520,11 +520,11 @@ msgstr ""
 
 #: bash\basher.py:147
 msgid "This is the text color used for ESMs in the Mods Tab, and in the Masters info on both the Mods Tab and Saves Tab."
-msgstr ""
+msgstr "これはModsタブ内のESMと、ModsタブとSavesタブ両方のマスタ情報に使用するテキストの色です。"
 
 #: bash\basher.py:149
 msgid "Mergeable Plugin"
-msgstr ""
+msgstr "マージ可能プラグイン"
 
 #: bash\basher.py:150 bash\basher.py:155 bash\basher.py:160 bash\basher.py:165
 #: bash\basher.py:170 bash\basher.py:175 bash\basher.py:188 bash\basher.py:193
@@ -533,51 +533,51 @@ msgstr ""
 
 #: bash\basher.py:152
 msgid "This is the text color used for mergeable plugins."
-msgstr ""
+msgstr "これはマージ可能なプラグインに使用するテキスト色です。"
 
 #: bash\basher.py:154
-msgid "'NoMerge' Plugin"
+msgid "'NoMerge'プラグイン"
 msgstr ""
 
 #: bash\basher.py:157
 msgid "This is the text color used for a mergeable plugin that is tagged 'NoMerge'."
-msgstr ""
+msgstr "これは'NoMerge'タグが付けられているマージ可能なプラグインに使用するテキスト色です。"
 
 #: bash\basher.py:159
 msgid "Inactive Time Conflict"
-msgstr ""
+msgstr "非アクティブ時のタイムスタンプ競合"
 
 #: bash\basher.py:162
 msgid "This is the background color used for a plugin with an inactive time conflict.  This means that two or more plugins have the same timestamp, but only one (or none) of them is active."
-msgstr ""
+msgstr "これはプラグインが非アクティブな時にタイムスタンプが競合している場合の背景色です。これは、二つ以上のプラグインが同じタイムスタンプである事を意味するが、それらの一つのみ（或いは無し）がアクティブになっている。"
 
 #: bash\basher.py:164
 msgid "Active Time Conflict"
-msgstr ""
+msgstr "アクティブ時のタイムスタンプ競合"
 
 #: bash\basher.py:167
 msgid "This is the background color used for a plugin with an active time conflict.  This means that two or more plugins with the same timestamp are active."
-msgstr ""
+msgstr "これはプラグインがアクティブな時にタイムスタンプが競合している場合の背景色です。これは、同じタイムスタンプを持つ二つ以上のプラグインがアクティブであることを意味する。"
 
 #: bash\basher.py:169
 msgid "'Deactivate' Plugin"
-msgstr ""
+msgstr "'Deactivate'プラグイン"
 
 #: bash\basher.py:172
 msgid "This is the background color used for an active plugin that is tagged 'Deactivate'."
-msgstr ""
+msgstr "これは'Deactivate'タグが付けられているアクティブなプラグインに使用する背景色です。"
 
 #: bash\basher.py:174
 msgid "Exclusion Group Overloaded"
-msgstr ""
+msgstr "過剰ロードされた排他グループ"
 
 #: bash\basher.py:177
 msgid "This is the background color used for an active plugin in an overloaded Exclusion Group.  This means that two or more plugins in an Exclusion Group are active, where an Exclusion Group is any group of mods that start with the same name, followed by a comma."
-msgstr ""
+msgstr "これは、過剰にロードされた排他グループ内のアクティブなプラグインに使用する背景色です。排他グループとは同じ名前とコンマで始まるファイル名を持ったMODの任意のグループであるが、これはグループ内の２つ以上のプラグインがアクティブであることを意味する。"
 
 #: bash\basher.py:179
 msgid "An example exclusion group:"
-msgstr ""
+msgstr "排他グループの例:"
 
 #: bash\basher.py:181
 msgid "Bashed Patch, 0.esp"
@@ -589,15 +589,15 @@ msgstr ""
 
 #: bash\basher.py:185
 msgid "Both of the above plugins belong to the \"Bashed Patch,\" Exclusion Group."
-msgstr ""
+msgstr "上記のプラグインの両方が \"Bashed Patch,\" 排他グループに属している。"
 
 #: bash\basher.py:187
 msgid "Ghosted Plugin"
-msgstr ""
+msgstr "ゴースト化プラグイン"
 
 #: bash\basher.py:190
 msgid "This is the background color used for a ghosted plugin."
-msgstr ""
+msgstr "これはゴースト化プラグインに使用する背景色です。"
 
 #: bash\basher.py:192
 msgid "Group Header"

@@ -534,7 +534,7 @@ ignoreDataDirs = set((
 #--Plugin format stuff
 class esp:
     #--Wrye Bash capabilities
-    canBash = False         # Can create Bashed Patches
+    canBash = True         # Can create Bashed Patches
     canCBash = False         # CBash can handle this game's records
     canEditHeader = True   # Can edit basic info in the TES4 record
     

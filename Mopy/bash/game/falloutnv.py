@@ -3490,6 +3490,8 @@ class MreSoun(MelRecord):
 class MreAspc(MelRecord):
     """Acoustic space record."""
     classType = 'ASPC'
+    isKeyedByEid = True # NULL fids are acceptible
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',

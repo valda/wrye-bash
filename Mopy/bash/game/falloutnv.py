@@ -40,11 +40,6 @@ null2 = null1*2
 null3 = null1*3
 null4 = null1*4
 
-# Mod Record Elements ----------------------------------------------------------
-#-------------------------------------------------------------------------------
-# Constants
-FID = 'FID' #--Used by MelStruct classes to indicate fid elements.
-
 #--Name of the game
 name = u'Fallout New Vegas'
 
@@ -371,6 +366,11 @@ ignoreDataDirs = set((
 #    ur'NVSE\Plugins\ComponentDLLs\CSE',
     ur'LSData'
     ))
+
+# Mod Record Elements ----------------------------------------------------------
+#-------------------------------------------------------------------------------
+# Constants
+FID = 'FID' #--Used by MelStruct classes to indicate fid elements.
 
 #--Plugin format stuff
 class esp:

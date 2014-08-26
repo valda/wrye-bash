@@ -5675,7 +5675,7 @@ class MreSlpd(MelRecord):
 	# Verified
 mergeClasses = (
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
-		MreLvli, MreLvln, MreMisc
+		MreLvli, MreLvln, MreMisc,
     )
   
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5707,7 +5707,7 @@ def init():
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
 		# Verified
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
-		MreLvli, MreLvln, MreMisc
+		MreLvli, MreLvln, MreMisc,
         MreHeader,
         ))
     #--Simple records

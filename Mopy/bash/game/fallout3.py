@@ -606,6 +606,9 @@ weaponTypes = (
     _('Mine'),
     )
  
+#--The pickle file for this game.  Holds encoded GMST IDs from the big list below
+pklfile = ur'bash\db\Fallout3_ids.pkl'
+
   
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -705,9 +708,6 @@ class RecordHeader(brec.BaseRecordHeader):
         else:
             return struct.pack('=4s5I',self.recType,self.size,self.flags1,self.fid,self.flags2,self.flags3)
 	
-#--The pickle file for this game.  Holds encoded GMST IDs from the big list below
-pklfile = ur'bash\db\Fallout3_ids.pkl'
-
 #--List of GMST's in the main plugin (Oblivion.esm) that have 0x00000000
 #  as the form id.  Any GMST as such needs it Editor Id listed here.
 gmstEids = ['fPlayerDeathReloadTime','iMapMarkerVisibleDistance','fVanityModeWheelMax','fChase3rdPersonZUnitsPerSecond',

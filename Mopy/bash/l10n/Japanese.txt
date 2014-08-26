@@ -536,8 +536,8 @@ msgid "This is the text color used for mergeable plugins."
 msgstr "これはマージ可能なプラグインに使用するテキスト色です。"
 
 #: bash\basher.py:154
-msgid "'NoMerge'プラグイン"
-msgstr ""
+msgid "'NoMerge' Plugin"
+msgstr "'NoMerge'プラグイン"
 
 #: bash\basher.py:157
 msgid "This is the text color used for a mergeable plugin that is tagged 'NoMerge'."

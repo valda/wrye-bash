@@ -3358,6 +3358,9 @@ class MreRegn(MelRecord):
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+# Marker for organization please don't remove ---------------------------------
+# GLOB ------------------------------------------------------------------------
+# Defined in brec.py as class MreGlob(MelRecord) ------------------------------
 #------------------------------------------------------------------------------
 class MreRoad(MelRecord):
     """Road structure. Part of large worldspaces."""
@@ -5698,7 +5701,7 @@ class MreSlpd(MelRecord):
 	
 	# Verified
 mergeClasses = (
-        MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj
+        MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob
     )
   
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5729,7 +5732,7 @@ def init():
 		
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
 		# Verified
-        MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj 
+        MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob 
         MreHeader,
         ))
     #--Simple records

@@ -5537,6 +5537,27 @@ class MreAppa(MelRecord):
 
 # Not used in FalloutNV needs to be removed
 #------------------------------------------------------------------------------
+class MreCobj(MelRecord):
+    """Constructible Object record (recipies)"""
+    classType = 'COBJ'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('OBND','=6h',
+                  'corner0X','corner0Y','corner0Z',
+                  'corner1X','corner1Y','corner1Z'),
+        MelString('FULL','full'),
+        MelModel(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
+        MelFid('SCRI','script'),
+        MelFid('YNAM','soundPickUp'),
+        MelFid('ZNAM','soundDrop'),
+        MelStruct('DATA','if','value','weight'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
 class MreChal(MelRecord):
     """Challenge record."""
     classType = 'CHAL'
@@ -5675,7 +5696,7 @@ class MreSlpd(MelRecord):
 	
 	# Verified
 mergeClasses = (
-        MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc
+        MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj
     )
   
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5706,7 +5727,7 @@ def init():
 		
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
 		# Verified
-        MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc 
+        MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj 
         MreHeader,
         ))
     #--Simple records

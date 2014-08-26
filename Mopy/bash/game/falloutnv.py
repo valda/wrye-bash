@@ -1369,17 +1369,6 @@ class MreActor(MelRecord):
         self.items = [x for x in self.items if x.item[0] in modSet]
 
 #------------------------------------------------------------------------------
-class MreAnio(MelRecord):
-    """Animation object record."""
-    classType = 'ANIO'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelModel(),
-        MelFid('DATA','animationId'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-#------------------------------------------------------------------------------
 class MreAppa(MelRecord):
     """Alchemical apparatus record."""
     classType = 'APPA'
@@ -1776,6 +1765,17 @@ class MreAmmo(MelRecord):
         MelString('ONAM','shortName'),
         MelString('QNAM','abbrev'),
         MelFids('RCIL','effects'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
+class MreAnio(MelRecord):
+    """Animation object record."""
+    classType = 'ANIO'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelModel(),
+        MelFid('DATA','animationId'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -5675,7 +5675,7 @@ class MreSlpd(MelRecord):
 	
 	# Verified
 mergeClasses = (
-        MreActi, MreAmmo,
+        MreActi, MreAmmo, MreAnio, 
     )
   
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5706,7 +5706,7 @@ def init():
 		
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
 		# Verified
-        MreActi, MreAmmo,
+        MreActi, MreAmmo, MreAnio, 
         MreHeader,
         ))
     #--Simple records

@@ -682,6 +682,23 @@ namesTypes = set(('ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK',
 		'WEAP', 'ACTI', 'TACT'
 		))
 pricesTypes = {}      
+statsTypes = {
+        'ALCH':('eid', 'weight', 'value'),
+        'AMMO':('eid', 'speed',  'value', 'clipRounds'),
+        'ARMO':('eid', 'weight', 'value', 'health', 'ar'),
+        'ARMA':('eid', 'weight', 'value', 'health', 'ar'),
+        'BOOK':('eid', 'weight', 'value'),
+        'INGR':('eid', 'weight', 'value'),
+        'KEYM':('eid', 'weight', 'value'),
+        'LIGH':('eid', 'weight', 'value', 'duration'),
+        'MISC':('eid', 'weight', 'value'),
+        'WEAP':('eid', 'weight', 'value', 'health', 'damage','clipsize',
+                'animationMultiplier','reach','ammoUse','minSpread','spread','sightFov','baseVatsToHitChance','projectileCount',
+                'minRange','maxRange','animationAttackMultiplier','fireRate','overrideActionPoint','rumbleLeftMotorStrength',
+                'rumbleRightMotorStrength','rumbleDuration','overrideDamageToWeaponMult','attackShotsPerSec',
+                'reloadTime','jamTime','aimArc','rambleWavelangth','limbDmgMult','sightUsage',
+                'semiAutomaticFireDelayMin','semiAutomaticFireDelayMax','criticalDamage','criticalMultiplier'),
+        }
 
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -784,23 +801,6 @@ class RecordHeader(brec.BaseRecordHeader):
 #--CBash patchers available when building a Bashed Patch
 CBash_patchers = (
 )
-statsTypes = {
-        'ALCH':('eid', 'weight', 'value'),
-        'AMMO':('eid', 'speed',  'value', 'clipRounds'),
-        'ARMO':('eid', 'weight', 'value', 'health', 'ar'),
-        'ARMA':('eid', 'weight', 'value', 'health', 'ar'),
-        'BOOK':('eid', 'weight', 'value'),
-        'INGR':('eid', 'weight', 'value'),
-        'KEYM':('eid', 'weight', 'value'),
-        'LIGH':('eid', 'weight', 'value', 'duration'),
-        'MISC':('eid', 'weight', 'value'),
-        'WEAP':('eid', 'weight', 'value', 'health', 'damage','clipsize',
-                'animationMultiplier','reach','ammoUse','minSpread','spread','sightFov','baseVatsToHitChance','projectileCount',
-                'minRange','maxRange','animationAttackMultiplier','fireRate','overrideActionPoint','rumbleLeftMotorStrength',
-                'rumbleRightMotorStrength','rumbleDuration','overrideDamageToWeaponMult','attackShotsPerSec',
-                'reloadTime','jamTime','aimArc','rambleWavelangth','limbDmgMult','sightUsage',
-                'semiAutomaticFireDelayMin','semiAutomaticFireDelayMax','criticalDamage','criticalMultiplier'),
-        }
 statsHeaders = (
         #--Alch
         ('ALCH',

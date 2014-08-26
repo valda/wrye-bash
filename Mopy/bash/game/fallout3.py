@@ -5020,7 +5020,7 @@ def init():
     ))
     
     #--Simple records
-    MreRecord.simpleTypes = (set(MreRecord.type_class) -
+    brec.MreRecord.simpleTypes = (set(brec.MreRecord.type_class) -
         set((
 		# 'TES4','ACHR','ACRE','REFR','CELL','PGRD','ROAD','LAND','WRLD','INFO','DIAL','PGRE','NAVM'
 		'TES4',

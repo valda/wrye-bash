@@ -718,10 +718,11 @@ patchers = (
 listTypes = ('LVLC','LVLI','LVLN')
 
 namesTypes = set((
-        # 'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR',
+        # 'ALCH', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR',
         # 'EYES', 'FACT', 'FLOfR', 'HAIR', 'INGR', 'KEYM', 'LIGH', 'MISC', 'NOTE', 'NPC_',
         # 'RACE', 'SPEL', 'TERM', 'WEAP', 'ACTI', 'TACT',
         # 'CMNY', 'CCRD', 'IMOD', 'REPU', 'RCPE', 'RCCT', 'CHIP', 'CSNO'
+		'AMMO', 
 		))
 pricesTypes = {}      
 statsTypes = {

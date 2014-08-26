@@ -595,6 +595,17 @@ fid2Conditions = set(entry[0] for entry in conditionFunctionData if entry[3] == 
 fid3Conditions = set(entry[0] for entry in conditionFunctionData if entry[4] == 2)
 fid4Conditions = set(entry[0] for entry in conditionFunctionData if entry[5] == 2)
     
+# Magic Info ------------------------------------------------------------------
+weaponTypes = (
+    _('Big gun'),
+    _('Energy'),
+    _('Small gun'),
+    _('Melee'),
+    _('Unarmed'),
+    _('Thrown'),
+    _('Mine'),
+    )
+ 
   
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -764,17 +775,6 @@ listTypes = ()
 #--CBash patchers available when building a Bashed Patch
 CBash_patchers = (
 )
-# Magic Info ------------------------------------------------------------------
-weaponTypes = (
-    _('Big gun'),
-    _('Energy'),
-    _('Small gun'),
-    _('Melee'),
-    _('Unarmed'),
-    _('Thrown'),
-    _('Mine'),
-    )
- 
 namesTypes = set((
         'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR',
         'EYES', 'FACT', 'FLOR', 'HAIR', 'INGR', 'KEYM', 'LIGH', 'MISC', 'NOTE', 'NPC_',

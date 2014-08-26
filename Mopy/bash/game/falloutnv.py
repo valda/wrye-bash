@@ -1766,6 +1766,70 @@ class MreAnio(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MreArmo(MelRecord):
+    """Armor record."""
+    classType = 'ARMO'
+    _flags = MelBipedFlags(0L,Flags.getNames())
+    _generalFlags = Flags(0L,Flags.getNames(
+        (5,'powerArmor'),
+        (6,'notPlayable'),
+        (7,'heavyArmor')
+    ))
+    _etype = Flags(0L,Flags.getNames(
+        'alcohol','bigGuns','bodyWear','chems','energyWeapons','food','handWear','headWear',
+        'meleeWeapons','mine','none','smallGuns','stimpack','thrownWeapons','unarmedWeapon'
+    ))
+
+    class MelArmoDnam(MelStruct):
+        """Handle older trucated DNAM for ARMO subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 12:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 4:
+                unpacked = ins.unpack('=HH',size,readId)
+            else:
+                raise "Unexpected size encountered for ARMO subrecord: %s" % size
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked, record.flags.getTrueAttrs()
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('OBND','=6h',
+                  'corner0X','corner0Y','corner0Z',
+                  'corner1X','corner1Y','corner1Z'),
+        MelString('FULL','full'),
+        MelFid('SCRI','script'),
+        MelFid('EITM','objectEffect'),
+        MelStruct('BMDT','=2I',(_flags,'bipedFlags',0L),(_generalFlags,'generalFlags',0L)),
+        MelModel('maleBody'),
+        MelModel('maleWorld',2),
+        MelString('ICON','maleIconPath'),
+        MelString('MICO','maleSmallIconPath'),
+        MelModel('femaleBody',3),
+        MelModel('femaleWorld',4),
+        MelString('ICO2','femaleIconPath'),
+        MelString('MIC2','femaleSmallIconPath'),
+        MelString('BMCT','ragdollConstraintTemplate'),
+        MelDestructible(),
+        MelFid('REPL','repairList'),
+        MelFid('BIPL','bipedModelList'),
+        MelStruct('ETYP','I',(_etype,'etype',0L)),
+        MelFid('YNAM','soundPickUp'),
+        MelFid('ZNAM','soundDrop'),
+        MelStruct('DATA','=IIf','value','health','weight'),
+        MelArmoDnam('DNAM','=HHfI','ar','flags','dt',('unknown',0L)), # AR is multiplied by 100.
+        MelStruct('BNAM','I',('overridesAnimationSound',0L)),
+        MelStructs('SNAM','IB3sI','animationSounds',(FID,'sound'),'chance',('unused','\xb7\xe7\x0b'),'type'),
+        MelFid('TNAM','animationSoundsTemplate'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
 class MreDoor(MelRecord):
     """Container record."""
     classType = 'DOOR'
@@ -4836,70 +4900,6 @@ class MreAcre(MelRecord): # Placed Creature
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
-class MreArmo(MelRecord):
-    """Armor record."""
-    classType = 'ARMO'
-    _flags = MelBipedFlags(0L,Flags.getNames())
-    _generalFlags = Flags(0L,Flags.getNames(
-        (5,'powerArmor'),
-        (6,'notPlayable'),
-        (7,'heavyArmor')
-    ))
-    _etype = Flags(0L,Flags.getNames(
-        'alcohol','bigGuns','bodyWear','chems','energyWeapons','food','handWear','headWear',
-        'meleeWeapons','mine','none','smallGuns','stimpack','thrownWeapons','unarmedWeapon'
-    ))
-    
-    class MelArmoDnam(MelStruct):
-        """Handle older trucated DNAM for ARMO subrecord."""
-        def loadData(self,record,ins,type,size,readId):
-            if size == 12:
-                MelStruct.loadData(self,record,ins,type,size,readId)
-                return
-            elif size == 4:
-                unpacked = ins.unpack('=HH',size,readId)
-            else:
-                raise "Unexpected size encountered for ARMO subrecord: %s" % size
-            unpacked += self.defaults[len(unpacked):]
-            setter = record.__setattr__
-            for attr,value,action in zip(self.attrs,unpacked,self.actions):
-                if callable(action): value = action(value)
-                setter(attr,value)
-            if self._debug: print unpacked, record.flags.getTrueAttrs()
-
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
-        MelString('FULL','full'),
-        MelFid('SCRI','script'),
-        MelFid('EITM','objectEffect'),
-        MelStruct('BMDT','=2I',(_flags,'bipedFlags',0L),(_generalFlags,'generalFlags',0L)),
-        MelModel('maleBody'),
-        MelModel('maleWorld',2),
-        MelString('ICON','maleLargeIconPath'),
-        MelString('MICO','maleSmallIconPath'),
-        MelModel('femaleBody',3),
-        MelModel('femaleWorld',4),
-        MelString('ICO2','femaleLargeIconPath'),
-        MelString('MIC2','femaleSmallIconPath'),
-        MelString('BMCT','ragdollConstraintTemplate'),
-        MelDestructible(),
-        MelFid('REPL','repairList'),
-        MelFid('BIPL','bipedModelList'),
-        MelStruct('ETYP','I',(_etype,'etype',0L)),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
-        MelStruct('DATA','=IIf','value','health','weight'),
-        MelArmoDnam('DNAM','=HHfI','ar','flags','dt',('unknown',0L)), # AR is multiplied by 100.
-        MelStruct('BNAM','I',('overridesAnimationSound',0L)),
-        MelStructs('SNAM','IB3sI','animationSounds',(FID,'sound'),'chance',('unused','\xb7\xe7\x0b'),'type'),
-        MelFid('TNAM','animationSoundsTemplate'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-#------------------------------------------------------------------------------
 class MreCont(MelRecord):
     """Container record."""
     classType = 'CONT'
@@ -5674,7 +5674,7 @@ class MreSlpd(MelRecord):
 	
 	# Verified
 mergeClasses = (
-        MreActi, MreAmmo, MreAnio, MreArma
+        MreActi, MreAmmo, MreAnio, MreArma, MreArmo
     )
   
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5705,7 +5705,7 @@ def init():
 		
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
 		# Verified
-        MreActi, MreAmmo, MreAnio, MreArma 
+        MreActi, MreAmmo, MreAnio, MreArma, MreArmo 
         MreHeader,
         ))
     #--Simple records

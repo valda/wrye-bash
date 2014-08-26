@@ -1369,20 +1369,6 @@ class MreActor(MelRecord):
         self.items = [x for x in self.items if x.item[0] in modSet]
 
 #------------------------------------------------------------------------------
-class MreAppa(MelRecord):
-    """Alchemical apparatus record."""
-    classType = 'APPA'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelString('FULL','full'),
-        MelModel(),
-        MelString('ICON','iconPath'),
-        MelFid('SCRI','script'),
-        MelStruct('DATA','=BIff',('apparatus',0),('value',25),('weight',1),('quality',10)),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-#------------------------------------------------------------------------------
 class MreBook(MelRecord):
     """BOOK record."""
     classType = 'BOOK'
@@ -5536,6 +5522,21 @@ class MreAloc(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+#------------------------------------------------------------------------------
+class MreAppa(MelRecord):
+    """Alchemical apparatus record."""
+    classType = 'APPA'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelString('FULL','full'),
+        MelModel(),
+        MelString('ICON','iconPath'),
+        MelFid('SCRI','script'),
+        MelStruct('DATA','=BIff',('apparatus',0),('value',25),('weight',1),('quality',10)),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Not used in FalloutNV needs to be removed
 #------------------------------------------------------------------------------
 class MreChal(MelRecord):
     """Challenge record."""

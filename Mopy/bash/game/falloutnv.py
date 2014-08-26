@@ -5660,9 +5660,8 @@ class MreSlpd(MelRecord):
 #       MreAchr, MreDial, MreLctn, MreInfo, MreFact, MrePerk,
 #------------------------------------------------------------------------------
 #--Mergeable record types
-mergeClasses = (
     # Old fallout records
-    # MreActi, MreAlch, MreAmmo, MreAnio, MreAppa, MreArmo, MreBook, MreBsgn, MreClas,
+    #  MreAlch, MreAmmo, MreAnio, MreAppa, MreArmo, MreBook, MreBsgn, MreClas,
     # MreClot, MreCont, MreCrea, MreDoor, MreEfsh, MreEnch, MreEyes, MreFact, MreFlor, MreFurn,
     # MreGlob, MreGras, MreHair, MreIngr, MreKeym, MreLigh, MreLscr, MreLvlc, MreLvli,
     # MreLvsp, MreMgef, MreMisc, MreNpc,  MrePack, MreQust, MreRace, MreScpt, MreSgst,
@@ -5675,6 +5674,8 @@ mergeClasses = (
     # MreAmef, MreCcrd, MreCmny, MreCdck, MreDehy, MreHung, MreSlpd,
 	
 	# Verified
+mergeClasses = (
+        MreActi,
     )
   
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5690,7 +5691,6 @@ def init():
     # called instead of 'reload'
     brec.ModReader.recHeader = RecordHeader
     
-    MreRecord.type_class = dict((x.classType,x) for x in (
 	    # Old Fallout
         # MreAchr, MreAcre, MreActi, MreAlch, MreAmmo, MreAnio, MreAppa, MreArmo, MreBook, MreBsgn,
         # MreCell, MreClas, MreClot, MreCont, MreCrea, MreDoor, MreEfsh, MreEnch, MreEyes, MreFact,
@@ -5704,7 +5704,9 @@ def init():
         # MreImod, MreRepu, MreRcpe, MreRcct, MreChip, MreCsno, MreLsct, MreMset, MreAloc, MreChal,
         # MreAmef, MreCcrd, MreCmny, MreCdck, MreDehy, MreHung, MreSlpd
 		
+    brec.MreRecord.type_class = dict((x.classType,x) for x in (
 		# Verified
+        MreActi,
         MreHeader,
         ))
     #--Simple records

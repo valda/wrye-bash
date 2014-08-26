@@ -1,9 +1,42 @@
 plugins:
+  - name: anchorage.esm
+    dirty:
+      - crc: 0xa4ba9d10
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 54
+        udr: 10
+  - name: thepitt.esm
+    dirty:
+      - crc: 0xb38b3e44
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 40
+        nav: 5
+  - name: StreetLights.esm
+    dirty:
+      - crc: 0xc5690e8e
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 18
   - name: BrokenSteel.esm
     tag:
       - Actors.ACBS
       - Actors.AIPackages
       - Relev
+    dirty:
+      - crc: 0x30011b79
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 275
+        udr: 34
+        nav: 12
+  - name: pointlookout.esm
+    dirty:
+      - crc: 0xd92704d8
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 21
+  - name: zeta.esm
+    dirty:
+      - crc: 0x1d017e23
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 15
   - name: Unofficial Fallout 3 Patch.esm
     tag:
       - C.Music
@@ -84,7 +117,7 @@ plugins:
       - Names
       - Scripts
       - Stats
-  - name: "[DC RANGER ARSENAL v3 MASTER].esm"
+  - name: "[DC RANGER ARSENAL v3] - DLC GEAR.esp"
     tag:
       - Deflst
   - name: CFWR.esm
@@ -174,6 +207,22 @@ plugins:
   - name: Abbreviated Effects.esm
     tag:
       - Names
+  - name: FireLightFix.esp
+    tag:
+      - C.Light
+    dirty:
+      - crc: 0x482c04b2
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 2
+        udr: 4
+  - name: FireLightFix_rus.esp
+    tag:
+      - C.Light
+    dirty:
+      - crc: 0xed54e353
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 2
+        udr: 4
   - name: DALCO Inventory Sorter - Fallout 3 & All DLCs.esp
     tag:
       - Names
@@ -208,9 +257,6 @@ plugins:
   - name: Error Correction.esp
     tag:
       - Scripts
-  - name: FireLightFix.esp
-    tag:
-      - C.Light
   - name: BlackWidowBurkeFix.esp
     tag:
       - Scripts
@@ -1384,11 +1430,6 @@ plugins:
   - name: Mart's Mutant Mod - Natural Selection.esp
     tag:
       - Relations
-  - name: Mart's Mutant Mod - Project Beauty (HD Addition).esp
-    tag:
-      - NoMerge
-      - NPC.Race
-      - NpcFaces
   - name: Mart's Mutant Mod - Project Beauty.esp
     tag:
       - NoMerge
@@ -1437,11 +1478,6 @@ plugins:
     tag:
       - Invent
       - Relations
-  - name: Mart's Mutant Mod - Project Beauty + FWE.esp
-    tag:
-      - NoMerge
-      - NPC.Race
-      - NpcFaces
   - name: Mart's Mutant Mod - Project Beauty (HD Addition).esp
     tag:
       - NoMerge
@@ -1631,9 +1667,6 @@ plugins:
   - name: SpiderAnts.esp
     tag:
       - Relev
-  - name: TenpennyGhoulsAtPeace.esp
-    tag:
-      - ScriptContents
   - name: Weapon Repair Kits.esp
     tag:
       - Relev
@@ -1706,6 +1739,11 @@ plugins:
   - name: DALCO Inventory Sorter - Max Level Workaround (HP-BS).esp
     tag:
       - Names
+  - name: Fellout-PointLookout.esp
+    dirty:
+      - crc: 0xf33277f6
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 1
   - name: FelloutWithLightingOverhual-1.0.esp
     tag:
       - C.Light
@@ -2042,3 +2080,64 @@ plugins:
     tag:
       - Graphics
       - Names
+  - name: 3EFhelmlessstealthsuit.esp
+    dirty:
+      - crc: 0xecf23f
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 9
+        udr: 1
+  - name: TenpennyGhoulsAtPeace.esp
+    tag:
+      - ScriptContents
+  - name: ArlingtonRestoration.esp
+    dirty:
+      - crc: 0x7644ffdb
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 11
+        udr: 481
+        nav: 7
+      - crc: 0xbb8568ed
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        nav: 7
+  - name: Binoculars.esp
+    dirty:
+      - crc: 0x5a50fe32
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 15
+        udr: 2
+  - name: Binoculars and Scopes.esp
+    dirty:
+      - crc: 0x30f58333
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 6
+        udr: 2
+  - name: FastTravelIndoors.esp
+    dirty:
+      - crc: 0x42953e9a
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 6
+  - name: Loki_HistoricSpeeches_v1.esp
+    dirty:
+      - crc: 0x21340b32
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 3
+  - name: People_Radio.esp
+    dirty:
+      - crc: 0x839a113b
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 3
+  - name: RadioTenpenny.esp
+    dirty:
+      - crc: 0xf7eca8bd
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 7
+  - name: RadioTenpennyTower.esp
+    dirty:
+      - crc: 0x813140d8
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 3
+  - name: X-1_Tales_of_Wonder!.esp
+    dirty:
+      - crc: 0xc8b56e69
+        util: "[FO3Edit](http://www.nexusmods.com/fallout3/mods/637)"
+        itm: 4

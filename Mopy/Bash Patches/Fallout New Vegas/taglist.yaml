@@ -1,33 +1,32 @@
 plugins:
   - name: DeadMoney.esm
-    tag:
-      - Deflst
     dirty:
       - crc: 0xd70f165b
-        util: "[FNVEdit](http://newvegas.nexusmods.com/mods/34703)"
+        util: "[FNVEdit](http://www.nexusmods.com/newvegas/mods/34703)"
         itm: 403
         udr: 51
   - name: HonestHearts.esm
     dirty:
       - crc: 0x2352b189
-        util: "[FNVEdit](http://newvegas.nexusmods.com/mods/34703)"
+        util: "[FNVEdit](http://www.nexusmods.com/newvegas/mods/34703)"
         itm: 121
         udr: 10
   - name: OldWorldBlues.esm
     dirty:
       - crc: 0x7f8f8225
-        util: "[FNVEdit](http://newvegas.nexusmods.com/mods/34703)"
+        util: "[FNVEdit](http://www.nexusmods.com/newvegas/mods/34703)"
         itm: 124
   - name: LonesomeRoad.esm
     dirty:
       - crc: 0x30073d50
-        util: "[FNVEdit](http://newvegas.nexusmods.com/mods/34703)"
+        util: "[FNVEdit](http://www.nexusmods.com/newvegas/mods/34703)"
         itm: 240
         udr: 6
   - name: GunRunnersArsenal.esm
     dirty:
       - crc: 0xaac938d
-        util: "[FNVEdit](http://newvegas.nexusmods.com/mods/34703)"
+        util: "[FNVEdit](http://www.nexusmods.com/newvegas/mods/34703)"
+        itm: 97
   - name: Afterschool Special.esm
     tag:
       - Invent
@@ -44,18 +43,24 @@ plugins:
     tag:
       - Actors.ACBS
       - Actors.AIData
+      - Actors.CombatStyle
+      - Actors.DeathItem
+      - Actors.Stats
+      - C.Light
+      - C.Owner
+      - C.Water
+      - Deflst
       - Delev
+      - Destructible
       - Eyes
       - Factions
       - Graphics
       - Hair
       - Invent
       - Names
-      - NpcFaces
       - Relev
       - Sounds
       - Stats
-      - Voice-F
   - name: Machienzo - NPC Cosmetic Fixes - Ver 1.55.esm
     tag:
       - Body-F
@@ -89,6 +94,11 @@ plugins:
       - R.Teeth
       - Voice-F
       - Voice-M
+  - name: FCOMaster.esm
+    tag:
+      - Actors.ACBS
+      - NPC.Race
+      - NpcFaces
   - name: NVCE Main.esm
     tag:
       - Actors.ACBS
@@ -115,11 +125,14 @@ plugins:
       - Names
   - name: ELECTRO-CITY - CompletedWorkorders.esm
     tag:
+      - Actors.ACBS
       - Actors.AIData
       - Actors.AIPackages
+      - Destructible
       - Invent
       - Names
       - NpcFaces
+      - Stats
   - name: Fiends, With Style.esm
     tag:
       - Delev
@@ -151,7 +164,16 @@ plugins:
     tag:
       - C.Climate
       - C.Light
+  - name: NVInteriors_ComboEdition.esm
+    tag:
+      - Graphics
   - name: Interior Lighting Overhaul - Core.esm
+    tag:
+      - C.Climate
+      - C.Light
+      - C.Owner
+      - Destructible
+  - name: Interior Lighting Overhaul - L38PS.esm
     tag:
       - C.Light
   - name: Project Nevada - Core.esm
@@ -159,13 +181,35 @@ plugins:
       - Invent
   - name: Project Nevada - Equipment.esm
     tag:
+      - Actors.ACBS
+      - Delev
+      - Graphics
+      - Invent
+      - Names
+      - Relev
+      - Scripts
+      - Stats
+  - name: Project Nevada - Rebalance.esp
+    tag:
       - Delev
       - Invent
       - Names
-  - name: Project Nevada - Rebalance.esp
+      - Stats
+  - name: Project Nevada - Cyberware.esp
     tag:
       - Invent
-      - Names
+  - name: Project Nevada - Rebalance Complete.esp
+    tag:
+      - Relev
+    dirty:
+      - crc: 0xe0e2c3c0
+        util: "[FNVEdit](http://www.nexusmods.com/newvegas/mods/34703)"
+        itm: 22
+  - name: Project Nevada - All DLC.esp
+    tag:
+      - Actors.DeathItem
+      - Invent
+      - Relev
   - name: Psiclones.esm
     tag:
       - Names
@@ -217,6 +261,38 @@ plugins:
   - name: NV GameStabilizerA8.esm
     tag:
       - NoMerge
+  - name: YUP - NPC Fixes (Base Game).esp
+    tag:
+      - Actors.ACBS
+      - Actors.AIData
+      - Actors.AIPackages
+      - Actors.CombatStyle
+      - Actors.DeathItem
+      - Actors.Stats
+      - Delev
+      - Factions
+      - Invent
+      - Names
+      - NPC.Class
+      - NPC.Race
+      - NpcFaces
+      - Scripts
+  - name: YUP - NPC Fixes (Base Game + All DLC).esp
+    tag:
+      - Actors.ACBS
+      - Actors.AIData
+      - Actors.AIPackages
+      - Actors.CombatStyle
+      - Actors.DeathItem
+      - Actors.Stats
+      - Delev
+      - Factions
+      - Invent
+      - Names
+      - NPC.Class
+      - NPC.Race
+      - NpcFaces
+      - Scripts
   - name: Mission Mojave - Ultimate Edition.esp
     tag:
       - Actors.AIPackages
@@ -981,6 +1057,35 @@ plugins:
     tag:
       - Actors.ACBS
       - NpcFaces
+  - name: FCO.esp
+    tag:
+      - Actors.ACBS
+      - NPC.Race
+      - NpcFaces
+  - name: FCO - Roberts Patch.esp
+    tag:
+      - Body-M
+    dirty:
+      - crc: 0xa03db8ae
+        util: "[FNVEdit](http://www.nexusmods.com/newvegas/mods/34703)"
+        itm: 1
+  - name: FCO - OWB.esp
+    tag:
+      - Actors.ACBS
+      - NPC.Race
+      - NpcFaces
+    dirty:
+      - crc: 0x15a3bcc8
+        util: "[FNVEdit](http://www.nexusmods.com/newvegas/mods/34703)"
+        itm: 18
+  - name: FCO - Willow.esp
+    tag:
+      - NPC.Race
+      - NpcFaces
+  - name: FCO - Willow (Cazy).esp
+    tag:
+      - NPC.Race
+      - NpcFaces
   - name: NVR- Lore version.esp
     tag:
       - Actors.ACBS
@@ -1360,6 +1465,14 @@ plugins:
   - name: NV GameStabilizerA9.esp
     tag:
       - NoMerge
+  - name: Vurt's WFO.esp
+    dirty:
+      - crc: 0x31b1b874
+        util: "[FNVEdit](http://www.nexusmods.com/newvegas/mods/34703)"
+        itm: 377
+      - crc: 0x71755f08
+        util: "[FNVEdit](http://www.nexusmods.com/newvegas/mods/34703)"
+        itm: 356
   - name: LUMENARIUM - Working Sunglasses ONLY.esp
     tag:
       - Names
@@ -1470,6 +1583,7 @@ plugins:
   - name: ILO - NVInteriors Project.esp
     tag:
       - C.Light
+      - C.Owner
   - name: ILO - NVInteriors Project - AWOP.esp
     tag:
       - C.Light
@@ -1479,9 +1593,6 @@ plugins:
   - name: ILO - A World of Pain.esp
     tag:
       - C.Light
-  - name: BIS - Project Nevada - Rebalance.esp
-    tag:
-      - Names
   - name: EwwGhoulyBody.esp
     tag:
       - Body-F
@@ -1521,3 +1632,56 @@ plugins:
       - Deflst
       - Names
       - Stats
+  - name: NewVegasBountiesII.esp
+    tag:
+      - Relations
+  - name: KFE - Refill Water Bottles.esp
+    tag:
+      - Scripts
+  - name: Project Nevada - Med-X Fix.esp
+    tag:
+      - Names
+  - name: rotfacetoriches.esp
+    tag:
+      - Factions
+  - name: Weapons.of.the.New.Millenia.Store.LITE.esp
+    tag:
+      - C.Light
+  - name: AnimatedFan.esp
+    tag:
+      - Destructible
+  - name: RagdollOverhaulULTIMATE.esp
+    tag:
+      - Actors.Skeleton
+    dirty:
+      - crc: 0x8ab4f125
+        util: "[FNVEdit](http://www.nexusmods.com/newvegas/mods/34703)"
+        itm: 15
+  - name: Tales from the Burning Sands.esm
+    tag:
+      - Factions
+      - Names
+      - Relev
+      - Scripts
+    dirty:
+      - crc: 0x35f7bae7
+        util: "[FNVEdit](http://www.nexusmods.com/newvegas/mods/34703)"
+        itm: 17
+  - name: avangraffscorned.esp
+    tag:
+      - Actors.AIPackages
+    dirty:
+      - crc: 0x26ab27d
+        util: "[FNVEdit](http://www.nexusmods.com/newvegas/mods/34703)"
+        itm: 1
+  - name: kochandbohr.esp
+    tag:
+      - Actors.ACBS
+      - Factions
+  - name: DeadMoneyFemaleTuxedo.esp
+    tag:
+      - Graphics
+  - name: Roberts_NewVegas.esp
+    tag:
+      - Body-M
+      - Graphics

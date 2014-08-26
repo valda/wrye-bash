@@ -724,7 +724,7 @@ namesTypes = set((
         # 'CMNY', 'CCRD', 'IMOD', 'REPU', 'RCPE', 'RCCT', 'CHIP', 'CSNO'
 		'AMMO', 
 		))
-pricesTypes = {}      
+pricesTypes = {'AMMO':{},}      
 statsTypes = {
         # 'ALCH':('eid', 'weight', 'value'),
         # 'AMMO':('eid', 'weight', 'value', 'speed', 'clipRounds','projPerShot'),

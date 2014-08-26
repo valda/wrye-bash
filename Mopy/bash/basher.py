@@ -11581,6 +11581,22 @@ class Mods_Tes5ViewExpert(BoolLink):
                                           )
 
 #------------------------------------------------------------------------------
+class Mods_Fo3ViewExpert(BoolLink):
+    """Toggle Fo3Edit expert mode (when launched via Bash)."""
+    def __init__(self): BoolLink.__init__(self,
+                                          _(u'Fo3Edit Expert'),
+                                          'fo3View.iKnowWhatImDoing',
+                                          )
+
+#------------------------------------------------------------------------------
+class Mods_FnvViewExpert(BoolLink):
+    """Toggle FnvEdit expert mode (when launched via Bash)."""
+    def __init__(self): BoolLink.__init__(self,
+                                          _(u'FnvEdit Expert'),
+                                          'fnvView.iKnowWhatImDoing',
+                                          )
+
+#------------------------------------------------------------------------------
 class Mods_BOSSDisableLockTimes(BoolLink):
     """Toggle Lock Load Order disabling when launching BOSS through Bash."""
     def __init__(self): BoolLink.__init__(self,
@@ -17180,6 +17196,10 @@ class App_Tes4View(App_Button):
             self.mainMenu.append(Mods_Tes5ViewExpert())
         elif( bush.game.fsName == 'Oblivion' or bush.game.fsName == 'Nehrim' ):
             self.mainMenu.append(Mods_Tes4ViewExpert())
+        elif( bush.game.name == 'Fallout 3' ):
+            self.mainMenu.append(Mods_Fo3ViewExpert())
+        elif( bush.game.name == 'Fallout New Vegas' ):
+            self.mainMenu.append(Mods_Fo3ViewExpert())
 
     def IsPresent(self):
         if self.exePath in bosh.undefinedPaths or not self.exePath.exists():
@@ -17894,6 +17914,18 @@ def InitStatusBar():
             imageList(u'tools/tes4edit%s.png'),
             _(u"Launch TES5Edit"),
             uid=u'TES5Edit'))
+    BashStatusBar.buttons.append( #Fo3Edit
+        App_Tes4View(
+            (bosh.tooldirs['Fo3EditPath'],u'-FO3 -edit'),
+            imageList(u'tools/tes4edit%s.png'),
+            _(u"Launch FO3Edit"),
+            uid=u'FO3Edit'))
+    BashStatusBar.buttons.append( #FnvEdit
+        App_Tes4View(
+            (bosh.tooldirs['FnvEditPath'],u'-FNV -edit'),
+            imageList(u'tools/tes4edit%s.png'),
+            _(u"Launch FNVEdit"),
+            uid=u'FNVEdit'))
     BashStatusBar.buttons.append( #TesVGecko
         App_Button( (bosh.tooldirs['Tes5GeckoPath']),
             imageList(u'tools/tesvgecko%s.png'),

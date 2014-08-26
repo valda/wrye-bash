@@ -137,8 +137,9 @@ dontSkipDirs = {
 }
 
 #--Folders BAIN should never CRC check in the Data directory
-SkipBAINRefresh = set((
-    # Use lowercase names
+SkipBAINRefresh = set ((
+    #Use lowercase names
+    u'fnvedit backups',
 ))
 
 #--Some stuff dealing with INI files

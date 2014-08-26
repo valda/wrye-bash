@@ -18676,7 +18676,7 @@ def InitModLinks():
                 # importMenu.links.append(SeparatorLink())
                 # importMenu.links.append(Mod_Face_Import())
                 # importMenu.links.append(Mod_Fids_Replace())
-            elif bush.game.name == u'Fallout 3':
+            elif bush.game.fsName == u'Fallout 3':
                 importMenu.links.append(Mod_FullNames_Import())
                 importMenu.links.append(Mod_Prices_Import())
                 importMenu.links.append(Mod_Stats_Import())

@@ -719,6 +719,78 @@ namesTypes = set((
         'RACE', 'SPEL', 'TERM', 'WEAP', 'ACTI', 'TACT',
         'CMNY', 'CCRD', 'IMOD', 'REPU', 'RCPE', 'RCCT', 'CHIP', 'CSNO'
 		))
+pricesTypes = {}      
+statsTypes = {
+        'ALCH':('eid', 'weight', 'value'),
+        'AMMO':('eid', 'weight', 'value', 'speed', 'clipRounds','projPerShot'),
+        'ARMO':('eid', 'weight', 'value', 'health', 'ar','dt'),
+        'ARMA':('eid', 'weight', 'value', 'health', 'ar','dt'),
+        'BOOK':('eid', 'weight', 'value'),
+        'INGR':('eid', 'weight', 'value'),
+        'KEYM':('eid', 'weight', 'value'),
+        'LIGH':('eid', 'weight', 'value', 'duration'),
+        'MISC':('eid', 'weight', 'value'),
+        'WEAP':('eid', 'weight', 'value', 'health', 'damage','clipsize',
+                'animationMultiplier','reach','ammoUse','minSpread','spread','sightFov','baseVatsToHitChance','projectileCount',
+                'minRange','maxRange','animationAttackMultiplier','fireRate','overrideActionPoint','rumbleLeftMotorStrength',
+                'rumbleRightMotorStrength','rumbleDuration','overrideDamageToWeaponMult','attackShotsPerSec',
+                'reloadTime','jamTime','aimArc','rambleWavelangth','limbDmgMult','sightUsage',
+                'semiAutomaticFireDelayMin','semiAutomaticFireDelayMax',
+                'strengthReq','regenRate','killImpulse','impulseDist','skillReq',
+                'criticalDamage','criticalMultiplier',
+                'vatsSkill','vatsDamMult','vatsAp'),
+        }
+statsHeaders = (
+        #--Alch
+        (u'ALCH',
+            (u'"' + '","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+        #Ammo
+        (u'AMMO',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Speed'),_(u'Clip Rounds'),_(u'Proj/Shot'))) + u'"\n')),
+        #--Armor
+        (u'ARMO',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Health'),_(u'AR'),_(u'DT'))) + u'"\n')),
+        #--Armor Addon
+        (u'ARMA',
+            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
+            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('AR'),_('DT'))) + '"\n')),
+        #Books
+        (u'BOOK',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+        #Ingredients
+        (u'INGR',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+        #--Keys
+        (u'KEYM',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+        #Lights
+        (u'LIGH',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Duration'))) + u'"\n')),
+        #--Misc
+        (u'MISC',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+        #--Weapons
+        (u'WEAP',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Health'),_(u'Damage'),_(u'Clip Size'),
+            _(u'Animation Multiplier'), _(u'Reach'), _(u'Ammo Use'), _(u'Min Spread'), _(u'Spread'), _(u'Sight Fov'), _(u'Base VATS To-Hit Chance'), _(u'Projectile Count'),
+            _(u'Min Range'), _(u'Max Range'), _(u'Animation Attack Multiplier'), _(u'Fire Rate'), _(u'Override - Action Point'), _(u'Rumble - Left Motor Strength'),
+            _(u'rRmble - Right Motor Strength'), _(u'Rumble - Duration'), _(u'Override - Damage To Weapon Mult'), _(u'Attack Shots/Sec'),
+            _(u'Reload Time'), _(u'Jam Time'), _(u'Aim Arc'), _(u'Ramble - Wavelangth'), _(u'Limb Dmg Mult'), _(u'Sight Usage'),
+            _(u'Semi-Automatic Fire Delay Min'), _(u'Semi-Automatic Fire Delay Max'),
+            _(u'Strength Req'), _(u'Regen Rate'), _(u'Kill Impulse'), _(u'Impulse Dist'), _(u'Skill Req'),
+                _(u'Critical Damage'), _(u'Crit % Mult'),
+                _(u'VATS Skill'), _(u'VATS Dam. Mult'), _(u'VATS AP'))) + u'"\n')),
+        )
+
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
 # Constants
@@ -823,78 +895,6 @@ class RecordHeader(brec.BaseRecordHeader):
 #--CBash patchers available when building a Bashed Patch
 CBash_patchers = (
 )
-
-pricesTypes = {}      
-statsTypes = {
-        'ALCH':('eid', 'weight', 'value'),
-        'AMMO':('eid', 'weight', 'value', 'speed', 'clipRounds','projPerShot'),
-        'ARMO':('eid', 'weight', 'value', 'health', 'ar','dt'),
-        'ARMA':('eid', 'weight', 'value', 'health', 'ar','dt'),
-        'BOOK':('eid', 'weight', 'value'),
-        'INGR':('eid', 'weight', 'value'),
-        'KEYM':('eid', 'weight', 'value'),
-        'LIGH':('eid', 'weight', 'value', 'duration'),
-        'MISC':('eid', 'weight', 'value'),
-        'WEAP':('eid', 'weight', 'value', 'health', 'damage','clipsize',
-                'animationMultiplier','reach','ammoUse','minSpread','spread','sightFov','baseVatsToHitChance','projectileCount',
-                'minRange','maxRange','animationAttackMultiplier','fireRate','overrideActionPoint','rumbleLeftMotorStrength',
-                'rumbleRightMotorStrength','rumbleDuration','overrideDamageToWeaponMult','attackShotsPerSec',
-                'reloadTime','jamTime','aimArc','rambleWavelangth','limbDmgMult','sightUsage',
-                'semiAutomaticFireDelayMin','semiAutomaticFireDelayMax',
-                'strengthReq','regenRate','killImpulse','impulseDist','skillReq',
-                'criticalDamage','criticalMultiplier',
-                'vatsSkill','vatsDamMult','vatsAp'),
-        }
-statsHeaders = (
-        #--Alch
-        (u'ALCH',
-            (u'"' + '","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
-            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
-        #Ammo
-        (u'AMMO',
-            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
-            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Speed'),_(u'Clip Rounds'),_(u'Proj/Shot'))) + u'"\n')),
-        #--Armor
-        (u'ARMO',
-            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
-            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Health'),_(u'AR'),_(u'DT'))) + u'"\n')),
-        #--Armor Addon
-        (u'ARMA',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('AR'),_('DT'))) + '"\n')),
-        #Books
-        (u'BOOK',
-            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
-            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
-        #Ingredients
-        (u'INGR',
-            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
-            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
-        #--Keys
-        (u'KEYM',
-            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
-            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
-        #Lights
-        (u'LIGH',
-            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
-            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Duration'))) + u'"\n')),
-        #--Misc
-        (u'MISC',
-            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
-            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
-        #--Weapons
-        (u'WEAP',
-            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
-            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Health'),_(u'Damage'),_(u'Clip Size'),
-            _(u'Animation Multiplier'), _(u'Reach'), _(u'Ammo Use'), _(u'Min Spread'), _(u'Spread'), _(u'Sight Fov'), _(u'Base VATS To-Hit Chance'), _(u'Projectile Count'),
-            _(u'Min Range'), _(u'Max Range'), _(u'Animation Attack Multiplier'), _(u'Fire Rate'), _(u'Override - Action Point'), _(u'Rumble - Left Motor Strength'),
-            _(u'rRmble - Right Motor Strength'), _(u'Rumble - Duration'), _(u'Override - Damage To Weapon Mult'), _(u'Attack Shots/Sec'),
-            _(u'Reload Time'), _(u'Jam Time'), _(u'Aim Arc'), _(u'Ramble - Wavelangth'), _(u'Limb Dmg Mult'), _(u'Sight Usage'),
-            _(u'Semi-Automatic Fire Delay Min'), _(u'Semi-Automatic Fire Delay Max'),
-            _(u'Strength Req'), _(u'Regen Rate'), _(u'Kill Impulse'), _(u'Impulse Dist'), _(u'Skill Req'),
-                _(u'Critical Damage'), _(u'Crit % Mult'),
-                _(u'VATS Skill'), _(u'VATS Dam. Mult'), _(u'VATS AP'))) + u'"\n')),
-        )
 
 # Race Info -------------------------------------------------------------------
 raceNames = {

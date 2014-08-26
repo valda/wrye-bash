@@ -8009,4 +8009,6 @@ def init():
 
     #--Simple records
     brec.MreRecord.simpleTypes = (set(brec.MreRecord.type_class) -
-        set(('TES4')))
+        set((
+		'TES4'
+		)))

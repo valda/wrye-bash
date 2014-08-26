@@ -496,19 +496,19 @@ msgstr "Comtypesが不足している為、HTMLを利用した機能は無効に
 
 #: bash\basher.py:138
 msgid "Default Text"
-msgstr "デフォルトテキスト"
+msgstr "デフォルトの文字色"
 
 #: bash\basher.py:139
 msgid "This is the text color used for list items when no other is specified.  For example, an ESP that is not mergeable or ghosted, and has no other problems."
-msgstr "これは他に指定がない時にリスト項目に使用するテキストの色です。例えばESPがマージ可能、またはゴースト化されておらず、他の問題を有していない場合。"
+msgstr "これは特別な指定を持たないリスト項目に使用される文字色です。例えばESPがマージ可能ではなく、ゴースト化もされておらず、また他の問題もなにも持っていない場合。"
 
 #: bash\basher.py:141
 msgid "Default Background"
-msgstr ""
+msgstr "デフォルトの背景色"
 
 #: bash\basher.py:142
 msgid "This is the text background color used for list items when no other is specified.  For example, an ESM that is not ghosted."
-msgstr "これは他に指定がない場合にリスト項目に使用するテキストの背景色です。例えばESMがゴースト化されていない等。"
+msgstr "これは他に特別な指定を持たないリスト項目に使用される背景色です。例えばゴースト化されていないESM等。"
 
 #: bash\basher.py:144
 msgid "ESM"
@@ -516,11 +516,11 @@ msgstr ""
 
 #: bash\basher.py:145
 msgid "Tabs: Mods, Saves"
-msgstr ""
+msgstr "タブ: MOD, セーブ"
 
 #: bash\basher.py:147
 msgid "This is the text color used for ESMs in the Mods Tab, and in the Masters info on both the Mods Tab and Saves Tab."
-msgstr "これはModsタブ内のESMと、ModsタブとSavesタブ両方のマスタ情報に使用するテキストの色です。"
+msgstr "これはMODタブ内のESMと、MODタブとセーブタブ両方のマスター情報に使用されるテキスト色です。"
 
 #: bash\basher.py:149
 msgid "Mergeable Plugin"
@@ -529,11 +529,11 @@ msgstr "マージ可能プラグイン"
 #: bash\basher.py:150 bash\basher.py:155 bash\basher.py:160 bash\basher.py:165
 #: bash\basher.py:170 bash\basher.py:175 bash\basher.py:188 bash\basher.py:193
 msgid "Tabs: Mods"
-msgstr ""
+msgstr "タブ: MOD"
 
 #: bash\basher.py:152
 msgid "This is the text color used for mergeable plugins."
-msgstr "これはマージ可能なプラグインに使用するテキスト色です。"
+msgstr "これはマージ可能プラグインの文字色です。"
 
 #: bash\basher.py:154
 msgid "'NoMerge' Plugin"
@@ -541,23 +541,23 @@ msgstr "'NoMerge'プラグイン"
 
 #: bash\basher.py:157
 msgid "This is the text color used for a mergeable plugin that is tagged 'NoMerge'."
-msgstr "これは'NoMerge'タグが付けられているマージ可能なプラグインに使用するテキスト色です。"
+msgstr "これは'NoMerge'タグが付けられたマージ可能プラグインの文字色です。"
 
 #: bash\basher.py:159
 msgid "Inactive Time Conflict"
-msgstr "非アクティブ時のタイムスタンプ競合"
+msgstr "非アクティブプラグインのタイムスタンプ競合"
 
 #: bash\basher.py:162
 msgid "This is the background color used for a plugin with an inactive time conflict.  This means that two or more plugins have the same timestamp, but only one (or none) of them is active."
-msgstr "これはプラグインが非アクティブな時にタイムスタンプが競合している場合の背景色です。これは、二つ以上のプラグインが同じタイムスタンプである事を意味するが、それらの一つのみ（或いは無し）がアクティブになっている。"
+msgstr "これは非アクティブなプラグインのタイムスタンプが競合している場合の背景色です。これは二つ以上のプラグインが同じタイムスタンプを持つ事を意味しますが、アクティブになっているプラグインがそれらの中の一つのみ（或いは無し）である事を意味します。"
 
 #: bash\basher.py:164
 msgid "Active Time Conflict"
-msgstr "アクティブ時のタイムスタンプ競合"
+msgstr "アクティブプラグインのタイムスタンプ競合"
 
 #: bash\basher.py:167
 msgid "This is the background color used for a plugin with an active time conflict.  This means that two or more plugins with the same timestamp are active."
-msgstr "これはプラグインがアクティブな時にタイムスタンプが競合している場合の背景色です。これは、同じタイムスタンプを持つ二つ以上のプラグインがアクティブであることを意味する。"
+msgstr "これはアクティブなプラグインのタイムスタンプが競合している場合の背景色です。これは同じタイムスタンプを持つ２つ以上のプラグインが同時にアクティブになっている事を意味します。"
 
 #: bash\basher.py:169
 msgid "'Deactivate' Plugin"
@@ -565,15 +565,15 @@ msgstr "'Deactivate'プラグイン"
 
 #: bash\basher.py:172
 msgid "This is the background color used for an active plugin that is tagged 'Deactivate'."
-msgstr "これは'Deactivate'タグが付けられているアクティブなプラグインに使用する背景色です。"
+msgstr "これは'Deactivate'タグが付けられているアクティブなプラグインの背景色です。"
 
 #: bash\basher.py:174
 msgid "Exclusion Group Overloaded"
-msgstr "過剰ロードされた排他グループ"
+msgstr "過剰にロードされた排他グループ"
 
 #: bash\basher.py:177
 msgid "This is the background color used for an active plugin in an overloaded Exclusion Group.  This means that two or more plugins in an Exclusion Group are active, where an Exclusion Group is any group of mods that start with the same name, followed by a comma."
-msgstr "これは、過剰にロードされた排他グループ内のアクティブなプラグインに使用する背景色です。排他グループとは同じ名前とコンマで始まるファイル名を持ったMODの任意のグループであるが、これはグループ内の２つ以上のプラグインがアクティブであることを意味する。"
+msgstr "これは、過剰にロードされた排他グループ内のアクティブなプラグインの背景色です。排他グループとは同じ名前とコンマから始まるファイル名を持ったMODの任意のグループですが、これはグループ内で２つ以上のプラグインが同時にアクティブになっている事を意味します。"
 
 #: bash\basher.py:179
 msgid "An example exclusion group:"
@@ -597,64 +597,64 @@ msgstr "ゴースト化プラグイン"
 
 #: bash\basher.py:190
 msgid "This is the background color used for a ghosted plugin."
-msgstr "これはゴースト化プラグインに使用する背景色です。"
+msgstr "これはゴースト化されたプラグインの背景色です。"
 
 #: bash\basher.py:192
 msgid "Group Header"
-msgstr ""
+msgstr "グループヘッダ"
 
 #: bash\basher.py:195
 msgid "This is the background color used for a Group marker."
-msgstr ""
+msgstr "これはグループマーカーの背景色です。"
 
 #: bash\basher.py:197
 msgid "Invalid INI Tweak"
-msgstr ""
+msgstr "無効なINI調整"
 
 #: bash\basher.py:198 bash\basher.py:203 bash\basher.py:208 bash\basher.py:213
 msgid "Tabs: INI Edits"
-msgstr ""
+msgstr "タブ: INI編集"
 
 #: bash\basher.py:200
 msgid "This is the background color used for a tweak file that is invalid for the currently selected target INI."
-msgstr ""
+msgstr "これは選択されているターゲットINIファイルで無効なINI調整ファイルの背景色です。"
 
 #: bash\basher.py:202
 msgid "Invalid Tweak Line"
-msgstr ""
+msgstr "無効な調整行"
 
 #: bash\basher.py:205
 msgid "This is the background color used for a line in a tweak file that is invalid for the currently selected target INI."
-msgstr ""
+msgstr "これは選択されているターゲットINIファイルで無効なINI調整ファイル内の行の背景色です。"
 
 #: bash\basher.py:207
 msgid "Mismatched Tweak Line"
-msgstr ""
+msgstr "一致しない調整行"
 
 #: bash\basher.py:210
 msgid "This is the background color used for a line in a tweak file that does not match what is set in the target INI."
-msgstr ""
+msgstr "これはターゲットINIファイルで設定されている値と一致しない調整ファイル内の行の背景色です。"
 
 #: bash\basher.py:212
 msgid "Matched Tweak Line"
-msgstr ""
+msgstr "一致した調整行"
 
 #: bash\basher.py:215
 msgid "This is the background color used for a line in a tweak file that matches what is set in the target INI."
-msgstr ""
+msgstr "これはターゲットINIファイルで設定されている値と一致した調整ファイル内の行の背景色です。"
 
 #: bash\basher.py:217
 msgid "Complex Installer"
-msgstr ""
+msgstr "複合インストーラ"
 
 #: bash\basher.py:218 bash\basher.py:223 bash\basher.py:228 bash\basher.py:233
 #: bash\basher.py:238
 msgid "Tabs: Installers"
-msgstr ""
+msgstr "タブ: インストーラ"
 
 #: bash\basher.py:220
 msgid "This is the text color used for a complex BAIN package."
-msgstr ""
+msgstr "これは複合BAINパッケージの文字色です。"
 
 #: bash\basher.py:222 bash\basher.py:4006
 msgid "Marker"
@@ -662,27 +662,27 @@ msgstr "マーカー"
 
 #: bash\basher.py:225
 msgid "This is the text color used for Markers."
-msgstr ""
+msgstr "これはマーカーの文字色です"
 
 #: bash\basher.py:227
 msgid "Skipped Files"
-msgstr ""
+msgstr "スキップされたファイル"
 
 #: bash\basher.py:230
 msgid "This is the background color used for a package with files that will not be installed by BAIN.  This means some files are selected to be installed, but due to your current Skip settings (for example, Skip DistantLOD), will not be installed."
-msgstr ""
+msgstr "これはBAINでインストールされないファイルを含むパッケージの背景色です。これは現在のスキップ設定（たとえば、DistantLODをスキップ）によって、いくつかのファイルがインストールされない事を意味します。"
 
 #: bash\basher.py:232
 msgid "Installer Out of Order"
-msgstr ""
+msgstr "優先度不適合なインストーラ"
 
 #: bash\basher.py:235
 msgid "This is the background color used for an installer with files installed, that should be overridden by a package with a higher install order.  It can be repaired with an Anneal or Anneal All."
-msgstr ""
+msgstr "これは、より高いインストール優先度のパッケージによって上書きする必要があるファイルを持ったインストーラの背景色です。これはファイルを保管もしくは全てのファイルを保管で修復することができます。"
 
 #: bash\basher.py:237
 msgid "Dirty Installer"
-msgstr ""
+msgstr "好ましくないインストーラ"
 
 #: bash\basher.py:240
 msgid "This is the background color used for an installer that is configured in a \"dirty\" manner.  This means changes have been made to its configuration, and an Anneal or Install needs to be performed to make the install match what is configured."

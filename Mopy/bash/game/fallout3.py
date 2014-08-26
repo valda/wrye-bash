@@ -30,6 +30,7 @@ from .. import brec
 from .. import bolt
 from .. import bush
 from ..brec import *
+from fallout3_const import bethDataFiles, allBethFiles
 from ..bolt import Flags, DataDict, StateError
 
 # Util Constants ---------------------------------------------------------------

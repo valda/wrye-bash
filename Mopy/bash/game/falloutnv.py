@@ -714,31 +714,31 @@ patchers = ( u'ListsMerger',
 listTypes = ('LVLC','LVLI','LVLN')
 
 namesTypes = set((
-        'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR',
-        'EYES', 'FACT', 'FLOR', 'HAIR', 'INGR', 'KEYM', 'LIGH', 'MISC', 'NOTE', 'NPC_',
-        'RACE', 'SPEL', 'TERM', 'WEAP', 'ACTI', 'TACT',
-        'CMNY', 'CCRD', 'IMOD', 'REPU', 'RCPE', 'RCCT', 'CHIP', 'CSNO'
+        # 'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR',
+        # 'EYES', 'FACT', 'FLOfR', 'HAIR', 'INGR', 'KEYM', 'LIGH', 'MISC', 'NOTE', 'NPC_',
+        # 'RACE', 'SPEL', 'TERM', 'WEAP', 'ACTI', 'TACT',
+        # 'CMNY', 'CCRD', 'IMOD', 'REPU', 'RCPE', 'RCCT', 'CHIP', 'CSNO'
 		))
 pricesTypes = {}      
 statsTypes = {
-        'ALCH':('eid', 'weight', 'value'),
-        'AMMO':('eid', 'weight', 'value', 'speed', 'clipRounds','projPerShot'),
-        'ARMO':('eid', 'weight', 'value', 'health', 'ar','dt'),
-        'ARMA':('eid', 'weight', 'value', 'health', 'ar','dt'),
-        'BOOK':('eid', 'weight', 'value'),
-        'INGR':('eid', 'weight', 'value'),
-        'KEYM':('eid', 'weight', 'value'),
-        'LIGH':('eid', 'weight', 'value', 'duration'),
-        'MISC':('eid', 'weight', 'value'),
-        'WEAP':('eid', 'weight', 'value', 'health', 'damage','clipsize',
-                'animationMultiplier','reach','ammoUse','minSpread','spread','sightFov','baseVatsToHitChance','projectileCount',
-                'minRange','maxRange','animationAttackMultiplier','fireRate','overrideActionPoint','rumbleLeftMotorStrength',
-                'rumbleRightMotorStrength','rumbleDuration','overrideDamageToWeaponMult','attackShotsPerSec',
-                'reloadTime','jamTime','aimArc','rambleWavelangth','limbDmgMult','sightUsage',
-                'semiAutomaticFireDelayMin','semiAutomaticFireDelayMax',
-                'strengthReq','regenRate','killImpulse','impulseDist','skillReq',
-                'criticalDamage','criticalMultiplier',
-                'vatsSkill','vatsDamMult','vatsAp'),
+        # 'ALCH':('eid', 'weight', 'value'),
+        # 'AMMO':('eid', 'weight', 'value', 'speed', 'clipRounds','projPerShot'),
+        # 'ARMO':('eid', 'weight', 'value', 'health', 'ar','dt'),
+        # 'ARMA':('eid', 'weight', 'value', 'health', 'ar','dt'),
+        # 'BOOK':('eid', 'weight', 'value'),
+        # 'INGR':('eid', 'weight', 'value'),
+        # 'KEYM':('eid', 'weight', 'value'),
+        # 'LIGH':('eid', 'weight', 'value', 'duration'),
+        # 'MISC':('eid', 'weight', 'value'),
+        # 'WEAP':('eid', 'weight', 'value', 'health', 'damage','clipsize',
+        #         'animationMultiplier','reach','ammoUse','minSpread','spread','sightFov','baseVatsToHitChance','projectileCount',
+        #         'minRange','maxRange','animationAttackMultiplier','fireRate','overrideActionPoint','rumbleLeftMotorStrength',
+        #         'rumbleRightMotorStrength','rumbleDuration','overrideDamageToWeaponMult','attackShotsPerSec',
+        #         'reloadTime','jamTime','aimArc','rambleWavelangth','limbDmgMult','sightUsage',
+        #         'semiAutomaticFireDelayMin','semiAutomaticFireDelayMax',
+        #         'strengthReq','regenRate','killImpulse','impulseDist','skillReq',
+        #         'criticalDamage','criticalMultiplier',
+        #         'vatsSkill','vatsDamMult','vatsAp'),
         }
 statsHeaders = (
         #--Alch
@@ -1558,6 +1558,28 @@ class MreClas(MelRecord):
         MelString('ICON','iconPath'),
         MelClasData('DATA','4I2IbB2s','tagSkill1','tagSkill2','tagSkill3','tagSkill4',(_flags,'flags',0L),(aiService,'services',0L),('trainSkill',0),('trainLevel',0),('unused1',null2)),
         MelTuple('ATTR','7B','attributes',[0]*7),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
+class MreActi(MelRecord):
+    """Activator record."""
+    classType = 'ACTI'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('OBND','=6h',
+                  'corner0X','corner0Y','corner0Z',
+                  'corner1X','corner1Y','corner1Z'),
+        MelString('FULL','full'),
+        MelModel(),
+        MelFid('SCRI','script'),
+        MelDestructible(),
+        MelFid('SNAM','soundLooping'),
+        MelFid('VNAM','soundActivation'),
+        MelFid('INAM','radioTemplate'),
+        MelFid('RNAM','radioStation'),
+        MelFid('WNAM','waterType'),
+        MelString('XATO','activationPrompt'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -4785,28 +4807,6 @@ class MreAcre(MelRecord): # Placed Creature
         MelOptStruct('XSCL','f',('scale',1.0)),
         MelOptStruct('DATA','=6f',('posX',None),('posY',None),('posZ',None),('rotX',None),('rotY',None),('rotZ',None)),
     )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-#------------------------------------------------------------------------------
-class MreActi(MelRecord):
-    """Activator record."""
-    classType = 'ACTI'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
-        MelString('FULL','full'),
-        MelModel(),
-        MelFid('SCRI','script'),
-        MelDestructible(),
-        MelFid('SNAM','soundLooping'),
-        MelFid('VNAM','soundActivation'),
-        MelFid('INAM','radioTemplate'),
-        MelFid('RNAM','radioStation'),
-        MelFid('WNAM','waterType'),
-        MelString('XATO','activationPrompt'),
-        )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------

@@ -73,7 +73,7 @@ patchTip = u''
 nexusUrl = u'http://www.nexusmods.com/newvegas/'
 nexusName = u'New Vegas Nexus'
 nexusKey = u'bash.installers.openNewVegasNexus'
-   
+
 #--Construction Set information
 class cs:
     shortName = u'GECK'                  # Abbreviated name
@@ -90,13 +90,13 @@ class se:
     steamExe = u'nvse_loader.dll'           # Exe to run if a steam install
     url = u'http://nvse.silverlock.org/'     # URL to download from
     urlTip = u'http://nvse.silverlock.org/'  # Tooltip for mouse over the URL
-    
+
 #--Script Dragon
 class sd:
     shortName = u''
     longName = u''
     installDir = u''
-	
+
 #--SkyProc Patchers
 class sp:
     shortName = u''
@@ -158,7 +158,7 @@ class ess:
     canReadBasic = True        # Can read the info needed for the Save Tab display
     canEditMasters = True      # Can adjust save file masters
     canEditMore = False         # Advanced editing
-    
+
     # Save file extension.
     ext = u'.fos';
 
@@ -210,7 +210,7 @@ class ess:
             size,delim = struct.unpack('Hc',ins.read(3))
             header.masters.append(ins.read(size))
             delim, = struct.unpack('c',ins.read(1))
-        
+
 
     @staticmethod
     def writeMasters(ins,out,header):
@@ -311,8 +311,8 @@ dataDirs = set((
     'meshes',
     'music',
     'shaders',
-    'sound', 
-    'textures', 
+    'sound',
+    'textures',
     'trees',
     'video'
     ))
@@ -324,8 +324,8 @@ dataDirsPlus = set((
     u'scripts',
     u'pluggy',
     u'ini',
-    u'fose')) 
-                 
+    u'fose'))
+
 # Installer -------------------------------------------------------------------
 # ensure all path strings are prefixed with 'r' to avoid interpretation of
 # accidental escape sequences
@@ -643,7 +643,7 @@ weaponTypes = (
     _(u'Thrown'),
     _(u'Mine'),
     )
-   
+
 #--The pickle file for this game.  Holds encoded GMST IDs from the big list below
 pklfile = ur'bash\db\FalloutNV_ids.pkl'
 
@@ -658,7 +658,7 @@ gmstEids = ['fPlayerDeathReloadTime','iMapMarkerVisibleDistance','fVanityModeWhe
     'iRemoveExcessDeadComplexTotalActorCount','iRemoveExcessDeadComplexCount', 'fRemoveExcessDeadTime','fRemoveExcessComplexDeadTime',
     'iLevItemLevelDifferenceMax','fMoveWeightMax',
     ]
- 
+
 #--Bash Tags supported by this game
 allTags = sorted((
     # 'Body-F', 'Body-M', 'Body-Size-M', 'Body-Size-F', 'C.Climate', 'C.Light', 'C.Music', 'C.Name', 'C.RecordFlags',
@@ -720,9 +720,9 @@ namesTypes = set((
         # 'EYES', 'FACT', 'FLOfR', 'HAIR', 'INGR', 'KEYM', 'LIGH', 'MISC', 'NOTE', 'NPC_',
         # 'RACE', 'SPEL', 'TERM', 'WEAP', 'ACTI', 'TACT',
         # 'CMNY', 'CCRD', 'IMOD', 'REPU', 'RCPE', 'RCCT', 'CHIP', 'CSNO'
-		'AMMO', 
-		))
-pricesTypes = {'AMMO':{},}      
+        'AMMO',
+        ))
+pricesTypes = {'AMMO':{},}
 statsTypes = {
         # 'ALCH':('eid', 'weight', 'value'),
         'AMMO':('eid', 'weight', 'value', 'speed', 'clipRounds','projPerShot'),
@@ -827,7 +827,7 @@ raceNames = {
     0x0987de : _(u'AfricanAmerican Old Aged'),
     0x0987df : _(u'Caucasian Old Aged'),
     }
-        
+
 raceShortNames = {
     0x000019 : u'Cau',
     0x0038e5 : u'His',
@@ -851,7 +851,7 @@ raceShortNames = {
     0x0987de : u'FOA',
     0x0987df : u'COA',
     }
-      
+
 raceHairMale = {
     0x000019 : 0x014b90, #--Cau
     0x0038e5 : 0x0a9d6f, #--His
@@ -875,7 +875,7 @@ raceHairMale = {
     0x0987de : 0x0987d9, #--FOA
     0x0987df : 0x0987da, #--COA
     }
- 
+
 raceHairFemale = {
     0x000019 : 0x05dc6b, #--Cau
     0x0038e5 : 0x05dc76, #--His
@@ -899,14 +899,14 @@ raceHairFemale = {
     0x0987de : 0x044529, #--FOA
     0x0987df : 0x044529, #--COA
     }
-    
+
 #--Plugin format stuff
 class esp:
     #--Wrye Bash capabilities
     canBash = True         # Can create Bashed Patches
     canCBash = False         # CBash can handle this game's records
     canEditHeader = True   # Can edit basic info in the TES4 record
-    
+
     #--Valid ESM/ESP header versions
     ## These are the valid 'version' numbers for the game file headers
     validHeaderVersions = (0.94,1.32,1.33,1.34)
@@ -924,7 +924,7 @@ class esp:
         size = 0            # Size of the record header
         attrs = tuple()     # List of attributes to set = the return of struct.unpack
         defaults = tuple()  # Default values for each of the above attributes
-     
+
     #--Top types in FalloutNV order.
     topTypes = ['GMST', 'TXST', 'MICN', 'GLOB', 'CLAS', 'FACT', 'HDPT', 'HAIR', 'EYES',
         'RACE', 'SOUN', 'ASPC', 'MGEF', 'SCPT', 'LTEX', 'ENCH', 'SPEL', 'ACTI', 'TACT',
@@ -940,13 +940,13 @@ class esp:
         # Unused types in falloutNV. (dummy)
         'SLGM', 'BSGN', 'FLOR', 'SGST', 'CLOT', 'SBSP', 'SKIL', 'LVSP', 'APPA',
         ]
-    
+
     #--Dict mapping 'ignored' top types to un-ignored top types
     topIgTopTYpes = dict()
-    
+
     #--Record Types: all recognized record types (not just the top types)
     recordTypes = set(topTypes + 'GRUP,TES4,ROAD,REFR,ACHR,ACRE,PGRD,LAND,INFO,PGRE,NAVM'.split(','))
-    
+
 class RecordHeader(brec.BaseRecordHeader):
     size = 24 # Size in bytes of a record header
 
@@ -1003,13 +1003,13 @@ class RecordHeader(brec.BaseRecordHeader):
             return struct.pack('=4s5I',self.recType,self.size,self.flags1,
                                self.fid,self.flags2,self.extra)
 
-# These eye variables have been refactored from the Wrye Flash version of bosh.py. 
+# These eye variables have been refactored from the Wrye Flash version of bosh.py.
 # Their Oblivion equivalents remain in Bash's bosh.py.
 def getIdFunc(modName):
     return lambda x: (GPath(modName),x)
 ob = getIdFunc(masterFiles[0])
 standardEyes = [ob(x) for x in (0x4252,0x4253,0x4254,0x4255,0x4256)]
- 
+
 defaultEyes = {
     #--fallout3.esm
     ob(0x000019): #--Caucasian
@@ -1343,7 +1343,7 @@ class MelConditions(MelStructs):
             if len(form1234) > 3 and form1234[3] == 'I':
                 result = function(target.param4)
                 if save: target.param4 = result
-    
+
 class MreHeader(MreHeaderBase):
     """TES4 Record.  File header."""
     classType = 'TES4'
@@ -1358,11 +1358,11 @@ class MreHeader(MreHeaderBase):
         MreHeaderBase.MelMasterName('MAST','masters'),
         MelNull('DATA'), # 8 Bytes in Length
         MelFidList('ONAM','overrides'),
-		# INTV and INCC are not used in Fallout NV
+        # INTV and INCC are not used in Fallout NV
         #MelBase('INTV','ingv_p'),
         #MelBase('INCC', 'ingv_p'),
-		# wbByteArray for Edit = MelBase for Wrye Bash
-		MelBase('SCRN', 'ingv_p'),
+        # wbByteArray for Edit = MelBase for Wrye Bash
+        MelBase('SCRN', 'ingv_p'),
         )
     __slots__ = MreHeaderBase.__slots__ + melSet.getSlotsUsed()
 
@@ -3526,7 +3526,7 @@ class MreAspc(MelRecord):
         MelStruct('OBND','=6h',
                   'corner0X','corner0Y','corner0Z',
                   'corner1X','corner1Y','corner1Z'),
-	    # Should be a struct
+        # Should be a struct
         MelFids('SNAM','soundLooping'),
         MelStruct('WNAM','I','wallaTrigerCount'),
         MelFid('RDAT','useSoundFromRegion'),
@@ -3785,7 +3785,7 @@ class MreWeap(MelRecord):
                 if callable(action): value = action(value)
                 setter(attr,value)
             if self._debug: print unpacked
-            
+
     class MelWeapVats(MelStruct):
         """Handle older trucated VATS for WEAP subrecord."""
         def loadData(self,record,ins,type,size,readId):
@@ -4896,7 +4896,7 @@ class MreAcre(MelRecord):
             MelFid('TNAM','topic'),
             ),
         MelStruct('XLCM','i','levelModifier'),
-        MelOwnership()
+        MelOwnership(),
         MelFid('XMRC','merchantContainer'),
         MelStruct('XCNT','i','count'),
         MelStruct('XRDS','f','radius',),
@@ -5026,7 +5026,7 @@ class MreCsty(MelRecord):
 class MreDial(MelRecord):
     """Dialog record."""
     classType = 'DIAL'
-    
+
     class MelDialData(MelStruct):
         """Handle older trucated DATA for DIAL subrecord."""
         def loadData(self,record,ins,type,size,readId):
@@ -5068,7 +5068,7 @@ class MreDial(MelRecord):
                     elif type == 'INFX':
                         element = self.loaders['bare_infx_p']
             element.loadData(record,ins,type,size,readId)
-    
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelFid('INFC','bare_infc_p'),
@@ -5356,7 +5356,7 @@ class MreImod(MelRecord):
         MelStruct('DATA','If','value','weight'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-    
+
 #------------------------------------------------------------------------------
 class MreRepu(MelRecord):
     """Reputation."""
@@ -5369,7 +5369,7 @@ class MreRepu(MelRecord):
         MelStruct('DATA','I','value'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-    
+
 #------------------------------------------------------------------------------
 class MreRcpe(MelRecord):
     """Recipe."""
@@ -5707,7 +5707,7 @@ class MreSlpd(MelRecord):
         MelStruct('DATA','2I','trigerThreshold',(FID,'actorEffect')),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-      
+
 #------------------------------------------------------------------------------
 # These Are normally not mergable but added to brec.MreRecord.type_class
 #
@@ -5734,13 +5734,13 @@ class MreSlpd(MelRecord):
     # MreMusc, MrePwat, MreAspc, MreHdpt, MreDobj, MreIdlm, MreArma, MreTact,
     # MreImod, MreRepu, MreRcpe, MreRcct, MreChip, MreCsno, MreLsct, MreMset, MreAloc, MreChal,
     # MreAmef, MreCcrd, MreCmny, MreCdck, MreDehy, MreHung, MreSlpd,
-	
-	# Verified
+
+    # Verified
 mergeClasses = (
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
-		MreLvli, MreLvln, MreMisc, MreAlch, MreBook,
+        MreLvli, MreLvln, MreMisc, MreAlch, MreBook,
     )
-  
+
 #--Extra read classes: these record types will always be loaded, even if patchers
 #  don't need them directly (for example, for MGEF info)
 readClasses = ()
@@ -5753,8 +5753,8 @@ def init():
     # affect outside modules must do so within this function, which will be
     # called instead of 'reload'
     brec.ModReader.recHeader = RecordHeader
-    
-	    # Old Fallout
+
+        # Old Fallout
         # MreAchr, MreAcre, MreActi, MreAlch, MreAmmo, MreAnio, MreAppa, MreArmo, MreBook, MreBsgn,
         # MreCell, MreClas, MreClot, MreCont, MreCrea, MreDoor, MreEfsh, MreEnch, MreEyes, MreFact,
         # MreFlor, MreFurn, MreGlob, MreGmst, MreGras, MreHair, MreIngr, MreKeym, MreLigh, MreLscr,
@@ -5766,17 +5766,16 @@ def init():
         # MreMusc, MrePwat, MreAspc, MreHdpt, MreDobj, MreIdlm, MreArma, MreTact, MreNavm,
         # MreImod, MreRepu, MreRcpe, MreRcct, MreChip, MreCsno, MreLsct, MreMset, MreAloc, MreChal,
         # MreAmef, MreCcrd, MreCmny, MreCdck, MreDehy, MreHung, MreSlpd
-		
+
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
-		# Verified
+        # Verified
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
-		MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook,
+        MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook,
         MreHeader,
         ))
     #--Simple records
     brec.MreRecord.simpleTypes = (set(brec.MreRecord.type_class) -
         # set(('TES4','ACHR','ACRE','REFR','CELL','PGRD','ROAD','LAND','WRLD','INFO','DIAL','PGRE','NAVM')))
         set((
-		'TES4','ACHR','ACRE',
-		)))
-		
+        'TES4','ACHR','ACRE',
+        )))

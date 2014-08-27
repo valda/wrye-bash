@@ -4872,16 +4872,49 @@ class MreAlch(MelRecord,MreHasEffects):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
-class MreAcre(MelRecord): # Placed Creature
+class MreAcre(MelRecord):
+    """Placed Creature"""
     classType = 'ACRE'
     _flags = Flags(0L,Flags.getNames('oppositeParent'))
+    _variableFlags = Flags(0L,Flags.getNames('isLongOrShort'))
     melSet=MelSet(
         MelString('EDID','eid'),
         MelFid('NAME','base'),
-        MelOwnership(),
-        MelOptStruct('XLOD','3f',('lod1',None),('lod2',None),('lod3',None)), ####Distant LOD Data, unknown
+        MelFid('XEZN','encounterZone'),
+        MelBase('XRGD','ragdollData'),
+        MelBase('XRGB','ragdollBipedData'),
+        MelGroup('patrolData',
+            MelStruct('XPRD','f','idleTime'),
+            MelBase('XPPA','patrolScriptMarker'),
+            MelFid('INAM', 'idle'),
+            MelStruct('SCHR','4s4I',('unused1',null4),'numRefs','compiledSize','lastIndex','scriptType'),
+            MelBase('SCDA','compiled_p'),
+            MelString('SCTX','scriptText'),
+            MelGroups('vars',
+                MelStruct('SLSD','I12sB7s','index',('unused1',null4+null4+null4),(_variableFlags,'flags',0L),('unused2',null4+null3)),
+                MelString('SCVR','name')),
+            MelScrxen('SCRV/SCRO','references'),
+            MelFid('TNAM','topic'),
+            ),
+        MelStruct('XLCM','i','levelModifier'),
+        MelOwnership()
+        MelFid('XMRC','merchantContainer'),
+        MelStruct('XCNT','i','count'),
+        MelStruct('XRDS','f','radius',),
+        MelStruct('XHLP','f','health',),
+        MelStructs('XDCR','II','linkedDecals',(FID,'reference'),'unknown'), # ??
+        MelFid('XLKR','linkedReference'),
+        MelOptStruct('XCLP','8B','linkStartColorRed','linkStartColorGreen','linkStartColorBlue',('linkColorUnused1',null1),
+                     'linkEndColorRed','linkEndColorGreen','linkEndColorBlue',('linkColorUnused2',null1)),
+        MelGroup('activateParents',
+            MelStruct('XAPD','B','flags'),
+            MelStructs('XAPR','If','activateParentRefs',(FID,'reference'),'delay')
+            ),
+        MelString('XATO','activationPrompt'),
         MelOptStruct('XESP','IB3s',(FID,'parent'),(_flags,'parentFlags'),('unused1',null3)),
-        MelBase('XRGD','xrgd_p'), ###Ragdoll Data, ByteArray
+        MelOptStruct('XEMI','I',(FID,'emitance')),
+        MelFid('XMBR','multiboundReference'),
+        MelBase('XIBS','ignoredBySandbox'),
         MelOptStruct('XSCL','f',('scale',1.0)),
         MelOptStruct('DATA','=6f',('posX',None),('posY',None),('posZ',None),('rotX',None),('rotY',None),('rotZ',None)),
     )
@@ -5738,13 +5771,13 @@ def init():
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
 		# Verified
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
-		MreLvli, MreLvln, MreMisc, MreAchr,
+		MreLvli, MreLvln, MreMisc, MreAchr, MreAcre,
         MreHeader,
         ))
     #--Simple records
     brec.MreRecord.simpleTypes = (set(brec.MreRecord.type_class) -
         # set(('TES4','ACHR','ACRE','REFR','CELL','PGRD','ROAD','LAND','WRLD','INFO','DIAL','PGRE','NAVM')))
         set((
-		'TES4','ACHR',
+		'TES4','ACHR','ACRE',
 		)))
 		

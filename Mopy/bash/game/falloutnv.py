@@ -1656,6 +1656,33 @@ class MreClot(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MreAlch(MelRecord,MreHasEffects):
+    """ALCH (potion) record."""
+    classType = 'ALCH'
+    _flags = Flags(0L,Flags.getNames('autoCalc','isFood','medicine',))
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('OBND','=6h',
+                  'corner0X','corner0Y','corner0Z',
+                  'corner1X','corner1Y','corner1Z'),
+        MelFull0(),
+        MelModel(),
+        MelString('ICON','largeIconPath'),
+        MelString('MICO','smallIconPath'),
+        MelFid('SCRI','script'),
+        MelDestructible(),
+        MelFid('YNAM','soundPickUp'),
+        MelFid('ZNAM','soundDrop'),
+        #--10:chems,11:stimpack,12:food,13:alcohol
+        MelStruct('ETYP','I','etype'),
+        MelStruct('DATA','f','weight'),
+        MelStruct('ENIT','iB3sIfI','value',(_flags,'flags',0L),('unused1',null3),
+                  (FID,'withdrawalEffect',None),'addictionChance',(FID,'soundConsume',None)),
+        MelEffects(),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
 class MreCrea(MreActor):
     """Creature Record."""
     classType = 'CREA'
@@ -4845,33 +4872,6 @@ class MreNavi(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
-class MreAlch(MelRecord,MreHasEffects):
-    """ALCH (potion) record."""
-    classType = 'ALCH'
-    _flags = Flags(0L,Flags.getNames('autoCalc','isFood'))
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
-        MelFull0(),
-        MelModel(),
-        MelString('ICON','largeIconPath'),
-        MelString('MICO','smallIconPath'),
-        MelFid('SCRI','script'),
-        MelDestructible(),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
-        #--10:chems,11:stimpack,12:food,13:alcohol
-        MelStruct('ETYP','I','etype'),
-        MelStruct('DATA','f','weight'),
-        MelStruct('ENIT','iB3sIfI','value',(_flags,'flags',0L),('unused1',null3),
-                  (FID,'withdrawalEffect',None),'addictionChance',(FID,'soundConsume',None)),
-        MelEffects(),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-#------------------------------------------------------------------------------
 class MreAcre(MelRecord):
     """Placed Creature"""
     classType = 'ACRE'
@@ -5739,7 +5739,7 @@ class MreSlpd(MelRecord):
 	# Verified
 mergeClasses = (
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
-		MreLvli, MreLvln, MreMisc,
+		MreLvli, MreLvln, MreMisc, MreAlch,
     )
   
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5771,7 +5771,7 @@ def init():
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
 		# Verified
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
-		MreLvli, MreLvln, MreMisc, MreAchr, MreAcre,
+		MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch,
         MreHeader,
         ))
     #--Simple records

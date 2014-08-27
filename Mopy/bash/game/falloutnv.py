@@ -1344,6 +1344,63 @@ class MelConditions(MelStructs):
                 result = function(target.param4)
                 if save: target.param4 = result
 
+#------------------------------------------------------------------------------
+class MreHasEffects:
+    """Mixin class for magic items."""
+    def getEffects(self):
+        """Returns a summary of effects. Useful for alchemical catalog."""
+        effects = []
+        avEffects = bush.genericAVEffects
+        effectsAppend = effects.append
+        for effect in self.effects:
+            mgef, actorValue = effect.name, effect.actorValue
+            if mgef not in avEffects:
+                actorValue = 0
+            effectsAppend((mgef,actorValue))
+        return effects
+
+    def getSpellSchool(self,mgef_school=bush.mgef_school):
+        """Returns the school based on the highest cost spell effect."""
+        spellSchool = [0,0]
+        for effect in self.effects:
+            school = mgef_school[effect.name]
+            effectValue = bush.mgef_basevalue[effect.name]
+            if effect.magnitude:
+                effectValue *=  effect.magnitude
+            if effect.area:
+                effectValue *=  (effect.area/10)
+            if effect.duration:
+                effectValue *=  effect.duration
+            if spellSchool[0] < effectValue:
+                spellSchool = [effectValue,school]
+        return spellSchool[1]
+
+    def getEffectsSummary(self,mgef_school=None,mgef_name=None):
+        """Return a text description of magic effects."""
+        mgef_school = mgef_school or bush.mgef_school
+        mgef_name = mgef_name or bush.mgef_name
+        buff = stringBuffer()
+        avEffects = bush.genericAVEffects
+        aValues = bush.actorValues
+        buffWrite = buff.write
+        if self.effects:
+            school = self.getSpellSchool(mgef_school)
+            buffWrite(bush.actorValues[20+school] + '\n')
+        for index,effect in enumerate(self.effects):
+            if effect.scriptEffect:
+                effectName = effect.scriptEffect.full or 'Script Effect'
+            else:
+                effectName = mgef_name[effect.name]
+                if effect.name in avEffects:
+                    effectName = re.sub(_('(Attribute|Skill)'),aValues[effect.actorValue],effectName)
+            buffWrite('o+*'[effect.recipient]+' '+Unicode(effectName,'mbcs'))
+            if effect.magnitude: buffWrite(' '+`effect.magnitude`+'m')
+            if effect.area: buffWrite(' '+`effect.area`+'a')
+            if effect.duration > 1: buffWrite(' '+`effect.duration`+'d')
+            buffWrite('\n')
+        return buff.getvalue()
+
+#------------------------------------------------------------------------------
 class MreHeader(MreHeaderBase):
     """TES4 Record.  File header."""
     classType = 'TES4'
@@ -2052,62 +2109,6 @@ class MreEfsh(MelRecord):
             ),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-#------------------------------------------------------------------------------
-class MreHasEffects:
-    """Mixin class for magic items."""
-    def getEffects(self):
-        """Returns a summary of effects. Useful for alchemical catalog."""
-        effects = []
-        avEffects = bush.genericAVEffects
-        effectsAppend = effects.append
-        for effect in self.effects:
-            mgef, actorValue = effect.name, effect.actorValue
-            if mgef not in avEffects:
-                actorValue = 0
-            effectsAppend((mgef,actorValue))
-        return effects
-
-    def getSpellSchool(self,mgef_school=bush.mgef_school):
-        """Returns the school based on the highest cost spell effect."""
-        spellSchool = [0,0]
-        for effect in self.effects:
-            school = mgef_school[effect.name]
-            effectValue = bush.mgef_basevalue[effect.name]
-            if effect.magnitude:
-                effectValue *=  effect.magnitude
-            if effect.area:
-                effectValue *=  (effect.area/10)
-            if effect.duration:
-                effectValue *=  effect.duration
-            if spellSchool[0] < effectValue:
-                spellSchool = [effectValue,school]
-        return spellSchool[1]
-
-    def getEffectsSummary(self,mgef_school=None,mgef_name=None):
-        """Return a text description of magic effects."""
-        mgef_school = mgef_school or bush.mgef_school
-        mgef_name = mgef_name or bush.mgef_name
-        buff = stringBuffer()
-        avEffects = bush.genericAVEffects
-        aValues = bush.actorValues
-        buffWrite = buff.write
-        if self.effects:
-            school = self.getSpellSchool(mgef_school)
-            buffWrite(bush.actorValues[20+school] + '\n')
-        for index,effect in enumerate(self.effects):
-            if effect.scriptEffect:
-                effectName = effect.scriptEffect.full or 'Script Effect'
-            else:
-                effectName = mgef_name[effect.name]
-                if effect.name in avEffects:
-                    effectName = re.sub(_('(Attribute|Skill)'),aValues[effect.actorValue],effectName)
-            buffWrite('o+*'[effect.recipient]+' '+Unicode(effectName,'mbcs'))
-            if effect.magnitude: buffWrite(' '+`effect.magnitude`+'m')
-            if effect.area: buffWrite(' '+`effect.area`+'a')
-            if effect.duration > 1: buffWrite(' '+`effect.duration`+'d')
-            buffWrite('\n')
-        return buff.getvalue()
 
 #------------------------------------------------------------------------------
 class MreEnch(MelRecord,MreHasEffects):

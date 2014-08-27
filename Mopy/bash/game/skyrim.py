@@ -261,9 +261,6 @@ iniFiles = [
     u'SkyrimPrefs.ini',
     ]
 
-#--Name of the default ini file.
-defaultIniFile = u'Skyrim_default.ini'
-
 #--INI setting to setup Save Profiles
 saveProfilesKey = (u'General',u'SLocalSavePath')
 

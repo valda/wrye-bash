@@ -41,13 +41,13 @@ null3 = null1*3
 null4 = null1*4
 
 #--Name of the game
-name = u'Fallout 3'
-
-#--Name of the game as used in related filenames and paths.
-safeName = u'Fallout3'
-
-#--Alternat display name of Wrye Bash when managing this game
+displayName = u'Fallout 3'
+#--Name of the game's filesystem folder.
+fsName = u'Fallout3'
+#--Alternate display name to use instead of "Wrye Bash for ***"'
 altName = u'Wrye Flash'
+#--Name of game's default ini file.
+defaultIniFile = u'Fallout_default.ini'
 
 #--Exe to look for to see if this is the right game
 exe = u'Fallout3.exe'
@@ -276,9 +276,6 @@ iniFiles = [
     u'FalloutPrefs.ini',
     ]
 
-#--Name of the default ini file.
-defaultIniFile = u'Fallout_default.ini'
-    
 #-- INI setting used to setup Save Profiles
 ## (section,key)
 saveProfilesKey = (u'General',u'SLocalSavePath')

@@ -17198,9 +17198,9 @@ class App_Tes4View(App_Button):
             self.mainMenu.append(Mods_Tes5ViewExpert())
         elif( bush.game.fsName == 'Oblivion' or bush.game.fsName == 'Nehrim' ):
             self.mainMenu.append(Mods_Tes4ViewExpert())
-        elif( bush.game.fsName == 'Fallout 3' ):
+        elif( bush.game.fsName == 'Fallout3' ):
             self.mainMenu.append(Mods_Fo3ViewExpert())
-        elif( bush.game.fsName == 'Fallout New Vegas' ):
+        elif( bush.game.fsName == 'FalloutNV' ):
             self.mainMenu.append(Mods_FnvViewExpert())
 
     def IsPresent(self):
@@ -17224,10 +17224,10 @@ class App_Tes4View(App_Button):
         if( bush.game.fsName == 'Skyrim' ):
             if settings['tes5View.iKnowWhatImDoing']:
                 extraArgs.append(u'-IKnowWhatImDoing')
-        if( bush.game.fsName == 'Fallout 3' ):
+        if( bush.game.fsName == 'Fallout3' ):
             if settings['fo3View.iKnowWhatImDoing']:
                 extraArgs.append(u'-IKnowWhatImDoing')
-        if( bush.game.fsName == 'Fallout New Vegas' ):
+        if( bush.game.fsName == 'FalloutNV' ):
             if settings['fnvView.iKnowWhatImDoing']:
                 extraArgs.append(u'-IKnowWhatImDoing')
         App_Button.Execute(self,event,tuple(extraArgs))
@@ -18671,7 +18671,7 @@ def InitModLinks():
                 exportMenu.links.append(Mod_FullNames_Export())
                 exportMenu.links.append(Mod_Prices_Export())
                 exportMenu.links.append(Mod_Stats_Export())
-            elif bush.game.fsName == u'Fallout New Vegas':
+            elif bush.game.fsName == u'FalloutNV':
                 # exportMenu.links.append(Mod_Factions_Export())
                 exportMenu.links.append(Mod_FullNames_Export())
                 exportMenu.links.append(Mod_Prices_Export())
@@ -18680,7 +18680,7 @@ def InitModLinks():
                 # exportMenu.links.append(Mod_Scripts_Export())
                 # exportMenu.links.append(Mod_SpellRecords_Export())
                 exportMenu.links.append(Mod_Stats_Export())
-            elif bush.game.fsName == u'Fallout 3':
+            elif bush.game.fsName == u'Fallout3':
                 exportMenu.links.append(Mod_FullNames_Export())
                 exportMenu.links.append(Mod_Prices_Export())
                 exportMenu.links.append(Mod_Stats_Export())
@@ -18706,7 +18706,7 @@ def InitModLinks():
                 importMenu.links.append(Mod_FullNames_Import())
                 importMenu.links.append(Mod_Prices_Import())
                 importMenu.links.append(Mod_Stats_Import())
-            elif bush.game.fsName == u'Fallout New Vegas':
+            elif bush.game.fsName == u'FalloutNV':
                 importMenu.links.append(Mod_FullNames_Import())
                 importMenu.links.append(Mod_Prices_Import())
                 # importMenu.links.append(Mod_FactionRelations_Import())
@@ -18716,7 +18716,7 @@ def InitModLinks():
                 # importMenu.links.append(SeparatorLink())
                 # importMenu.links.append(Mod_Face_Import())
                 # importMenu.links.append(Mod_Fids_Replace())
-            elif bush.game.fsName == u'Fallout 3':
+            elif bush.game.fsName == u'Fallout3':
                 importMenu.links.append(Mod_FullNames_Import())
                 importMenu.links.append(Mod_Prices_Import())
                 importMenu.links.append(Mod_Stats_Import())

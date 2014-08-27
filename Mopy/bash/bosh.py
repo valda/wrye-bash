@@ -10850,9 +10850,9 @@ class CBash_PatchFile(ObModFile):
                       'ACRES','REFRS']
 
         iiModeSet = set((u'InventOnly',u'IIM'))
-        if bush.game.safeName == u'Fallout3':
+        if bush.game.fsName == u'Fallout3':
             levelLists = set(('LVLC','LVLI','LVLN'))
-        elif  bush.game.safeName == u'FalloutNV':
+        elif  bush.game.fsName == u'FalloutNV':
             levelLists = set(('LVLC','LVLI','LVLN'))
         else:
             levelLists = set(('LVLC','LVLI','LVSP'))

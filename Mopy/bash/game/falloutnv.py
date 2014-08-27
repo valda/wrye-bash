@@ -1382,27 +1382,6 @@ class MreActor(MelRecord):
         self.items = [x for x in self.items if x.item[0] in modSet]
 
 #------------------------------------------------------------------------------
-class MreBook(MelRecord):
-    """BOOK record."""
-    classType = 'BOOK'
-    _flags = Flags(0,Flags.getNames('isScroll','isFixed'))
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
-        MelString('FULL','full'),
-        MelModel(),
-        MelString('ICON','largeIconPath'),
-        MelString('MICO','smallIconPath'),
-        MelFid('SCRI','script'),
-        MelString('DESC','text'),
-        MelDestructible(),
-        MelStruct('DATA', '=BbIf',(_flags,'flags',0L),('teaches',-1),'value','weight'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed() + ['modb']
-
-#------------------------------------------------------------------------------
 class MreBsgn(MelRecord):
     """Birthsign record."""
     classType = 'BSGN'
@@ -1987,6 +1966,29 @@ class MreArma(MelRecord):
         MelArmaDnam('DNAM','=HHfI','ar','flags','dt',('unknown',0L)),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
+class MreBook(MelRecord):
+    """BOOK record."""
+    classType = 'BOOK'
+    _flags = Flags(0,Flags.getNames('isScroll','isFixed'))
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('OBND','=6h',
+                  'corner0X','corner0Y','corner0Z',
+                  'corner1X','corner1Y','corner1Z'),
+        MelString('FULL','full'),
+        MelModel(),
+        MelString('ICON','largeIconPath'),
+        MelString('MICO','smallIconPath'),
+        MelFid('SCRI','script'),
+        MelString('DESC','text'),
+        MelDestructible(),
+        MelOptStruct('YNAM','I',(FID,'pickupSound')),
+        MelOptStruct('ZNAM','I',(FID,'dropSound')),
+        MelStruct('DATA', '=BbIf',(_flags,'flags',0L),('teaches',-1),'value','weight'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed() + ['modb']
 
 #------------------------------------------------------------------------------
 class MreEfsh(MelRecord):
@@ -5739,7 +5741,7 @@ class MreSlpd(MelRecord):
 	# Verified
 mergeClasses = (
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
-		MreLvli, MreLvln, MreMisc, MreAlch,
+		MreLvli, MreLvln, MreMisc, MreAlch, MreBook,
     )
   
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5771,7 +5773,7 @@ def init():
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
 		# Verified
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
-		MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch,
+		MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook,
         MreHeader,
         ))
     #--Simple records

@@ -17198,9 +17198,9 @@ class App_Tes4View(App_Button):
             self.mainMenu.append(Mods_Tes5ViewExpert())
         elif( bush.game.fsName == 'Oblivion' or bush.game.fsName == 'Nehrim' ):
             self.mainMenu.append(Mods_Tes4ViewExpert())
-        elif( bush.game.name == 'Fallout 3' ):
+        elif( bush.game.fsName == 'Fallout 3' ):
             self.mainMenu.append(Mods_Fo3ViewExpert())
-        elif( bush.game.name == 'Fallout New Vegas' ):
+        elif( bush.game.fsName == 'Fallout New Vegas' ):
             self.mainMenu.append(Mods_FnvViewExpert())
 
     def IsPresent(self):
@@ -17224,10 +17224,10 @@ class App_Tes4View(App_Button):
         if( bush.game.fsName == 'Skyrim' ):
             if settings['tes5View.iKnowWhatImDoing']:
                 extraArgs.append(u'-IKnowWhatImDoing')
-        if( bush.game.name == 'Fallout 3' ):
+        if( bush.game.fsName == 'Fallout 3' ):
             if settings['fo3View.iKnowWhatImDoing']:
                 extraArgs.append(u'-IKnowWhatImDoing')
-        if( bush.game.name == 'Fallout New Vegas' ):
+        if( bush.game.fsName == 'Fallout New Vegas' ):
             if settings['fnvView.iKnowWhatImDoing']:
                 extraArgs.append(u'-IKnowWhatImDoing')
         App_Button.Execute(self,event,tuple(extraArgs))

@@ -3334,6 +3334,8 @@ class MreRegn(MelRecord):
         ( 1,'cloudy'),
         ( 2,'rainy'),
         ( 3,'snowy'),))
+    rdatFlags = Flags(0L,Flags.getNames(
+        ( 0,'Override'),))
 
     ####Lazy hacks to correctly read/write regn data
     class MelRegnStructA(MelStructA):
@@ -3387,7 +3389,7 @@ class MreRegn(MelRecord):
 
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelString('ICON','largeIconPath'),
+        MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
         MelStruct('RCLR','3Bs','mapRed','mapBlue','mapGreen',('unused1',null1)),
         MelFid('WNAM','worldspace'),
@@ -3395,13 +3397,17 @@ class MreRegn(MelRecord):
             MelStruct('RPLI','I','edgeFalloff'),
             MelStructA('RPLD','2f','points','posX','posY')),
         MelGroups('entries',
-            MelStruct('RDAT', 'I2B2s','entryType', (_flags,'flags'), 'priority', ('unused1',null2)), ####flags actually an enum...
+            # entryType is an Enum, 
+            # rdatFlags should probably be used here since FNVEdit shows only one flag for RDAT
+            MelStruct('RDAT', 'I2B2s','entryType', (_flags,'flags'), 'priority', ('unused1',null2)),
             MelRegnStructA('RDOT', 'IH2sf4B2H4s4f3H2s4s', 'objects', (FID,'objectId'), 'parentIndex',
-            ('unused1',null2), 'density', 'clustering', 'minSlope', 'maxSlope',
-            (obflags, 'flags'), 'radiusWRTParent', 'radius', ('unk1',null4),
-            'maxHeight', 'sink', 'sinkVar', 'sizeVar', 'angleVarX',
-            'angleVarY',  'angleVarZ', ('unused2',null2), ('unk2',null4)),
+                ('unused1',null2), 'density', 'clustering', 'minSlope', 'maxSlope',
+                (obflags, 'flags'), 'radiusWRTParent', 'radius', ('unk1',null4),
+                'maxHeight', 'sink', 'sinkVar', 'sizeVar', 'angleVarX',
+                'angleVarY',  'angleVarZ', ('unused2',null2), ('unk2',null4)),
             MelRegnString('RDMP', 'mapName'),
+            MelRegnStructA('RDGS', 'I4s', 'grass', ('unknown',null4)),
+            MelRegnOptStruct('RDMD', 'I', 'musicType'),
             MelFid('RDMO','music'),
             MelFid('RDSI','incidentalMediaSet'),
             MelFids('RDSB','battleMediaSets'),
@@ -3411,6 +3417,7 @@ class MreRegn(MelRecord):
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+#------------------------------------------------------------------------------
 # Marker for organization please don't remove ---------------------------------
 # GLOB ------------------------------------------------------------------------
 # Defined in brec.py as class MreGlob(MelRecord) ------------------------------

@@ -2517,7 +2517,8 @@ class MreMgef(MelRecord):
 			(FID,'castingSound',0),(FID,'boltSound',0),(FID,'hitSound',0),
 			(FID,'areaSound',0),('cefEnchantment',0.0),('cefBarter',0.0),
 			'archType','actorValue'),
-        MelFids('ESCE','counterEffects'),
+        MelGroups('counterEffects',
+            MelOptStruct('ESCE','I',(FID,'counterEffectCode',0)),),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

@@ -1955,7 +1955,8 @@ class MreDoor(MelRecord):
         ( 1,'automatic'),
         ( 2,'hidden'),
         ( 3,'minimalUse'),
-        ( 4,'slidingDoor',))
+        ( 4,'slidingDoor',),
+    ))
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',

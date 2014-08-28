@@ -1951,7 +1951,11 @@ class MreArmo(MelRecord):
 class MreDoor(MelRecord):
     """Container record."""
     classType = 'DOOR'
-    _flags = Flags(0,Flags.getNames('oblivionGate','automatic','hidden','minimalUse'))
+    _flags = Flags(0,Flags.getNames(
+        ( 1,'automatic'),
+        ( 2,'hidden'),
+        ( 3,'minimalUse'),
+        ( 4,'slidingDoor',))
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
@@ -1965,7 +1969,6 @@ class MreDoor(MelRecord):
         MelFid('ANAM','soundClose'),
         MelFid('BNAM','soundLoop'),
         MelStruct('FNAM','B',(_flags,'flags',0L)),
-        #MelFids('TNAM','destinations'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -5727,7 +5730,7 @@ class MreSlpd(MelRecord):
     # Verified
 mergeClasses = (
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
-        MreLvli, MreLvln, MreMisc, MreAlch, MreBook, MreClas, MreCont, MreCrea,
+        MreLvli, MreLvln, MreMisc, MreAlch, MreBook, MreClas, MreCont, MreCrea, MreDoor,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5760,6 +5763,7 @@ def init():
         # Verified
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook, MreClas, MreCont, MreCrea,
+        MreDoor, 
         MreHeader,
         ))
     #--Simple records

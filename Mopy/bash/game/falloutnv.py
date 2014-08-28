@@ -2612,10 +2612,10 @@ class MreNpc(MreActor):
     #--Mel Set
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelString('FULL','full'),
         MelStruct('OBND','=6h',
                   'corner0X','corner0Y','corner0Z',
                   'corner1X','corner1Y','corner1Z'),
+        MelString('FULL','full'),
         MelModel(),
         MelStruct('ACBS','=I2Hh3Hf2H',
             (_flags,'flags',0L),'fatigue','barterGold',
@@ -2672,6 +2672,8 @@ class MreNpc(MreActor):
         else:
             self.model.modPath = r"Characters\_Male\skeleton.nif"
         #--FNAM
+		# Needs Updating for Fallout New Vegas
+		# American
         fnams = {
             0x23fe9 : 0x3cdc ,#--Argonian
             0x224fc : 0x1d48 ,#--Breton
@@ -5764,7 +5766,7 @@ mergeClasses = (
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAlch, MreBook, MreClas, MreCont, MreCrea, MreDoor, MreEfsh,
         MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym, MreLigh, MreLscr,
-		MreMgef, MreSoun, MreRegn, MreMset,
+		MreMgef, MreSoun, MreRegn, MreMset, MreNpc, MrePack,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5798,7 +5800,7 @@ def init():
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook, MreClas, MreCont, MreCrea,
         MreDoor, MreEfsh, MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym,
-		MreLigh, MreLscr, MreMgef, MreSoun, MreRegn, MreMset,
+		MreLigh, MreLscr, MreMgef, MreSoun, MreRegn, MreMset, MreNpc, MrePack,
         MreHeader,
         ))
     #--Simple records

@@ -3627,13 +3627,27 @@ class MreSpel(MelRecord,MreHasEffects):
 class MreStat(MelRecord):
     """Static model record."""
     classType = 'STAT'
+
+	# passthroughSound
+	# -1, 'NONE'
+	#  0, 'BushA',
+	#  1, 'BushB',
+	#  2, 'BushC',
+	#  3, 'BushD',
+	#  4, 'BushE',
+	#  5, 'BushF',
+	#  6, 'BushG',
+	#  7, 'BushH',
+	#  8, 'BushI',
+	#  9, 'BushJ'
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
                   'corner0X','corner0Y','corner0Z',
                   'corner1X','corner1Y','corner1Z'),
         MelModel(),
-        MelStruct('BRUS','=B',('passthroughSound',255)),
+        MelStruct('BRUS','=b',('passthroughSound',-1)),
         MelFid('RNAM','soundRandomLooping'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -4309,29 +4323,13 @@ class MreIpct(MelRecord):
 class MreIpds(MelRecord):
     """Impact Dataset record."""
     classType = 'IPDS'
-    class MelIpdsData(MelStruct):
-        """Handle older trucated DATA for IPDS subrecord."""
-        def loadData(self,record,ins,type,size,readId):
-            if size == 48:
-                MelStruct.loadData(self,record,ins,type,size,readId)
-                return
-            elif size == 40:
-                unpacked = ins.unpack('10I',size,readId)
-            elif size == 36:
-                unpacked = ins.unpack('9I',size,readId)
-            else:
-                raise "Unexpected size encountered for IPDS:DATA subrecord: %s" % size
-            unpacked += self.defaults[len(unpacked):]
-            setter = record.__setattr__
-            for attr,value,action in zip(self.attrs,unpacked,self.actions):
-                if callable(action): value = action(value)
-                setter(attr,value)
-            if self._debug: print unpacked
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelIpdsData('DATA','12I',(FID,'stone',0),(FID,'dirt',0),(FID,'grass',0),(FID,'metal',0),
-                    (FID,'wood',0),(FID,'organic',0),(FID,'cloth',0),(FID,'water',0),
-                    (FID,'hollowMetal',0),(FID,'organicBug',0),(FID,'organicGlow',0)),
+        MelStruct('DATA','12I',(FID,'stone',0),(FID,'dirt',0),
+                    (FID,'grass',0),(FID,'glass',0),(FID,'metal',0),
+                    (FID,'wood',0),(FID,'organic',0),(FID,'cloth',0),
+                    (FID,'water',0),(FID,'hollowMetal',0),(FID,'organicBug',0),
+                    (FID,'organicGlow',0)),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -5767,6 +5765,7 @@ mergeClasses = (
         MreLvli, MreLvln, MreMisc, MreAlch, MreBook, MreClas, MreCont, MreCrea, MreDoor, MreEfsh,
         MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym, MreLigh, MreLscr,
 		MreMgef, MreSoun, MreRegn, MreMset, MreNpc, MrePack, MreQust, MreRace, MreScpt, MreSpel,
+		MreStat, MreIpds,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5801,7 +5800,7 @@ def init():
         MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook, MreClas, MreCont, MreCrea,
         MreDoor, MreEfsh, MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym,
 		MreLigh, MreLscr, MreMgef, MreSoun, MreRegn, MreMset, MreNpc, MrePack, MreQust, MreRace,
-		MreScpt, MreSpel,
+		MreScpt, MreSpel, MreStat, MreIpds,
         MreHeader,
         ))
     #--Simple records

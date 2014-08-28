@@ -3391,17 +3391,8 @@ class MreGmst(MreGmstBase):
     isKeyedByEid = True # NULL fids are acceptable.
 
 #------------------------------------------------------------------------------
-class MreRoad(MelRecord):
-    """Road structure. Part of large worldspaces."""
-    ####Could probably be loaded via MelStructA,
-    ####but little point since it is too complex to manipulate
-    classType = 'ROAD'
-    melSet = MelSet(
-        MelBase('PGRP','points_p'),
-        MelBase('PGRR','connections_p'),
-    )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
+# class MreRoad(MelRecord):
+# Not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreSbsp(MelRecord):
     """Subspace record."""

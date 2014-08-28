@@ -1756,22 +1756,25 @@ class MreCrea(MreActor):
         (14,'training'),
         (16,'recharge'),
         (17,'repair'),))
-    aiTrainSkill = Flags(0L,Flags.getNames(
-        (0,'barter'),
-        (1,'bigGuns'),
-        (2,'energyWeapons'),
-        (3,'explosives'),
-        (4,'lockpick'),
-        (5,'medicine'),
-        (6,'meleeWeapons'),
-        (7,'none'),
-        (8,'repair'),
-        (9,'science'),
-        (10,'smallGuns'),
-        (11,'sneak'),
-        (12,'throwing'),
-        (13,'unarmed'),))
-    #--Mel Set
+
+        # trainSkill
+        # -1, None
+        #  0, Barter
+        #  1, Big Guns (obsolete)
+        #  2, Energy Weapons
+        #  3, Explosives
+        #  4, Lockpick
+        #  5, Medicine
+        #  6, Melee Weapons
+        #  7, Repair
+        #  8, Science
+        #  9, Guns
+        # 10, Sneak
+        # 11, Speech
+        # 12, Survival
+        # 13, Unarmed
+
+        #--Mel Set
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
@@ -1784,9 +1787,9 @@ class MreCrea(MreActor):
         MelStruct('EAMT','H', 'eamt'),
         MelStrings('NIFZ','bodyParts'),
         MelBase('NIFT','nift_p'), ###Texture File hashes, Byte Array
-        MelStruct('ACBS','=I2Hh3Hf2H',
-            (_flags,'flags',0L),'fatigue','barterGold',
-            ('level',1),'calcMin','calcMax','speedMultiplier','karma','dispotionBase','templateFlags'),
+        MelStruct('ACBS','=I2Hh3Hf2H',(_flags,'flags',0L),'fatigue',
+            'barterGold',('level',1),'calcMin','calcMax','speedMultiplier',
+            'karma','dispotionBase','templateFlags'),
         MelStructs('SNAM','=IB3s','factions',
             (FID,'faction',None),'rank',('unused1','IFZ')),
         MelFid('INAM','deathItem'),
@@ -1796,16 +1799,18 @@ class MreCrea(MreActor):
         MelFid('SCRI','script'),
         MelGroups('items',
             MelStruct('CNTO','Ii',(FID,'item',None),('count',1)),
-            MelOptStruct('COED','IIf',(FID,'owner',None),(FID,'glob',None),('condition',1.0)),
+            MelOptStruct('COED','IIf',(FID,'owner',None),(FID,'glob',None),
+                ('condition',1.0)),
         ),
-        MelStruct('AIDT','=5B2I3Bi',
-            ('aggression',5),('confidence',50),('energyLevel',50),('responsibility',50),('mood',0L),
-            (aiService,'services',0L),(aiTrainSkill,'trainSkill',0L),'trainLevel','assistance',
-            'aggroRadiusBehavior','aggroRadius'),
+        MelStruct('AIDT','=5B3sIbBbBi',('aggression',5),('confidence',50),
+            ('energyLevel',50),('responsibility',50),('mood',0L),
+            'unused_aidt',(aiService,'services',0L),('trainSkill',-1),
+            'trainLevel','assistance','aggroRadiusBehavior','aggroRadius'),
         MelFids('PKID','aiPackages'),
         MelStrings('KFFZ','animations'),
-        MelStruct('DATA','=4BIH7B','type','combatSkill','magicSkill','StealthSkill',
-            'health','damage','strength','perception','endurance','charisma','intelligence','agility','luck'),
+        MelStruct('DATA','=4BIH7B','type','combatSkill','magicSkill',
+            'StealthSkill','health','damage','strength','perception',
+            'endurance','charisma','intelligence','agility','luck'),
         MelStruct('RNAM','B','attackReach'),
         MelFid('ZNAM','combatStyle'),
         MelFid('PNAM','bodyPartData'),
@@ -5722,7 +5727,7 @@ class MreSlpd(MelRecord):
     # Verified
 mergeClasses = (
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
-        MreLvli, MreLvln, MreMisc, MreAlch, MreBook, MreClas, MreCont,
+        MreLvli, MreLvln, MreMisc, MreAlch, MreBook, MreClas, MreCont, MreCrea,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5754,7 +5759,7 @@ def init():
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
         # Verified
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
-        MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook, MreClas, MreCont,
+        MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook, MreClas, MreCont, MreCrea,
         MreHeader,
         ))
     #--Simple records

@@ -22,7 +22,7 @@
 # =============================================================================
 
 """This modules defines static data for use by bush, when
-   Fallout New Vegas is set at the active game."""
+   Fallout: New Vegas is set at the active game."""
 
 # Imports ----------------------------------------------------------------------
 import struct
@@ -42,11 +42,11 @@ null4 = null1*4
 
 #--Name of the game
 displayName = u'Fallout New Vegas'
-#--Name of the game's filesystem folder.
+#--Name of the game as used in related filenames and paths.
 fsName = u'FalloutNV'
-#--Alternate display name to use instead of "Wrye Bash for ***"'
+#--Alternat display name of Wrye Bash when managing this game
 altName = u'Wrye Flash NV'
-#--Name of game's default ini file.
+#--Name of the default ini file.
 defaultIniFile = u'Fallout_default.ini'
 
 #--Exe to look for to see if this is the right game
@@ -712,6 +712,7 @@ patchers = (
     u'AliasesPatcher', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
     u'PatchMerger', u'StatsPatcher'
     )
+
 #--For ListMerger patcher (leveled list patcher)
 listTypes = ('LVLC','LVLI','LVLN')
 
@@ -967,7 +968,7 @@ class RecordHeader(brec.BaseRecordHeader):
 
     @staticmethod
     def unpack(ins):
-        """Returns a RecordHeader object by reading the niput stream."""
+        """Returns a RecordHeader object by reading the input stream."""
         type,size,uint0,uint1,uint2,uint3 = ins.unpack('=4s5I',24,'REC_HEADER')
         #--Bad type?
         if type not in esp.recordTypes:
@@ -1418,10 +1419,10 @@ class MreHeader(MreHeaderBase):
         MelNull('DATA'), # 8 Bytes in Length
         MelFidList('ONAM','overrides'),
         # INTV and INCC are not used in Fallout NV
-        #MelBase('INTV','ingv_p'),
-        #MelBase('INCC', 'ingv_p'),
+        #MelBase('INTV','intv_p'),
+        #MelBase('INCC', 'incc_p'),
         # wbByteArray for Edit = MelBase for Wrye Bash
-        MelBase('SCRN', 'ingv_p'),
+		MelBase('SCRN', 'scrn_p'),
         )
     __slots__ = MreHeaderBase.__slots__ + melSet.getSlotsUsed()
 

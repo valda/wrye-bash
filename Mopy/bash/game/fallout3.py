@@ -42,11 +42,11 @@ null4 = null1*4
 
 #--Name of the game
 displayName = u'Fallout 3'
-#--Name of the game's filesystem folder.
+#--Name of the game as used in related filenames and paths.
 fsName = u'Fallout3'
-#--Alternate display name to use instead of "Wrye Bash for ***"'
+#--Alternat display name of Wrye Bash when managing this game
 altName = u'Wrye Flash'
-#--Name of game's default ini file.
+#--Name of the default ini file.
 defaultIniFile = u'Fallout_default.ini'
 
 #--Exe to look for to see if this is the right game
@@ -914,7 +914,7 @@ class RecordHeader(brec.BaseRecordHeader):
     @staticmethod
     def unpack(ins):
         """Returns a RecordHeader object by reading the input stream."""
-        type,size,uint0,uint1,uint2,uint3 = ins.unpack('4s5I',24,'REC_HEAD')
+        type,size,uint0,uint1,uint2,uint3 = ins.unpack('4s5I',24,'REC_HEADER')
         #--Bad?
         if type not in esp.recordTypes:
             raise brec.ModError(ins.inName,u'Bad header type: '+repr(type))

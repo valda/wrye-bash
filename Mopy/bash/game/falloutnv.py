@@ -3510,8 +3510,38 @@ class MreSlgm(MelRecord):
 class MreSoun(MelRecord):
     """Sound record."""
     classType = 'SOUN'
-    _flags = Flags(0L,Flags.getNames('randomFrequencyShift', 'playAtRandom',
-        'environmentIgnored', 'randomLocation', 'loop','menuSound', '2d', '360LFE'))
+
+    # {0x0001} 'Random Frequency Shift',
+    # {0x0002} 'Play At Random',
+    # {0x0004} 'Environment Ignored',
+    # {0x0008} 'Random Location',
+    # {0x0010} 'Loop',
+    # {0x0020} 'Menu Sound',
+    # {0x0040} '2D',
+    # {0x0080} '360 LFE',
+    # {0x0100} 'Dialogue Sound',
+    # {0x0200} 'Envelope Fast',
+    # {0x0400} 'Envelope Slow',
+    # {0x0800} '2D Radius',
+    # {0x1000} 'Mute When Submerged',
+    # {0x2000} 'Start at Random Position'
+    _flags = Flags(0L,Flags.getNames(
+            'randomFrequencyShift',
+            'playAtRandom',
+            'environmentIgnored',
+            'randomLocation',
+            'loop',
+            'menuSound',
+            'twoD',
+            'three60LFE',
+            'dialogueSound',
+            'envelopeFast',
+            'envelopeSlow',
+            'twoDRadius',
+            'muteWhenSubmerged',
+            'startatRandomPosition',
+        ))
+
     class MelSounSndx(MelStruct):
         """SNDX is a reduced version of SNDD. Allow it to read in, but not set defaults or write."""
         def loadData(self,record,ins,type,size,readId):
@@ -3523,11 +3553,13 @@ class MreSoun(MelRecord):
             record.point4 = 0
             record.reverb = 0
             record.priority = 0
-            record.unknown = "\0"*8
+            record.xLoc = 0
+            record.yLoc = 0
         def getSlotsUsed(self):
             return ()
         def setDefault(self,record): return
         def dumpData(self,record,out): return
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
@@ -3535,11 +3567,11 @@ class MreSoun(MelRecord):
                   'corner1X','corner1Y','corner1Z'),
         MelString('FNAM','soundFile'),
         MelStruct('RNAM','B','_rnam'),
-        MelOptStruct('SNDD','=2BbsIh2B6HI8s',('minDistance',None), ('maxDistance',None), ('freqAdjustment',None), ('unused1',null1),
-            (_flags,'flags',None),('staticAtten',None),('stopTime',None),('startTime',None),
-            ('point0',0),('point1',0),('point2',0),('point3',0),('point4',0),('reverb',0),('priority',0),'unknown'),
-        MelSounSndx('SNDX','=2BbsIh2B',('minDistance',None), ('maxDistance',None), ('freqAdjustment',None), ('unused1',null1),
-            (_flags,'flags',None),('staticAtten',None),('stopTime',None),('startTime',None),),
+        MelOptStruct('SNDD','=2BbsIh2B6h3i',('minDistance',0), ('maxDistance',0), ('freqAdjustment',0), ('unused1',''),
+            (_flags,'flags',0L),('staticAtten',0),('stopTime',0),('startTime',0),
+            ('point0',0),('point1',0),('point2',0),('point3',0),('point4',0),('reverb',0),('priority',0), ('xLoc',0), ('yLoc',0),),
+        MelSounSndx('SNDX','=2BbsIh2B',('minDistance',0), ('maxDistance',0), ('freqAdjustment',0), ('unused1',''),
+            (_flags,'flags',0L),('staticAtten',0),('stopTime',0),('startTime',0),),
         MelBase('ANAM','_anam'), #--Should be a struct. Maybe later.
         MelBase('GNAM','_gnam'), #--Should be a struct. Maybe later.
         MelBase('HNAM','_hnam'), #--Should be a struct. Maybe later.
@@ -5499,12 +5531,12 @@ class MreMset(MelRecord):
         MelString('EDID','eid'),
         MelString('FULL','full'),
         MelStruct('NAM1','I','type'),
-        MelString('NAM2','I','nam2'),
-        MelString('NAM3','I','nam3'),
-        MelString('NAM4','I','nam4'),
-        MelString('NAM5','I','nam5'),
-        MelString('NAM6','I','nam6'),
-        MelString('NAM7','I','nam7'),
+        MelString('NAM2','nam2'),
+        MelString('NAM3','nam3'),
+        MelString('NAM4','nam4'),
+        MelString('NAM5','nam5'),
+        MelString('NAM6','nam6'),
+        MelString('NAM7','nam7'),
         MelStruct('NAM8','f','nam8'),
         MelStruct('NAM9','f','nam9'),
         MelStruct('NAM0','f','nam0'),
@@ -5522,8 +5554,8 @@ class MreMset(MelRecord):
         MelStruct('ENAM','f','enam'),
         MelStruct('FNAM','f','fnam'),
         MelStruct('GNAM','f','gnam'),
-        MelFid('HNAM','I','hnam'),
-        MelFid('INAM','I','inam'),
+        MelOptStruct('HNAM','I',(FID,'hnam')),
+        MelOptStruct('INAM','I',(FID,'inam')),
         MelBase('DATA','data'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -5731,7 +5763,7 @@ mergeClasses = (
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAlch, MreBook, MreClas, MreCont, MreCrea, MreDoor, MreEfsh,
         MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym, MreLigh, MreLscr,
-		MreMgef,
+		MreMgef, MreSoun, MreRegn, MreMset,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5765,7 +5797,7 @@ def init():
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook, MreClas, MreCont, MreCrea,
         MreDoor, MreEfsh, MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym,
-		MreLigh, MreLscr, MreMgef,
+		MreLigh, MreLscr, MreMgef, MreSoun, MreRegn, MreMset,
         MreHeader,
         ))
     #--Simple records

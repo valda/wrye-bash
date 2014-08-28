@@ -2266,6 +2266,7 @@ class MreKeym(MelRecord):
         MelFid('YNAM','soundPickUp'),
         MelFid('ZNAM','soundDrop'),
         MelStruct('DATA','if','value','weight'),
+		MelFid('RNAM','soundRandomLooping'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -5756,7 +5757,7 @@ class MreSlpd(MelRecord):
 mergeClasses = (
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAlch, MreBook, MreClas, MreCont, MreCrea, MreDoor, MreEfsh,
-        MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, 
+        MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5789,7 +5790,7 @@ def init():
         # Verified
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook, MreClas, MreCont, MreCrea,
-        MreDoor, MreEfsh, MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr,
+        MreDoor, MreEfsh, MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym,
         MreHeader,
         ))
     #--Simple records

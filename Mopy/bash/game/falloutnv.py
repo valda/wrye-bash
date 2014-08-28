@@ -3603,7 +3603,7 @@ class MreAspc(MelRecord):
 
 #------------------------------------------------------------------------------
 class MreSpel(MelRecord,MreHasEffects):
-    """Spell record."""
+    """Actor Effect"""
     classType = 'SPEL'
     class SpellFlags(Flags):
         """For SpellFlags, immuneSilence activates bits 1 AND 3."""
@@ -5766,7 +5766,7 @@ mergeClasses = (
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAlch, MreBook, MreClas, MreCont, MreCrea, MreDoor, MreEfsh,
         MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym, MreLigh, MreLscr,
-		MreMgef, MreSoun, MreRegn, MreMset, MreNpc, MrePack,
+		MreMgef, MreSoun, MreRegn, MreMset, MreNpc, MrePack, MreQust, MreRace, MreScpt, MreSpel,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5800,7 +5800,8 @@ def init():
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook, MreClas, MreCont, MreCrea,
         MreDoor, MreEfsh, MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym,
-		MreLigh, MreLscr, MreMgef, MreSoun, MreRegn, MreMset, MreNpc, MrePack,
+		MreLigh, MreLscr, MreMgef, MreSoun, MreRegn, MreMset, MreNpc, MrePack, MreQust, MreRace,
+		MreScpt, MreSpel,
         MreHeader,
         ))
     #--Simple records

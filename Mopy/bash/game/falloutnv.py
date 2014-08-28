@@ -5140,6 +5140,7 @@ class MreFact(MelRecord):
     """Faction record."""
     classType = 'FACT'
     _flags = Flags(0L,Flags.getNames('hiddenFromPC','evil','specialCombat'))
+    _flags2 = Flags(0L,Flags.getNames('trackCrime','allowSell',))
 
     class MelFactData(MelStruct):
         """Handle older trucated DATA for FACT subrecord."""
@@ -5166,7 +5167,7 @@ class MreFact(MelRecord):
         MelString('EDID','eid'),
         MelString('FULL','full'),
         MelStructs('XNAM','I2i','relations',(FID,'faction'),'mod','groupCombatReaction'),
-        MelFactData('DATA','2BH',(_flags,'flags',0L),'flags2','unknown'),
+        MelFactData('DATA','2BH',(_flags,'flags',0L),(_flags2,'flags2',0L),'unknown'),
         MelOptStruct('CNAM','f',('crimeGoldMultiplier',None)),
         MelGroups('ranks',
             MelStruct('RNAM','i','rank'),
@@ -5740,7 +5741,7 @@ class MreSlpd(MelRecord):
 mergeClasses = (
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAlch, MreBook, MreClas, MreCont, MreCrea, MreDoor, MreEfsh,
-        MreEnch, MreEyes,
+        MreEnch, MreEyes, MreFact, MreFurn, MreGras,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5773,7 +5774,7 @@ def init():
         # Verified
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook, MreClas, MreCont, MreCrea,
-        MreDoor, MreEfsh, MreEnch, MreEyes,
+        MreDoor, MreEfsh, MreEnch, MreEyes, MreFact, MreFurn, MreGras,
         MreHeader,
         ))
     #--Simple records

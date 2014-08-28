@@ -2271,6 +2271,29 @@ class MreKeym(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MreLigh(MelRecord):
+    """Light source record."""
+    classType = 'LIGH'
+    _flags = Flags(0L,Flags.getNames('dynamic','canTake','negative','flickers',
+        'unk1','offByDefault','flickerSlow','pulse','pulseSlow','spotLight','spotShadow'))
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('OBND','=6h',
+                  'corner0X','corner0Y','corner0Z',
+                  'corner1X','corner1Y','corner1Z'),
+        MelModel(),
+        MelFid('SCRI','script'),
+        MelDestructible(),
+        MelString('FULL','full'),
+        MelString('ICON','iconPath'),
+        MelStruct('DATA','iI3BsI2fIf','duration','radius','red','green','blue',('unused1',null1),
+            (_flags,'flags',0L),'falloff','fov','value','weight'),
+        MelOptStruct('FNAM','f',('fade',None)),
+        MelFid('SNAM','sound'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
 class MreLeveledList(MelRecord):
     """Leveled item/creature/spell list.."""
     _flags = Flags(0,Flags.getNames('calcFromAllLevels','calcForEachItem','useAllSpells'))
@@ -5300,47 +5323,6 @@ class MreInfo(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
-class MreLigh(MelRecord):
-    """Light source record."""
-    classType = 'LIGH'
-    _flags = Flags(0L,Flags.getNames('dynamic','canTake','negative','flickers',
-        'unk1','offByDefault','flickerSlow','pulse','pulseSlow','spotLight','spotShadow'))
-    #--Mel NPC DATA
-    class MelLighData(MelStruct):
-        """Handle older trucated DATA for LIGH subrecord."""
-        def loadData(self,record,ins,type,size,readId):
-            if size == 32:
-                MelStruct.loadData(self,record,ins,type,size,readId)
-                return
-            elif size == 24:
-                #--Else 24 byte record (skips value and weight...
-                unpacked = ins.unpack('iI3BsIff',size,readId)
-            else:
-                raise ModError(ins.inName,_('Unexpected size encountered for LIGH:DATA subrecord: ')+str(size))
-            unpacked += self.defaults[len(unpacked):]
-            setter = record.__setattr__
-            for attr,value,action in zip(self.attrs,unpacked,self.actions):
-                if callable(action): value = action(value)
-                setter(attr,value)
-            if self._debug: print unpacked, record.flags.getTrueAttrs()
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
-        MelModel(),
-        MelFid('SCRI','script'),
-        MelDestructible(), ### Rescue unexpected (or out of order) subrecord in EVE FNV.esp
-        MelString('FULL','full'),
-        MelString('ICON','iconPath'),
-        MelLighData('DATA','iI3BsIffIf','duration','radius','red','green','blue',('unused1',null1),
-            (_flags,'flags',0L),'falloff','fov','value','weight'),
-        MelOptStruct('FNAM','f',('fade',None)),
-        MelFid('SNAM','sound'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-#------------------------------------------------------------------------------
 class MreLscr(MelRecord):
     """Load screen."""
     classType = 'LSCR'
@@ -5757,7 +5739,7 @@ class MreSlpd(MelRecord):
 mergeClasses = (
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAlch, MreBook, MreClas, MreCont, MreCrea, MreDoor, MreEfsh,
-        MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym,
+        MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym, MreLigh,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5791,6 +5773,7 @@ def init():
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook, MreClas, MreCont, MreCrea,
         MreDoor, MreEfsh, MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym,
+		MreLigh,
         MreHeader,
         ))
     #--Simple records

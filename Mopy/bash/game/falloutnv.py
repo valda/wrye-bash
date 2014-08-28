@@ -2123,7 +2123,7 @@ class MreEfsh(MelRecord):
 class MreEnch(MelRecord,MreHasEffects):
     """Enchantment (Object Effect) record."""
     classType = 'ENCH'
-    _flags = Flags(0L,Flags.getNames('noAutoCalc'))
+    _flags = Flags(0L,Flags.getNames('noAutoCalc','autoCalculate','hideEffect'))
     melSet = MelSet(
         MelString('EDID','eid'),
         MelFull0(), #--At least one mod has this. Odd.
@@ -2137,7 +2137,7 @@ class MreEnch(MelRecord,MreHasEffects):
 class MreEyes(MelRecord):
     """Eyes record."""
     classType = 'EYES'
-    _flags = Flags(0L,Flags.getNames('playable',))
+    _flags = Flags(0L,Flags.getNames('playable','notMale','notFemale',))
     melSet = MelSet(
         MelString('EDID','eid'),
         MelString('FULL','full'),
@@ -5740,6 +5740,7 @@ class MreSlpd(MelRecord):
 mergeClasses = (
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAlch, MreBook, MreClas, MreCont, MreCrea, MreDoor, MreEfsh,
+        MreEnch, MreEyes,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5772,7 +5773,7 @@ def init():
         # Verified
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook, MreClas, MreCont, MreCrea,
-        MreDoor, MreEfsh, 
+        MreDoor, MreEfsh, MreEnch, MreEyes,
         MreHeader,
         ))
     #--Simple records

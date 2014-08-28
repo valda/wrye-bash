@@ -3847,23 +3847,23 @@ class MreWeap(MelRecord):
                 MelStruct.loadData(self,record,ins,type,size,readId)
                 return
             elif size == 200:
-                unpacked = ins.unpack('Iff4B5fI4BffII11fIIffIfff f3I3fIIsB2s6f',size,readId)
+                unpacked = ins.unpack('I2f4B5fI4B2f2I11fiI2fi4f3I3f2IsB2s6f',size,readId)
             elif size == 196:
-                unpacked = ins.unpack('Iff4B5fI4BffII11fIIffIfff f3I3fIIsB2s5f',size,readId)
+                unpacked = ins.unpack('I2f4B5fI4B2f2I11fiI2fi4f3I3f2IsB2s5f',size,readId)
             elif size == 180:
-                unpacked = ins.unpack('Iff4B5fI4BffII11fIIffIfff f3I3fIIsB2sf',size,readId)
+                unpacked = ins.unpack('I2f4B5fI4B2f2I11fiI2fi4f3I3f2IsB2sf',size,readId)
             elif size == 172:
-                unpacked = ins.unpack('Iff4B5fI4BffII11fIIffIfff f3I3fII',size,readId)
+                unpacked = ins.unpack('I2f4B5fI4B2f2I11fiI2fi4f3I3f2I',size,readId)
             elif size == 164:
-                unpacked = ins.unpack('Iff4B5fI4BffII11fIIffIfff f3I3f',size,readId)
+                unpacked = ins.unpack('I2f4B5fI4B2f2I11fiI2fi4f3I3f',size,readId)
             elif size == 136:
-                unpacked = ins.unpack('Iff4B5fI4BffII11fIIffIfff',size,readId)
+                unpacked = ins.unpack('I2f4B5fI4B2f2I11fiI2fi3f',size,readId)
             elif size == 124:
                 #--Else 124 byte record (skips sightUsage, semiAutomaticFireDelayMin and semiAutomaticFireDelayMax...
-                unpacked = ins.unpack('Iff4B5fI4BffII11fIIffI',size,readId)
+                unpacked = ins.unpack('I2f4B5fI4B2f2I11fiI2fi',size,readId)
             elif size == 120:
                 #--Else 120 byte record (skips resistType, sightUsage, semiAutomaticFireDelayMin and semiAutomaticFireDelayMax...
-                unpacked = ins.unpack('Iff4B5fI4BffII11fIIff',size,readId)
+                unpacked = ins.unpack('I2f4B5fI4B2f2I11fiI2f',size,readId)
             else:
                 raise "Unexpected size encountered for WEAP:DNAM subrecord: %s" % size
             unpacked += self.defaults[len(unpacked):]
@@ -3954,7 +3954,7 @@ class MreWeap(MelRecord):
         MelFids('WMS1','soundMod1Shoot3Ds'),
         MelFid('WMS2','soundMod1Shoot2D'),
         MelStruct('DATA','2IfHB','value','health','weight','damage','clipsize'),
-        MelWeapDnam('DNAM','Iff4B5fI4BffII11fIIffIfff f3I3fIIsB2s6fI',
+        MelWeapDnam('DNAM','I2f4B5fI4B2f2I11fiI2fi4f3I3f2IsB2s6fI',
                     'animationType','animationMultiplier','reach',(_dflags1,'dnamFlags1',0L),
                     'gripAnimation','ammoUse','reloadAnimation','minSpread','spread',
                     'unknown','sightFov','unknown2',(FID,'projectile',0L),
@@ -5774,7 +5774,7 @@ mergeClasses = (
         MreLvli, MreLvln, MreMisc, MreAlch, MreBook, MreClas, MreCont, MreCrea, MreDoor, MreEfsh,
         MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym, MreLigh, MreLscr,
 		MreMgef, MreSoun, MreRegn, MreMset, MreNpc, MrePack, MreQust, MreRace, MreScpt, MreSpel,
-		MreStat, MreIpds, MreTree, MreWatr,
+		MreStat, MreIpds, MreTree, MreWatr, MreWeap,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5809,7 +5809,7 @@ def init():
         MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook, MreClas, MreCont, MreCrea,
         MreDoor, MreEfsh, MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym,
 		MreLigh, MreLscr, MreMgef, MreSoun, MreRegn, MreMset, MreNpc, MrePack, MreQust, MreRace,
-		MreScpt, MreSpel, MreStat, MreIpds, MreTree, MreWatr,
+		MreScpt, MreSpel, MreStat, MreIpds, MreTree, MreWatr, MreWeap,
         MreHeader,
         ))
     #--Simple records

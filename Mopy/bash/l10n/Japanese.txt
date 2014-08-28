@@ -179,7 +179,7 @@ msgstr "進行"
 
 #: bash\balt.py:2038 bash\basher.py:13113
 msgid "Delete these items? This operation cannot be undone."
-msgstr "これらのアイテムを削除しますか？この操作は元に戻すことはできません。"
+msgstr "これらのアイテムを削除しますか？この操作は取り消しできません。"
 
 #: bash\balt.py:2040 bash\basher.py:993
 msgid "Delete Items"
@@ -682,23 +682,23 @@ msgstr "これは、より高いインストール優先度のパッケージに
 
 #: bash\basher.py:237
 msgid "Dirty Installer"
-msgstr "好ましくないインストーラ"
+msgstr "構成変更されたインストーラ"
 
 #: bash\basher.py:240
 msgid "This is the background color used for an installer that is configured in a \"dirty\" manner.  This means changes have been made to its configuration, and an Anneal or Install needs to be performed to make the install match what is configured."
-msgstr ""
+msgstr "これは構成が変更されたインストーラで使う背景色です。これは構成に変更が加えられた為、インストール内容を一致させる為に補完または再インストールする必要があるという事を意味します。"
 
 #: bash\basher.py:242
 msgid "Screenshot Background"
-msgstr ""
+msgstr "スクリーンショットの背景"
 
 #: bash\basher.py:243
 msgid "Tabs: Saves, Screens"
-msgstr ""
+msgstr "タブ: セーブ, スクリーンショット"
 
 #: bash\basher.py:245
 msgid "This is the background color used for images."
-msgstr ""
+msgstr "これはスクリーンショットの背景色です。"
 
 #: bash\basher.py:252 bash\bosh.py:8042
 msgid "Installers"
@@ -730,7 +730,7 @@ msgstr "人物"
 
 #: bash\basher.py:356
 msgid "Mod Status"
-msgstr ""
+msgstr "Mod状態"
 
 #: bash\basher.py:357 bash\basher.py:5023
 msgid "Author"
@@ -738,7 +738,7 @@ msgstr "作者"
 
 #: bash\basher.py:358 bash\bush.py:601
 msgid "Cell"
-msgstr ""
+msgstr "セル"
 
 #: bash\basher.py:359 bash\basher.py:12692
 msgid "CRC"
@@ -835,11 +835,11 @@ msgstr "題名"
 
 #: bash\basher.py:991 bash\basher.py:13110
 msgid "Uncheck items to skip deleting them if desired."
-msgstr ""
+msgstr "削除しない項目のチェックを外して下さい。"
 
 #: bash\basher.py:994
 msgid "Delete these items?  This operation cannot be undone."
-msgstr ""
+msgstr "これらの項目を削除しますか？この操作は取り消しできません。"
 
 #: bash\basher.py:1009 bash\basher.py:1035 bash\basher.py:1791
 #: bash\basher.py:2043 bash\basher.py:8332
@@ -848,7 +848,7 @@ msgstr ""
 
 #: bash\basher.py:1029
 msgid "Children deactivated:"
-msgstr ""
+msgstr "個の参照MODを非アクティブ化:"
 
 #: bash\basher.py:1032
 msgid "Plugins may not be sorted before the game's master file."
@@ -856,15 +856,15 @@ msgstr ""
 
 #: bash\basher.py:1048
 msgid "Masters activated:"
-msgstr ""
+msgstr "個のマスターをアクティブ化:"
 
 #: bash\basher.py:1050 bash\basher.py:7008 bash\basher.py:7123
 msgid "Unable to add mod %s because load list is full."
-msgstr ""
+msgstr "ロードリストが一杯の為、%sを追加できません。"
 
 #: bash\basher.py:1401
 msgid "Edit/update the masters list? Note that the update process may automatically rename some files. Be sure to review the changes before saving."
-msgstr ""
+msgstr "マスターリストを編集・更新しますか？更新処理が自動的にいくつかのファイル名を変更することがあります。保存する前に変更内容を確認してください。"
 
 #: bash\basher.py:1402
 msgid "Update Masters"
@@ -872,31 +872,31 @@ msgstr "マスターをアップデート"
 
 #: bash\basher.py:1424
 msgid "File %s does not exist."
-msgstr ""
+msgstr "ファイル%sが存在しません。"
 
 #: bash\basher.py:1478
 msgid "Active Ini Tweaks:"
-msgstr ""
+msgstr "有効なINI調整:"
 
 #: bash\basher.py:1532
 msgid "Tweak is currently applied."
-msgstr ""
+msgstr "調整は現在適用されています。"
 
 #: bash\basher.py:1537
 msgid "Some settings are applied.  Some are overwritten by another tweak from the same installer."
-msgstr ""
+msgstr "一部の設定が適用されます。いくつかは同じインストーラの別の調整によって上書きされます。"
 
 #: bash\basher.py:1542
 msgid "Some settings are changed."
-msgstr ""
+msgstr "一部の設定が変更されました。"
 
 #: bash\basher.py:1547
 msgid "Tweak is invalid"
-msgstr "Tweakは無効です"
+msgstr "調整は無効です"
 
 #: bash\basher.py:1594 bash\basher.py:9544 bash\basher.py:11278
 msgid "Apply an ini tweak to %s?"
-msgstr ""
+msgstr "INI調整を%sに適用しますか？"
 
 #: bash\basher.py:1596 bash\basher.py:9546
 msgid "WARNING: Incorrect tweaks can result in CTDs and even damage to you computer!"

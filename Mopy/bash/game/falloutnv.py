@@ -2369,7 +2369,7 @@ class MreCrea(MreActor):
         ('energyLevel',50),('responsibility',50),
         #0:Neutral,1:Afraid,2:Annoyed,3:Cocky,4:Drugged,5:Pleasant,6:Angry,7:Sad
         ('mood',0),
-        'unused_aidt',(aiService,'services',0L),
+        ('unused_aidt',null3),(aiService,'services',0L),
         #-1:None,0:Barter,1:Big Guns (obsolete),2:Energy Weapons,3:Explosives
         #4:Lockpick,5:Medicine,6:Melee Weapons,7:Repair,8:Science,9:Guns,10:Sneak
         #11:Speech,12:Survival,13:Unarmed,
@@ -3902,7 +3902,7 @@ class MreNpc(MreActor):
         ('energyLevel',50),('responsibility',50),
         #0:Neutral,1:Afraid,2:Annoyed,3:Cocky,4:Drugged,5:Pleasant,6:Angry,7:Sad
         ('mood',0),
-        'unused_aidt',(aiService,'services',0L),
+        ('unused_aidt',null3),(aiService,'services',0L),
         #-1:None,0:Barter,1:Big Guns (obsolete),2:Energy Weapons,3:Explosives
         #4:Lockpick,5:Medicine,6:Melee Weapons,7:Repair,8:Science,9:Guns,10:Sneak
         #11:Speech,12:Survival,13:Unarmed,

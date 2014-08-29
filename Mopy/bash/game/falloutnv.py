@@ -728,9 +728,7 @@ namesTypes = set((
         'AMMO',
         ))
 pricesTypes = {'AMMO':{},}
-statsTypes = {
         # 'ALCH':('eid', 'weight', 'value'),
-        'AMMO':('eid', 'weight', 'value', 'speed', 'clipRounds','projPerShot'),
         # 'ARMO':('eid', 'weight', 'value', 'health', 'ar','dt'),
         # 'ARMA':('eid', 'weight', 'value', 'health', 'ar','dt'),
         # 'BOOK':('eid', 'weight', 'value'),
@@ -747,6 +745,8 @@ statsTypes = {
         #         'strengthReq','regenRate','killImpulse','impulseDist','skillReq',
         #         'criticalDamage','criticalMultiplier',
         #         'vatsSkill','vatsDamMult','vatsAp'),
+statsTypes = {
+        'AMMO':('eid', 'weight', 'value', 'speed', 'clipRounds','projPerShot'),
         }
 statsHeaders = (
         #--Alch

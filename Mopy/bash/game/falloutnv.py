@@ -31,7 +31,7 @@ from .. import bolt
 from .. import bush
 from ..brec import *
 from falloutnv_const import bethDataFiles, allBethFiles
-from ..bolt import Flags, DataDict, StateError
+from ..bolt import Flags, DataDict, StateError, _unicode, _encode
 
 # Util Constants ---------------------------------------------------------------
 #--Null strings (for default empty byte arrays)
@@ -1217,7 +1217,7 @@ class MelAlternateTextures(MelBase):
         data += struct.pack('=I',len(textures))
         for name,fid,index in textures:
             data += struct.pack('=I',len(name))
-            data += name
+            data += _encode(name,firstEncoding=bolt.pluginEncoding)
             data += struct.pack('=I',fid)
             data += struct.pack('=I',index)
         out.packSub(self.subType,data)

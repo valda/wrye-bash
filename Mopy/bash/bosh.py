@@ -10396,7 +10396,10 @@ class PatchFile(ModFile):
         self.compiledAllMods = []
         self.patcher_mod_skipcount = {}
         #--Config
-        self.bodyTags = 'ARGHTCCPBS' #--Default bodytags
+        if bush.game.fsName in (u'FalloutNV', u'Fallout3',):
+            self.bodyTags = 'HAGPBFE' #--Default bodytags
+        else:
+            self.bodyTags = 'ARGHTCCPBS' #--Default bodytags
         #--Mods
         loadMods = [name for name in modInfos.ordered if bush.fullLoadOrder[name] < bush.fullLoadOrder[PatchFile.patchName]]
         if not loadMods:
@@ -10475,10 +10478,12 @@ class PatchFile(ModFile):
                 #--Error checks
                 if 'WRLD' in modFile.tops and modFile.WRLD.orphansSkipped:
                     self.worldOrphanMods.append(modName)
-                if 'SCPT' in modFile.tops and modName != u'Oblivion.esm':
-                    gls = modFile.SCPT.getRecord(0x00025811)
-                    if gls and gls.compiledSize == 4 and gls.lastIndex == 0:
-                        self.compiledAllMods.append(modName)
+                # Probably Oblivion Only
+                if bush.game.fsName == u'Oblivion':
+                    if 'SCPT' in modFile.tops and modName != u'Oblivion.esm':
+                        gls = modFile.SCPT.getRecord(0x00025811)
+                        if gls and gls.compiledSize == 4 and gls.lastIndex == 0:
+                            self.compiledAllMods.append(modName)
                 pstate = index+0.5
                 isMerged = modName in self.mergeSet
                 doFilter = isMerged and u'Filter' in bashTags
@@ -10509,14 +10514,18 @@ class PatchFile(ModFile):
         mergeIdsAdd = mergeIds.add
         loadSet = self.loadSet
         modFile.convertToLongFids()
-        badForm = (GPath(u"Oblivion.esm"),0xA31D) #--DarkPCB record
+        # Probably Oblivion Only
+        if bush.game.fsName == u'Oblivion':
+            badForm = (GPath(u"Oblivion.esm"),0xA31D) #--DarkPCB record
+        else:
+            badForm = ()
         selfLoadFactoryRecTypes = self.loadFactory.recTypes
         selfMergeFactoryType_class = self.mergeFactory.type_class
         selfReadFactoryAddClass = self.readFactory.addClass
         selfLoadFactoryAddClass = self.loadFactory.addClass
         nullFid = (GPath(modInfos.masterName),0)
         for blockType,block in modFile.tops.iteritems():
-            iiSkipMerge = iiMode and blockType not in ('LVLC','LVLI','LVSP')
+            iiSkipMerge = iiMode and blockType not in ('LVLC','LVLI','LVLN','LVSP')
             #--Make sure block type is also in read and write factories
             if blockType not in selfLoadFactoryRecTypes:
                 recClass = selfMergeFactoryType_class[blockType]

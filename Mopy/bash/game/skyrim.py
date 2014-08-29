@@ -2390,7 +2390,7 @@ class MelCTDAHandler(MelStructs):
             form12345 = form1+form2+form3+form4+form5
             unpacked2 = ins.unpack(form12345,20,readId)
             (target.param1,target.param2,target.runOn,target.reference,target.param3) = unpacked2
-        if size == 28:
+        elif size == 28:
             form12345 = form1+form2+form3+form4
             unpacked2 = ins.unpack(form1234,16,readId)
             (target.param1,target.param2,target.runOn,target.reference) = unpacked2

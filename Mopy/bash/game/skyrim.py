@@ -1721,7 +1721,8 @@ CBash_patchers = tuple()
 # For ListsMerger
 listTypes = ('LVLI','LVLN','LVSP',)
 
-namesTypes = set(('ACTI', 'AMMO', 'ARMO', 'APPA', 'MISC',
+namesTypes = set((
+        'ACTI', 'AMMO', 'ARMO', 'APPA', 'MISC',
 ))
 pricesTypes = {'AMMO':{},'ARMO':{},'APPA':{},'MISC':{}}
 statsTypes = {

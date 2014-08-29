@@ -720,11 +720,11 @@ CBash_patchers = (
 #--For ListMerger patcher (leveled list patcher)
 listTypes = ('LVLC','LVLI','LVLN')
 
-namesTypes = set((
         # 'ALCH', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR',
         # 'EYES', 'FACT', 'FLOfR', 'HAIR', 'INGR', 'KEYM', 'LIGH', 'MISC', 'NOTE', 'NPC_',
         # 'RACE', 'SPEL', 'TERM', 'WEAP', 'ACTI', 'TACT',
         # 'CMNY', 'CCRD', 'IMOD', 'REPU', 'RCPE', 'RCCT', 'CHIP', 'CSNO'
+namesTypes = set((
         'AMMO',
         ))
 pricesTypes = {'AMMO':{},}

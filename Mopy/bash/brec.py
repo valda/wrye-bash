@@ -947,7 +947,6 @@ class MelStruct(MelBase):
             result = function(getter(attr))
             if save: setter(attr,result)
 
-
 #------------------------------------------------------------------------------
 class MelStructs(MelStruct):
     """Represents array of structured records."""

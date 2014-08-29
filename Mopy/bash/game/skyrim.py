@@ -1445,7 +1445,8 @@ gmstEids = ['bAutoAimBasedOnDistance','fActionPointsAttackMagic','fActionPointsA
     ]
 
 #--Tags supported by this game
-allTags = sorted((u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats'
+allTags = sorted((
+    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats'
 ))
 
 #--GLOB record tweaks used by bosh's GmstTweaker

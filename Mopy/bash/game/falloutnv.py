@@ -660,7 +660,6 @@ gmstEids = ['fPlayerDeathReloadTime','iMapMarkerVisibleDistance','fVanityModeWhe
     ]
 
 #--Bash Tags supported by this game
-allTags = sorted((
     # 'Body-F', 'Body-M', 'Body-Size-M', 'Body-Size-F', 'C.Climate', 'C.Light', 'C.Music', 'C.Name', 'C.RecordFlags',
     # 'C.Owner', 'C.Water','Deactivate', 'Eyes', 'Factions', 'Relations', 'Filter', 'Graphics', 'Hair',
     # 'IIM', 'Invent', 'Names', 'NoMerge', 'NpcFaces', 'R.Relations', 'Scripts', 'ScriptContents', 'Sound',
@@ -670,7 +669,8 @@ allTags = sorted((
     # 'Actors.ACBS', 'NPC.Class', 'Actors.CombatStyle', 'Creatures.Blood',
     # 'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
     # 'Deflst', 'Destructible', 'WeaponMods'
-    'Delev', 'Relev',
+allTags = sorted((
+    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate'
     ))
 
 #--GLOB record tweaks used by bosh's GmstTweaker

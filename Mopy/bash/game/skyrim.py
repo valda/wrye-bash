@@ -2344,8 +2344,8 @@ class MelVmad(MelBase):
 
 # Common/Special Elements
 #-------------------------------------------------------------------------------
-class MelConditions(MelStructs):
-    """Represents a set of quest/dialog/etc conditions. Difficulty is that FID
+class MelCTDAHandler(MelStructs):
+    """Represents the CTDA subrecord and it components. Difficulty is that FID
     state of parameters depends on function index."""
     def __init__(self):
         """Initialize."""
@@ -2447,6 +2447,17 @@ class MelConditions(MelStructs):
             if len(form12345) > 4 and form12345[4] == 'I':
                 result = function(target.param3)
                 if save: target.param3 = result
+                
+class MelConditions(MelGroups):
+    """Represents a set of quest/dialog/etc conditions"""
+
+    def __init__(self,attr='conditions'):
+        """Initialize elements."""
+        MelGroups.__init__(self,attr,
+            MelCTDAHandler(),
+            MelString('CIS1','param_cis1'),
+            MelString('CIS2','param_cis2'),
+            )
 
 #------------------------------------------------------------------------------
 class MelDestructible(MelGroup):

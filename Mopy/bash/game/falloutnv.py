@@ -1079,8 +1079,9 @@ class MelConditions(MelStructs):
     of parameters depends on function index."""
     def __init__(self):
         """Initialize."""
-        MelStructs.__init__(self,'CTDA','B3sfIiiii','conditions',
-            'operFlag',('unused1',null3),'compValue','ifunc','param1','param2','param3','param4')
+        MelStructs.__init__(self,'CTDA','B3sfIiiII','conditions',
+            'operFlag',('unused1',null3),'compValue','ifunc',
+			'param1','param2','runOn','reference')
 
     def getLoaders(self,loaders):
         """Adds self as loader for type."""
@@ -1112,42 +1113,43 @@ class MelConditions(MelStructs):
         unpacked1 = ins.unpack('B3sfI',12,readId)
         (target.operFlag,target.unused1,target.compValue,ifunc) = unpacked1
         #--Get parameters
-        if ifunc not in bush.allConditions:
-            raise BoltError(_(u'Unknown condition function: %d') % ifunc)
-        form1 = 'iI'[ifunc in bush.fid1Conditions]
-        form2 = 'iI'[ifunc in bush.fid2Conditions]
-        form3 = 'iI'[ifunc in bush.fid3Conditions]
-        form4 = 'iI'[ifunc in bush.fid4Conditions]
+        if ifunc not in allConditions:
+            raise bolt.BoltError(u'Unknown condition function: %d\nparam1: %08X\nparam2: %08X' % (ifunc,ins.unpackRef(), ins.unpackRef()))
+        form1 = 'I' if ifunc in fid1Conditions else 'i'
+        form2 = 'I' if ifunc in fid2Conditions else 'i'
+        form3 = 'I' if ifunc in fid3Conditions else 'i'
+        form4 = 'I' if ifunc in fid4Conditions else 'i'
         if size == 28:
             form1234 = form1+form2+form3+form4
             unpacked2 = ins.unpack(form1234,16,readId)
-            (target.param1,target.param2,target.param3,target.param4) = unpacked2
+            (target.param1,target.param2,target.runOn,target.reference) = unpacked2
         elif size == 24:
             form1234 = form1+form2+form3
             unpacked2 = ins.unpack(form1234,12,readId)
-            (target.param1,target.param2,target.param3) = unpacked2
-            target.param4 = null4
+            (target.param1,target.param2,target.runOn) = unpacked2
+            target.reference = null4
         elif size == 20:
             form1234 = form1+form2
             unpacked2 = ins.unpack(form1234,8,readId)
             (target.param1,target.param2) = unpacked2
-            target.param3 = null4
-            target.param4 = null4
+            target.runOn = null4
+            target.reference = null4
         else:
             raise ModSizeError(ins.inName,readId,28,size,False)
         (target.ifunc,target.form1234) = (ifunc,form1234)
         if self._debug:
             unpacked = unpacked1+unpacked2
-            print ' ',zip(self.attrs,unpacked)
+            print u' ',zip(self.attrs,unpacked)
             if len(unpacked) != len(self.attrs):
-                print ' ',unpacked
+                print u' ',unpacked
 
     def dumpData(self,record,out):
         """Dumps data from record to outstream."""
         for target in record.conditions:
             out.packSub('CTDA','B3sfI'+target.form1234,
                 target.operFlag, target.unused1, target.compValue,
-                target.ifunc, target.param1, target.param2, target.param3, target.param4)
+                target.ifunc, target.param1, target.param2, 
+				target.runOn, target.reference)
 
     def mapFids(self,record,function,save=False):
         """Applies function to fids. If save is true, then fid is set
@@ -1161,11 +1163,11 @@ class MelConditions(MelStructs):
                 result = function(target.param2)
                 if save: target.param2 = result
             if len(form1234) > 2 and form1234[2] == 'I':
-                result = function(target.param3)
-                if save: target.param3 = result
+                result = function(target.runOn)
+                if save: target.runOn = result
             if len(form1234) > 3 and form1234[3] == 'I':
-                result = function(target.param4)
-                if save: target.param4 = result
+                result = function(target.reference)
+                if save: target.reference = result
 
 #------------------------------------------------------------------------------
 class MelDestructible(MelGroup):

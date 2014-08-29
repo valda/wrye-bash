@@ -1500,6 +1500,23 @@ patchers = (
     'SoundPatcher', 'StatsPatcher', 'SEWorldEnforcer', 'ContentsChecker',
     )
 
+#--CBash patchers available when building a Bashed Patch
+CBash_patchers = (
+    'CBash_AliasesPatcher', 'CBash_AssortedTweaker', 'CBash_PatchMerger',
+    'CBash_AlchemicalCatalogs', 'CBash_KFFZPatcher', 'CBash_ActorImporter',
+    'CBash_DeathItemPatcher', 'CBash_NPCAIPackagePatcher',
+    'CBash_CoblExhaustion', 'CBash_UpdateReferences', 'CBash_CellImporter',
+    'CBash_ClothesTweaker', 'CBash_GmstTweaker',
+    'CBash_GraphicsPatcher', 'CBash_ImportFactions', 'CBash_ImportInventory',
+    'CBash_SpellsPatcher', 'CBash_TweakActors', 'CBash_ImportRelations',
+    'CBash_ImportScripts',
+    'CBash_ImportActorsSpells', 'CBash_ListsMerger', 'CBash_MFactMarker',
+    'CBash_NamesPatcher', 'CBash_NamesTweaker', 'CBash_NpcFacePatcher',
+    'CBash_RacePatcher', 'CBash_RoadImporter',
+    'CBash_SoundPatcher', 'CBash_StatsPatcher', 'CBash_SEWorldEnforcer',
+    'CBash_ContentsChecker',
+    )
+
 # For ListsMerger
 listTypes = ('LVLC','LVLI','LVSP',)
 
@@ -1578,23 +1595,6 @@ statsHeaders = (
                     _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Health'),_(u'Damage'),
                     _(u'Speed'),_(u'Reach'),_(u'EPoints'))) + u'"\n')),
                 )
-
-#--CBash patchers available when building a Bashed Patch
-CBash_patchers = (
-    'CBash_AliasesPatcher', 'CBash_AssortedTweaker', 'CBash_PatchMerger',
-    'CBash_AlchemicalCatalogs', 'CBash_KFFZPatcher', 'CBash_ActorImporter',
-    'CBash_DeathItemPatcher', 'CBash_NPCAIPackagePatcher',
-    'CBash_CoblExhaustion', 'CBash_UpdateReferences', 'CBash_CellImporter',
-    'CBash_ClothesTweaker', 'CBash_GmstTweaker',
-    'CBash_GraphicsPatcher', 'CBash_ImportFactions', 'CBash_ImportInventory',
-    'CBash_SpellsPatcher', 'CBash_TweakActors', 'CBash_ImportRelations',
-    'CBash_ImportScripts',
-    'CBash_ImportActorsSpells', 'CBash_ListsMerger', 'CBash_MFactMarker',
-    'CBash_NamesPatcher', 'CBash_NamesTweaker', 'CBash_NpcFacePatcher',
-    'CBash_RacePatcher', 'CBash_RoadImporter',
-    'CBash_SoundPatcher', 'CBash_StatsPatcher', 'CBash_SEWorldEnforcer',
-    'CBash_ContentsChecker',
-    )
 
 # Race Info -------------------------------------------------------------------
 raceNames = {
@@ -1905,37 +1905,6 @@ class MelBipedFlags(bolt.Flags):
         if newNames: names.update(newNames)
         Flags.__init__(self,default,names)
 
-#-------------------------------------------------------------------------------
-# Oblivion Records 0 -----------------------------------------------------------
-
-class MreHeader(MreHeaderBase):
-    """TES4 Record.  File header."""
-    classType = 'TES4'
-
-    #--Data elements
-    melSet = MelSet(
-        MelStruct('HEDR','f2I',('version',0.8),'numRecords',('nextObject',0xCE6)),
-        MelBase('OFST','ofst_p',),  #--Obsolete?
-        MelBase('DELE','dele_p',),  #--Obsolete?
-        MelUnicode('CNAM','author',u'',512),
-        MelUnicode('SNAM','description',u'',512),
-        MreHeaderBase.MelMasterName('MAST','masters'),
-        MelNull('DATA'),
-        )
-    __slots__ = MreHeaderBase.__slots__ + melSet.getSlotsUsed()
-
-#------------------------------------------------------------------------------
-class MreActor(MelRecord):
-    """Creatures and NPCs."""
-
-    def mergeFilter(self,modSet):
-        """Filter out items that don't come from specified modSet.
-        Filters spells, factions and items."""
-        if not self.longFids: raise StateError(u"Fids not in long format")
-        self.spells = [x for x in self.spells if x[0] in modSet]
-        self.factions = [x for x in self.factions if x.faction[0] in modSet]
-        self.items = [x for x in self.items if x.item[0] in modSet]
-
 #------------------------------------------------------------------------------
 class MreLeveledList(MreLeveledListBase):
     """Leveled item/creature/spell list.."""
@@ -2028,7 +1997,37 @@ class MreHasEffects:
                 buffWrite(u'\n')
                 return buff.getvalue()
 
-# Oblivion Records 1 -----------------------------------------------------------
+#------------------------------------------------------------------------------
+class MreActor(MelRecord):
+    """Creatures and NPCs."""
+
+    def mergeFilter(self,modSet):
+        """Filter out items that don't come from specified modSet.
+        Filters spells, factions and items."""
+        if not self.longFids: raise StateError(u"Fids not in long format")
+        self.spells = [x for x in self.spells if x[0] in modSet]
+        self.factions = [x for x in self.factions if x.faction[0] in modSet]
+        self.items = [x for x in self.items if x.item[0] in modSet]
+
+#-------------------------------------------------------------------------------
+# Oblivion Records ---------------------------------------------------------------
+#-------------------------------------------------------------------------------
+class MreHeader(MreHeaderBase):
+    """TES4 Record.  File header."""
+    classType = 'TES4'
+
+    #--Data elements
+    melSet = MelSet(
+        MelStruct('HEDR','f2I',('version',0.8),'numRecords',('nextObject',0xCE6)),
+        MelBase('OFST','ofst_p',),  #--Obsolete?
+        MelBase('DELE','dele_p',),  #--Obsolete?
+        MelUnicode('CNAM','author',u'',512),
+        MelUnicode('SNAM','description',u'',512),
+        MreHeaderBase.MelMasterName('MAST','masters'),
+        MelNull('DATA'),
+        )
+    __slots__ = MreHeaderBase.__slots__ + melSet.getSlotsUsed()
+
 #-------------------------------------------------------------------------------
 class MreAchr(MelRecord): # Placed NPC
     classType = 'ACHR'

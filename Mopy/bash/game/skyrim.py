@@ -786,7 +786,7 @@ allConditions = set(entry[0] for entry in conditionFunctionData)
 fid1Conditions = set(entry[0] for entry in conditionFunctionData if entry[2] == 2)
 fid2Conditions = set(entry[0] for entry in conditionFunctionData if entry[3] == 2)
 # Skip 3 and 4 because it needs to be set per runOn
-fid5Conditions = set(entry[0] for entry in conditionFunctionData if entry[6] == 2)
+fid5Conditions = set(entry[0] for entry in conditionFunctionData if entry[4] == 2)
 
 # Magic Info ------------------------------------------------------------------
 weaponTypes = (
@@ -2398,7 +2398,9 @@ class MelCTDAHandler(MelStructs):
         # Form2 is Param2
         form2 = 'I' if ifunc in fid2Conditions else 'i'
         # Form3 is runOn
+        form3 = 'I'
         # Form4 is reference, this is a formID when runOn = 2
+        form4 = 'I'
         # Form5 is Param3
         form5 = 'I' if ifunc in fid5Conditions else 'i'
         if size == 32:

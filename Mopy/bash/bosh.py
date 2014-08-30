@@ -14558,7 +14558,11 @@ class NamesPatcher(ImportPatcher):
     """Merged leveled lists mod file."""
     name = _(u'Import Names')
     text = _(u"Import names from source mods/files.")
-    autoRe = re.compile(ur"^Oblivion.esm$",re.I|re.U)
+    canAutoItemCheck = True #--GUI: Whether new items are checked by default or not.
+    if bush.game.fsName == u'Skryim':
+        autoRe = re.compile(ur"^Skyrim.esm$",re.I|re.U)
+    if bush.game.fsName == u'Oblivion':
+        autoRe = re.compile(ur"^Oblivion.esm$",re.I|re.U)
     autoKey = u'Names'
 
     #--Patch Phase ------------------------------------------------------------

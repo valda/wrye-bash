@@ -5761,7 +5761,7 @@ mergeClasses = (
         MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym, MreLigh, MreLscr,
         MreMgef, MreSoun, MreRegn, MreMset, MreNpc, MrePack, MreQust, MreRace, MreScpt, MreSpel,
         MreStat, MreIpds, MreTree, MreWatr, MreWeap, MreWthr, MreClmt, MreCsty, MreIdle, MreLtex,
-        MreTxst, MreMicn, MreFlst, MrePerk, MreExpl, MreIpct, MreProj,
+        MreTxst, MreMicn, MreFlst, MrePerk, MreExpl, MreIpct, MreProj, MreDebr,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5798,7 +5798,7 @@ def init():
         MreLigh, MreLscr, MreMgef, MreSoun, MreMset, MreNpc, MrePack, MreQust, MreRace,
         MreScpt, MreSpel, MreStat, MreIpds, MreTree, MreWatr, MreWeap, MreWthr, MreClmt, MreCsty,
         MreIdle, MreLtex, MreRegn, MreCell, MreWrld, MreTxst, MreMicn, MreFlst, MrePerk, MreExpl,
-		MreIpct, MreProj,
+		MreIpct, MreProj, MreDebr,
         MreHeader, 
         ))
     #--Simple records

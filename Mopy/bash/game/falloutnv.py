@@ -2276,6 +2276,28 @@ class MreCont(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MreCpth(MelRecord):
+    """Camera Path"""
+    classType = 'CPTH'
+
+    # DATA 'Camera Zoom' isn wbEnum
+    # 0, 'Default, Must Have Camera Shots',
+    # 1, 'Disable, Must Have Camera Shots',
+    # 2, 'Shot List, Must Have Camera Shots',
+    # 128, 'Default',
+    # 129, 'Disable',
+    # 130, 'Shot List'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelConditions(),
+        MelFids('ANAM','relatedCameraPaths',),
+        MelStruct('DATA','B','cameraZoom',),
+        MelFids('SNAM','cameraShots',),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
 class MreCsno(MelRecord):
     """Casino."""
     classType = 'CSNO'
@@ -3548,6 +3570,40 @@ class MreLvln(MreLeveledList):
     """LVLN record. Leveled list for NPC."""
     classType = 'LVLN'
     __slots__ = MreLeveledList.__slots__
+
+#------------------------------------------------------------------------------
+class MreMesg(MelRecord):
+    """Message Record."""
+    classType = 'MESG'
+
+    MesgTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'messageBox'),
+            (1, 'autoDisplay'),
+        ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelString('DESC','description'),
+        MelLString('FULL','full'),
+        MelFid('INAM','icon'),
+        MelBase(NAM0, 'unused_0'),
+        MelBase(NAM1, 'unused_1'),
+        MelBase(NAM2, 'unused_2'),
+        MelBase(NAM3, 'unused_3'),
+        MelBase(NAM4, 'unused_4'),
+        MelBase(NAM5, 'unused_5'),
+        MelBase(NAM6, 'unused_6'),
+        MelBase(NAM7, 'unused_7'),
+        MelBase(NAM8, 'unused_8'),
+        MelBase(NAM9, 'unused_9'),
+        MelStruct('DNAM','I',(MesgTypeFlags,'flags',0L),),
+        MelStruct('TNAM','I','displayTime',),
+        MelGroups('menuButtons',
+            MelString('ITXT','buttonText'),
+            MelConditions(),
+            ),
+    )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
 class MreMgef(MelRecord):
@@ -5864,7 +5920,7 @@ def init():
     brec.ModReader.recHeader = RecordHeader
 
     # Need to add
-    # 'IMGS', 'CPTH', 'MESG', 'RGDL', 'LGTM', 'PGRE',
+    # 'IMGS', 'RGDL', 'LGTM', 'PGRE',
 
     #--Record Types
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
@@ -5873,10 +5929,10 @@ def init():
         MreAchr, MreAcre, MreGmst,
         MreActi, MreAddn, MreAlch, MreAloc, MreAmef, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc,
         MreAvif, MreBook, MreBptd, MreCams, MreCcrd, MreCdck, MreChal, MreChip, MreClas, MreClmt,
-        MreCmny, MreCobj, MreCont, MreCrea, MreCsno, MreCsty, MreDebr, MreDehy, MreDobj, MreDoor,
+        MreCmny, MreCobj, MreCont, MreCpth, MreCrea, MreCsno, MreCsty, MreDebr, MreDehy, MreDobj, MreDoor,
         MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn, MreGlob, MreGras,
         MreHair, MreHdpt, MreHung, MreIdle, MreIdlm, MreImad, MreImod, MreIngr, MreIpct, MreIpds,
-        MreKeym, MreLigh, MreLscr, MreLsct, MreLtex, MreLvlc, MreLvli, MreLvln, MreMgef, MreMicn,
+        MreKeym, MreLigh, MreLscr, MreLsct, MreLtex, MreLvlc, MreLvli, MreLvln, MreMesg, MreMgef, MreMicn,
         MreMisc, MreMset, MreMstt, MreMusc, MreNote, MreNpc, MrePack, MrePerk, MreProj, MrePwat,
         MreQust, MreRace, MreRads, MreRcct, MreRcpe, MreRegn, MreRepu, MreScol, MreScpt, MreSlpd,
         MreSoun, MreSpel, MreStat, MreTact, MreTerm, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap,

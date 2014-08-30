@@ -1563,7 +1563,9 @@ class MreAddn(MelRecord):
     classType = 'ADDN'
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelBounds(),
+        MelStruct('OBND','=6h',
+                  'corner0X','corner0Y','corner0Z',
+                  'corner1X','corner1Y','corner1Z'),
         MelModel(),
         MelStruct('DATA','i','nodeIndex'),
         MelOptStruct('SNAM','I',(FID,'ambientSound')),

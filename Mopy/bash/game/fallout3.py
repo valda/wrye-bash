@@ -73,7 +73,7 @@ patchTip = u''
 nexusUrl = u'http://www.nexusmods.com/fallout3/'
 nexusName = u'Fallout 3 Nexus'
 nexusKey = u'bash.installers.openFallout3Nexus'
-   
+
 #--Construction Set information
 class cs:
     shortName = u'GECK'                  # Abbreviated name
@@ -81,7 +81,7 @@ class cs:
     exe = u'GECK.exe'                   # Executable to run
     seArgs = u'-editor'                     # Argument to pass to the SE to load the CS
     imageName = u'geck%s.png'                  # Image name template for the status bar
-    
+
 #--Script Extender information
 class se:
     shortName = u'FOSE'                      # Abbreviated name
@@ -90,13 +90,13 @@ class se:
     steamExe = u'fose_loader.dll'           # Exe to run if a steam install
     url = u'http://fose.silverlock.org/'     # URL to download from
     urlTip = u'http://fose.silverlock.org/'  # Tooltip for mouse over the URL
-    
+
 #--Script Dragon
 class sd:
     shortName = u''
     longName = u''
     installDir = u''
-	
+
 #--SkyProc Patchers
 class sp:
     shortName = u''
@@ -158,7 +158,7 @@ class ess:
     canReadBasic = True        # Can read the info needed for the Save Tab display
     canEditMasters = True      # Can adjust save file masters
     canEditMore = False         # Advanced editing
-    
+
     # Save file extension.
     ext = u'.fos';
 
@@ -208,7 +208,7 @@ class ess:
             size,delim = struct.unpack('Hc',ins.read(3))
             header.masters.append(ins.read(size))
             delim, = struct.unpack('c',ins.read(1))
-        
+
 
     @staticmethod
     def writeMasters(ins,out,header):
@@ -309,8 +309,8 @@ dataDirs = set((
     'meshes',
     'music',
     'shaders',
-    'sound', 
-    'textures', 
+    'sound',
+    'textures',
     'trees',
     'video'
     ))
@@ -322,8 +322,8 @@ dataDirsPlus = set((
     u'scripts',
     u'pluggy',
     u'ini',
-    u'fose'))  
-    
+    u'fose'))
+
 # Installer -------------------------------------------------------------------
 # ensure all path strings are prefixed with 'r' to avoid interpretation of
 #   accidental escape sequences
@@ -361,7 +361,7 @@ ignoreDataFilePrefixes = set(())
 ignoreDataDirs = set((
 #    r'FOSE\Plugins\ComponentDLLs\CSE',
     ur'LSData'
-    ))    
+    ))
 
 # Function Info ---------------------------------------------------------------
 conditionFunctionData = ( #--0: no param; 1: int param; 2: formid param
@@ -593,7 +593,7 @@ fid1Conditions = set(entry[0] for entry in conditionFunctionData if entry[2] == 
 fid2Conditions = set(entry[0] for entry in conditionFunctionData if entry[3] == 2)
 fid3Conditions = set(entry[0] for entry in conditionFunctionData if entry[4] == 2)
 fid4Conditions = set(entry[0] for entry in conditionFunctionData if entry[5] == 2)
-    
+
 # Magic Info ------------------------------------------------------------------
 weaponTypes = (
     _('Big gun'),
@@ -604,7 +604,7 @@ weaponTypes = (
     _('Thrown'),
     _('Mine'),
     )
- 
+
 #--The pickle file for this game.  Holds encoded GMST IDs from the big list below
 pklfile = ur'bash\db\Fallout3_ids.pkl'
 
@@ -630,9 +630,9 @@ allTags = sorted(('Body-F', 'Body-M', 'Body-Size-M', 'Body-Size-F', 'C.Climate',
                   'Actors.ACBS', 'NPC.Class', 'Actors.CombatStyle', 'Creatures.Blood',
                   'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
                   'Deflst', 'Destructible'
-				  ))
+                  ))
 
-  
+
 #--GLOB record tweaks used by bosh's GmstTweaker
 #  Each entry is a tuple in the following format:
 #    (DisplayText, MouseoverText, GLOB EditorID, Option1, Option2, Option3, ..., OptionN)
@@ -678,13 +678,13 @@ CBash_patchers = (
 #--For ListMerger patcher (leveled list patcher)
 listTypes = ('LVLC','LVLI','LVLN')
 
-namesTypes = set(('ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 
-        'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR', 'EYES', 
-		'FACT', 'FLOR', 'HAIR', 'INGR', 'KEYM', 'LIGH', 
-		'MISC', 'NOTE', 'NPC_', 'RACE', 'SPEL', 'TERM', 
-		'WEAP', 'ACTI', 'TACT'
-		))
-pricesTypes = {}      
+namesTypes = set(('ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK',
+        'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR', 'EYES',
+        'FACT', 'FLOR', 'HAIR', 'INGR', 'KEYM', 'LIGH',
+        'MISC', 'NOTE', 'NPC_', 'RACE', 'SPEL', 'TERM',
+        'WEAP', 'ACTI', 'TACT'
+        ))
+pricesTypes = {}
 statsTypes = {
         'ALCH':('eid', 'weight', 'value'),
         'AMMO':('eid', 'speed',  'value', 'clipRounds'),
@@ -804,7 +804,7 @@ raceShortNames = {
     0x0987de : 'FOA',
     0x0987df : 'COA',
     }
-           
+
 raceHairMale = {
     0x000019 : 0x014b90, #--Cau
     0x0038e5 : 0x0a9d6f, #--His
@@ -828,7 +828,7 @@ raceHairMale = {
     0x0987de : 0x0987d9, #--FOA
     0x0987df : 0x0987da, #--COA
     }
- 
+
 raceHairFemale = {
     0x000019 : 0x05dc6b, #--Cau
     0x0038e5 : 0x05dc76, #--His
@@ -852,14 +852,14 @@ raceHairFemale = {
     0x0987de : 0x044529, #--FOA
     0x0987df : 0x044529, #--COA
     }
-    
+
 #--Plugin format stuff
 class esp:
     #--Wrye Bash capabilities
     canBash = True         # Can create Bashed Patches
     canCBash = False         # CBash can handle this game's records
     canEditHeader = True   # Can edit basic info in the TES4 record
-    
+
     #--Valid ESM/ESP header versions
     ## These are the valid 'version' numbers for the game file headers
     validHeaderVersions = (0.85,0.94)
@@ -877,7 +877,7 @@ class esp:
         size = 0            # Size of the record header
         attrs = tuple()     # List of attributes to set = the return of struct.unpack
         defaults = tuple()  # Default values for each of the above attributes
-    
+
     #--Top types in Fallout3 order.
     topTypes = ['GMST', 'TXST', 'MICN', 'GLOB', 'CLAS', 'FACT', 'HDPT', 'HAIR', 'EYES',
         'RACE', 'SOUN', 'ASPC', 'MGEF', 'SCPT', 'LTEX', 'ENCH', 'SPEL', 'ACTI', 'TACT',
@@ -891,12 +891,12 @@ class esp:
         # Unused types in fallout3. (dummy)
         'SLGM', 'BSGN', 'FLOR', 'SGST', 'CLOT', 'SBSP', 'SKIL', 'LVSP', 'APPA',
         ]
-        
+
     #--Dict mapping 'ignored' top types to un-ignored top types
     topIgTopTYpes = dict()
-        
+
     recordTypes = set(topTypes + 'GRUP,TES4,ROAD,REFR,ACHR,ACRE,PGRD,LAND,INFO,PGRE,NAVM'.split(','))
-     
+
 class RecordHeader(brec.BaseRecordHeader):
     size = 24 # Size in bytes of a record header
 
@@ -945,16 +945,16 @@ class RecordHeader(brec.BaseRecordHeader):
                 return struct.pack('=4s5I',self.recType,self.size,self.label,self.groupType,self.stamp,self.stamp2)
         else:
             return struct.pack('=4s5I',self.recType,self.size,self.flags1,self.fid,self.flags2,self.flags3)
-	
 
-    
-# These eye variables have been refactored from the Wrye Flash version of bosh.py. 
+
+
+# These eye variables have been refactored from the Wrye Flash version of bosh.py.
 # Their Oblivion equivalents remain in Bash's bosh.py.
 def getIdFunc(modName):
     return lambda x: (GPath(modName),x)
 ob = getIdFunc(masterFiles[0])
 standardEyes = [ob(x) for x in (0x4252,0x4253,0x4254,0x4255,0x4256)]
- 
+
 defaultEyes = {
     #--fallout3.esm
     ob(0x000019): #--Caucasian
@@ -1000,7 +1000,7 @@ defaultEyes = {
     ob(0x0987df): #--Caucasian Old Aged
         standardEyes,
     }
- 
+
 # Flags
 #------------------------------------------------------------------------------
 class MelBipedFlags(bolt.Flags):
@@ -1108,7 +1108,7 @@ class MelConditions(MelStructs):
             if len(form1234) > 3 and form1234[3] == 'I':
                 result = function(target.param4)
                 if save: target.param4 = result
-    
+
 #------------------------------------------------------------------------------
 class MelDestructible(MelGroup):
     """Represents a set of destruct record."""
@@ -1303,11 +1303,11 @@ class MreHeader(MreHeaderBase):
         MreHeaderBase.MelMasterName('MAST','masters'),
         MelNull('DATA'), # 8 Bytes in Length
         MelFidList('ONAM','overrides'),
-		# INTV and INCC are not used in Fallout 3
+        # INTV and INCC are not used in Fallout 3
         #MelBase('INTV','ingv_p'),
         #MelBase('INCC', 'ingv_p'),
-		# wbByteArray for Edit = MelBase for Wrye Bash
-		MelBase('SCRN', 'ingv_p'),
+        # wbByteArray for Edit = MelBase for Wrye Bash
+        MelBase('SCRN', 'ingv_p'),
         )
     __slots__ = MreHeaderBase.__slots__ + melSet.getSlotsUsed()
 
@@ -1412,8 +1412,8 @@ class MreAmmo(MelRecord):
         MelStruct('DATA','fB3sIB','speed',(_flags,'flags',0L),('unused1',null3),'value','clipRounds'),
         MelString('ONAM','shortName'),
         )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed() 
-    
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
 #------------------------------------------------------------------------------
 class MreAnio(MelRecord):
     """Animation object record."""
@@ -5004,7 +5004,7 @@ def init():
     # affect outside modules must do so within this function, which will be
     # called instead of 'reload'
     brec.ModReader.recHeader = RecordHeader
-    
+
     MreRecord.type_class = dict((x.classType,x) for x in (
     # MreAchr, MreAcre, MreActi, MreAlch, MreAmmo, MreAnio, MreAppa, MreArmo, MreBook, MreBsgn,
     # MreCell, MreClas, MreClot, MreCont, MreCrea, MreDoor, MreEfsh, MreEnch, MreEyes, MreFact,
@@ -5019,11 +5019,11 @@ def init():
     # Verified
         MreHeader,
     ))
-    
+
     #--Simple records
     brec.MreRecord.simpleTypes = (set(brec.MreRecord.type_class) -
         set((
-		# 'TES4','ACHR','ACRE','REFR','CELL','PGRD','ROAD','LAND','WRLD','INFO','DIAL','PGRE','NAVM'
-		'TES4',
-		)))
+        # 'TES4','ACHR','ACRE','REFR','CELL','PGRD','ROAD','LAND','WRLD','INFO','DIAL','PGRE','NAVM'
+        'TES4',
+        )))
 

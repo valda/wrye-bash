@@ -162,7 +162,7 @@ class ess:
     canReadBasic = True         # All the basic stuff needed for the Saves Tab
     canEditMasters = True       # Adjusting save file masters
     canEditMore = False         # No advanced editing
-    
+
     # Save file extension.
     ext = u'.ess';
 
@@ -2354,7 +2354,7 @@ class MelCTDAHandler(MelStructs):
         """Initialize."""
         MelStructs.__init__(self,'CTDA','=B3sfH2siiIIi','conditions',
             'operFlag',('unused1',null3),'compValue','ifunc',('unused2',null2),
-			'param1','param2','runOn','reference','param3')
+            'param1','param2','runOn','reference','param3')
 
     def getDefault(self):
         """Returns a default copy of object."""
@@ -2427,8 +2427,8 @@ class MelCTDAHandler(MelStructs):
             ##format = '=B3sfH2s'+target.form12345,
             out.packSub('CTDA','=B3sfH2s'+target.form12345,
                 target.operFlag, target.unused1, target.compValue,
-                target.ifunc, target.unused2, target.param1, target.param2, 
-				target.runOn, target.reference, target.param3)
+                target.ifunc, target.unused2, target.param1, target.param2,
+                target.runOn, target.reference, target.param3)
 
     def mapFids(self,record,function,save=False):
         """Applies function to fids. If save is true, then fid is set
@@ -2450,7 +2450,7 @@ class MelCTDAHandler(MelStructs):
             if len(form12345) > 4 and form12345[4] == 'I':
                 result = function(target.param3)
                 if save: target.param3 = result
-                
+
 class MelConditions(MelGroups):
     """Represents a set of quest/dialog/etc conditions"""
 
@@ -2920,61 +2920,61 @@ class MelBipedObjectData(MelStruct):
             MelStruct.loadData(self,record,ins,type,size,readId)
 
 #------------------------------------------------------------------------------
-# class MreHasEffects:
-#     """Mixin class for magic items."""
-#     def getEffects(self):
-#         """Returns a summary of effects. Useful for alchemical catalog."""
-#         effects = []
-#         avEffects = bush.genericAVEffects
-#         effectsAppend = effects.append
-#         for effect in self.effects:
-#             mgef, actorValue = effect.name, effect.actorValue
-#             if mgef not in avEffects:
-#                 actorValue = 0
-#             effectsAppend((mgef,actorValue))
-#         return effects
-# 
-#     def getSpellSchool(self,mgef_school=bush.mgef_school):
-#         """Returns the school based on the highest cost spell effect."""
-#         spellSchool = [0,0]
-#         for effect in self.effects:
-#             school = mgef_school[effect.name]
-#             effectValue = bush.mgef_basevalue[effect.name]
-#             if effect.magnitude:
-#                 effectValue *=  effect.magnitude
-#             if effect.area:
-#                 effectValue *=  (effect.area/10)
-#             if effect.duration:
-#                 effectValue *=  effect.duration
-#             if spellSchool[0] < effectValue:
-#                 spellSchool = [effectValue,school]
-#         return spellSchool[1]
-# 
-#     def getEffectsSummary(self,mgef_school=None,mgef_name=None):
-#         """Return a text description of magic effects."""
-#         mgef_school = mgef_school or bush.mgef_school
-#         mgef_name = mgef_name or bush.mgef_name
-#         with bolt.sio() as buff:
-#             avEffects = bush.genericAVEffects
-#             aValues = bush.actorValues
-#             buffWrite = buff.write
-#             if self.effects:
-#                 school = self.getSpellSchool(mgef_school)
-#                 buffWrite(bush.actorValues[20+school] + u'\n')
-#             for index,effect in enumerate(self.effects):
-#                 if effect.scriptEffect:
-#                     effectName = effect.scriptEffect.full or u'Script Effect'
-#                 else:
-#                     effectName = mgef_name[effect.name]
-#                     if effect.name in avEffects:
-#                         effectName = re.sub(_(u'(Attribute|Skill)'),aValues[effect.actorValue],effectName)
-#                 buffWrite(u'o+*'[effect.recipient]+u' '+effectName)
-#                 if effect.magnitude: buffWrite(u' %sm'%effect.magnitude)
-#                 if effect.area: buffWrite(u' %sa'%effect.area)
-#                 if effect.duration > 1: buffWrite(u' %sd'%effect.duration)
-#                 buffWrite(u'\n')
-#                 return buff.getvalue()
-# 
+class MreHasEffects:
+    """Mixin class for magic items."""
+    def getEffects(self):
+        """Returns a summary of effects. Useful for alchemical catalog."""
+        effects = []
+        avEffects = bush.genericAVEffects
+        effectsAppend = effects.append
+        for effect in self.effects:
+            mgef, actorValue = effect.name, effect.actorValue
+            if mgef not in avEffects:
+                actorValue = 0
+            effectsAppend((mgef,actorValue))
+        return effects
+
+    def getSpellSchool(self,mgef_school=bush.mgef_school):
+        """Returns the school based on the highest cost spell effect."""
+        spellSchool = [0,0]
+        for effect in self.effects:
+            school = mgef_school[effect.name]
+            effectValue = bush.mgef_basevalue[effect.name]
+            if effect.magnitude:
+                effectValue *=  effect.magnitude
+            if effect.area:
+                effectValue *=  (effect.area/10)
+            if effect.duration:
+                effectValue *=  effect.duration
+            if spellSchool[0] < effectValue:
+                spellSchool = [effectValue,school]
+        return spellSchool[1]
+
+    def getEffectsSummary(self,mgef_school=None,mgef_name=None):
+        """Return a text description of magic effects."""
+        mgef_school = mgef_school or bush.mgef_school
+        mgef_name = mgef_name or bush.mgef_name
+        with bolt.sio() as buff:
+        avEffects = bush.genericAVEffects
+        aValues = bush.actorValues
+        buffWrite = buff.write
+        if self.effects:
+            school = self.getSpellSchool(mgef_school)
+                buffWrite(bush.actorValues[20+school] + u'\n')
+        for index,effect in enumerate(self.effects):
+            if effect.scriptEffect:
+                    effectName = effect.scriptEffect.full or u'Script Effect'
+            else:
+                effectName = mgef_name[effect.name]
+                if effect.name in avEffects:
+                        effectName = re.sub(_(u'(Attribute|Skill)'),aValues[effect.actorValue],effectName)
+                buffWrite(u'o+*'[effect.recipient]+u' '+effectName)
+                if effect.magnitude: buffWrite(u' %sm'%effect.magnitude)
+                if effect.area: buffWrite(u' %sa'%effect.area)
+                if effect.duration > 1: buffWrite(u' %sd'%effect.duration)
+                buffWrite(u'\n')
+        return buff.getvalue()
+
 # Needs updated for Skyrim, test with MreAlch and  'StatsPatcher' to
 # add duration to 'ALCH':('eid', 'weight', 'value', 'duration'),
 #-------------------------------------------------------------------------------
@@ -4805,7 +4805,7 @@ class MreFurn(MelRecord):
 
     # WBDT has wbEnum in TES5Edit
     # Assigned to 'usesSkill' for WB
-	# Refer to wbSkillEnum is TES5Edit for values
+    # Refer to wbSkillEnum is TES5Edit for values
 
     melSet = MelSet(
         MelString('EDID','eid'),
@@ -5469,7 +5469,7 @@ class MreKywd(MelRecord):
 #        MelBase('VHGT','heights_p'),
 #        MelBase('VCLR','vertexColors_p'),
 #        # wbRUnion Needed (BTXT) or ('ATXT' and 'VTXT'), not both
-# 	     MelStructs('BTXT','IBsh','baseTextures', (FID,'texture'), 'quadrant', 'unknown', 'layer'),
+#        MelStructs('BTXT','IBsh','baseTextures', (FID,'texture'), 'quadrant', 'unknown', 'layer'),
 #        MelGroups('alphaLayers',
 #            MelStruct('ATXT','IBsh',(FID,'texture'), 'quadrant', 'unknown', 'layer'),
 #            MelStructA('VTXT','H2Bf', 'opacities', 'position', 'unknown', 'opacity'),
@@ -6180,7 +6180,7 @@ class MreNpc(MelRecord):
             (14, 'unknown15'),
             (15, 'unknown16'),
         ))
-    
+
     # {0x0001} 'Use Traits',
     # {0x0002} 'Use Stats',
     # {0x0004} 'Use Factions',
@@ -6209,7 +6209,7 @@ class MreNpc(MelRecord):
             (11, 'useAttackData'),
             (12, 'useKeywords'),
         ))
-    
+
     # {0x00000001} 'Female',
     # {0x00000002} 'Essential',
     # {0x00000004} 'Is CharGen Face Preset',
@@ -7250,8 +7250,8 @@ class MreSopm(MelRecord):
         MelBase('SNAM','snam_p'),
         MelSopmData(),
         MelStruct('ANAM','4s2f5B','unknown','minDistance','maxDistance',
-		          'curve1','curve2','curve3','curve4','curve5',
-				   dumpRemaining='extraData',),
+                  'curve1','curve2','curve3','curve4','curve5',
+                   dumpRemaining='extraData',),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -7287,7 +7287,7 @@ class MreSpel(MelRecord):
     #         if index == 1:
     #             setter(self,3,value)
 
-	# SPIT has several wbEnum refer to wbSPIT in TES5Edit
+    # SPIT has several wbEnum refer to wbSPIT in TES5Edit
 
     # flags = SpellFlags(0L,Flags.getNames
     SpelTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
@@ -8004,7 +8004,7 @@ class MreWthr(MelRecord):
 #       MreAchr, MreDial, MreLctn, MreInfo, MreFact, MrePerk,
 #------------------------------------------------------------------------------
 #--Mergeable record types
-#        MreAlch, 
+#        MreAlch,
 #        MreAvif, MreBook, MreBptd, MreCams,
 #        MreClas, MreClfm, MreClmt, MreColl, MreCont, MreCpth, MreCsty,
 #        MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual, MreEczn, MreEfsh,
@@ -8039,7 +8039,7 @@ def init():
 
     #--Record Types
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
-#        MreAlch, 
+#        MreAlch,
 #        MreAvif, MreBook, MreBptd, MreCams,
 #        MreClas, MreClfm, MreClmt, MreColl, MreCont, MreCpth, MreCsty,
 #        MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual, MreEczn, MreEfsh,
@@ -8061,5 +8061,5 @@ def init():
     #--Simple records
     brec.MreRecord.simpleTypes = (set(brec.MreRecord.type_class) -
         set((
-		'TES4',
-		)))
+        'TES4',
+        )))

@@ -1689,7 +1689,7 @@ class MreAppa(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Not used in FalloutNV needs to be removed
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreArmo(MelRecord):
     """Armor record."""
@@ -1924,6 +1924,7 @@ class MreBsgn(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreCcrd(MelRecord):
     """Caravan Card."""
@@ -2153,6 +2154,7 @@ class MreClot(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreCmny(MelRecord):
     """Caravan Money."""
@@ -2720,7 +2722,7 @@ class MreExpl(MelRecord):
         MelModel(),
         MelFid('EITM','objectEffect'),
         MelFid('MNAM','imageSpaceModifier'),
-        MelStruct('DATA','fffIIHfIIfffI','force','damage','radius',(FID,'light',None),
+        MelStruct('DATA','fffIIIfIIfffI','force','damage','radius',(FID,'light',None),
                   (FID,'sound1',None),(_flags,'flags'),'isRadius',(FID,'impactDataset',None),
                   (FID,'sound2',None),'radiationLevel','radiationTime','radiationRadius','soundLevel'),
         MelFid('INAM','placedImpactObject'),
@@ -2862,6 +2864,7 @@ class MreFlor(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreFurn(MelRecord):
     """Furniture record."""
@@ -3239,13 +3242,23 @@ class MreIngr(MelRecord,MreHasEffects):
 class MreIpct(MelRecord):
     """Impact record."""
     classType = 'IPCT'
+
+    DecalDataFlags = Flags(0L,Flags.getNames(
+            (0, 'parallax'),
+            (0, 'alphaBlending'),
+            (0, 'alphaTesting'),
+            (0, 'noSubtextures'),
+        ))
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelModel(),
-        MelStruct('DATA','fIffII','effectDuration','effectOrientation','angleThreshold','placementRadius',
-                  'soundLevel','flags'),
-        MelOptStruct('DODT','7fBB2s3Bs','minWidth','maxWidth','minHeight','maxHeight','depth','shininess',
-                     'parallaxScale','parallaxPasses','decalFlags',('unused1',null2),'red','green','blue',('unused2',null1)),
+        MelStruct('DATA','fIffII','effectDuration','effectOrientation',
+		          'angleThreshold','placementRadius','soundLevel','flags'),
+        MelOptStruct('DODT','7fBB2s3Bs','minWidth','maxWidth','minHeight',
+                     'maxHeight','depth','shininess','parallaxScale',
+                     'parallaxPasses',(DecalDataFlags,'flags',0L),
+                     ('unused1',null2),'red','green','blue',('unused2',null1)),
         MelFid('DNAM','textureSet'),
         MelFid('SNAM','sound1'),
         MelFid('NAM1','sound2'),
@@ -3495,6 +3508,7 @@ class MreLvsp(MreLeveledList):
     classType = 'LVSP'
     __slots__ = MreLeveledList.__slots__
 
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreLvln(MreLeveledList):
     """LVLN record. Leveled list for NPC."""
@@ -4297,16 +4311,20 @@ class MrePerk(MelRecord):
 class MreProj(MelRecord):
     """Projectile record."""
     classType = 'PROJ'
-    _flags = Flags(0,Flags.getNames('hitscan',
-                                    'explosive',
-                                    'altTriger',
-                                    'muzzleFlash',
-                                    'unknown4',
-                                    'canbeDisable',
-                                    'canbePickedUp',
-                                    'superSonic',
-                                    'pinsLimbs',
-                                    'passThroughSmallTransparent'))
+    _flags = Flags(0,Flags.getNames(
+        'hitscan',
+        'explosive',
+        'altTriger',
+        'muzzleFlash',
+        None,
+        'canbeDisable',
+        'canbePickedUp',
+        'superSonic',
+        'pinsLimbs',
+        'passThroughSmallTransparent'
+        'detonates',
+        'rotation'
+		))
     class MelProjData(MelStruct):
         """Handle older trucated DATA for PROJ subrecord."""
         def loadData(self,record,ins,type,size,readId):
@@ -4331,7 +4349,7 @@ class MreProj(MelRecord):
         MelString('FULL','full'),
         MelModel(),
         MelDestructible(),
-        MelProjData('DATA','HHfffIIfffIIfffIII ffff',(_flags,'flags'),'type',
+        MelProjData('DATA','HHfffIIfffIIfffIIIffff',(_flags,'flags'),'type',
                   ('gravity',0.00000),('speed',10000.00000),('range',10000.00000),
                   (FID,'light',0),(FID,'muzzleFlash',0),('tracerChance',0.00000),
                   ('explosionAltTrigerProximity',0.00000),('explosionAltTrigerTimer',0.00000),
@@ -4341,7 +4359,7 @@ class MreProj(MelRecord):
                   ('rotationX',0.00000),('rotationY',0.00000),('rotationZ',0.00000),
                   ('bouncyMult',0.00000)),
         MelString('NAM1','muzzleFlashPath'),
-        MelBase('NAM2','_nam2'), #--Should be a struct. Maybe later.
+        MelBase('NAM2','_nam2'),
         MelStruct('VNAM','I','soundLevel'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -4475,7 +4493,7 @@ class MreRace(MelRecord):
     think of."""
 
     classType = 'RACE'
-    _flags = Flags(0L,Flags.getNames('playable','child'))
+    _flags = Flags(0L,Flags.getNames('playable', None, 'child'))
 
     class MelRaceVoices(MelStruct):
         """Set voices to zero, if equal race fid. If both are zero, then don't skip dump."""
@@ -4993,7 +5011,7 @@ class MreRepu(MelRecord):
 
 #------------------------------------------------------------------------------
 # class MreRoad(MelRecord):
-# Not used in Fallout New Vegas
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreSbsp(MelRecord):
     """Subspace record."""
@@ -5004,7 +5022,7 @@ class MreSbsp(MelRecord):
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Not used in Fallout New Vegas
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreScpt(MelRecord):
     """Script record."""
@@ -5038,6 +5056,7 @@ class MreSgst(MelRecord,MreHasEffects):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreSkil(MelRecord):
     """Skill record."""
@@ -5055,7 +5074,7 @@ class MreSkil(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Not used in Fallout New Vegas
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreSlgm(MelRecord):
     """Soul gem record."""
@@ -5072,6 +5091,7 @@ class MreSlgm(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreSlpd(MelRecord):
     """Sleep deprivation stage record."""
@@ -5741,7 +5761,7 @@ mergeClasses = (
         MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym, MreLigh, MreLscr,
         MreMgef, MreSoun, MreRegn, MreMset, MreNpc, MrePack, MreQust, MreRace, MreScpt, MreSpel,
         MreStat, MreIpds, MreTree, MreWatr, MreWeap, MreWthr, MreClmt, MreCsty, MreIdle, MreLtex,
-        MreRegn, MreTxst, MreMicn, MreFlst, MrePerk,
+        MreTxst, MreMicn, MreFlst, MrePerk, MreExpl, MreIpct, MreProj,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5775,10 +5795,11 @@ def init():
         MreActi, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreCobj, MreGlob, MreGmst, MreLvlc,
         MreLvli, MreLvln, MreMisc, MreAchr, MreAcre, MreAlch, MreBook, MreClas, MreCont, MreCrea,
         MreDoor, MreEfsh, MreEnch, MreEyes, MreFact, MreFurn, MreGras, MreHair, MreIngr, MreKeym,
-        MreLigh, MreLscr, MreMgef, MreSoun, MreRegn, MreMset, MreNpc, MrePack, MreQust, MreRace,
+        MreLigh, MreLscr, MreMgef, MreSoun, MreMset, MreNpc, MrePack, MreQust, MreRace,
         MreScpt, MreSpel, MreStat, MreIpds, MreTree, MreWatr, MreWeap, MreWthr, MreClmt, MreCsty,
-        MreIdle, MreLtex, MreRegn, MreCell, MreWrld, MreTxst, MreMicn, MreFlst, MrePerk,
-        MreHeader,
+        MreIdle, MreLtex, MreRegn, MreCell, MreWrld, MreTxst, MreMicn, MreFlst, MrePerk, MreExpl,
+		MreIpct, MreProj,
+        MreHeader, 
         ))
     #--Simple records
     brec.MreRecord.simpleTypes = (set(brec.MreRecord.type_class) -

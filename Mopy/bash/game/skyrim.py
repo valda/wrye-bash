@@ -28,6 +28,7 @@
 import struct
 from .. import brec
 from .. import bolt
+from .. import bush
 from ..bolt import _encode
 from ..brec import *
 from skyrim_const import bethDataFiles, allBethFiles
@@ -1725,16 +1726,21 @@ CBash_patchers = tuple()
 listTypes = ('LVLI','LVLN','LVSP',)
 
 namesTypes = set((
-        'ACTI', 'AMMO', 'ARMO', 'APPA', 'MISC',
+        'ACTI', 'ALCH', 'AMMO', 'ARMO', 'APPA', 'MISC',
 ))
-pricesTypes = {'AMMO':{},'ARMO':{},'APPA':{},'MISC':{}}
+pricesTypes = {'ALCH':{},'AMMO':{},'ARMO':{},'APPA':{},'MISC':{}}
 statsTypes = {
+            'ALCH':('eid', 'weight', 'value'),
             'AMMO':('eid', 'value', 'damage'),
             'ARMO':('eid', 'weight', 'value', 'armorRating'),
             'APPA':('eid', 'weight', 'value'),
             'MISC':('eid', 'weight', 'value'),
             }
 statsHeaders = (
+                #--Alch
+                (u'ALCH',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
                 #--Ammo
                 (u'AMMO',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
@@ -2955,19 +2961,19 @@ class MreHasEffects:
         mgef_school = mgef_school or bush.mgef_school
         mgef_name = mgef_name or bush.mgef_name
         with bolt.sio() as buff:
-        avEffects = bush.genericAVEffects
-        aValues = bush.actorValues
-        buffWrite = buff.write
-        if self.effects:
-            school = self.getSpellSchool(mgef_school)
+            avEffects = bush.genericAVEffects
+            aValues = bush.actorValues
+            buffWrite = buff.write
+            if self.effects:
+                school = self.getSpellSchool(mgef_school)
                 buffWrite(bush.actorValues[20+school] + u'\n')
         for index,effect in enumerate(self.effects):
             if effect.scriptEffect:
-                    effectName = effect.scriptEffect.full or u'Script Effect'
+                effectName = effect.scriptEffect.full or u'Script Effect'
             else:
                 effectName = mgef_name[effect.name]
                 if effect.name in avEffects:
-                        effectName = re.sub(_(u'(Attribute|Skill)'),aValues[effect.actorValue],effectName)
+                    effectName = re.sub(_(u'(Attribute|Skill)'),aValues[effect.actorValue],effectName)
                 buffWrite(u'o+*'[effect.recipient]+u' '+effectName)
                 if effect.magnitude: buffWrite(u' %sm'%effect.magnitude)
                 if effect.area: buffWrite(u' %sa'%effect.area)
@@ -2975,7 +2981,7 @@ class MreHasEffects:
                 buffWrite(u'\n')
         return buff.getvalue()
 
-# Needs updated for Skyrim, test with MreAlch and  'StatsPatcher' to
+# Needs updated for Skyrim, test with MreAlch and 'StatsPatcher' to
 # add duration to 'ALCH':('eid', 'weight', 'value', 'duration'),
 #-------------------------------------------------------------------------------
 class MreActor(MelRecord):
@@ -3241,7 +3247,7 @@ class MreAddn(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
-class MreAlch(MelRecord):
+class MreAlch(MelRecord,MreHasEffects):
     """Ingestible"""
     classType = 'ALCH'
 
@@ -5901,9 +5907,9 @@ class MreMgef(MelRecord):
             'skillUsageMultiplier',(FID,'dualCastingArt'),'dualCastingScale',
             (FID,'enchantArt'),'unknown2','unknown3',(FID,'equipAbility'),
             (FID,'imageSpaceModifier'),(FID,'perkToApply'),'castingSoundLevel',
-            'scriptEffectAiScore','scriptEffectAiDelayTime',
-        ),
-        MelFids('ESCE','effects'),
+            'scriptEffectAiScore','scriptEffectAiDelayTime',),
+        MelGroups('counterEffects',
+            MelOptStruct('ESCE','I',(FID,'counterEffectCode',0)),),
         MelStructA('SNDD','2I','sounds','soundType',(FID,'sound')),
         MelLString('DNAM','magicItemDescription'),
         MelConditions(),
@@ -8021,7 +8027,7 @@ class MreWthr(MelRecord):
 mergeClasses = (
         MreAact, MreActi, MreAddn, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo,
         MreArto, MreAspc, MreAstp, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
-        MreLvsp, MreMisc,
+        MreLvsp, MreMisc, MreAlch, MreMgef,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8054,7 +8060,7 @@ def init():
 #        MreWeap, MreWoop,
         MreAact, MreActi, MreAddn, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo,
         MreArto, MreAspc, MreAstp, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
-        MreLvsp, MreMisc,
+        MreLvsp, MreMisc, MreAlch, MreMgef,
         MreHeader,
         ))
 

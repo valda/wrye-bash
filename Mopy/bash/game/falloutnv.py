@@ -3358,15 +3358,19 @@ class MreKeym(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
-class MreLscr(MelRecord):
-    """Load screen."""
-    classType = 'LSCR'
+class MreLgtm(MelRecord):
+    """Lgtm Item"""
+    classType = 'LGTM'
+
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelString('ICON','iconPath'),
-        MelString('DESC','text'),
-        MelStructs('LNAM','2I2h','Locations',(FID,'direct'),(FID,'indirect'),'gridy','gridx'),
-        MelFid('WMI1','loadScreenType'),
+        MelStruct('DATA','3Bs3Bs3Bs2f2i3f',
+            'redLigh','greenLigh','blueLigh','unknownLigh',
+            'redDirect','greenDirect','blueDirect','unknownDirect',
+            'redFog','greenFog','blueFog','unknownFog',
+            'fogNear','fogFar',
+            'dirRotXY','dirRotZ',
+            'directionalFade','fogClipDist','fogPower',),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -3519,6 +3523,19 @@ class MreLeveledList(MelRecord):
             self.mergeSources = [otherMod]
         #--Done
         self.setChanged(self.mergeOverLast)
+
+#------------------------------------------------------------------------------
+class MreLscr(MelRecord):
+    """Load screen."""
+    classType = 'LSCR'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelString('ICON','iconPath'),
+        MelString('DESC','text'),
+        MelStructs('LNAM','2I2h','Locations',(FID,'direct'),(FID,'indirect'),'gridy','gridx'),
+        MelFid('WMI1','loadScreenType'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
 class MreLsct(MelRecord):
@@ -5881,14 +5898,14 @@ mergeClasses = (
         # MreAchr, MreAcre, MreGmst,
         MreActi, MreAddn, MreAlch, MreAloc, MreAmef, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc,
         MreAvif, MreBook, MreBptd, MreCams, MreCcrd, MreCdck, MreChal, MreChip, MreClas, MreClmt,
-        MreCmny, MreCobj, MreCont, MreCrea, MreCsno, MreCsty, MreDebr, MreDehy, MreDobj, MreDoor,
-        MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn, MreGlob, MreGras,
-        MreHair, MreHdpt, MreHung, MreIdle, MreIdlm, MreImad, MreImod, MreIngr, MreIpct, MreIpds,
-        MreKeym, MreLigh, MreLscr, MreLsct, MreLtex, MreLvlc, MreLvli, MreLvln, MreMgef, MreMicn,
-        MreMisc, MreMset, MreMstt, MreMusc, MreNote, MreNpc, MrePack, MrePerk, MreProj, MrePwat,
-        MreQust, MreRace, MreRads, MreRcct, MreRcpe, MreRegn, MreRepu, MreScol, MreScpt, MreSlpd,
-        MreSoun, MreSpel, MreStat, MreTact, MreTerm, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap,
-        MreWthr,
+        MreCmny, MreCobj, MreCont, MreCpth, MreCrea, MreCsno, MreCsty, MreDebr, MreDehy, MreDobj, 
+        MreDoor, MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn, MreGlob, 
+        MreGras, MreHair, MreHdpt, MreHung, MreIdle, MreIdlm, MreImad, MreImod, MreIngr, MreIpct, 
+        MreIpds, MreKeym, MreLgtm, MreLigh, MreLscr, MreLsct, MreLtex, MreLvlc, MreLvli, MreLvln, 
+        MreMesg, MreMgef, MreMicn, MreMisc, MreMset, MreMstt, MreMusc, MreNote, MreNpc, MrePack,
+        MrePerk, MreProj, MrePwat, MreQust, MreRace, MreRads, MreRcct, MreRcpe, MreRegn, MreRepu,
+        MreScol, MreScpt, MreSlpd, MreSoun, MreSpel, MreStat, MreTact, MreTerm, MreTree, MreTxst,
+        MreVtyp, MreWatr, MreWeap, MreWthr,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5929,14 +5946,14 @@ def init():
         MreAchr, MreAcre, MreGmst,
         MreActi, MreAddn, MreAlch, MreAloc, MreAmef, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc,
         MreAvif, MreBook, MreBptd, MreCams, MreCcrd, MreCdck, MreChal, MreChip, MreClas, MreClmt,
-        MreCmny, MreCobj, MreCont, MreCpth, MreCrea, MreCsno, MreCsty, MreDebr, MreDehy, MreDobj, MreDoor,
-        MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn, MreGlob, MreGras,
-        MreHair, MreHdpt, MreHung, MreIdle, MreIdlm, MreImad, MreImod, MreIngr, MreIpct, MreIpds,
-        MreKeym, MreLigh, MreLscr, MreLsct, MreLtex, MreLvlc, MreLvli, MreLvln, MreMesg, MreMgef, MreMicn,
-        MreMisc, MreMset, MreMstt, MreMusc, MreNote, MreNpc, MrePack, MrePerk, MreProj, MrePwat,
-        MreQust, MreRace, MreRads, MreRcct, MreRcpe, MreRegn, MreRepu, MreScol, MreScpt, MreSlpd,
-        MreSoun, MreSpel, MreStat, MreTact, MreTerm, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap,
-        MreWthr,
+        MreCmny, MreCobj, MreCont, MreCpth, MreCrea, MreCsno, MreCsty, MreDebr, MreDehy, MreDobj, 
+        MreDoor, MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn, MreGlob, 
+        MreGras, MreHair, MreHdpt, MreHung, MreIdle, MreIdlm, MreImad, MreImod, MreIngr, MreIpct, 
+        MreIpds, MreKeym, MreLgtm, MreLigh, MreLscr, MreLsct, MreLtex, MreLvlc, MreLvli, MreLvln, 
+        MreMesg, MreMgef, MreMicn, MreMisc, MreMset, MreMstt, MreMusc, MreNote, MreNpc, MrePack,
+        MrePerk, MreProj, MrePwat, MreQust, MreRace, MreRads, MreRcct, MreRcpe, MreRegn, MreRepu,
+        MreScol, MreScpt, MreSlpd, MreSoun, MreSpel, MreStat, MreTact, MreTerm, MreTree, MreTxst,
+        MreVtyp, MreWatr, MreWeap, MreWthr,
         MreCell, MreWrld, MreNavm, MreNavi,
         MreHeader,
         ))

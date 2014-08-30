@@ -1897,7 +1897,7 @@ class MreBptd(MelRecord):
             MelString('BPNN','nodeName'),
             MelString('BPNT','vatsTarget'),
             MelString('BPNI','ikDataStartNode'),
-            MelStruct('BPND','f6BH2I2f3I7f2I2B2sf','damageMult',(_flags,'flags'),'partType','healthPercent','actorValue',
+            MelStruct('BPND','f3Bb2BH2I2fi2I7f2I2B2sf','damageMult',(_flags,'flags'),'partType','healthPercent','actorValue',
                       'toHitChance','explodableChancePercent','explodableDebrisCount',(FID,'explodableDebris',0L),(FID,'explodableExplosion',0L),
                       'trackingMaxAngle','explodableDebrisScale','severableDebrisCount',(FID,'severableDebris',0L),(FID,'severableExplosion',0L),
                       'severableDebrisScale','goreEffectPosTransX','goreEffectPosTransY','goreEffectPosTransZ',
@@ -2610,7 +2610,7 @@ class MreEczn(MelRecord):
     _flags = Flags(0L,Flags.getNames('neverResets','matchPCBelowMinimumLevel'))
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelStruct('DATA','=I2b2B',(FID,'owner',None),'rank','minimumLevel',(_flags,'flags',0L),('unused1',null1)),
+        MelStruct('DATA','=I2bBs',(FID,'owner',None),'rank','minimumLevel',(_flags,'flags',0L),('unused1',null1)),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -5257,18 +5257,18 @@ class MreTerm(MelRecord):
         MelString('DESC','description'),
         MelFid('SNAM','soundLooping'),
         MelFid('PNAM','passwordNote'),
-        MelTermDnam('DNAM','BBH','baseHackingDifficulty',(_flags,'flags'),'serverType'),
+        MelTermDnam('DNAM','BBBs','baseHackingDifficulty',(_flags,'flags'),'serverType','unused1',),
         MelGroups('menuItems',
             MelString('ITXT','itemText'),
             MelString('RNAM','resultText'),
             MelStruct('ANAM','B',(_menuFlags,'menuFlags')),
             MelFid('INAM','displayNote'),
             MelFid('TNAM','subMenu'),
-            MelStruct('SCHR','4s4I',('unused1',null4),'numRefs','compiledSize','lastIndex','scriptType'),
+            MelStruct('SCHR','4s4I',('unused2',null4),'numRefs','compiledSize','lastIndex','scriptType'),
             MelBase('SCDA','compiled_p'),
             MelString('SCTX','scriptText'),
             MelGroups('vars',
-                MelStruct('SLSD','I12sB7s','index',('unused1',null4+null4+null4),(_variableFlags,'flags',0L),('unused2',null4+null3)),
+                MelStruct('SLSD','I12sB7s','index',('unused3',null4+null4+null4),(_variableFlags,'flags',0L),('unused4',null4+null3)),
                 MelString('SCVR','name')),
             MelScrxen('SCRV/SCRO','references'),
             MelConditions(),
@@ -5739,7 +5739,7 @@ mergeClasses = (
         MreMgef, MreSoun, MreRegn, MreMset, MreNpc, MrePack, MreQust, MreRace, MreScpt, MreSpel,
         MreStat, MreIpds, MreTree, MreWatr, MreWeap, MreWthr, MreClmt, MreCsty, MreIdle, MreLtex,
         MreTxst, MreMicn, MreFlst, MrePerk, MreExpl, MreIpct, MreProj, MreDebr, MreImad, MreMstt,
-        MreNote,
+        MreNote, MreTerm, MreAvif, MreEczn, MreBptd,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5776,7 +5776,7 @@ def init():
         MreLigh, MreLscr, MreMgef, MreSoun, MreMset, MreNpc, MrePack, MreQust, MreRace,
         MreScpt, MreSpel, MreStat, MreIpds, MreTree, MreWatr, MreWeap, MreWthr, MreClmt, MreCsty,
         MreIdle, MreLtex, MreRegn, MreCell, MreWrld, MreTxst, MreMicn, MreFlst, MrePerk, MreExpl,
-		MreIpct, MreProj, MreDebr, MreImad, MreMstt, MreNote,
+		MreIpct, MreProj, MreDebr, MreImad, MreMstt, MreNote, MreTerm, MreAvif, MreEczn, MreBptd,
         MreHeader, 
         ))
     #--Simple records

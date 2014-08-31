@@ -3160,7 +3160,7 @@ class MreImad(MelRecord):
 class MreImgs(MelRecord):
     """Imgs Item"""
     classType = 'IMGS'
-    
+
     _flags = Flags(0L,Flags.getNames(
         'saturation',
         'contrast',
@@ -3359,7 +3359,7 @@ class MreIpct(MelRecord):
         MelString('EDID','eid'),
         MelModel(),
         MelStruct('DATA','fIffII','effectDuration','effectOrientation',
-		          'angleThreshold','placementRadius','soundLevel','flags'),
+                  'angleThreshold','placementRadius','soundLevel','flags'),
         MelOptStruct('DODT','7fBB2s3Bs','minWidth','maxWidth','minHeight',
                      'maxHeight','depth','shininess','parallaxScale',
                      'parallaxPasses',(DecalDataFlags,'flags',0L),

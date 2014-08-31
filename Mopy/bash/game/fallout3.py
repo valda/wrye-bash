@@ -1031,7 +1031,7 @@ class MelConditions(MelStructs):
     of parameters depends on function index."""
     def __init__(self):
         """Initialize."""
-        MelStructs.__init__(self,'CTDA','B3sfH2siiII','conditions',
+        MelStructs.__init__(self,'CTDA','=B3sfH2siiII','conditions',
             'operFlag',('unused1',null3),'compValue','ifunc',('unused2',null2),
             'param1','param2','runOn','reference')
 
@@ -1055,7 +1055,7 @@ class MelConditions(MelStructs):
         target = MelObject()
         record.conditions.append(target)
         target.__slots__ = self.attrs
-        unpacked1 = ins.unpack('B3sfH2s',12,readId)
+        unpacked1 = ins.unpack('=B3sfH2s',12,readId)
         (target.operFlag,target.unused1,target.compValue,ifunc,target.unused2) = unpacked1
         #--Get parameters
         if ifunc not in allConditions:
@@ -1111,13 +1111,11 @@ class MelConditions(MelStructs):
             if form1234[1] == 'I':
                 result = function(target.param2)
                 if save: target.param2 = result
-            # runOn isn't always FID
-            #if len(form1234) > 2 and form1234[2] == 'I':
-            #    result = function(target.runOn)
-            #    if save: target.runOn = result
+            # runOn is intU32, never FID, and Enum in FO3Edit
+            #0:Subject,1:Target,2:Reference,3:Combat Target,4:Linked Reference
             if len(form1234) > 3 and form1234[3] == 'I' and target.runOn == 2:
-                result = function(target.param4)
-                if save: target.param4 = result
+                result = function(target.reference)
+                if save: target.reference = result
 
 #------------------------------------------------------------------------------
 class MelDestructible(MelGroup):

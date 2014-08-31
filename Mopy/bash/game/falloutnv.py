@@ -44,7 +44,7 @@ null4 = null1*4
 displayName = u'Fallout New Vegas'
 #--Name of the game as used in related filenames and paths.
 fsName = u'FalloutNV'
-#--Alternat display name of Wrye Bash when managing this game
+#--Alternate display name of Wrye Bash when managing this game
 altName = u'Wrye Flash NV'
 #--Name of the default ini file.
 defaultIniFile = u'Fallout_default.ini'

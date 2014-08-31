@@ -44,7 +44,7 @@ null4 = null1*4
 displayName = u'Fallout 3'
 #--Name of the game as used in related filenames and paths.
 fsName = u'Fallout3'
-#--Alternat display name of Wrye Bash when managing this game
+#--Alternate display name of Wrye Bash when managing this game
 altName = u'Wrye Flash'
 #--Name of the default ini file.
 defaultIniFile = u'Fallout_default.ini'

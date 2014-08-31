@@ -2284,9 +2284,6 @@ class MreCpth(MelRecord):
     # 0, 'Default, Must Have Camera Shots',
     # 1, 'Disable, Must Have Camera Shots',
     # 2, 'Shot List, Must Have Camera Shots',
-    # 128, 'Default',
-    # 129, 'Disable',
-    # 130, 'Shot List'
 
     melSet = MelSet(
         MelString('EDID','eid'),

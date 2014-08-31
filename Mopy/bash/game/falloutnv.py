@@ -670,7 +670,7 @@ gmstEids = ['fPlayerDeathReloadTime','iMapMarkerVisibleDistance','fVanityModeWhe
 # 'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
 # 'Deflst', 'Destructible', 'WeaponMods'
 allTags = sorted((
-    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Stats',u'Names', 
+    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Stats',u'Names',
     ))
 
 #--GLOB record tweaks used by bosh's GmstTweaker
@@ -4542,7 +4542,7 @@ class MreProj(MelRecord):
         'passThroughSmallTransparent'
         'detonates',
         'rotation'
-		))
+        ))
     class MelProjData(MelStruct):
         """Handle older truncated DATA for PROJ subrecord."""
         def loadData(self,record,ins,type,size,readId):
@@ -6028,12 +6028,12 @@ mergeClasses = (
         # MreAchr, MreAcre, MreGmst, MrePgre,
         MreActi, MreAddn, MreAlch, MreAloc, MreAmef, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc,
         MreAvif, MreBook, MreBptd, MreCams, MreCcrd, MreCdck, MreChal, MreChip, MreClas, MreClmt,
-        MreCmny, MreCobj, MreCont, MreCpth, MreCrea, MreCsno, MreCsty, MreDebr, MreDehy, MreDobj, 
-        MreDoor, MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn, MreGlob, 
-        MreGras, MreHair, MreHdpt, MreHung, MreIdle, MreIdlm, MreImad, MreImgs, MreImod, MreIngr, 
-        MreIpct, MreIpds, MreKeym, MreLgtm, MreLigh, MreLscr, MreLsct, MreLtex, MreLvlc, MreLvli, 
-        MreLvln, MreMesg, MreMgef, MreMicn, MreMisc, MreMset, MreMstt, MreMusc, MreNote, MreNpc, 
-        MrePack, MrePerk, MreProj, MrePwat, MreQust, MreRace, MreRads, MreRcct, MreRcpe, MreRegn, 
+        MreCmny, MreCobj, MreCont, MreCpth, MreCrea, MreCsno, MreCsty, MreDebr, MreDehy, MreDobj,
+        MreDoor, MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn, MreGlob,
+        MreGras, MreHair, MreHdpt, MreHung, MreIdle, MreIdlm, MreImad, MreImgs, MreImod, MreIngr,
+        MreIpct, MreIpds, MreKeym, MreLgtm, MreLigh, MreLscr, MreLsct, MreLtex, MreLvlc, MreLvli,
+        MreLvln, MreMesg, MreMgef, MreMicn, MreMisc, MreMset, MreMstt, MreMusc, MreNote, MreNpc,
+        MrePack, MrePerk, MreProj, MrePwat, MreQust, MreRace, MreRads, MreRcct, MreRcpe, MreRegn,
         MreRepu, MreRgdl, MreScol, MreScpt, MreSlpd, MreSoun, MreSpel, MreStat, MreTact, MreTerm,
         MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWthr,
     )
@@ -6073,12 +6073,12 @@ def init():
         MreAchr, MreAcre, MreGmst, MrePgre,
         MreActi, MreAddn, MreAlch, MreAloc, MreAmef, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc,
         MreAvif, MreBook, MreBptd, MreCams, MreCcrd, MreCdck, MreChal, MreChip, MreClas, MreClmt,
-        MreCmny, MreCobj, MreCont, MreCpth, MreCrea, MreCsno, MreCsty, MreDebr, MreDehy, MreDobj, 
-        MreDoor, MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn, MreGlob, 
-        MreGras, MreHair, MreHdpt, MreHung, MreIdle, MreIdlm, MreImad, MreImgs, MreImod, MreIngr, 
-        MreIpct, MreIpds, MreKeym, MreLgtm, MreLigh, MreLscr, MreLsct, MreLtex, MreLvlc, MreLvli, 
-        MreLvln, MreMesg, MreMgef, MreMicn, MreMisc, MreMset, MreMstt, MreMusc, MreNote, MreNpc, 
-        MrePack, MrePerk, MreProj, MrePwat, MreQust, MreRace, MreRads, MreRcct, MreRcpe, MreRegn, 
+        MreCmny, MreCobj, MreCont, MreCpth, MreCrea, MreCsno, MreCsty, MreDebr, MreDehy, MreDobj,
+        MreDoor, MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn, MreGlob,
+        MreGras, MreHair, MreHdpt, MreHung, MreIdle, MreIdlm, MreImad, MreImgs, MreImod, MreIngr,
+        MreIpct, MreIpds, MreKeym, MreLgtm, MreLigh, MreLscr, MreLsct, MreLtex, MreLvlc, MreLvli,
+        MreLvln, MreMesg, MreMgef, MreMicn, MreMisc, MreMset, MreMstt, MreMusc, MreNote, MreNpc,
+        MrePack, MrePerk, MreProj, MrePwat, MreQust, MreRace, MreRads, MreRcct, MreRcpe, MreRegn,
         MreRepu, MreRgdl, MreScol, MreScpt, MreSlpd, MreSoun, MreSpel, MreStat, MreTact, MreTerm,
         MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWthr,
         MreCell, MreWrld, MreNavm, MreNavi,

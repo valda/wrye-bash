@@ -3195,7 +3195,7 @@ class MreImgs(MelRecord):
 
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelStruct('DNAM','33f4s4s4s4sB3s','eyeAdaptSpeed','blurRadius','blurPasses',
+        MelDnamData('DNAM','33f4s4s4s4sB3s','eyeAdaptSpeed','blurRadius','blurPasses',
                   'emissiveMult','targetLUM','upperLUMClamp','brightScale',
                   'brightClamp','lumRampNoTex','lumRampMin','lumRampMax',
                   'sunlightDimmer','grassDimmer','treeDimmer','skinDimmer',
@@ -3205,9 +3205,9 @@ class MreImgs(MelRecord):
                   'nightEyeTintRed','nightEyeTintGreen','nightEyeTintBlue',
                   'nightEyeBrightness','cinematicSaturation',
                   'cinematicAvgLumValue','cinematicValue',
-                  'cinematic-Brightness-Value','cinematicTintRed',
+                  'cinematicBrightnessValue','cinematicTintRed',
                   'cinematicTintGreen','cinematicTintBlue','cinematicTintValue',
-                  ('unused1','unused2','unused3','unused4',(_flags,'flags'),'unused5',),
+                  'unused1','unused2','unused3','unused4',(_flags,'flags'),'unused5',),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -3656,16 +3656,16 @@ class MreMesg(MelRecord):
         MelString('DESC','description'),
         MelLString('FULL','full'),
         MelFid('INAM','icon'),
-        MelBase(NAM0, 'unused_0'),
-        MelBase(NAM1, 'unused_1'),
-        MelBase(NAM2, 'unused_2'),
-        MelBase(NAM3, 'unused_3'),
-        MelBase(NAM4, 'unused_4'),
-        MelBase(NAM5, 'unused_5'),
-        MelBase(NAM6, 'unused_6'),
-        MelBase(NAM7, 'unused_7'),
-        MelBase(NAM8, 'unused_8'),
-        MelBase(NAM9, 'unused_9'),
+        MelBase('NAM0', 'unused_0'),
+        MelBase('NAM1', 'unused_1'),
+        MelBase('NAM2', 'unused_2'),
+        MelBase('NAM3', 'unused_3'),
+        MelBase('NAM4', 'unused_4'),
+        MelBase('NAM5', 'unused_5'),
+        MelBase('NAM6', 'unused_6'),
+        MelBase('NAM7', 'unused_7'),
+        MelBase('NAM8', 'unused_8'),
+        MelBase('NAM9', 'unused_9'),
         MelStruct('DNAM','I',(MesgTypeFlags,'flags',0L),),
         MelStruct('TNAM','I','displayTime',),
         MelGroups('menuButtons',
@@ -5238,6 +5238,32 @@ class MreRepu(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MreRgdl(MelRecord):
+    """Ragdoll"""
+    classType = 'RGDL'
+    _flags = Flags(0L,Flags.getNames('disableOnMove'))
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('NVER','I','version'),
+        MelStruct('DATA','I4s5Bs','boneCount','unused1','feedback',
+            'footIK','lookIK','grabIK','poseMatching','unused2'),
+        MelFid('XNAM','actorBase'),
+        MelFid('TNAM','bodyPartData'),
+        MelStruct('RAFD','13f2i','keyBlendAmount','hierarchyGain','positionGain',
+            'velocityGain','accelerationGain','snapGain','velocityDamping',
+            'snapMaxLinearVelocity','snapMaxAngularVelocity','snapMaxLinearDistance',
+            'snapMaxAngularDistance','posMaxVelLinear',
+            'posMaxVelAngular','posMaxVelProjectile','posMaxVelMelee'),
+        MelStructA('RAFB','H','feedbackDynamicBones',),
+        MelStruct('RAPS','3HBs4f','matchBones1','matchBones2','matchBones3',
+            (_flags,'flags'),'unused3','motorsStrength',
+            'poseActivationDelayTime','matchErrorAllowance',
+            'displacementToDisable',),
+        MelString('ANAM','deathPose'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
 # class MreRoad(MelRecord):
 # Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
@@ -6008,8 +6034,8 @@ mergeClasses = (
         MreIpct, MreIpds, MreKeym, MreLgtm, MreLigh, MreLscr, MreLsct, MreLtex, MreLvlc, MreLvli, 
         MreLvln, MreMesg, MreMgef, MreMicn, MreMisc, MreMset, MreMstt, MreMusc, MreNote, MreNpc, 
         MrePack, MrePerk, MreProj, MrePwat, MreQust, MreRace, MreRads, MreRcct, MreRcpe, MreRegn, 
-        MreRepu, MreScol, MreScpt, MreSlpd, MreSoun, MreSpel, MreStat, MreTact, MreTerm, MreTree, 
-        MreTxst, MreVtyp, MreWatr, MreWeap, MreWthr,
+        MreRepu, MreRgdl, MreScol, MreScpt, MreSlpd, MreSoun, MreSpel, MreStat, MreTact, MreTerm,
+        MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWthr,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -6056,8 +6082,8 @@ def init():
         MreIpct, MreIpds, MreKeym, MreLgtm, MreLigh, MreLscr, MreLsct, MreLtex, MreLvlc, MreLvli, 
         MreLvln, MreMesg, MreMgef, MreMicn, MreMisc, MreMset, MreMstt, MreMusc, MreNote, MreNpc, 
         MrePack, MrePerk, MreProj, MrePwat, MreQust, MreRace, MreRads, MreRcct, MreRcpe, MreRegn, 
-        MreRepu, MreScol, MreScpt, MreSlpd, MreSoun, MreSpel, MreStat, MreTact, MreTerm, MreTree, 
-        MreTxst, MreVtyp, MreWatr, MreWeap, MreWthr,
+        MreRepu, MreRgdl, MreScol, MreScpt, MreSlpd, MreSoun, MreSpel, MreStat, MreTact, MreTerm,
+        MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWthr,
         MreCell, MreWrld, MreNavm, MreNavi,
         MreHeader,
         ))

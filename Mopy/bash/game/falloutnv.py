@@ -1075,52 +1075,6 @@ class MreActor(MelRecord):
         self.items = [x for x in self.items if x.item[0] in modSet]
 
 #------------------------------------------------------------------------------
-class MelAlternateTextures(MelBase):
-    """Represents a set of alternate textures element."""
-    def __init__(self,type,attr,default=None):
-        """Initialize."""
-        MelBase.__init__(self,type,attr,default)
-        self._debug = False
-    def hasFids(self,formElements):
-        """Include self if has fids."""
-        formElements.add(self)
-    def loadData(self,record,ins,type,size,readId):
-        """Reads data from ins into record attribute."""
-        textures = []
-        numTextures, = struct.unpack('I',ins.read(4,readId))
-        for count in range(numTextures):
-            size, = struct.unpack('I',ins.read(4,readId))
-            name = ins.readString(size,readId)
-            fid = ins.unpackRef(readId)
-            index, = struct.unpack('I',ins.read(4,readId))
-            textures.append((name,fid,index))
-        record.__setattr__(self.attr,textures)
-        if self._debug: print ' ',record.__getattribute__(self.attr)
-    def dumpData(self,record,out):
-        """Dumps data from record to outstream."""
-        textures = record.__getattribute__(self.attr)
-        if not textures: return
-        data = ''
-        data += struct.pack('=I',len(textures))
-        for name,fid,index in textures:
-            data += struct.pack('=I',len(name))
-            data += name
-            data += struct.pack('=I',fid)
-            data += struct.pack('=I',index)
-        out.packSub(self.subType,data)
-    def mapFids(self,record,function,save=False):
-        """Applies function to fids. If save is true, then fid is set
-        to result of function."""
-        results = []
-        targets = record.__getattribute__(self.attr)
-        if not targets: return
-        for name,fid,index in targets:
-            result = function(fid)
-            results.append((name,result,index))
-        if save:
-            record.__setattr__(self.attr,results)
-
-#------------------------------------------------------------------------------
 class MelBipedFlags(bolt.Flags):
     """Biped flags element. Includes biped flag set by default."""
     mask = 0xFFFF
@@ -1351,6 +1305,53 @@ class MreHasEffects:
                 buffWrite(u'\n')
                 return buff.getvalue()
 
+#-------------------------------------------------------------------------------
+class MelMODS(MelBase):
+    """MODS/MO2S/etc/DMDS subrecord"""
+    def hasFids(self,formElements):
+        """Include self if has fids."""
+        formElements.add(self)
+
+    def setDefault(self,record):
+        """Sets default value for record instance."""
+        record.__setattr__(self.attr,None)
+
+    def loadData(self,record,ins,type,size,readId):
+        """Reads data from ins into record attribute."""
+        insUnpack = ins.unpack
+        insRead32 = ins.readString32
+        count, = insUnpack('I',4,readId)
+        data = []
+        dataAppend = data.append
+        for x in xrange(count):
+            string = ins.readString32(size,readId)
+            fid = ins.unpackRef(readId)
+            unk, = ins.unpack('I',4,readId)
+            dataAppend((string,fid,unk))
+        record.__setattr__(self.attr,data)
+
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+        data = record.__getattribute__(self.attr)
+        if data is not None:
+            structPack = struct.pack
+            data = record.__getattribute__(self.attr)
+            outData = structPack('I',len(data))
+            for (string,fid,unk) in data:
+                outData += structPack('I',len(string))
+                outData += _encode(string)
+                outData += structPack('=2I',fid,unk)
+            out.packSub(self.subType,outData)
+
+    def mapFids(self,record,function,save=False):
+        """Applies function to fids.  If save is true, then fid is set
+           to result of function."""
+        attr = self.attr
+        data = record.__getattribute__(attr)
+        if data is not None:
+            data = [(string,function(fid),unk) for (string,fid,unk) in record.__getattribute__(attr)]
+            if save: record.__setattr__(attr,data)
+
 #------------------------------------------------------------------------------
 class MelModel(MelGroup):
     """Represents a model record."""
@@ -1367,7 +1368,7 @@ class MelModel(MelGroup):
             MelString(types[0],'modPath'),
             MelBase(types[1],'modb_p'), ### Bound Radius, Float
             MelBase(types[2],'modt_p'), ###Texture Files Hashes, Byte Array
-            MelAlternateTextures(types[3],'alternateTextures'),
+            MelMODS(types[3],'mod_s'),
             MelBase(types[4],'modd_p'),)
 
     def debug(self,on=True):

@@ -799,9 +799,7 @@ statsHeaders = (
         #         _(u'VATS Skill'), _(u'VATS Dam. Mult'), _(u'VATS AP'))) + u'"\n')),
         )
 
-# Mod Record Elements ----------------------------------------------------------
-#-------------------------------------------------------------------------------
-# Constants
+# FormID
 FID = 'FID' #--Used by MelStruct classes to indicate fid elements.
 
 # Race Info -------------------------------------------------------------------
@@ -1059,7 +1057,66 @@ defaultEyes = {
         standardEyes,
     }
 
-# Flags
+#-------------------------------------------------------------------------------
+# Record Elements ----------------------------------------------------------
+#------------------------------------------------------------------------------
+class MreActor(MelRecord):
+    """Creatures and NPCs."""
+
+    def mergeFilter(self,modSet):
+        """Filter out items that don't come from specified modSet.
+        Filters spells, factions and items."""
+        if not self.longFids: raise StateError(_("Fids not in long format"))
+        self.spells = [x for x in self.spells if x[0] in modSet]
+        self.factions = [x for x in self.factions if x.faction[0] in modSet]
+        self.items = [x for x in self.items if x.item[0] in modSet]
+
+#------------------------------------------------------------------------------
+class MelAlternateTextures(MelBase):
+    """Represents a set of alternate textures element."""
+    def __init__(self,type,attr,default=None):
+        """Initialize."""
+        MelBase.__init__(self,type,attr,default)
+        self._debug = False
+    def hasFids(self,formElements):
+        """Include self if has fids."""
+        formElements.add(self)
+    def loadData(self,record,ins,type,size,readId):
+        """Reads data from ins into record attribute."""
+        textures = []
+        numTextures, = struct.unpack('I',ins.read(4,readId))
+        for count in range(numTextures):
+            size, = struct.unpack('I',ins.read(4,readId))
+            name = ins.readString(size,readId)
+            fid = ins.unpackRef(readId)
+            index, = struct.unpack('I',ins.read(4,readId))
+            textures.append((name,fid,index))
+        record.__setattr__(self.attr,textures)
+        if self._debug: print ' ',record.__getattribute__(self.attr)
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+        textures = record.__getattribute__(self.attr)
+        if not textures: return
+        data = ''
+        data += struct.pack('=I',len(textures))
+        for name,fid,index in textures:
+            data += struct.pack('=I',len(name))
+            data += name
+            data += struct.pack('=I',fid)
+            data += struct.pack('=I',index)
+        out.packSub(self.subType,data)
+    def mapFids(self,record,function,save=False):
+        """Applies function to fids. If save is true, then fid is set
+        to result of function."""
+        results = []
+        targets = record.__getattribute__(self.attr)
+        if not targets: return
+        for name,fid,index in targets:
+            result = function(fid)
+            results.append((name,result,index))
+        if save:
+            record.__setattr__(self.attr,results)
+
 #------------------------------------------------------------------------------
 class MelBipedFlags(bolt.Flags):
     """Biped flags element. Includes biped flag set by default."""
@@ -1186,77 +1243,6 @@ class MelDestructible(MelGroup):
                       ),
             )
 
-# Alternate textures
-#------------------------------------------------------------------------------
-class MelAlternateTextures(MelBase):
-    """Represents a set of alternate textures element."""
-    def __init__(self,type,attr,default=None):
-        """Initialize."""
-        MelBase.__init__(self,type,attr,default)
-        self._debug = False
-    def hasFids(self,formElements):
-        """Include self if has fids."""
-        formElements.add(self)
-    def loadData(self,record,ins,type,size,readId):
-        """Reads data from ins into record attribute."""
-        textures = []
-        numTextures, = struct.unpack('I',ins.read(4,readId))
-        for count in range(numTextures):
-            size, = struct.unpack('I',ins.read(4,readId))
-            name = ins.readString(size,readId)
-            fid = ins.unpackRef(readId)
-            index, = struct.unpack('I',ins.read(4,readId))
-            textures.append((name,fid,index))
-        record.__setattr__(self.attr,textures)
-        if self._debug: print ' ',record.__getattribute__(self.attr)
-    def dumpData(self,record,out):
-        """Dumps data from record to outstream."""
-        textures = record.__getattribute__(self.attr)
-        if not textures: return
-        data = ''
-        data += struct.pack('=I',len(textures))
-        for name,fid,index in textures:
-            data += struct.pack('=I',len(name))
-            data += _encode(name,firstEncoding=bolt.pluginEncoding)
-            data += struct.pack('=I',fid)
-            data += struct.pack('=I',index)
-        out.packSub(self.subType,data)
-    def mapFids(self,record,function,save=False):
-        """Applies function to fids. If save is true, then fid is set
-        to result of function."""
-        results = []
-        targets = record.__getattribute__(self.attr)
-        if not targets: return
-        for name,fid,index in targets:
-            result = function(fid)
-            results.append((name,result,index))
-        if save:
-            record.__setattr__(self.attr,results)
-
-#------------------------------------------------------------------------------
-class MelModel(MelGroup):
-    """Represents a model record."""
-    typeSets = (
-        ('MODL','MODB','MODT','MODS','MODD'),
-        ('MOD2','MO2B','MO2T','MO2S','MO2D'),
-        ('MOD3','MO3B','MO3T','MO3S','MOSD'),
-        ('MOD4','MO4B','MO4T','MO4S','MO4D'),)
-
-    def __init__(self,attr='model',index=0):
-        """Initialize. Index is 0,2,3,4 for corresponding type id."""
-        types = MelModel.typeSets[(0,index-1)[index>0]]
-        MelGroup.__init__(self,attr,
-            MelString(types[0],'modPath'),
-            MelBase(types[1],'modb_p'), ### Bound Radius, Float
-            MelBase(types[2],'modt_p'), ###Texture Files Hashes, Byte Array
-            MelAlternateTextures(types[3],'alternateTextures'),
-            MelBase(types[4],'modd_p'),)
-
-    def debug(self,on=True):
-        """Sets debug flag on self."""
-        for element in self.elements[:2]: element.debug(on)
-        return self
-
 #------------------------------------------------------------------------------
 class MelEffects(MelGroups):
     """Represents ingredient/potion/enchantment/spell effects."""
@@ -1305,49 +1291,6 @@ class MelEffects(MelGroups):
             #     ),
             MelConditions(),
             )
-
-#------------------------------------------------------------------------------
-class MelScrxen(MelFids):
-    """Handles mixed sets of SCRO and SCRV for scripts, quests, etc."""
-
-    def getLoaders(self,loaders):
-        loaders['SCRV'] = self
-        loaders['SCRO'] = self
-
-    def loadData(self,record,ins,type,size,readId):
-        isFid = (type == 'SCRO')
-        if isFid: value = ins.unpackRef(readId)
-        else: value, = ins.unpack('I',4,readId)
-        record.__getattribute__(self.attr).append((isFid,value))
-
-    def dumpData(self,record,out):
-        for isFid,value in record.__getattribute__(self.attr):
-            if isFid: out.packRef('SCRO',value)
-            else: out.packSub('SCRV','I',value)
-
-    def mapFids(self,record,function,save=False):
-        scrxen = record.__getattribute__(self.attr)
-        for index,(isFid,value) in enumerate(scrxen):
-            if isFid:
-                result = function(value)
-                if save: scrxen[index] = (isFid,result)
-
-#------------------------------------------------------------------------------
-class MelOwnership(MelGroup):
-    """Handles XOWN, XRNK, and XGLB for cells and cell children."""
-
-    def __init__(self):
-        """Initialize."""
-        MelGroup.__init__(self, 'ownership',
-            MelFid('XOWN','owner'),
-            MelOptStruct('XRNK','i',('rank',None)),
-            MelFid('XGLB','global'),
-        )
-
-    def dumpData(self,record,out):
-        """Dumps data from record to outstream."""
-        if record.ownership and record.ownership.owner:
-            MelGroup.dumpData(self,record,out)
 
 #------------------------------------------------------------------------------
 class MreHasEffects:
@@ -1406,16 +1349,71 @@ class MreHasEffects:
                 return buff.getvalue()
 
 #------------------------------------------------------------------------------
-class MreActor(MelRecord):
-    """Creatures and NPCs."""
+class MelModel(MelGroup):
+    """Represents a model record."""
+    typeSets = (
+        ('MODL','MODB','MODT','MODS','MODD'),
+        ('MOD2','MO2B','MO2T','MO2S','MO2D'),
+        ('MOD3','MO3B','MO3T','MO3S','MOSD'),
+        ('MOD4','MO4B','MO4T','MO4S','MO4D'),)
 
-    def mergeFilter(self,modSet):
-        """Filter out items that don't come from specified modSet.
-        Filters spells, factions and items."""
-        if not self.longFids: raise StateError(_("Fids not in long format"))
-        self.spells = [x for x in self.spells if x[0] in modSet]
-        self.factions = [x for x in self.factions if x.faction[0] in modSet]
-        self.items = [x for x in self.items if x.item[0] in modSet]
+    def __init__(self,attr='model',index=0):
+        """Initialize. Index is 0,2,3,4 for corresponding type id."""
+        types = MelModel.typeSets[(0,index-1)[index>0]]
+        MelGroup.__init__(self,attr,
+            MelString(types[0],'modPath'),
+            MelBase(types[1],'modb_p'), ### Bound Radius, Float
+            MelBase(types[2],'modt_p'), ###Texture Files Hashes, Byte Array
+            MelAlternateTextures(types[3],'alternateTextures'),
+            MelBase(types[4],'modd_p'),)
+
+    def debug(self,on=True):
+        """Sets debug flag on self."""
+        for element in self.elements[:2]: element.debug(on)
+        return self
+
+#------------------------------------------------------------------------------
+class MelOwnership(MelGroup):
+    """Handles XOWN, XRNK, and XGLB for cells and cell children."""
+
+    def __init__(self):
+        """Initialize."""
+        MelGroup.__init__(self, 'ownership',
+            MelFid('XOWN','owner'),
+            MelOptStruct('XRNK','i',('rank',None)),
+            MelFid('XGLB','global'),
+        )
+
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+        if record.ownership and record.ownership.owner:
+            MelGroup.dumpData(self,record,out)
+
+#------------------------------------------------------------------------------
+class MelScrxen(MelFids):
+    """Handles mixed sets of SCRO and SCRV for scripts, quests, etc."""
+
+    def getLoaders(self,loaders):
+        loaders['SCRV'] = self
+        loaders['SCRO'] = self
+
+    def loadData(self,record,ins,type,size,readId):
+        isFid = (type == 'SCRO')
+        if isFid: value = ins.unpackRef(readId)
+        else: value, = ins.unpack('I',4,readId)
+        record.__getattribute__(self.attr).append((isFid,value))
+
+    def dumpData(self,record,out):
+        for isFid,value in record.__getattribute__(self.attr):
+            if isFid: out.packRef('SCRO',value)
+            else: out.packSub('SCRV','I',value)
+
+    def mapFids(self,record,function,save=False):
+        scrxen = record.__getattribute__(self.attr)
+        for index,(isFid,value) in enumerate(scrxen):
+            if isFid:
+                result = function(value)
+                if save: scrxen[index] = (isFid,result)
 
 #-------------------------------------------------------------------------------
 # FalloutNV Records ---------------------------------------------------------------
@@ -6062,9 +6060,6 @@ def init():
 # MreCell, MreWrld, MreNavm,
 
     brec.ModReader.recHeader = RecordHeader
-
-    # Need to add
-    # 'RGDL',
 
     #--Record Types
     brec.MreRecord.type_class = dict((x.classType,x) for x in (

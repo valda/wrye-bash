@@ -1517,8 +1517,11 @@ CBash_patchers = (
     'CBash_ContentsChecker',
     )
 
-# For ListsMerger
-listTypes = ('LVLC','LVLI','LVSP',)
+#--For ListMerger patcher (leveled list patcher)
+slistTypes = ('LVLC','LVLI','LVSP',)
+
+#--For fidListMerger patcher (FormID list patcher)
+fidListTypes = ()
 
 namesTypes = set((
         'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'BSGN', 'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR',

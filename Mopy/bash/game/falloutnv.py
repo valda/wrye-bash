@@ -3173,7 +3173,26 @@ class MreImgs(MelRecord):
         'brightness'
     ))
 
-    #132 or 148
+    # Original Size 152 Bytes, FNVEdit says it can be 132 or 148 also
+    class MelDnamData(MelStruct):
+        """Handle older truncated DNAM for IMGS subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 152:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 148:
+                unpacked = ins.unpack('33f4s4s4s4s',size,readId)
+            elif size == 132:
+                unpacked = ins.unpack('33f',size,readId)
+            else:
+                raise "Unexpected size encountered for IMGS:DNAM subrecord: %s" % size
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked, record.flags.getTrueAttrs()
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('DNAM','33f4s4s4s4sB3s','eyeAdaptSpeed','blurRadius','blurPasses',

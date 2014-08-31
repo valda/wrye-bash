@@ -3202,7 +3202,8 @@ class MreImgs(MelRecord):
                   'cinematicAvgLumValue','cinematicValue',
                   'cinematicBrightnessValue','cinematicTintRed',
                   'cinematicTintGreen','cinematicTintBlue','cinematicTintValue',
-                  'unused1','unused2','unused3','unused4',(_flags,'flags'),'unused5',),
+                  ('unused1',null4),('unused2',null4),('unused3',null4),('unused4',null4),
+                  (_flags,'flags'),('unused5',null3)),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

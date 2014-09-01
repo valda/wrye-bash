@@ -1226,26 +1226,26 @@ class MreHasEffects:
         """Return a text description of magic effects."""
         mgef_school = mgef_school or bush.mgef_school
         mgef_name = mgef_name or bush.mgef_name
-        buff = stringBuffer()
-        avEffects = bush.genericAVEffects
-        aValues = bush.actorValues
-        buffWrite = buff.write
-        if self.effects:
-            school = self.getSpellSchool(mgef_school)
-            buffWrite(bush.actorValues[20+school] + '\n')
-        for index,effect in enumerate(self.effects):
-            if effect.scriptEffect:
-                effectName = effect.scriptEffect.full or 'Script Effect'
-            else:
-                effectName = mgef_name[effect.name]
-                if effect.name in avEffects:
-                    effectName = re.sub(_('(Attribute|Skill)'),aValues[effect.actorValue],effectName)
-            buffWrite('o+*'[effect.recipient]+' '+Unicode(effectName,'mbcs'))
-            if effect.magnitude: buffWrite(' '+`effect.magnitude`+'m')
-            if effect.area: buffWrite(' '+`effect.area`+'a')
-            if effect.duration > 1: buffWrite(' '+`effect.duration`+'d')
-            buffWrite('\n')
-        return buff.getvalue()
+        with bolt.sio() as buff:
+            avEffects = bush.genericAVEffects
+            aValues = bush.actorValues
+            buffWrite = buff.write
+            if self.effects:
+                school = self.getSpellSchool(mgef_school)
+                buffWrite(bush.actorValues[20+school] + u'\n')
+            for index,effect in enumerate(self.effects):
+                if effect.scriptEffect:
+                    effectName = effect.scriptEffect.full or u'Script Effect'
+                else:
+                    effectName = mgef_name[effect.name]
+                    if effect.name in avEffects:
+                        effectName = re.sub(_(u'(Attribute|Skill)'),aValues[effect.actorValue],effectName)
+                buffWrite(u'o+*'[effect.recipient]+u' '+effectName)
+                if effect.magnitude: buffWrite(u' %sm'%effect.magnitude)
+                if effect.area: buffWrite(u' %sa'%effect.area)
+                if effect.duration > 1: buffWrite(u' %sd'%effect.duration)
+                buffWrite(u'\n')
+                return buff.getvalue()
 
 #------------------------------------------------------------------------------
 class MelOwnership(MelGroup):

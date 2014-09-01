@@ -1644,7 +1644,7 @@ class MreAddn(MelRecord):
 class MreAlch(MelRecord,MreHasEffects):
     """ALCH (potion) record."""
     classType = 'ALCH'
-    _flags = Flags(0L,Flags.getNames('autoCalc','isFood'))
+    _flags = Flags(0L,Flags.getNames('autoCalc','isFood','medicine',))
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
@@ -1658,8 +1658,10 @@ class MreAlch(MelRecord,MreHasEffects):
         MelDestructible(),
         MelFid('YNAM','soundPickUp'),
         MelFid('ZNAM','soundDrop'),
-        #--10:chems,11:stimpack,12:food,13:alcohol
-        MelStruct('ETYP','I','etype'),
+        #-1:None,0:Big Guns,1:Energy Weapons,2:Small Guns,3:Melee Weapons,
+        #4:Unarmed Weapon,5:Thrown Weapons,6:Mine,7:Body Wear,8:Head Wear,
+        #9:Hand Wear,10:Chems,11:Stimpack,12:Food,13:Alcohol
+        MelStruct('ETYP','I',('etype',-1)),
         MelStruct('DATA','f','weight'),
         MelStruct('ENIT','iB3sIfI','value',(_flags,'flags',0L),('unused1',null3),
                   (FID,'withdrawalEffect',None),'addictionChance',(FID,'soundConsume',None)),

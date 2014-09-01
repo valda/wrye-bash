@@ -1248,6 +1248,204 @@ class MreHasEffects:
                 return buff.getvalue()
 
 #------------------------------------------------------------------------------
+class MreLeveledList(MelRecord):
+    """Leveled item/creature/spell list.."""
+    _flags = Flags(0,Flags.getNames('calcFromAllLevels','calcForEachItem','useAllSpells'))
+    #--Special load classes
+    class MelLevListLvld(MelStruct):
+        """Subclass to support alternate format."""
+        def loadData(self,record,ins,type,size,readId):
+            MelStruct.loadData(self,record,ins,type,size,readId)
+            if record.chanceNone > 127:
+                record.flags.calcFromAllLevels = True
+                record.chanceNone &= 127
+
+    class MelLevListLvlo(MelStruct):
+        """Subclass to support alternate format."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 12:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 8:
+                format,attrs = ('iI',('level','listId'))####might be h2sI
+            else:
+                raise "Unexpected size encountered for LVLO subrecord: %s" % size
+            unpacked = ins.unpack(format,size,readId)
+            setter = record.__setattr__
+            for attr,value,action in zip(attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked
+    #--Element Set
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('OBND','=6h',
+                  'corner0X','corner0Y','corner0Z',
+                  'corner1X','corner1Y','corner1Z'),
+        MelLevListLvld('LVLD','B','chanceNone'),
+        MelStruct('LVLF','B',(_flags,'flags',0L)),
+        MelFid('SCRI','script'),
+        MelFid('TNAM','template'),
+        MelFid('LVLG','glob'),
+        MelGroups('entries',
+                  MelLevListLvlo('LVLO','h2sIh2s','level',('unused1',null2),(FID,'listId',None),('count',1),('unused2',null2)),
+                  MelOptStruct('COED','IIf',(FID,'owner',None),(FID,'glob',None),('condition',1.0)),
+                  ),
+        MelNull('DATA'),
+        )
+    __slots__ = (MelRecord.__slots__ + melSet.getSlotsUsed() +
+        ['mergeOverLast','mergeSources','items','delevs','relevs'])
+
+    def __init__(self,header,ins=None,unpack=False):
+        """Initialize."""
+        MelRecord.__init__(self,header,ins,unpack)
+        self.mergeOverLast = False #--Merge overrides last mod merged
+        self.mergeSources = None #--Set to list by other functions
+        self.items  = None #--Set of items included in list
+        self.delevs = None #--Set of items deleted by list (Delev and Relev mods)
+        self.relevs = None #--Set of items relevelled by list (Relev mods)
+
+    def mergeFilter(self,modSet):
+        """Filter out items that don't come from specified modSet."""
+        if not self.longFids: raise StateError(_("Fids not in long format"))
+        self.entries = [entry for entry in self.entries if entry.listId[0] in modSet]
+
+    def mergeWith(self,other,otherMod):
+        """Merges newLevl settings and entries with self.
+        Requires that: self.items, other.delevs and other.relevs be defined."""
+        if not self.longFids: raise StateError(_("Fids not in long format"))
+        if not other.longFids: raise StateError(_("Fids not in long format"))
+        #--Relevel or not?
+        if other.relevs:
+            self.chanceNone = other.chanceNone
+            self.script = other.script
+            self.template = other.template
+            self.flags = other.flags()
+            self.glob = other.glob
+        else:
+            self.chanceNone = other.chanceNone or self.chanceNone
+            self.script   = other.script or self.script
+            self.template = other.template or self.template
+            self.flags |= other.flags
+            self.glob = other.glob or self.glob
+        #--Remove items based on other.removes
+        if other.delevs or other.relevs:
+            removeItems = self.items & (other.delevs | other.relevs)
+            self.entries = [entry for entry in self.entries if entry.listId not in removeItems]
+            self.items = (self.items | other.delevs) - other.relevs
+        hasOldItems = bool(self.items)
+        #--Add new items from other
+        newItems = set()
+        entriesAppend = self.entries.append
+        newItemsAdd = newItems.add
+        for entry in other.entries:
+            if entry.listId not in self.items:
+                entriesAppend(entry)
+                newItemsAdd(entry.listId)
+        if newItems:
+            self.items |= newItems
+            self.entries.sort(key=attrgetter('listId','level','count','owner','condition'))
+        #--Is merged list different from other? (And thus written to patch.)
+        if (self.chanceNone != other.chanceNone or
+            self.script != other.script or
+            self.template != other.template or
+            #self.flags != other.flags or
+            self.glob != other.glob or
+            len(self.entries) != len(other.entries)
+            ):
+            self.mergeOverLast = True
+        else:
+            otherlist = other.entries
+            otherlist.sort(key=attrgetter('listId','level','count','owner','condition'))
+            for selfEntry,otherEntry in zip(self.entries,otherlist):
+                if (selfEntry.listId != otherEntry.listId or
+                    selfEntry.level != otherEntry.level or
+                    selfEntry.count != otherEntry.count or
+                    selfEntry.owner != otherEntry.owner or
+                    selfEntry.condition != otherEntry.condition):
+                    self.mergeOverLast = True
+                    break
+            else:
+                self.mergeOverLast = False
+        if self.mergeOverLast:
+            self.mergeSources.append(otherMod)
+        else:
+            self.mergeSources = [otherMod]
+        #--Done
+        self.setChanged(self.mergeOverLast)
+
+#------------------------------------------------------------------------------
+class MelMODS(MelBase):
+    """MODS/MO2S/etc/DMDS subrecord"""
+    def hasFids(self,formElements):
+        """Include self if has fids."""
+        formElements.add(self)
+
+    def setDefault(self,record):
+        """Sets default value for record instance."""
+        record.__setattr__(self.attr,None)
+
+    def loadData(self,record,ins,type,size,readId):
+        """Reads data from ins into record attribute."""
+        insUnpack = ins.unpack
+        insRead32 = ins.readString32
+        count, = insUnpack('I',4,readId)
+        data = []
+        dataAppend = data.append
+        for x in xrange(count):
+            string = ins.readString32(size,readId)
+            fid = ins.unpackRef(readId)
+            unk, = ins.unpack('I',4,readId)
+            dataAppend((string,fid,unk))
+        record.__setattr__(self.attr,data)
+
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+        data = record.__getattribute__(self.attr)
+        if data is not None:
+            structPack = struct.pack
+            data = record.__getattribute__(self.attr)
+            outData = structPack('I',len(data))
+            for (string,fid,unk) in data:
+                outData += structPack('I',len(string))
+                outData += _encode(string)
+                outData += structPack('=2I',fid,unk)
+            out.packSub(self.subType,outData)
+
+    def mapFids(self,record,function,save=False):
+        """Applies function to fids.  If save is true, then fid is set
+           to result of function."""
+        attr = self.attr
+        data = record.__getattribute__(attr)
+        if data is not None:
+            data = [(string,function(fid),unk) for (string,fid,unk) in record.__getattribute__(attr)]
+            if save: record.__setattr__(attr,data)
+
+#------------------------------------------------------------------------------
+class MelModel(MelGroup):
+    """Represents a model record."""
+    typeSets = (
+        ('MODL','MODB','MODT','MODS','MODD'),
+        ('MOD2','MO2B','MO2T','MO2S','MO2D'),
+        ('MOD3','MO3B','MO3T','MO3S','MOSD'),
+        ('MOD4','MO4B','MO4T','MO4S','MO4D'),)
+
+    def __init__(self,attr='model',index=0):
+        """Initialize. Index is 0,2,3,4 for corresponding type id."""
+        types = MelModel.typeSets[(0,index-1)[index>0]]
+        MelGroup.__init__(self,attr,
+            MelString(types[0],'modPath'),
+            MelBase(types[1],'modb_p'), ### Bound Radius, Float
+            MelBase(types[2],'modt_p'), ###Texture Files Hashes, Byte Array
+            MelMODS(types[3],'mod_s'),
+            MelBase(types[4],'modd_p'),)
+
+    def debug(self,on=True):
+        """Sets debug flag on self."""
+        for element in self.elements[:2]: element.debug(on)
+        return self
+
+#------------------------------------------------------------------------------
 class MelOwnership(MelGroup):
     """Handles XOWN, XRNK, and XGLB for cells and cell children."""
 
@@ -2831,133 +3029,6 @@ class MreKeym(MelRecord):
         MelStruct('DATA','if','value','weight'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-#------------------------------------------------------------------------------
-class MreLeveledList(MelRecord):
-    """Leveled item/creature/spell list.."""
-    _flags = Flags(0,Flags.getNames('calcFromAllLevels','calcForEachItem','useAllSpells'))
-    #--Special load classes
-    class MelLevListLvld(MelStruct):
-        """Subclass to support alternate format."""
-        def loadData(self,record,ins,type,size,readId):
-            MelStruct.loadData(self,record,ins,type,size,readId)
-            if record.chanceNone > 127:
-                record.flags.calcFromAllLevels = True
-                record.chanceNone &= 127
-
-    class MelLevListLvlo(MelStruct):
-        """Subclass to support alternate format."""
-        def loadData(self,record,ins,type,size,readId):
-            if size == 12:
-                MelStruct.loadData(self,record,ins,type,size,readId)
-                return
-            elif size == 8:
-                format,attrs = ('iI',('level','listId'))####might be h2sI
-            else:
-                raise "Unexpected size encountered for LVLO subrecord: %s" % size
-            unpacked = ins.unpack(format,size,readId)
-            setter = record.__setattr__
-            for attr,value,action in zip(attrs,unpacked,self.actions):
-                if callable(action): value = action(value)
-                setter(attr,value)
-            if self._debug: print unpacked
-    #--Element Set
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
-        MelLevListLvld('LVLD','B','chanceNone'),
-        MelStruct('LVLF','B',(_flags,'flags',0L)),
-        MelFid('SCRI','script'),
-        MelFid('TNAM','template'),
-        MelFid('LVLG','glob'),
-        MelGroups('entries',
-                  MelLevListLvlo('LVLO','h2sIh2s','level',('unused1',null2),(FID,'listId',None),('count',1),('unused2',null2)),
-                  MelOptStruct('COED','IIf',(FID,'owner',None),(FID,'glob',None),('condition',1.0)),
-                  ),
-        MelNull('DATA'),
-        )
-    __slots__ = (MelRecord.__slots__ + melSet.getSlotsUsed() +
-        ['mergeOverLast','mergeSources','items','delevs','relevs'])
-
-    def __init__(self,header,ins=None,unpack=False):
-        """Initialize."""
-        MelRecord.__init__(self,header,ins,unpack)
-        self.mergeOverLast = False #--Merge overrides last mod merged
-        self.mergeSources = None #--Set to list by other functions
-        self.items  = None #--Set of items included in list
-        self.delevs = None #--Set of items deleted by list (Delev and Relev mods)
-        self.relevs = None #--Set of items relevelled by list (Relev mods)
-
-    def mergeFilter(self,modSet):
-        """Filter out items that don't come from specified modSet."""
-        if not self.longFids: raise StateError(_("Fids not in long format"))
-        self.entries = [entry for entry in self.entries if entry.listId[0] in modSet]
-
-    def mergeWith(self,other,otherMod):
-        """Merges newLevl settings and entries with self.
-        Requires that: self.items, other.delevs and other.relevs be defined."""
-        if not self.longFids: raise StateError(_("Fids not in long format"))
-        if not other.longFids: raise StateError(_("Fids not in long format"))
-        #--Relevel or not?
-        if other.relevs:
-            self.chanceNone = other.chanceNone
-            self.script = other.script
-            self.template = other.template
-            self.flags = other.flags()
-            self.glob = other.glob
-        else:
-            self.chanceNone = other.chanceNone or self.chanceNone
-            self.script   = other.script or self.script
-            self.template = other.template or self.template
-            self.flags |= other.flags
-            self.glob = other.glob or self.glob
-        #--Remove items based on other.removes
-        if other.delevs or other.relevs:
-            removeItems = self.items & (other.delevs | other.relevs)
-            self.entries = [entry for entry in self.entries if entry.listId not in removeItems]
-            self.items = (self.items | other.delevs) - other.relevs
-        hasOldItems = bool(self.items)
-        #--Add new items from other
-        newItems = set()
-        entriesAppend = self.entries.append
-        newItemsAdd = newItems.add
-        for entry in other.entries:
-            if entry.listId not in self.items:
-                entriesAppend(entry)
-                newItemsAdd(entry.listId)
-        if newItems:
-            self.items |= newItems
-            self.entries.sort(key=attrgetter('listId','level','count','owner','condition'))
-        #--Is merged list different from other? (And thus written to patch.)
-        if (self.chanceNone != other.chanceNone or
-            self.script != other.script or
-            self.template != other.template or
-            #self.flags != other.flags or
-            self.glob != other.glob or
-            len(self.entries) != len(other.entries)
-            ):
-            self.mergeOverLast = True
-        else:
-            otherlist = other.entries
-            otherlist.sort(key=attrgetter('listId','level','count','owner','condition'))
-            for selfEntry,otherEntry in zip(self.entries,otherlist):
-                if (selfEntry.listId != otherEntry.listId or
-                    selfEntry.level != otherEntry.level or
-                    selfEntry.count != otherEntry.count or
-                    selfEntry.owner != otherEntry.owner or
-                    selfEntry.condition != otherEntry.condition):
-                    self.mergeOverLast = True
-                    break
-            else:
-                self.mergeOverLast = False
-        if self.mergeOverLast:
-            self.mergeSources.append(otherMod)
-        else:
-            self.mergeSources = [otherMod]
-        #--Done
-        self.setChanged(self.mergeOverLast)
 
 #------------------------------------------------------------------------------
 class MreLigh(MelRecord):

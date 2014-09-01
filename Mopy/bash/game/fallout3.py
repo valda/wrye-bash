@@ -31,7 +31,7 @@ from .. import bolt
 from .. import bush
 from ..brec import *
 from fallout3_const import bethDataFiles, allBethFiles
-from ..bolt import Flags, DataDict, StateError
+from ..bolt import Flags, DataDict, StateError, _unicode, _encode
 
 # Util Constants ---------------------------------------------------------------
 #--Null strings (for default empty byte arrays)
@@ -271,6 +271,11 @@ class ess:
             out.write(buffer)
         return oldMasters
 
+#--The main plugin Wrye Bash should look for
+masterFiles = [
+    u'Fallout3.esm',
+    ]
+
 #--INI files that should show up in the INI Edits tab
 iniFiles = [
     u'Fallout.ini',
@@ -281,14 +286,6 @@ iniFiles = [
 ## (section,key)
 saveProfilesKey = (u'General',u'SLocalSavePath')
 
-#--The main plugin Wrye Bash should look for
-masterFiles = [
-    u'Fallout3.esm',
-    ]
-
-#--Plugin files that can't be deactivated
-nonDeactivatableFiles = []
-
 #--Game ESM/ESP/BSA files
 # bethDataFiles = set()
 # Moved to fallout3_const
@@ -297,22 +294,25 @@ nonDeactivatableFiles = []
 # allBethFiles = set((
 # Moved to fallout3_const
 
+#--Plugin files that can't be deactivated
+nonDeactivatableFiles = []
+
 #--BAIN:
 ## These are the allowed default data directories that BAIN can install to
 dataDirs = set((
-    'bash patches',
-    'distantlod',
-    'docs',
-    'facegen',
-    'fonts',
-    'menus',
-    'meshes',
-    'music',
-    'shaders',
-    'sound',
-    'textures',
-    'trees',
-    'video'
+    u'bash patches',
+    u'distantlod',
+    u'docs',
+    u'facegen',
+    u'fonts',
+    u'menus',
+    u'meshes',
+    u'music',
+    u'shaders',
+    u'sound',
+    u'textures',
+    u'trees',
+    u'video'
     ))
 ## These are additional special directories that BAIN can install to
 dataDirsPlus = set((

@@ -31,7 +31,7 @@ from .. import bolt
 from .. import bush
 from ..brec import *
 from oblivion_const import bethDataFiles, allBethFiles
-from ..bolt import Flags, DataDict, StateError
+from ..bolt import Flags, DataDict, StateError, _unicode, _encode
 
 # Util Constants ---------------------------------------------------------------
 #--Null strings (for default empty byte arrays)

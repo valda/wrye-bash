@@ -1518,7 +1518,7 @@ CBash_patchers = (
     )
 
 #--For ListMerger patcher (leveled list patcher)
-slistTypes = ('LVLC','LVLI','LVSP',)
+listTypes = ('LVLC','LVLI','LVSP',)
 
 #--For fidListMerger patcher (FormID list patcher)
 fidListTypes = ()

@@ -1739,7 +1739,7 @@ class RecordHeader(brec.BaseRecordHeader):
 FID = 'FID' #--Used by MelStruct classes to indicate fid elements.
 
 #------------------------------------------------------------------------------
-# Oblivion Record elements -----------------------------------------------------
+# Record Elements    ----------------------------------------------------------
 #------------------------------------------------------------------------------
 class MreActor(MelRecord):
     """Creatures and NPCs."""

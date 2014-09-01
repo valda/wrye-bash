@@ -273,6 +273,11 @@ class ess:
             out.write(buffer)
         return oldMasters
 
+#--The main plugin Wrye Bash should look for
+masterFiles = [
+    u'FalloutNV.esm',
+    ]
+
 #--INI files that should show up in the INI Edits tab
 iniFiles = [
     u'Fallout.ini',
@@ -283,14 +288,6 @@ iniFiles = [
 ## (section,key)
 saveProfilesKey = (u'General',u'SLocalSavePath')
 
-#--The main plugin Wrye Bash should look for
-masterFiles = [
-    u'FalloutNV.esm',
-    ]
-
-#--Plugin files that can't be deactivated
-nonDeactivatableFiles = []
-
 #--Game ESM/ESP/BSA files
 # bethDataFiles = set((
 # Moved to falloutnv_const
@@ -299,22 +296,25 @@ nonDeactivatableFiles = []
 # allBethFiles = set((
 # Moved to falloutnv_const
 
+#--Plugin files that can't be deactivated
+nonDeactivatableFiles = []
+
 #--BAIN:
 ## These are the allowed default data directories that BAIN can install to
 dataDirs = set((
-    'bash patches',
-    'distantlod',
-    'docs',
-    'facegen',
-    'fonts',
-    'menus',
-    'meshes',
-    'music',
-    'shaders',
-    'sound',
-    'textures',
-    'trees',
-    'video'
+    u'bash patches',
+    u'distantlod',
+    u'docs',
+    u'facegen',
+    u'fonts',
+    u'menus',
+    u'meshes',
+    u'music',
+    u'shaders',
+    u'sound',
+    u'textures',
+    u'trees',
+    u'video'
     ))
 ## These are additional special directories that BAIN can install to
 dataDirsPlus = set((
@@ -919,14 +919,14 @@ class esp:
     #--Class to use to read the TES4 record
     ## This is the class name in bosh.py to use for the TES4 record when reading
     ## Example: 'MreTes4'
-    tes4ClassName = ''
+    # tes4ClassName = ''
 
     #--Information about the basic record header
-    class header:
-        format = ''         # Format passed to struct.unpack to unpack the header
-        size = 0            # Size of the record header
-        attrs = tuple()     # List of attributes to set = the return of struct.unpack
-        defaults = tuple()  # Default values for each of the above attributes
+    # class header:
+    #     format = ''         # Format passed to struct.unpack to unpack the header
+    #     size = 0            # Size of the record header
+    #     attrs = tuple()     # List of attributes to set = the return of struct.unpack
+    #     defaults = tuple()  # Default values for each of the above attributes
 
     #--Top types in FalloutNV order.
     topTypes = ['GMST', 'TXST', 'MICN', 'GLOB', 'CLAS', 'FACT', 'HDPT', 'HAIR', 'EYES',

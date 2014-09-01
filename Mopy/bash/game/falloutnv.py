@@ -1891,8 +1891,8 @@ class MreArmo(MelRecord):
         MelStruct('ETYP','I',('etype',-1)),
         MelFid('YNAM','soundPickUp'),
         MelFid('ZNAM','soundDrop'),
-        MelStruct('DATA','=IIf','value','health','weight'),
-        MelArmoDnam('DNAM','=HHfI','ar','flags','dt',('unknown',0L)), # AR is multiplied by 100.
+        MelStruct('DATA','=2if','value','health','weight'),
+        MelArmoDnam('DNAM','=hHfI','ar','flags','dt',('unknown',0L)),
         MelStruct('BNAM','I',('overridesAnimationSound',0L)),
         MelStructs('SNAM','IB3sI','animationSounds',(FID,'sound'),'chance',('unused','\xb7\xe7\x0b'),'type'),
         MelFid('TNAM','animationSoundsTemplate'),

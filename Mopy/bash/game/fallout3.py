@@ -1720,13 +1720,13 @@ class MreAppa(MelRecord):
 class MreArmo(MelRecord):
     """Armor record."""
     classType = 'ARMO'
-    _flags = MelBipedFlags(0L,bolt.Flags.getNames())
-    _generalFlags = bolt.Flags(0L,bolt.Flags.getNames(
+    _flags = MelBipedFlags(0L,Flags.getNames())
+    _generalFlags = Flags(0L,Flags.getNames(
         (5,'powerArmor'),
         (6,'notPlayable'),
         (7,'heavyArmor')
     ))
-    _etype = bolt.Flags(0L,bolt.Flags.getNames(
+    _etype = Flags(0L,Flags.getNames(
         'alcohol','bigGuns','bodyWear','chems','energyWeapons','food','handWear','headWear',
         'meleeWeapons','mine','none','smallGuns','stimpack','thrownWeapons','unarmedWeapon'
     ))
@@ -1741,21 +1741,24 @@ class MreArmo(MelRecord):
         MelStruct('BMDT','=2I',(_flags,'bipedFlags',0L),(_generalFlags,'generalFlags',0L)),
         MelModel('maleBody'),
         MelModel('maleWorld',2),
-        MelString('ICON','maleLargeIconPath'),
+        MelString('ICON','maleIconPath'),
         MelString('MICO','maleSmallIconPath'),
         MelModel('femaleBody',3),
         MelModel('femaleWorld',4),
-        MelString('ICO2','femaleLargeIconPath'),
+        MelString('ICO2','femaleIconPath'),
         MelString('MIC2','femaleSmallIconPath'),
         MelString('BMCT','ragdollConstraintTemplate'),
         MelDestructible(),
         MelFid('REPL','repairList'),
         MelFid('BIPL','bipedModelList'),
-        MelStruct('ETYP','I',(_etype,'etype',0L)),
+        #-1:None,0:Big Guns,1:Energy Weapons,2:Small Guns,3:Melee Weapons,
+        #4:Unarmed Weapon,5:Thrown Weapons,6:Mine,7:Body Wear,8:Head Wear,
+        #9:Hand Wear,10:Chems,11:Stimpack,12:Food,13:Alcohol
+        MelStruct('ETYP','I',('etype',-1)),
         MelFid('YNAM','soundPickUp'),
         MelFid('ZNAM','soundDrop'),
-        MelStruct('DATA','=IIf','value','health','weight'),
-        MelStruct('DNAM','=HH','ar','flags'), # AR is multiplied by 100.
+        MelStruct('DATA','=2if','value','health','weight'),
+        MelStruct('DNAM','=hH','ar','flags'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -1782,11 +1785,11 @@ class MreArma(MelRecord):
         MelStruct('BMDT','=2I',(_flags,'bipedFlags',0L),(_generalFlags,'generalFlags',0L)),
         MelModel('maleBody'),
         MelModel('maleWorld',2),
-        MelString('ICON','maleLargeIconPath'),
+        MelString('ICON','maleIconPath'),
         MelString('MICO','maleSmallIconPath'),
         MelModel('femaleBody',3),
         MelModel('femaleWorld',4),
-        MelString('ICO2','femaleLargeIconPath'),
+        MelString('ICO2','femaleIconPath'),
         MelString('MIC2','femaleSmallIconPath'),
         MelStruct('ETYP','I',(_etype,'etype',0L)),
         MelStruct('DATA','IIf','value','health','weight'),

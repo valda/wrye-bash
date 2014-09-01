@@ -1673,7 +1673,7 @@ class MreAlch(MelRecord,MreHasEffects):
 class MreAmmo(MelRecord):
     """Ammo (arrow) record."""
     classType = 'AMMO'
-    _flags = bolt.Flags(0L,bolt.Flags.getNames('notNormalWeapon'))
+    _flags = Flags(0L,Flags.getNames('notNormalWeapon','nonPlayable'))
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',

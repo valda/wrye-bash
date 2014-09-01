@@ -900,124 +900,124 @@ msgstr "INI調整を%sに適用しますか？"
 
 #: bash\basher.py:1596 bash\basher.py:9546
 msgid "WARNING: Incorrect tweaks can result in CTDs and even damage to you computer!"
-msgstr ""
+msgstr "警告: 不適切なINI調整はCTDの元になったり、あなたのコンピュータに損害を与えることがあります！"
 
 #: bash\basher.py:1598 bash\basher.py:9548 bash\basher.py:9844
 #: bash\basher.py:11282
 msgid "INI Tweaks"
-msgstr ""
+msgstr "INI調整"
 
 #: bash\basher.py:1724
 msgid "%(ini)s does not exist yet.  %(game)s will create this file on first run.  INI tweaks will not be usable until then."
-msgstr ""
+msgstr "%(ini)sはまだ存在しません。このファイルは%(game)sの最初の実行で作成されます。 INI調整はそれまで使用できません。"
 
 #: bash\basher.py:1772 bash\basher.py:2029
 msgid "Auto-ordered files cannot be manually moved."
-msgstr ""
+msgstr "自動的に並べられたファイルは手動で移動することはできません。"
 
 #: bash\basher.py:1877
 msgid "Plugin name incompatible, cannot be activated.  "
-msgstr ""
+msgstr "プラグイン名に互換性が無いため、アクティブにできません。"
 
 #: bash\basher.py:1879
 msgid "Plugin is missing String Localization files.  "
-msgstr ""
+msgstr "プラグインにString翻訳ファイルがありません。"
 
 #: bash\basher.py:1882
 msgid "Master file. "
-msgstr ""
+msgstr "マスターファイル"
 
 #: bash\basher.py:1886
 msgid "Technically mergeable but has NoMerge tag.  "
-msgstr ""
+msgstr "技術的にはマージ可能だがNoMergeタグを持っている。"
 
 #: bash\basher.py:1890
 msgid "Merged into Bashed Patch.  "
-msgstr ""
+msgstr "Bashed Patchにマージされています。"
 
 #: bash\basher.py:1892
 msgid "Can be merged into Bashed Patch.  "
-msgstr ""
+msgstr "Bashed Patchにマージすることができます。"
 
 #: bash\basher.py:1896
 msgid "One or more masters are missing.  "
-msgstr ""
+msgstr "一つ以上のマスタが不足しています。"
 
 #: bash\basher.py:1897
 msgid "Masters have been re-ordered.  "
-msgstr ""
+msgstr "マスターの順序が再配置されている。"
 
 #: bash\basher.py:1898
 msgid "Active in load list.  "
-msgstr ""
+msgstr "ロードリスト内でアクティブ。"
 
 #: bash\basher.py:1899
 msgid "Imported into Bashed Patch.  "
-msgstr ""
+msgstr "Bashed Patchにインポートされている。"
 
 #: bash\basher.py:1919
 msgid "WARNING: Has master names that will not load.  "
-msgstr ""
+msgstr "警告: ロードされないマスターのファイル名を持っています。"
 
 #: bash\basher.py:1922
 msgid "WARNING: Has same load order as another mod.  "
-msgstr ""
+msgstr "警告: 他のMODと同じロード順序を持っています。"
 
 #: bash\basher.py:1925
 msgid "Mod should be imported and deactivated.  "
-msgstr ""
+msgstr "このMODはインポートして非アクティブ化する必要があります。"
 
 #: bash\basher.py:1928
 msgid "WARNING: Exclusion group is overloaded.  "
-msgstr ""
+msgstr "警告: 排他グループが過剰にロードされている。"
 
 #: bash\basher.py:1931
 msgid "Has same time as another (unloaded) mod.  "
-msgstr ""
+msgstr "別の(非アクティブな)MODと同じタイムスタンプを持っている。"
 
 #: bash\basher.py:1934
 msgid "Group header.  "
-msgstr ""
+msgstr "グループヘッダー"
 
 #: bash\basher.py:1937
 msgid "File is ghosted.  "
-msgstr ""
+msgstr "ファイルはゴースト化されている。"
 
 #: bash\basher.py:2161 bash\basher.py:4539
 msgid "File:"
-msgstr ""
+msgstr "ファイル:"
 
 #: bash\basher.py:2166 bash\basher.py:10493
 msgid "Author:"
-msgstr ""
+msgstr "作者:"
 
 #: bash\basher.py:2168 bash\basher.py:4045 bash\basher.py:4046
 msgid "Modified:"
-msgstr ""
+msgstr "更新:"
 
 #: bash\basher.py:2170 bash\belt.py:291
 msgid "Description:"
-msgstr ""
+msgstr "説明:"
 
 #: bash\basher.py:2179
 msgid "Masters:"
-msgstr ""
+msgstr "マスター:"
 
 #: bash\basher.py:2186
 msgid "Bash Tags:"
-msgstr ""
+msgstr "Bashタグ"
 
 #: bash\basher.py:2274 bash\basher.py:3118 bash\basher.py:4606
 msgid "Incorrect file extension: "
-msgstr ""
+msgstr "不正なファイル拡張子: "
 
 #: bash\basher.py:2278 bash\basher.py:3122 bash\basher.py:4610
 msgid "File %s already exists."
-msgstr ""
+msgstr "ファイル%sは既に存在します。"
 
 #: bash\basher.py:2300 bash\basher.py:8484
 msgid "Unrecognized date: "
-msgstr ""
+msgstr "認識できない日付: "
 
 #: bash\basher.py:2304
 msgid "Bash cannot handle files dates greater than January 19, 2038.)"
@@ -1025,27 +1025,27 @@ msgstr "2038年1月19日より未来の日付はBashで扱うことができま�
 
 #: bash\basher.py:2333
 msgid "This mod has an associated archive (%s.bsa) and an associated voice directory (Sound\\Voices\\%s), which will become detached when the mod is renamed."
-msgstr ""
+msgstr "このmodは関連するアーカイブ(%s.bsa)と音声ディレクトリ(Sound\\Voices\\%s)を持っています。MODの名前が変更されるとこの関連は失われます。"
 
 #: bash\basher.py:2335
 msgid "Note that the BSA archive may also contain a voice directory (Sound\\Voices\\%s), which would remain detached even if the archive name is adjusted."
-msgstr ""
+msgstr "BSAアーカイブはアーカイブ名を変更すれば、関連を失った音声ディレクトリ(Sound\\Voices\\%s)を含んでいてもよいことに注意してください。"
 
 #: bash\basher.py:2338
 msgid "This mod has an associated archive (%s.bsa), which will become detached when the mod is renamed."
-msgstr ""
+msgstr "このmodは関連するアーカイブ(%s.bsa)を持っています。MODの名前が変更されるとこの関連は失われます。"
 
 #: bash\basher.py:2340
 msgid "Note that this BSA archive may contain a voice directory (Sound\\Voices\\%s), which would remain detached even if the archive file name is adjusted."
-msgstr ""
+msgstr "このBSAのアーカイブはアーカイブファイル名を変更すれば、関連を失った音声ディレクトリ(Sound\\Voices\\%s)を含んでいてもよいことに注意してください。"
 
 #: bash\basher.py:2343
 msgid "This mod has an associated voice directory (Sound\\Voice\\%s), which will become detached when the mod is renamed."
-msgstr ""
+msgstr "このmodは関連する音声ディレクトリ(Sound\\Voices\\%s)を持っています。MODの名前が変更されるとこの関連は失われます。"
 
 #: bash\basher.py:2364
 msgid "File name %s cannot be encoded to ASCII.  %s may not be able to activate this plugin because of this.  Do you want to rename the plugin anyway?"
-msgstr ""
+msgstr "ファイル名%sはASCIIにエンコードできません。このため%sを有効化できない場合があります。プラグインの名前を変更しますか？"
 
 #: bash\basher.py:2391 bash\basher.py:3153 bash\basher.py:4636
 msgid "File corrupted on save!"
@@ -1057,57 +1057,57 @@ msgstr "自動判定"
 
 #: bash\basher.py:2415
 msgid "Use the tags from the description and masterlist/userlist."
-msgstr ""
+msgstr "説明およびmasterlist/userlistからタグを使用してください。"
 
 #: bash\basher.py:2418
 msgid "Copy to Description"
-msgstr "説明部分に転記する"
+msgstr "説明部分にコピー"
 
 #: bash\basher.py:2423
 msgid "Add %(tag)s to %(modname)s"
-msgstr ""
+msgstr "%(tag)sを%(modname)sに追加"
 
 #: bash\basher.py:2464 bash\basher.py:12575
 msgid "Edit..."
-msgstr ""
+msgstr "編集..."
 
 #: bash\basher.py:2619 bash\basher.py:2633 bash\basher.py:2634
 #: bash\basher.py:2649
 msgid "Browse..."
-msgstr ""
+msgstr "閲覧..."
 
 #: bash\basher.py:2657
 msgid "Tweaks:"
-msgstr ""
+msgstr "調整:"
 
 #: bash\basher.py:2680
 msgid "Supported files"
-msgstr ""
+msgstr "サポートされているファイル"
 
 #: bash\basher.py:2681
 msgid "INI files"
-msgstr ""
+msgstr "INIファイル"
 
 #: bash\basher.py:2682
 msgid "Config files"
-msgstr ""
+msgstr "CONFIGファイル"
 
 #: bash\basher.py:2736
 msgid "Mods:"
-msgstr ""
+msgstr "Mods:"
 
 #: bash\basher.py:3064
 msgid "Level"
-msgstr ""
+msgstr "レベル"
 
 #: bash\basher.py:3066
 msgid "Play"
-msgstr ""
+msgstr "プレイ"
 
 #: bash\basher.py:3087 bash\basher.py:3089 bash\basher.py:4576
 #: bash\basher.py:4578
 msgid "Notes: "
-msgstr ""
+msgstr "ノート: "
 
 #: bash\basher.py:3188
 msgid "Saves: %d"
@@ -1115,39 +1115,39 @@ msgstr "セーブ: %d"
 
 #: bash\basher.py:3336 bash\basher.py:4204
 msgid "Bad extension or file root: "
-msgstr ""
+msgstr "不正な拡張子またはファイルルート: "
 
 #: bash\basher.py:3399 bash\basher.py:3758
 msgid "Extracting OMODs..."
-msgstr ""
+msgstr "OMODを解凍しています..."
 
 #: bash\basher.py:3406
 msgid "The project '%s' already exists.  Overwrite with '%s'?"
-msgstr ""
+msgstr "プロジェクト'%s'は既に存在します。'%s'を上書きしますか？"
 
 #: bash\basher.py:3417
 msgid "Failed to extract '%s'."
-msgstr ""
+msgstr "'%s'を解凍できませんでした"
 
 #: bash\basher.py:3423
 msgid "The following OMODs were unpacked:"
-msgstr ""
+msgstr "以下のOMODは解凍された:"
 
 #: bash\basher.py:3426
 msgid "The following OMODs were skipped:"
-msgstr ""
+msgstr "以下のOMODはスキップされました:"
 
 #: bash\basher.py:3428
 msgid "The following OMODs failed to extract:"
-msgstr ""
+msgstr "以下のOMODは解凍することができませんでした:"
 
 #: bash\basher.py:3429
 msgid "OMOD Extraction Canceled"
-msgstr "OMOD解凍がキャンセルされました"
+msgstr "OMODの解凍がキャンセルされました"
 
 #: bash\basher.py:3433
 msgid "The following OMODs failed to extract.  This could be a file IO error, or an unsupported OMOD format:"
-msgstr "以下のOMODの解凍に失敗しました. ファイルIDエラーか、サポートされていないOMODフォーマットだった可能性があります: "
+msgstr "以下のOMODの解凍に失敗しました。ファイルIDエラーか、サポートされていないOMODフォーマットだった可能性があります:"
 
 #: bash\basher.py:3434
 msgid "OMOD Extraction Complete"
@@ -1155,7 +1155,7 @@ msgstr "OMOD解凍が完了しました"
 
 #: bash\basher.py:3436
 msgid "Refreshing..."
-msgstr ""
+msgstr "リフレッシュ中..."
 
 #: bash\basher.py:3444
 msgid "You have dragged the following files into Wrye Bash:"
@@ -1171,11 +1171,11 @@ msgstr "移動しますか？コピーしますか？"
 
 #: bash\basher.py:3462
 msgid "Move"
-msgstr ""
+msgstr "移動"
 
 #: bash\basher.py:3463
 msgid "Copy"
-msgstr ""
+msgstr "コピー"
 
 #: bash\basher.py:3654 bash\basher.py:6817 bash\basher.py:14239
 #: bash\bosh.py:11528 bash\bosh.py:11562 bash\bosh.py:11590 bash\bosh.py:11620
@@ -1225,19 +1225,19 @@ msgstr "コメント"
 
 #: bash\basher.py:3742 bash\basher.py:9059
 msgid "Do you want to enable Installers?"
-msgstr ""
+msgstr "インストーラを有効にしますか？"
 
 #: bash\basher.py:3744 bash\basher.py:9061
 msgid "If you do, Bash will first need to initialize some data. This can take on the order of five minutes if there are many mods installed."
-msgstr ""
+msgstr "その場合、Bashはまずいくつかのデータを初期化する必要があります。インストールされた多くのMODがある場合、これは5分ほど掛かることがあります。"
 
 #: bash\basher.py:3746
 msgid "If not, you can enable it at any time by right-clicking the column header menu and selecting 'Enabled'."
-msgstr ""
+msgstr "そうしない場合でも、列ヘッダーメニューを右クリックし'有効'を選択することで、いつでも有効にすることができます。"
 
 #: bash\basher.py:3778
 msgid "Error extracting OMOD '%s':"
-msgstr ""
+msgstr "OMOD'%s'の解凍エラー:"
 
 #: bash\basher.py:3786
 msgid "Bash needs Administrator Privileges to delete OMODs that have already been extracted."

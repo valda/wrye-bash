@@ -594,13 +594,13 @@ fid2Conditions = set(entry[0] for entry in conditionFunctionData if entry[3] == 
 
 # Magic Info ------------------------------------------------------------------
 weaponTypes = (
-    _('Big gun'),
-    _('Energy'),
-    _('Small gun'),
-    _('Melee'),
-    _('Unarmed'),
-    _('Thrown'),
-    _('Mine'),
+    _(u'Big gun'),
+    _(u'Energy'),
+    _(u'Small gun'),
+    _(u'Melee'),
+    _(u'Unarmed'),
+    _(u'Thrown'),
+    _(u'Mine'),
     )
 
 #--The pickle file for this game.  Holds encoded GMST IDs from the big list below
@@ -619,17 +619,18 @@ gmstEids = ['fPlayerDeathReloadTime','iMapMarkerVisibleDistance','fVanityModeWhe
     ]
 
 #--Bash Tags supported by this game
-allTags = sorted(('Body-F', 'Body-M', 'Body-Size-M', 'Body-Size-F', 'C.Climate', 'C.Light', 'C.Music', 'C.Name', 'C.RecordFlags',
-                  'C.Owner', 'C.Water','Deactivate', 'Delev', 'Eyes', 'Factions', 'Relations', 'Filter', 'Graphics', 'Hair',
-                  'IIM', 'Invent', 'Names', 'NoMerge', 'NpcFaces', 'R.Relations', 'Relev', 'Scripts', 'ScriptContents', 'Sound',
-                  'Stats', 'Voice-F', 'Voice-M', 'R.Teeth', 'R.Mouth', 'R.Ears', 'R.Head', 'R.Attributes-F',
-                  'R.Attributes-M', 'R.Skills', 'R.Description', 'Roads', 'Actors.Anims',
-                  'Actors.AIData', 'Actors.DeathItem', 'Actors.AIPackages', 'Actors.AIPackagesForceAdd', 'Actors.Stats',
-                  'Actors.ACBS', 'NPC.Class', 'Actors.CombatStyle', 'Creatures.Blood',
-                  'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
-                  'Deflst', 'Destructible'
-                  ))
-
+# 'Body-F', 'Body-M', 'Body-Size-M', 'Body-Size-F', 'C.Climate', 'C.Light', 'C.Music', 'C.Name', 'C.RecordFlags',
+# 'C.Owner', 'C.Water','Deactivate', 'Delev', 'Eyes', 'Factions', 'Relations', 'Filter', 'Graphics', 'Hair',
+# 'IIM', 'Invent', 'Names', 'NoMerge', 'NpcFaces', 'R.Relations', 'Relev', 'Scripts', 'ScriptContents', 'Sound',
+# 'Stats', 'Voice-F', 'Voice-M', 'R.Teeth', 'R.Mouth', 'R.Ears', 'R.Head', 'R.Attributes-F',
+# 'R.Attributes-M', 'R.Skills', 'R.Description', 'Roads', 'Actors.Anims',
+# 'Actors.AIData', 'Actors.DeathItem', 'Actors.AIPackages', 'Actors.AIPackagesForceAdd', 'Actors.Stats',
+# 'Actors.ACBS', 'NPC.Class', 'Actors.CombatStyle', 'Creatures.Blood',
+# 'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
+# 'Deflst', 'Destructible'
+allTags = sorted((
+    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Stats',u'Names',u'Deflst',
+    ))
 
 #--GLOB record tweaks used by bosh's GmstTweaker
 #  Each entry is a tuple in the following format:

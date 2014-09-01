@@ -889,6 +889,7 @@ class esp:
         'ADDN', 'AVIF', 'RADS', 'CAMS', 'CPTH', 'VTYP', 'IPCT', 'IPDS', 'ARMA', 'ECZN',
         'MESG', 'RGDL', 'DOBJ', 'LGTM', 'MUSC',
         # Unused types in fallout3. (dummy)
+        # These need to be removed
         'SLGM', 'BSGN', 'FLOR', 'SGST', 'CLOT', 'SBSP', 'SKIL', 'LVSP', 'APPA',
         ]
 

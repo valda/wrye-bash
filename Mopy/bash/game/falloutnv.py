@@ -946,7 +946,7 @@ class esp:
         ]
 
     #--Dict mapping 'ignored' top types to un-ignored top types
-    topIgTopTYpes = dict()
+    topIgTypes = dict()
 
     #--Record Types: all recognized record types (not just the top types)
     recordTypes = set(topTypes + 'GRUP,TES4,ACHR,ACRE,INFO,LAND,NAVM,PGRE,REFR'.split(','))

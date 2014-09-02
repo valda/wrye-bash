@@ -1132,16 +1132,16 @@ class MelDestructible(MelGroup):
     def __init__(self,attr='destructible'):
         """Initialize elements."""
         MelGroup.__init__(self,attr,
-            MelBase('DEST','header'),
-            MelStruct('DEST','IhH','health','count','flags'),
+            MelStruct('DEST','i2B2s','health','count','flags1','unused'),
             MelGroups('stages',
-                      MelStruct('DSTD','=4B4I','health','index','damageStage','flags',
-                                'selfDamagePerSecond',(FID,'explosion',None),(FID,'debris',None),'debrisCount'),
-                      MelString('DMDL','model'),
-                      MelBase('DMDT','dmdt'), #--Should be a struct. Maybe later.
-                      MelBase('DSTF','footer'),
-                      ),
-            )
+                MelStruct('DSTD','=4B4I','health','index','damageStage','flags2',
+                          'selfDamagePerSecond',(FID,'explosion',None),
+                          (FID,'debris',None),'debrisCount'),
+                MelString('DMDL','model'),
+                MelBase('DMDT','dmdt'),
+                MelBase('DSTF','footer'),
+                ),
+        )
 
 #------------------------------------------------------------------------------
 class MelEffects(MelGroups):

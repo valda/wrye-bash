@@ -2297,9 +2297,12 @@ class MreClas(MelRecord):
         MelString('FULL','full'),
         MelString('DESC','description'),
         MelString('ICON','iconPath'),
-        MelStruct('DATA','4i2IbB2s','tagSkill1','tagSkill2','tagSkill3','tagSkill4',
-            (_flags,'flags',0L),(aiService,'services',0L),('trainSkill',0),('trainLevel',0),('unused1',null2)),
-        MelTuple('ATTR','7B','attributes',[0]*7),
+        MelStruct('DATA','4i2IbB2s','tagSkill1','tagSkill2','tagSkill3',
+            'tagSkill4',(_flags,'flags',0L),(aiService,'services',0L),
+            ('trainSkill',-1),('trainLevel',0),('unused1',null2)),
+        # MelTuple('ATTR','7B','attributes',[0]*7),
+        MelStruct('ATTR','7B','strength','perception','endurance','charisma',
+            'intelligence','agility','luck'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

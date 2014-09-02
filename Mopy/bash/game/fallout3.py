@@ -3081,16 +3081,34 @@ class MreIngr(MelRecord,MreHasEffects):
     """INGR (ingredient) record."""
     classType = 'INGR'
     _flags = Flags(0L,Flags.getNames('noAutoCalc','isFood'))
-    _etype = Flags(0L,Flags.getNames(
-        'alcohol','bigGuns','bodyWear','chems','energyWeapons','food','handWear','headWear',
-        'meleeWeapons','mine','none','smallGuns','stimpack','thrownWeapons','unarmedWeapon'
-    ))
+    # Equiptment Type
+    # -1, None
+    #  0, Big Guns',
+    #  1, Energy Weapons',
+    #  2, Small Guns',
+    #  3, Melee Weapons',
+    #  4, Unarmed Weapon',
+    #  5, Thrown Weapons',
+    #  6, Mine',
+    #  7, Body Wear',
+    #  8, Head Wear',
+    #  9, Hand Wear',
+    # 10, Chems',
+    # 11, Stimpack',
+    # 12, Food',
+    # 13, Alcohol'
     melSet = MelSet(
         MelString('EDID','eid'),
+        MelStruct('OBND','=6h',
+                  'corner0X','corner0Y','corner0Z',
+                  'corner1X','corner1Y','corner1Z'),
         MelFull0(),
         MelModel(),
         MelString('ICON','iconPath'),
         MelFid('SCRI','script'),
+        #-1:None,0:Big Guns,1:Energy Weapons,2:Small Guns,3:Melee Weapons,
+        #4:Unarmed Weapon,5:Thrown Weapons,6:Mine,7:Body Wear,8:Head Wear,
+        #9:Hand Wear,10:Chems,11:Stimpack,12:Food,13:Alcohol
         MelStruct('ETYP','i',('etype',-1)),
         MelStruct('DATA','f','weight'),
         MelStruct('ENIT','iB3s','value',(_flags,'flags',0L),('unused1',null3)),

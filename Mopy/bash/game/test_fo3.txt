@@ -1,0 +1,93 @@
+  wbRecord(PGRE, 'Placed Grenade', [
+    wbEDID,
+    wbFormIDCk(NAME, 'Base', [PROJ], False, cpNormal, True),
+    wbFormIDCk(XEZN, 'Encounter Zone', [ECZN]),
+
+    wbXRGD,
+    wbXRGB,
+
+    {--- Patrol Data ---}
+    wbRStruct('Patrol Data', [
+      wbFloat(XPRD, 'Idle Time', cpNormal, True),
+      wbEmpty(XPPA, 'Patrol Script Marker', cpNormal, True),
+      wbFormIDCk(INAM, 'Idle', [IDLE, NULL], False, cpNormal, True),
+      wbEmbeddedScriptReq,
+      wbFormIDCk(TNAM, 'Topic', [DIAL, NULL], False, cpNormal, True)
+    ], []),
+
+    {--- Ownership ---}
+    wbRStruct('Ownership', [
+      wbXOWN,
+      wbInteger(XRNK, 'Faction rank', itS32)
+    ], [XCMT, XCMO]),
+
+    {--- Extra ---}
+    wbInteger(XCNT, 'Count', itS32),
+    wbFloat(XRDS, 'Radius'),
+    wbFloat(XHLP, 'Health'),
+
+    {--- Reflected By / Refracted By ---}
+    wbRArrayS('Reflected/Refracted By',
+      wbStructSK(XPWR, [0], 'Water', [
+        wbFormIDCk('Reference', [REFR]),
+        wbInteger('Type', itU32, wbFlags([
+          'Reflection',
+          'Refraction'
+        ]))
+      ])
+    ),
+
+    {--- Decals ---}
+    wbRArrayS('Linked Decals',
+      wbStructSK(XDCR, [0], 'Decal', [
+        wbFormIDCk('Reference', [REFR]),
+        wbUnknown
+      ])
+    ),
+
+    {--- Linked Ref ---}
+    wbFormIDCk(XLKR, 'Linked Reference', [REFR, ACRE, ACHR, PGRE, PMIS, PLYR]),
+    wbStruct(XCLP, 'Linked Reference Color', [
+      wbStruct('Link Start Color', [
+        wbInteger('Red', itU8),
+        wbInteger('Green', itU8),
+        wbInteger('Blue', itU8),
+        wbByteArray('Unused', 1)
+      ]),
+      wbStruct('Link End Color', [
+        wbInteger('Red', itU8),
+        wbInteger('Green', itU8),
+        wbInteger('Blue', itU8),
+        wbByteArray('Unused', 1)
+      ])
+    ]),
+
+    {--- Activate Parents ---}
+    wbRStruct('Activate Parents', [
+      wbInteger(XAPD, 'Flags', itU8, wbFlags([
+        'Parent Activate Only'
+      ], True)),
+      wbRArrayS('Activate Parent Refs',
+        wbStructSK(XAPR, [0], 'Activate Parent Ref', [
+          wbFormIDCk('Reference', [REFR, ACRE, ACHR, PGRE, PMIS, PLYR]),
+          wbFloat('Delay')
+        ])
+      )
+    ], []),
+
+    {--- Enable Parent ---}
+    wbXESP,
+
+    {--- Emittance ---}
+    wbFormIDCk(XEMI, 'Emittance', [LIGH, REGN]),
+
+    {--- MultiBound ---}
+    wbFormIDCk(XMBR, 'MultiBound Reference', [REFR]),
+
+    {--- Flags ---}
+    wbEmpty(XIBS, 'Ignored By Sandbox'),
+
+    {--- 3D Data ---}
+    wbXSCL,
+    wbDATAPosRot
+  ], True, wbPlacedAddInfo);

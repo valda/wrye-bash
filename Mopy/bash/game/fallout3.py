@@ -2367,11 +2367,31 @@ class MreDebr(MelRecord):
 class MreDial(MelRecord):
     """Dialog record."""
     classType = 'DIAL'
+    _flags = Flags(0,Flags.getNames('rumors','toplevel',))    
+    class MelDialData(MelStruct):
+        """Handle older truncated DATA for DIAL subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 2:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 1:
+                unpacked = ins.unpack('B',size,readId)
+            else:
+                raise "Unexpected size encountered for DIAL subrecord: %s" % size
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked, record.flags.getTrueAttrs()
+
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelFids('QSTI','quests'), ### QSTRs?
+        MelFids('QSTI','quests'),
+        MelFids('QSTR','quests'),
         MelString('FULL','full'),
-        MelStruct('DATA','B','dialType'),
+        MelStruct('PNAM','f','priority'),
+        MelDialData('DATA','BB','dialType',(_flags,'dialFlags',0L)),
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed() + ['infoStamp','infoStamp2','infos']
 

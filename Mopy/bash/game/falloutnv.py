@@ -2662,7 +2662,7 @@ class MreDehy(MelRecord):
 class MreDial(MelRecord):
     """Dialog record."""
     classType = 'DIAL'
-
+    _flags = Flags(0,Flags.getNames('rumors','toplevel',))    
     class MelDialData(MelStruct):
         """Handle older truncated DATA for DIAL subrecord."""
         def loadData(self,record,ins,type,size,readId):
@@ -2719,7 +2719,7 @@ class MreDial(MelRecord):
          MelString('FULL','full'),
         MelStruct('PNAM','f','priority'),
         MelString('TDUM','tdum_p'),
-        MelDialData('DATA','BB','dialType','dialFlags'),
+        MelDialData('DATA','BB','dialType',(_flags,'dialFlags',0L)),
         MelDialDistributor(),
      )
     melSet.elements[-1].setMelSet(melSet)

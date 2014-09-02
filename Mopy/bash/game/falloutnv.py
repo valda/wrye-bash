@@ -2451,48 +2451,6 @@ class MreCsno(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
-class MreCsty(MelRecord):
-    """CSTY Record. Combat Styles."""
-    classType = 'CSTY'
-    _flagsA = Flags(0L,Flags.getNames(
-        ( 0,'advanced'),
-        ( 1,'useChanceForAttack'),
-        ( 2,'ignoreAllies'),
-        ( 3,'willYield'),
-        ( 4,'rejectsYields'),
-        ( 5,'fleeingDisabled'),
-        ( 6,'prefersRanged'),
-        ( 7,'meleeAlertOK'),
-        ))
-
-    #--Mel Set
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelOptStruct('CSTD', '2B2s8f2B2s3fB3s2f5B3s2fH2s2B2sf','dodgeChance',
-                    'lrChance',('unused1',null2),'lrTimerMin','lrTimerMax',
-                    'forTimerMin','forTimerMax','backTimerMin','backTimerMax',
-                    'idleTimerMin','idleTimerMax','blkChance','atkChance',
-                    ('unused2',null2),'atkBRecoil','atkBunc','atkBh2h',
-                    'pAtkChance',('unused3',null3),'pAtkBRecoil','pAtkBUnc',
-                    'pAtkNormal','pAtkFor','pAtkBack','pAtkL','pAtkR',
-                    ('unused4',null3),'holdTimerMin','holdTimerMax',
-                    (_flagsA,'flagsA'),('unused5',null2),'acroDodge',
-                    ('rushChance',25),('unused6',null3),('rushMult',1.0),),
-        MelOptStruct('CSAD', '21f', 'dodgeFMult', 'dodgeFBase', 'encSBase', 'encSMult',
-                     'dodgeAtkMult', 'dodgeNAtkMult', 'dodgeBAtkMult', 'dodgeBNAtkMult',
-                     'dodgeFAtkMult', 'dodgeFNAtkMult', 'blockMult', 'blockBase',
-                     'blockAtkMult', 'blockNAtkMult', 'atkMult','atkBase', 'atkAtkMult',
-                     'atkNAtkMult', 'atkBlockMult', 'pAtkFBase', 'pAtkFMult'),
-        MelOptStruct('CSSD', '9f4sI5f', 'coverSearchRadius', 'takeCoverChance',
-                     'waitTimerMin', 'waitTimerMax', 'waitToFireTimerMin',
-                     'waitToFireTimerMax', 'fireTimerMin', 'fireTimerMax'
-                     'rangedWeaponRangeMultMin','unknown1','weaponRestrictions',
-                     'rangedWeaponRangeMultMax','maxTargetingFov','combatRadius',
-                     'semiAutomaticFireDelayMultMin','semiAutomaticFireDelayMultMax'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-#------------------------------------------------------------------------------
 class MreCrea(MreActor):
     """Creature Record."""
     classType = 'CREA'
@@ -2611,6 +2569,48 @@ class MreCrea(MreActor):
         MelFid('LNAM','meleeWeaponList'),
         )
     __slots__ = MreActor.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
+class MreCsty(MelRecord):
+    """CSTY Record. Combat Styles."""
+    classType = 'CSTY'
+    _flagsA = Flags(0L,Flags.getNames(
+        ( 0,'advanced'),
+        ( 1,'useChanceForAttack'),
+        ( 2,'ignoreAllies'),
+        ( 3,'willYield'),
+        ( 4,'rejectsYields'),
+        ( 5,'fleeingDisabled'),
+        ( 6,'prefersRanged'),
+        ( 7,'meleeAlertOK'),
+        ))
+
+    #--Mel Set
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelOptStruct('CSTD', '2B2s8f2B2s3fB3s2f5B3s2fH2s2B2sf','dodgeChance',
+                    'lrChance',('unused1',null2),'lrTimerMin','lrTimerMax',
+                    'forTimerMin','forTimerMax','backTimerMin','backTimerMax',
+                    'idleTimerMin','idleTimerMax','blkChance','atkChance',
+                    ('unused2',null2),'atkBRecoil','atkBunc','atkBh2h',
+                    'pAtkChance',('unused3',null3),'pAtkBRecoil','pAtkBUnc',
+                    'pAtkNormal','pAtkFor','pAtkBack','pAtkL','pAtkR',
+                    ('unused4',null3),'holdTimerMin','holdTimerMax',
+                    (_flagsA,'flagsA'),('unused5',null2),'acroDodge',
+                    ('rushChance',25),('unused6',null3),('rushMult',1.0),),
+        MelOptStruct('CSAD', '21f', 'dodgeFMult', 'dodgeFBase', 'encSBase', 'encSMult',
+                     'dodgeAtkMult', 'dodgeNAtkMult', 'dodgeBAtkMult', 'dodgeBNAtkMult',
+                     'dodgeFAtkMult', 'dodgeFNAtkMult', 'blockMult', 'blockBase',
+                     'blockAtkMult', 'blockNAtkMult', 'atkMult','atkBase', 'atkAtkMult',
+                     'atkNAtkMult', 'atkBlockMult', 'pAtkFBase', 'pAtkFMult'),
+        MelOptStruct('CSSD', '9f4sI5f', 'coverSearchRadius', 'takeCoverChance',
+                     'waitTimerMin', 'waitTimerMax', 'waitToFireTimerMin',
+                     'waitToFireTimerMax', 'fireTimerMin', 'fireTimerMax'
+                     'rangedWeaponRangeMultMin','unknown1','weaponRestrictions',
+                     'rangedWeaponRangeMultMax','maxTargetingFov','combatRadius',
+                     'semiAutomaticFireDelayMultMin','semiAutomaticFireDelayMultMax'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
 class MreDebr(MelRecord):

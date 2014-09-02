@@ -4021,6 +4021,7 @@ class MreNpc(MreActor):
         (12,'noBloodDecal'),
         (20,'noVATSMelee'),
         (22,'canBeAllRaces'),
+        (23,'autocalcService'),
         (26,'noKnockDown'),
         (27,'notPushable'),
         (30,'noRotatingHeadTrack'),))

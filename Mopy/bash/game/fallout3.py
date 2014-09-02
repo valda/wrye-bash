@@ -4289,7 +4289,7 @@ class MreRace(MelRecord):
     think of."""
 
     classType = 'RACE'
-    _flags = Flags(0L,Flags.getNames('playable','child'))
+    _flags = Flags(0L,Flags.getNames('playable', None, 'child'))
 
     class MelRaceVoices(MelStruct):
         """Set voices to zero, if equal race fid. If both are zero, then don't skip dump."""
@@ -4463,6 +4463,16 @@ class MreRace(MelRecord):
         MelRaceDistributor(),
         )
     melSet.elements[-1].setMelSet(melSet)
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
+class MreRads(MelRecord):
+    """Radiation Stage record."""
+    classType = 'RADS'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('DATA','2I','trigerThreshold',(FID,'actorEffect')),
+        )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------

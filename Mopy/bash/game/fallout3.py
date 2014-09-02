@@ -667,8 +667,10 @@ GmstTweaks = [
 ]
 
 #--Patcher available when building a Bashed Patch (refrerenced by class name)
-patchers = ( u'ListsMerger',
-)
+patchers = (
+    u'AliasesPatcher', u'FidListsMerger', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
+    u'PatchMerger', u'StatsPatcher'
+    )
 
 #--CBash patchers available when building a Bashed Patch
 CBash_patchers = (
@@ -702,7 +704,8 @@ statsTypes = {
                 'minRange','maxRange','animationAttackMultiplier','fireRate','overrideActionPoint','rumbleLeftMotorStrength',
                 'rumbleRightMotorStrength','rumbleDuration','overrideDamageToWeaponMult','attackShotsPerSec',
                 'reloadTime','jamTime','aimArc','rambleWavelangth','limbDmgMult','sightUsage',
-                'semiAutomaticFireDelayMin','semiAutomaticFireDelayMax','criticalDamage','criticalMultiplier'),
+                'semiAutomaticFireDelayMin','semiAutomaticFireDelayMax',
+                'criticalDamage','criticalMultiplier'),
         }
 statsHeaders = (
         #--Alch

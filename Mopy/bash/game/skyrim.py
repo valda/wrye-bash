@@ -3608,7 +3608,7 @@ class MreBook(MelRecord):
         MelFid('INAM','inventoryArt'),
         MelLString('CNAM','description'),
         )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed() + ['modb']
 
 # DATA needs to have 'skillOrSpell' save an integer or FormID to be mergable.
 # After syntax checks and DATA is formatted correctly, this record is correct for Skyrim 1.8

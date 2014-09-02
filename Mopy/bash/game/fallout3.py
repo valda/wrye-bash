@@ -4729,17 +4729,34 @@ class MreRegn(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
-class MreRoad(MelRecord):
-    """Road structure. Part of large worldspaces."""
-    ####Could probably be loaded via MelStructA,
-    ####but little point since it is too complex to manipulate
-    classType = 'ROAD'
+class MreRgdl(MelRecord):
+    """Ragdoll"""
+    classType = 'RGDL'
+    _flags = Flags(0L,Flags.getNames('disableOnMove'))
     melSet = MelSet(
-        MelBase('PGRP','points_p'),
-        MelBase('PGRR','connections_p'),
-    )
+        MelString('EDID','eid'),
+        MelStruct('NVER','I','version'),
+        MelStruct('DATA','I4s5Bs','boneCount','unused1','feedback',
+            'footIK','lookIK','grabIK','poseMatching','unused2'),
+        MelFid('XNAM','actorBase'),
+        MelFid('TNAM','bodyPartData'),
+        MelStruct('RAFD','13f2i','keyBlendAmount','hierarchyGain','positionGain',
+            'velocityGain','accelerationGain','snapGain','velocityDamping',
+            'snapMaxLinearVelocity','snapMaxAngularVelocity','snapMaxLinearDistance',
+            'snapMaxAngularDistance','posMaxVelLinear',
+            'posMaxVelAngular','posMaxVelProjectile','posMaxVelMelee'),
+        MelStructA('RAFB','H','feedbackDynamicBones',),
+        MelStruct('RAPS','3HBs4f','matchBones1','matchBones2','matchBones3',
+            (_flags,'flags'),'unused3','motorsStrength',
+            'poseActivationDelayTime','matchErrorAllowance',
+            'displacementToDisable',),
+        MelString('ANAM','deathPose'),
+        )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+#------------------------------------------------------------------------------
+# class MreRoad(MelRecord):
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreSbsp(MelRecord):
     """Subspace record."""
@@ -4750,15 +4767,18 @@ class MreSbsp(MelRecord):
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreScpt(MelRecord):
     """Script record."""
     classType = 'SCPT'
     _flags = Flags(0L,Flags.getNames('isLongOrShort'))
+    schrFlags = Flags(0L,Flags.getNames('enabled'))
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelStruct('SCHR','4s4I',('unused1',null4),'numRefs','compiledSize','lastIndex','scriptType'),
-        #--Type: 0: Object, 1: Quest, 0x100: Magic Effect
+        #scriptType:0:Object,1:Quest,0x100:Magic Effect
+        MelStruct('SCHR','4s3I2H',('unused1',null4),'numRefs','compiledSize',
+                  'lastIndex','scriptType',(schrFlags,'enableflag',0L),),
         MelBase('SCDA','compiled_p'),
         MelString('SCTX','scriptText'),
         MelGroups('vars',

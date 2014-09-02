@@ -2612,7 +2612,7 @@ class MreExpl(MelRecord):
 class MreEyes(MelRecord):
     """Eyes record."""
     classType = 'EYES'
-    _flags = Flags(0L,Flags.getNames('playable',))
+    _flags = Flags(0L,Flags.getNames('playable','notMale','notFemale',))
     melSet = MelSet(
         MelString('EDID','eid'),
         MelString('FULL','full'),

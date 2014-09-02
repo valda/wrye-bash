@@ -2669,7 +2669,7 @@ class MreFlst(MelRecord):
     classType = 'FLST'
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelFids('LNAM','fids'),
+        MelFids('LNAM','formIDInList'),
         )
     __slots__ = (MelRecord.__slots__ + melSet.getSlotsUsed() +
         ['mergeOverLast','mergeSources','items','deflsts'])
@@ -2685,7 +2685,7 @@ class MreFlst(MelRecord):
     def mergeFilter(self,modSet):
         """Filter out items that don't come from specified modSet."""
         if not self.longFids: raise StateError(_("Fids not in long format"))
-        self.fids = [fid for fid in self.fids if fid[0] in modSet]
+        self.formIDInList = [fid for fid in self.formIDInList if fid[0] in modSet]
 
     def mergeWith(self,other,otherMod):
         """Merges newLevl settings and entries with self.
@@ -2695,27 +2695,25 @@ class MreFlst(MelRecord):
         #--Remove items based on other.removes
         if other.deflsts:
             removeItems = self.items & other.deflsts
-            #self.entries = [entry for entry in self.entries if entry.listId not in removeItems]
-            self.fids = [fid for fid in self.fids if fid not in removeItems]
+            self.formIDInList = [fid for fid in self.formIDInList if fid not in removeItems]
             self.items = (self.items | other.deflsts)
         hasOldItems = bool(self.items)
         #--Add new items from other
         newItems = set()
-        fidsAppend = self.fids.append
+        formIDInListAppend = self.formIDInList.append
         newItemsAdd = newItems.add
-        for fid in other.fids:
+        for fid in other.formIDInList:
             if fid not in self.items:
-                fidsAppend(fid)
+                formIDInListAppend(fid)
                 newItemsAdd(fid)
         if newItems:
             self.items |= newItems
-            #self.fids.sort(key=attrgetter('level'))
-            self.fids.sort
+            self.formIDInList.sort
         #--Is merged list different from other? (And thus written to patch.)
-        if len(self.fids) != len(other.fids):
+        if len(self.formIDInList) != len(other.formIDInList):
             self.mergeOverLast = True
         else:
-            for selfEntry,otherEntry in zip(self.fids,other.fids):
+            for selfEntry,otherEntry in zip(self.formIDInList,other.formIDInList):
                 if selfEntry != otherEntry:
                     self.mergeOverLast = True
                     break

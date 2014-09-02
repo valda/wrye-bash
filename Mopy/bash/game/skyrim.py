@@ -4707,9 +4707,61 @@ class MreFlst(MelRecord):
         MelString('EDID','eid'),
         MelFids('LNAM','formIDInList'),
         )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+    __slots__ = (MelRecord.__slots__ + melSet.getSlotsUsed() +
+        ['mergeOverLast','mergeSources','items'])
 
-# Verified Correct for Skyrim 1.8
+    def __init__(self,header,ins=None,unpack=False):
+        """Initialize."""
+        MelRecord.__init__(self,header,ins,unpack)
+        self.mergeOverLast = False #--Merge overrides last mod merged
+        self.mergeSources = None #--Set to list by other functions
+        self.items  = None #--Set of items included in list
+        self.deflsts = None #--Set of items deleted by list (Deflst mods)
+
+    def mergeFilter(self,modSet):
+        """Filter out items that don't come from specified modSet."""
+        if not self.longFids: raise StateError(_("Fids not in long format"))
+        self.formIDInList = [fid for fid in self.formIDInList if fid[0] in modSet]
+
+    def mergeWith(self,other,otherMod):
+        """Merges newLevl settings and entries with self.
+        Requires that: self.items, other.deflsts be defined."""
+        if not self.longFids: raise StateError(_("Fids not in long format"))
+        if not other.longFids: raise StateError(_("Fids not in long format"))
+        #--Remove items based on other.removes
+        if other.deflsts:
+            removeItems = self.items & other.deflsts
+            self.formIDInList = [fid for fid in self.formIDInList if fid not in removeItems]
+            self.items = (self.items | other.deflsts)
+        hasOldItems = bool(self.items)
+        #--Add new items from other
+        newItems = set()
+        formIDInListAppend = self.formIDInList.append
+        newItemsAdd = newItems.add
+        for fid in other.formIDInList:
+            if fid not in self.items:
+                formIDInListAppend(fid)
+                newItemsAdd(fid)
+        if newItems:
+            self.items |= newItems
+            self.formIDInList.sort
+        #--Is merged list different from other? (And thus written to patch.)
+        if len(self.formIDInList) != len(other.formIDInList):
+            self.mergeOverLast = True
+        else:
+            for selfEntry,otherEntry in zip(self.formIDInList,other.formIDInList):
+                if selfEntry != otherEntry:
+                    self.mergeOverLast = True
+                    break
+            else:
+                self.mergeOverLast = False
+        if self.mergeOverLast:
+            self.mergeSources.append(otherMod)
+        else:
+            self.mergeSources = [otherMod]
+        #--Done
+        self.setChanged()
+
 #------------------------------------------------------------------------------
 class MreFurn(MelRecord):
     """Furniture"""

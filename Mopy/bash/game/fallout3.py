@@ -5199,6 +5199,7 @@ mergeClasses = (
     # MreMusc, MrePwat, MreAspc, MreHdpt, MreDobj, MreIdlm, MreArma, MreTact
 
     # Verified
+    MreLvlc, MreLvli, MreLvln,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5226,7 +5227,8 @@ def init():
     # MreMusc, MrePwat, MreAspc, MreHdpt, MreDobj, MreIdlm, MreArma, MreTact, MreNavm
 
     # Verified
-        MreHeader,
+    MreLvlc, MreLvli, MreLvln,
+    MreHeader,
     ))
 
     #--Simple records

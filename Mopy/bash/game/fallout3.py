@@ -3001,33 +3001,15 @@ class MreImgs(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
-class MreIngr(MelRecord,MreHasEffects):
-    """INGR (ingredient) record."""
-    classType = 'INGR'
-    _flags = Flags(0L,Flags.getNames('noAutoCalc','isFood'))
-    _etype = Flags(0L,Flags.getNames(
-        'alcohol','bigGuns','bodyWear','chems','energyWeapons','food','handWear','headWear',
-        'meleeWeapons','mine','none','smallGuns','stimpack','thrownWeapons','unarmedWeapon'
-    ))
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelFull0(),
-        MelModel(),
-        MelString('ICON','iconPath'),
-        MelFid('SCRI','script'),
-        MelStruct('ETYP','i',('etype',-1)),
-        MelStruct('DATA','f','weight'),
-        MelStruct('ENIT','iB3s','value',(_flags,'flags',0L),('unused1',null3)),
-        MelEffects(),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-#------------------------------------------------------------------------------
 class MreInfo(MelRecord):
     """Info (dialog entry) record."""
     classType = 'INFO'
-    _flags = bolt.Flags(0,bolt.Flags.getNames(
-        'goodbye','random','sayOnce','runImmediately','infoRefusal','randomEnd','runForRumors','sayOnceADay','alwaysDarken'))
+    _flags = Flags(0,Flags.getNames(
+        'goodbye','random','sayOnce','runImmediately','infoRefusal','randomEnd',
+        'runForRumors','speechChallenge',))
+    _flags2 = Flags(0,Flags.getNames(
+        'sayOnceADay','alwaysDarken',))
+    _variableFlags = Flags(0L,Flags.getNames('isLongOrShort'))
     class MelInfoData(MelStruct):
         """Support older 2 byte version."""
         def loadData(self,record,ins,type,size,readId):
@@ -3049,24 +3031,70 @@ class MreInfo(MelRecord):
                 MelStruct.dumpData(self,record,out)
     #--MelSet
     melSet = MelSet(
-        MelInfoData('DATA','HH','dialType',(_flags,'flags')),
+        MelInfoData('DATA','HH','dialType','nextSpeaker',(_flags,'flags'),(_flags2,'flags2'),),
         MelFid('QSTI','quests'),
         MelFid('TPIC','topic'),
         MelFid('PNAM','prevInfo'),
         MelFids('NAME','addTopics'),
         MelGroups('responses',
-            MelStruct('TRDT','Ii4sB3s','emotionType','emotionValue',('unused1',null4),'responseNum',('unused2',null3)),
+            MelStruct('TRDT','Ii4sB3sIB3s','emotionType','emotionValue',('unused1',null4),'responseNum',('unused2','0xcd0xcd0xcd'),
+                      (FID,'sound'),'flags',('unused3','0xcd0xcd0xcd')),
             MelString('NAM1','responseText'),
             MelString('NAM2','actorNotes'),
+            MelString('NAM3','edits'),
+            MelFid('SNAM','speakerAnimation'),
+            MelFid('LNAM','listenerAnimation'),
             ),
         MelConditions(),
         MelFids('TCLT','choices'),
         MelFids('TCLF','linksFrom'),
-        MelBase('SCHD','schd_p'), #--Old format script header?
-        MelInfoSchr('SCHR','4s4I',('unused2',null4),'numRefs','compiledSize','lastIndex','scriptType'),
-        MelBase('SCDA','compiled_p'),
-        MelString('SCTX','scriptText'),
-        MelScrxen('SCRV/SCRO','references')
+        # MelBase('SCHD','schd_p'), #--Old format script header?
+        MelGroup('scriptBegin',
+            MelInfoSchr('SCHR','4s4I',('unused2',null4),'numRefs','compiledSize','lastIndex','scriptType'),
+            MelBase('SCDA','compiled_p'),
+            MelString('SCTX','scriptText'),
+            MelGroups('vars',
+                MelStruct('SLSD','I12sB7s','index',('unused1',null4+null4+null4),(_variableFlags,'flags',0L),('unused2',null4+null3)),
+                MelString('SCVR','name')),
+            MelScrxen('SCRV/SCRO','references'),
+            ),
+        MelGroup('scriptEnd',
+            MelBase('NEXT','marker'),
+            MelInfoSchr('SCHR','4s4I',('unused2',null4),'numRefs','compiledSize','lastIndex','scriptType'),
+            MelBase('SCDA','compiled_p'),
+            MelString('SCTX','scriptText'),
+            MelGroups('vars',
+                MelStruct('SLSD','I12sB7s','index',('unused1',null4+null4+null4),(_variableFlags,'flags',0L),('unused2',null4+null3)),
+                MelString('SCVR','name')),
+            MelScrxen('SCRV/SCRO','references'),
+            ),
+        # MelFid('SNDD','sndd_p'),
+        MelString('RNAM','prompt'),
+        MelFid('ANAM','speaker'),
+        MelFid('KNAM','acterValuePeak'),
+        MelStruct('DNAM', 'I', 'speechChallenge')
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
+class MreIngr(MelRecord,MreHasEffects):
+    """INGR (ingredient) record."""
+    classType = 'INGR'
+    _flags = Flags(0L,Flags.getNames('noAutoCalc','isFood'))
+    _etype = Flags(0L,Flags.getNames(
+        'alcohol','bigGuns','bodyWear','chems','energyWeapons','food','handWear','headWear',
+        'meleeWeapons','mine','none','smallGuns','stimpack','thrownWeapons','unarmedWeapon'
+    ))
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelFull0(),
+        MelModel(),
+        MelString('ICON','iconPath'),
+        MelFid('SCRI','script'),
+        MelStruct('ETYP','i',('etype',-1)),
+        MelStruct('DATA','f','weight'),
+        MelStruct('ENIT','iB3s','value',(_flags,'flags',0L),('unused1',null3)),
+        MelEffects(),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

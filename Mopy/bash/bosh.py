@@ -14587,7 +14587,7 @@ class NamesPatcher(ImportPatcher):
         autoRe = re.compile(ur"^Fallout3.esm$",re.I|re.U)
     if bush.game.fsName == u'FalloutNV':
         autoRe = re.compile(ur"^FalloutNV.esm$",re.I|re.U)
-    if bush.game.fsName == u'Skryim':
+    if bush.game.fsName == u'Skyrim':
         autoRe = re.compile(ur"^Skyrim.esm$",re.I|re.U)
     if bush.game.fsName == u'Oblivion':
         autoRe = re.compile(ur"^Oblivion.esm$",re.I|re.U)

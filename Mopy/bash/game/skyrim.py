@@ -5802,7 +5802,7 @@ class MreLtex(MelRecord):
 # Verified for 305
 #------------------------------------------------------------------------------
 class MreLeveledList(MreLeveledListBase):
-    """Skryim Leveled item/creature/spell list."""
+    """Skyrim Leveled item/creature/spell list."""
 
     class MelLevListLvlo(MelGroups):
         def __init__(self):

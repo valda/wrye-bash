@@ -1718,6 +1718,7 @@ class MreAppa(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreArma(MelRecord):
     """Armor addon record."""
@@ -1935,6 +1936,7 @@ class MreBsgn(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreCell(MelRecord):
     """Cell record."""
@@ -2095,6 +2097,28 @@ class MreClot(MelRecord):
         MelModel('femaleWorld',4),
         MelString('ICO2','femaleIconPath'),
         MelStruct('DATA','If','value','weight'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Needs removed, not used in Fallout New Vegas
+#------------------------------------------------------------------------------
+class MreCobj(MelRecord):
+    """Constructible Object record (recipies)"""
+    classType = 'COBJ'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('OBND','=6h',
+                  'corner0X','corner0Y','corner0Z',
+                  'corner1X','corner1Y','corner1Z'),
+        MelString('FULL','full'),
+        MelModel(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
+        MelFid('SCRI','script'),
+        MelFid('YNAM','soundPickUp'),
+        MelFid('ZNAM','soundDrop'),
+        MelStruct('DATA','if','value','weight'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

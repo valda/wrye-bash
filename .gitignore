@@ -21,3 +21,5 @@ Mopy/bash.ini
 
 # Release archives.
 scripts/dist/*.7z
+/Mopy/bash/game/test_fnv.txt
+/Mopy/bash/game/test_fo3.txt

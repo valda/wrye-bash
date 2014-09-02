@@ -2085,6 +2085,7 @@ class MreCams(MelRecord):
         ))
 
     melSet = MelSet(
+        MelString('EDID','eid'),
         MelString('DATA','eid'),
         MelModel(),
         MelStruct('DATA','4I6f','action','location','target',

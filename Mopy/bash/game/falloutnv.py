@@ -5150,12 +5150,6 @@ class MreRefr(MelRecord):
 class MreRegn(MelRecord):
     """Region record."""
     classType = 'REGN'
-    _flags = Flags(0L,Flags.getNames(
-        ( 2,'objects'),
-        ( 3,'weather'),
-        ( 4,'map'),
-        ( 6,'grass'),
-        ( 7,'sound'),))
     obflags = Flags(0L,Flags.getNames(
         ( 0,'conform'),
         ( 1,'paintVertices'),
@@ -5233,9 +5227,8 @@ class MreRegn(MelRecord):
             MelStruct('RPLI','I','edgeFalloff'),
             MelStructA('RPLD','2f','points','posX','posY')),
         MelGroups('entries',
-            # entryType is an Enum,
-            # rdatFlags should probably be used here since FNVEdit shows only one flag for RDAT
-            MelStruct('RDAT', 'I2B2s','entryType', (_flags,'flags'), 'priority', ('unused1',null2)),
+            #2:Objects,3:Weather,4:Map,5:Land,6:Grass,7:Sound
+            MelStruct('RDAT', 'I2B2s','entryType', (rdatFlags,'flags'), 'priority', ('unused1',null2)),
             MelRegnStructA('RDOT', 'IH2sf4B2H4s4f3H2s4s', 'objects', (FID,'objectId'), 'parentIndex',
                 ('unused1',null2), 'density', 'clustering', 'minSlope', 'maxSlope',
                 (obflags, 'flags'), 'radiusWRTParent', 'radius', ('unk1',null4),

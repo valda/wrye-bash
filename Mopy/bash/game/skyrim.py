@@ -1730,10 +1730,6 @@ CBash_patchers = tuple()
 # For ListsMerger
 listTypes = ('LVLI','LVLN','LVSP',)
 
-#--For fidListMerger patcher (FormID list patcher)
-fidListTypes = ('FLST',)
-
-
 # remaining to add: 'PERK', 'RACE', 'LCTN', 'AVIF',
 namesTypes = set((
     'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLFM',

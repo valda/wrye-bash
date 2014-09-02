@@ -668,9 +668,6 @@ CBash_patchers = (
 #--For ListMerger patcher (leveled list patcher)
 listTypes = ('LVLC','LVLI','LVLN')
 
-#--For fidListMerger patcher (FormID list patcher)
-fidListTypes = ('FLST',)
-
 namesTypes = set(('ALCH', 'AMMO', 'ARMO', 'BOOK',
         'CLAS', 'CONT', 'CREA', 'DOOR', 'EYES',
         'FACT', 'HAIR', 'INGR', 'KEYM', 'LIGH',

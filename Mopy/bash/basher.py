@@ -14323,8 +14323,14 @@ class Mod_ListPatchConfig(Link):
                         else:
                             log(u'. ~~%s~~' % label)
                             clip.write(u'    %s\n' % label)
-            elif isinstance(patcher, (bosh.CBash_ListsMerger,bosh.ListsMerger, bosh.FidListsMerger)):
-                # Leveled Lists, FormID Lists
+            elif isinstance(patcher, (bosh.CBash_ListsMerger,bosh.ListsMerger)):
+                # Leveled Lists
+                patcher.configChoices = conf.get('configChoices',{})
+                for item in conf.get('configItems',[]):
+                    log(u'. __%s__' % patcher.getItemLabel(item))
+                    clip.write(u'    %s\n' % patcher.getItemLabel(item))
+            elif isinstance(patcher, (bosh.FidListsMerger)):
+                # FormID Lists
                 patcher.configChoices = conf.get('configChoices',{})
                 for item in conf.get('configItems',[]):
                     log(u'. __%s__' % patcher.getItemLabel(item))

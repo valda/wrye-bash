@@ -1718,6 +1718,40 @@ class MreAppa(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MreArma(MelRecord):
+    """Armor addon record."""
+    classType = 'ARMA'
+    _flags = MelBipedFlags(0L,Flags.getNames())
+    _generalFlags = Flags(0L,Flags.getNames(
+        (5,'powerArmor'),
+        (6,'notPlayable'),
+        (7,'heavyArmor')
+    ))
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('OBND','=6h',
+                  'corner0X','corner0Y','corner0Z',
+                  'corner1X','corner1Y','corner1Z'),
+        MelString('FULL','full'),
+        MelStruct('BMDT','=2I',(_flags,'bipedFlags',0L),(_generalFlags,'generalFlags',0L)),
+        MelModel('maleBody'),
+        MelModel('maleWorld',2),
+        MelString('ICON','maleIconPath'),
+        MelString('MICO','maleSmallIconPath'),
+        MelModel('femaleBody',3),
+        MelModel('femaleWorld',4),
+        MelString('ICO2','femaleIconPath'),
+        MelString('MIC2','femaleSmallIconPath'),
+        #-1:None,0:Big Guns,1:Energy Weapons,2:Small Guns,3:Melee Weapons,
+        #4:Unarmed Weapon,5:Thrown Weapons,6:Mine,7:Body Wear,8:Head Wear,
+        #9:Hand Wear,10:Chems,11:Stimpack,12:Food,13:Alcohol
+        MelStruct('ETYP','I',('etype',-1)),
+        MelStruct('DATA','IIf','value','health','weight'),
+        MelStruct('DNAM','HH','ar','flags'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
 class MreArmo(MelRecord):
     """Armor record."""
     classType = 'ARMO'
@@ -1726,10 +1760,6 @@ class MreArmo(MelRecord):
         (5,'powerArmor'),
         (6,'notPlayable'),
         (7,'heavyArmor')
-    ))
-    _etype = Flags(0L,Flags.getNames(
-        'alcohol','bigGuns','bodyWear','chems','energyWeapons','food','handWear','headWear',
-        'meleeWeapons','mine','none','smallGuns','stimpack','thrownWeapons','unarmedWeapon'
     ))
     melSet = MelSet(
         MelString('EDID','eid'),
@@ -1760,41 +1790,6 @@ class MreArmo(MelRecord):
         MelFid('ZNAM','soundDrop'),
         MelStruct('DATA','=2if','value','health','weight'),
         MelStruct('DNAM','=hH','ar','flags'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-#------------------------------------------------------------------------------
-class MreArma(MelRecord):
-    """Armor addon record."""
-    classType = 'ARMA'
-    _flags = MelBipedFlags(0L,Flags.getNames())
-    _generalFlags = Flags(0L,Flags.getNames(
-        (5,'powerArmor'),
-        (6,'notPlayable'),
-        (7,'heavyArmor')
-    ))
-    _etype = Flags(0L,Flags.getNames(
-        'alcohol','bigGuns','bodyWear','chems','energyWeapons','food','handWear','headWear',
-        'meleeWeapons','mine','none','smallGuns','stimpack','thrownWeapons','unarmedWeapon'
-    ))
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
-        MelString('FULL','full'),
-        MelStruct('BMDT','=2I',(_flags,'bipedFlags',0L),(_generalFlags,'generalFlags',0L)),
-        MelModel('maleBody'),
-        MelModel('maleWorld',2),
-        MelString('ICON','maleIconPath'),
-        MelString('MICO','maleSmallIconPath'),
-        MelModel('femaleBody',3),
-        MelModel('femaleWorld',4),
-        MelString('ICO2','femaleIconPath'),
-        MelString('MIC2','femaleSmallIconPath'),
-        MelStruct('ETYP','I',(_etype,'etype',0L)),
-        MelStruct('DATA','IIf','value','health','weight'),
-        MelStruct('DNAM','HH','ar','flags'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

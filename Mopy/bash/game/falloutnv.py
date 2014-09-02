@@ -3197,6 +3197,7 @@ class MreIdle(MelRecord):
 class MreIdlm(MelRecord):
     """Idle marker record."""
     classType = 'IDLM'
+    _flags = Flags(0L,Flags.getNames('runInSequence',None,'doOnce'))
     class MelIdlmIdlc(MelStruct):
         """Handle older truncated IDLC for IDLM subrecord."""
         def loadData(self,record,ins,type,size,readId):
@@ -3218,7 +3219,7 @@ class MreIdlm(MelRecord):
         MelStruct('OBND','=6h',
                   'corner0X','corner0Y','corner0Z',
                   'corner1X','corner1Y','corner1Z'),
-        MelStruct('IDLF','B','flags'),
+        MelStruct('IDLF','B',(_flags,'flags')),
         MelIdlmIdlc('IDLC','B3s','animationCount',('unused',null3)),
         MelStruct('IDLT','f','idleTimerSetting'),
         MelFidList('IDLA','animations'),

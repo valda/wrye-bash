@@ -1616,7 +1616,7 @@ class MreAchr(MelRecord):
 class MreAcre(MelRecord):
     """Placed Creature"""
     classType = 'ACRE'
-    _flags = Flags(0L,Flags.getNames('oppositeParent'))
+    _flags = Flags(0L,Flags.getNames('oppositeParent','popIn'))
     _variableFlags = Flags(0L,Flags.getNames('isLongOrShort'))
     melSet=MelSet(
         MelString('EDID','eid'),

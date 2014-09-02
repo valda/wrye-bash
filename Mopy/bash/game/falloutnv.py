@@ -1568,7 +1568,7 @@ class MreHeader(MreHeaderBase):
 class MreAchr(MelRecord):
     """Placed NPC"""
     classType = 'ACHR'
-    _flags = Flags(0L,Flags.getNames('oppositeParent'))
+    _flags = Flags(0L,Flags.getNames('oppositeParent','popIn'))
     _variableFlags = Flags(0L,Flags.getNames('isLongOrShort'))
     melSet=MelSet(
         MelString('EDID','eid'),

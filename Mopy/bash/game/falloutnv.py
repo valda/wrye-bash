@@ -1957,7 +1957,6 @@ class MreAspc(MelRecord):
         MelStruct('OBND','=6h',
                   'corner0X','corner0Y','corner0Z',
                   'corner1X','corner1Y','corner1Z'),
-        # Should be a struct
         MelFids('SNAM','soundLooping'),
         MelStruct('WNAM','I','wallaTrigerCount'),
         MelFid('RDAT','useSoundFromRegion'),

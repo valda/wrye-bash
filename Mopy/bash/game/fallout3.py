@@ -3243,35 +3243,19 @@ class MreLscr(MelRecord):
         MelString('EDID','eid'),
         MelString('ICON','iconPath'),
         MelString('DESC','text'),
-        MelStructs('LNAM','2I2h','Locations',(FID,'direct'),(FID,'indirect'),'gridy','gridx'),
+        MelStructs('LNAM','I8s',(FID,'cell'),('unknown',null4+null4)),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
 class MreLtex(MelRecord):
     """Landscape Texture."""
-    _flags = Flags(0L,Flags.getNames(
-        ( 0,'stone'),
-        ( 1,'cloth'),
-        ( 2,'dirt'),
-        ( 3,'glass'),
-        ( 4,'grass'),
-        ( 5,'metal'),
-        ( 6,'organic'),
-        ( 7,'skin'),
-        ( 8,'water'),
-        ( 9,'wood'),
-        (10,'heavyStone'),
-        (11,'heavyMetal'),
-        (12,'heavyWood'),
-        (13,'chain'),
-        (14,'snow'),))
     classType = 'LTEX'
     melSet = MelSet(
         MelString('EDID','eid'),
         MelString('ICON','iconPath'),
         MelFid('TNAM', 'texture'),
-        MelOptStruct('HNAM','3B',(_flags,'flags'),'friction','restitution'), ####flags are actually an enum....
+        MelOptStruct('HNAM','3B','materialType','friction','restitution'),
         MelOptStruct('SNAM','B','specular'),
         MelFids('GNAM', 'grass'),
         )

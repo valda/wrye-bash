@@ -1663,7 +1663,7 @@ class MreAlch(MelRecord,MreHasEffects):
         #-1:None,0:Big Guns,1:Energy Weapons,2:Small Guns,3:Melee Weapons,
         #4:Unarmed Weapon,5:Thrown Weapons,6:Mine,7:Body Wear,8:Head Wear,
         #9:Hand Wear,10:Chems,11:Stimpack,12:Food,13:Alcohol
-        MelStruct('ETYP','I',('etype',-1)),
+        MelStruct('ETYP','i',('etype',-1)),
         MelStruct('DATA','f','weight'),
         MelStruct('ENIT','iB3sIfI','value',(_flags,'flags',0L),('unused1',null3),
                   (FID,'withdrawalEffect',None),'addictionChance',(FID,'soundConsume',None)),
@@ -1746,7 +1746,7 @@ class MreArma(MelRecord):
         #-1:None,0:Big Guns,1:Energy Weapons,2:Small Guns,3:Melee Weapons,
         #4:Unarmed Weapon,5:Thrown Weapons,6:Mine,7:Body Wear,8:Head Wear,
         #9:Hand Wear,10:Chems,11:Stimpack,12:Food,13:Alcohol
-        MelStruct('ETYP','I',('etype',-1)),
+        MelStruct('ETYP','i',('etype',-1)),
         MelStruct('DATA','IIf','value','health','weight'),
         MelStruct('DNAM','HH','ar','flags'),
         )
@@ -1786,7 +1786,7 @@ class MreArmo(MelRecord):
         #-1:None,0:Big Guns,1:Energy Weapons,2:Small Guns,3:Melee Weapons,
         #4:Unarmed Weapon,5:Thrown Weapons,6:Mine,7:Body Wear,8:Head Wear,
         #9:Hand Wear,10:Chems,11:Stimpack,12:Food,13:Alcohol
-        MelStruct('ETYP','I',('etype',-1)),
+        MelStruct('ETYP','i',('etype',-1)),
         MelFid('YNAM','soundPickUp'),
         MelFid('ZNAM','soundDrop'),
         MelStruct('DATA','=2if','value','health','weight'),
@@ -2969,7 +2969,7 @@ class MreIngr(MelRecord,MreHasEffects):
         MelModel(),
         MelString('ICON','iconPath'),
         MelFid('SCRI','script'),
-        MelStruct('ETYP','I',(_etype,'etype',0L)),
+        MelStruct('ETYP','i',('etype',-1)),
         MelStruct('DATA','f','weight'),
         MelStruct('ENIT','iB3s','value',(_flags,'flags',0L),('unused1',null3)),
         MelEffects(),
@@ -5057,7 +5057,7 @@ class MreWeap(MelRecord):
         MelDestructible(),
         MelFid('REPL','repairList'),
         #0:bigGuns,1:energyWeapons,2:smallGuns,3:meleeWeapons,4:unarmedWeapon,5:thrownWeapons,6:mine,
-        MelStruct('ETYP','I','etype'),
+        MelStruct('ETYP','i',('etype',-1)),
         MelFid('BIPL','bipedModelList'),
         MelFid('YNAM','soundPickUp'),
         MelFid('ZNAM','soundDrop'),

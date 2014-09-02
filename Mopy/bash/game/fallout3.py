@@ -2126,7 +2126,7 @@ class MreCobj(MelRecord):
 class MreCont(MelRecord):
     """Container record."""
     classType = 'CONT'
-    _flags = bolt.Flags(0,bolt.Flags.getNames(None,'respawns'))
+    _flags = Flags(0,Flags.getNames(None,'respawns'))
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
@@ -2147,6 +2147,24 @@ class MreCont(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MreCpth(MelRecord):
+    """Camera Path"""
+    classType = 'CPTH'
+
+    # DATA 'Camera Zoom' isn wbEnum
+    # 0, 'Default, Must Have Camera Shots',
+    # 1, 'Disable, Must Have Camera Shots',
+    # 2, 'Shot List, Must Have Camera Shots',
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelConditions(),
+        MelFidList('ANAM','relatedCameraPaths',),
+        MelStruct('DATA','B','cameraZoom',),
+        MelFids('SNAM','cameraShots',),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
 class MreCrea(MreActor):
     """Creature Record."""
     classType = 'CREA'

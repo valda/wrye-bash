@@ -2422,7 +2422,7 @@ class MreCpth(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelConditions(),
-        MelFids('ANAM','relatedCameraPaths',),
+        MelFidList('ANAM','relatedCameraPaths',),
         MelStruct('DATA','B','cameraZoom',),
         MelFids('SNAM','cameraShots',),
         )

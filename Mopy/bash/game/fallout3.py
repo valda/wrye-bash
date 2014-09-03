@@ -1163,48 +1163,11 @@ class MelDestructible(MelGroup):
 class MelEffects(MelGroups):
     """Represents ingredient/potion/enchantment/spell effects."""
 
-    #--Class Data
-    seFlags = Flags(0x0L,Flags.getNames('hostile'))
-    # class MelEffectsScit(MelStruct):
-    #     """Subclass to support alternate format."""
-    #     def __init__(self):
-    #         MelStruct.__init__(self,'SCIT','II4sB3s',(FID,'script',None),('school',0),
-    #             ('visual','REHE'),(MelEffects.seFlags,'flags',0x0L),('unused1',null3))
-    #     def loadData(self,record,ins,type,size,readId):
-    #         #--Alternate formats
-    #         if size == 16:
-    #             attrs,actions = self.attrs,self.actions
-    #             unpacked = ins.unpack(self.format,size,readId)
-    #         elif size == 12:
-    #             attrs,actions = ('script','school','visual'),(0,0,0)
-    #             unpacked = ins.unpack('II4s',size,readId)
-    #             record.unused1 = null3
-    #         else: #--size == 4
-    #             #--The script fid for MS40TestSpell doesn't point to a valid script.
-    #             #--But it's not used, so... Not a problem! It's also t
-    #             record.unused1 = null3
-    #             attrs,actions = ('script',),(0,)
-    #             unpacked = ins.unpack('I',size,readId)
-    #             if unpacked[0] & 0xFF000000L:
-    #                 unpacked = (0L,) #--Discard bogus MS40TestSpell fid
-    #         #--Unpack
-    #         record.__slots__ = self.attrs
-    #         setter = record.__setattr__
-    #         for attr,value,action in zip(attrs,unpacked,actions):
-    #             if callable(action): value = action(value)
-    #             setter(attr,value)
-    #         if self._debug: print ' ',unpacked
-
-    #--Instance methods
     def __init__(self,attr='effects'):
         """Initialize elements."""
         MelGroups.__init__(self,attr,
             MelFid('EFID','baseEffect'),
             MelStruct('EFIT','4Ii','magnitude','area','duration','recipient','actorValue'),
-            # MelGroup('scriptEffect',
-            #     MelEffects.MelEffectsScit(),
-            #     MelString('FULL','full'),
-            #     ),
             MelConditions(),
             )
 

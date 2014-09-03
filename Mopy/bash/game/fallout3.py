@@ -5401,12 +5401,17 @@ class MreWthr(MelRecord):
         MelModel(),
         MelBase('LNAM','unknown1'),
         MelStruct('ONAM','4B','cloudSpeed0','cloudSpeed1','cloudSpeed3','cloudSpeed4'),
-        MelBase('PNAM','_pnam'), #--RGB(3Bs) * 16?
-        MelStructA('NAM0','3Bs3Bs3Bs3Bs','colors',
+        MelStructA('PNAM','3Bs3Bs3Bs3Bs','colors',
                    'riseRed','riseGreen','riseBlue',('unused1',null1),
                    'dayRed','dayGreen','dayBlue',('unused2',null1),
                    'setRed','setGreen','setBlue',('unused3',null1),
                    'nightRed','nightGreen','nightBlue',('unused4',null1),
+                   ),
+        MelStructA('NAM0','3Bs3Bs3Bs3Bs','colors',
+                   'riseRed','riseGreen','riseBlue',('unused5',null1),
+                   'dayRed','dayGreen','dayBlue',('unused6',null1),
+                   'setRed','setGreen','setBlue',('unused7',null1),
+                   'nightRed','nightGreen','nightBlue',('unused8',null1),
                    ),
         MelStruct('FNAM','6f','fogDayNear','fogDayFar','fogNightNear','fogNightFar','fogDayPower','fogNightPower'),
         MelBase('INAM','_inam'), #--Should be a struct. Maybe later.
@@ -5432,20 +5437,29 @@ class MreWthr(MelRecord):
 #       MreAchr, MreDial, MreLctn, MreInfo, MreFact, MrePerk,
 #------------------------------------------------------------------------------
 #--Mergeable record types
-mergeClasses = (
-    # Old fallout
-    # MreActi, MreAlch, MreAmmo, MreAnio, MreAppa, MreArmo, MreBook, MreBsgn, MreClas,
-    # MreClot, MreCont, MreCrea, MreDoor, MreEfsh, MreEnch, MreEyes, MreFact, MreFlor, MreFurn,
-    # MreGlob, MreGras, MreHair, MreIngr, MreKeym, MreLigh, MreLscr, MreLvlc, MreLvli,
-    # MreLvsp, MreMgef, MreMisc, MreNpc,  MrePack, MreQust, MreRace, MreScpt, MreSgst,
-    # MreSlgm, MreSoun, MreSpel, MreStat, MreTree, MreWatr, MreWeap, MreWthr,
-    # MreClmt, MreCsty, MreIdle, MreLtex, MreRegn, MreSbsp, MreSkil,
-    # MreTxst, MreMicn, MreFlst, MreLvln, MrePerk, MreExpl, MreIpct, MreIpds, MreProj,
-    # MreDebr, MreImad, MreMstt, MreNote, MreTerm, MreAvif, MreEczn, MreBptd, MreVtyp,
-    # MreMusc, MrePwat, MreAspc, MreHdpt, MreDobj, MreIdlm, MreArma, MreTact
+# Old Mergable from Valda's version
+# MreActi, MreAlch, MreAmmo, MreAnio, MreAppa, MreArmo, MreBook, MreBsgn, MreClas,
+# MreClot, MreCont, MreCrea, MreDoor, MreEfsh, MreEnch, MreEyes, MreFact, MreFlor, MreFurn,
+# MreGlob, MreGras, MreHair, MreIngr, MreKeym, MreLigh, MreLscr, MreLvlc, MreLvli,
+# MreLvsp, MreMgef, MreMisc, MreNpc,  MrePack, MreQust, MreRace, MreScpt, MreSgst,
+# MreSlgm, MreSoun, MreSpel, MreStat, MreTree, MreWatr, MreWeap, MreWthr,
+# MreClmt, MreCsty, MreIdle, MreLtex, MreRegn, MreSbsp, MreSkil,
+# MreTxst, MreMicn, MreFlst, MreLvln, MrePerk, MreExpl, MreIpct, MreIpds, MreProj,
+# MreDebr, MreImad, MreMstt, MreNote, MreTerm, MreAvif, MreEczn, MreBptd, MreVtyp,
+# MreMusc, MrePwat, MreAspc, MreHdpt, MreDobj, MreIdlm, MreArma, MreTact
 
-    # Verified
-    MreLvlc, MreLvli, MreLvln,
+mergeClasses = (
+        # MreAchr, MreAcre, MreGmst, MrePgre,
+        MreActi, MreAddn, MreAlch, MreAnio, MreArma, MreArmo, MreAspc,
+        MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClmt,
+        MreCobj, MreCont, MreCpth, MreCrea, MreCsty, MreDebr, MreDobj,
+        MreDoor, MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn, MreGlob,
+        MreGras, MreHair, MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr,
+        MreIpct, MreIpds, MreKeym, MreLgtm, MreLigh, MreLscr, MreLtex, MreLvlc, MreLvli,
+        MreLvln, MreMesg, MreMgef, MreMicn, MreMisc, MreMstt, MreMusc, MreNote, MreNpc,
+        MrePack, MrePerk, MreProj, MrePwat, MreQust, MreRace, MreRads, MreRegn,
+        MreRgdl, MreScol, MreScpt, MreSoun, MreSpel, MreStat, MreTact, MreTerm,
+        MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWthr,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5459,28 +5473,39 @@ def init():
     # statement - in otherwords, nothing happens.  This means any lines that
     # affect outside modules must do so within this function, which will be
     # called instead of 'reload'
+
+# From Valda's version
+# MreAchr, MreAcre, MreActi, MreAlch, MreAmmo, MreAnio, MreAppa, MreArmo, MreBook, MreBsgn,
+# MreCell, MreClas, MreClot, MreCont, MreCrea, MreDoor, MreEfsh, MreEnch, MreEyes, MreFact,
+# MreFlor, MreFurn, MreGlob, MreGmst, MreGras, MreHair, MreIngr, MreKeym, MreLigh, MreLscr,
+# MreLvlc, MreLvli, MreLvsp, MreMgef, MreMisc, MreNpc,  MrePack, MreQust, MreRace, MreRefr,
+# MreRoad, MreScpt, MreSgst, MreSkil, MreSlgm, MreSoun, MreSpel, MreStat, MreTree, MreTes4,
+# MreWatr, MreWeap, MreWrld, MreWthr, MreClmt, MreCsty, MreIdle, MreLtex, MreRegn, MreSbsp,
+# MreDial, MreInfo, MreTxst, MreMicn, MreFlst, MrePerk, MreExpl, MreIpct, MreIpds, MreProj,
+# MreLvln, MreDebr, MreImad, MreMstt, MreNote, MreTerm, MreAvif, MreEczn, MreBptd, MreVtyp,
+# MreMusc, MrePwat, MreAspc, MreHdpt, MreDobj, MreIdlm, MreArma, MreTact, MreNavm
     brec.ModReader.recHeader = RecordHeader
 
-    MreRecord.type_class = dict((x.classType,x) for x in (
-    # MreAchr, MreAcre, MreActi, MreAlch, MreAmmo, MreAnio, MreAppa, MreArmo, MreBook, MreBsgn,
-    # MreCell, MreClas, MreClot, MreCont, MreCrea, MreDoor, MreEfsh, MreEnch, MreEyes, MreFact,
-    # MreFlor, MreFurn, MreGlob, MreGmst, MreGras, MreHair, MreIngr, MreKeym, MreLigh, MreLscr,
-    # MreLvlc, MreLvli, MreLvsp, MreMgef, MreMisc, MreNpc,  MrePack, MreQust, MreRace, MreRefr,
-    # MreRoad, MreScpt, MreSgst, MreSkil, MreSlgm, MreSoun, MreSpel, MreStat, MreTree, MreTes4,
-    # MreWatr, MreWeap, MreWrld, MreWthr, MreClmt, MreCsty, MreIdle, MreLtex, MreRegn, MreSbsp,
-    # MreDial, MreInfo, MreTxst, MreMicn, MreFlst, MrePerk, MreExpl, MreIpct, MreIpds, MreProj,
-    # MreLvln, MreDebr, MreImad, MreMstt, MreNote, MreTerm, MreAvif, MreEczn, MreBptd, MreVtyp,
-    # MreMusc, MrePwat, MreAspc, MreHdpt, MreDobj, MreIdlm, MreArma, MreTact, MreNavm
-
-    # Verified
-    MreLvlc, MreLvli, MreLvln,
+    brec.MreRecord.type_class = dict((x.classType,x) for x in (
+        MreAchr, MreAcre, MreDial, MreGmst, MrePgre,
+        MreActi, MreAddn, MreAlch, MreAnio, MreArma, MreArmo, MreAspc,
+        MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClmt,
+        MreCobj, MreCont, MreCpth, MreCrea, MreCsty, MreDebr, MreDobj,
+        MreDoor, MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn, MreGlob,
+        MreGras, MreHair, MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr,
+        MreIpct, MreIpds, MreKeym, MreLgtm, MreLigh, MreLscr, MreLtex, MreLvlc, MreLvli,
+        MreLvln, MreMesg, MreMgef, MreMicn, MreMisc, MreMstt, MreMusc, MreNote, MreNpc,
+        MrePack, MrePerk, MreProj, MrePwat, MreQust, MreRace, MreRads, MreRegn,
+        MreRgdl, MreScol, MreScpt, MreSoun, MreSpel, MreStat, MreTact, MreTerm,
+        MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWthr,
+        MreCell, MreWrld, MreNavm, MreNavi, 
     MreHeader,
     ))
 
     #--Simple records
     brec.MreRecord.simpleTypes = (set(brec.MreRecord.type_class) -
+        # set(('TES4','ACHR','ACRE','REFR','CELL','PGRD','ROAD','LAND','WRLD','INFO','DIAL','PGRE','NAVM')))
         set((
-        # 'TES4','ACHR','ACRE','REFR','CELL','PGRD','ROAD','LAND','WRLD','INFO','DIAL','PGRE','NAVM'
         'TES4',
         )))
 

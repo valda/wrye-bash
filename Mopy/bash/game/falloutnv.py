@@ -6016,12 +6016,21 @@ class MreWthr(MelRecord):
         MelModel(),
         MelBase('LNAM','unknown1'),
         MelStruct('ONAM','4B','cloudSpeed0','cloudSpeed1','cloudSpeed3','cloudSpeed4'),
-        MelBase('PNAM','_pnam'), #--RGB(3Bs) * 16?
-        MelStructA('NAM0','3Bs3Bs3Bs3Bs','colors',
+        MelStructA('PNAM','3Bs3Bs3Bs3Bs3Bs3Bs','colors',
                    'riseRed','riseGreen','riseBlue',('unused1',null1),
                    'dayRed','dayGreen','dayBlue',('unused2',null1),
                    'setRed','setGreen','setBlue',('unused3',null1),
                    'nightRed','nightGreen','nightBlue',('unused4',null1),
+                   'noonRed','noonGreen','noonBlue',('unused5',null1),
+                   'midnightRed','midnightGreen','midnightBlue',('unused6',null1),
+                   ),
+        MelStructA('NAM0','3Bs3Bs3Bs3Bs3Bs3Bs','colors',
+                   'riseRed','riseGreen','riseBlue',('unused7',null1),
+                   'dayRed','dayGreen','dayBlue',('unused8',null1),
+                   'setRed','setGreen','setBlue',('unused9',null1),
+                   'nightRed','nightGreen','nightBlue',('unused10',null1),
+                   'noonRed','noonGreen','noonBlue',('unused11',null1),
+                   'midnightRed','midnightGreen','midnightBlue',('unused12',null1),
                    ),
         MelStruct('FNAM','6f','fogDayNear','fogDayFar','fogNightNear','fogNightFar','fogDayPower','fogNightPower'),
         MelBase('INAM','_inam'), #--Should be a struct. Maybe later.
@@ -6105,7 +6114,7 @@ def init():
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
 
         # Verified
-        MreAchr, MreAcre, MreGmst, MrePgre,
+        MreAchr, MreAcre, MreDial, MreGmst, MrePgre,
         MreActi, MreAddn, MreAlch, MreAloc, MreAmef, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc,
         MreAvif, MreBook, MreBptd, MreCams, MreCcrd, MreCdck, MreChal, MreChip, MreClas, MreClmt,
         MreCmny, MreCobj, MreCont, MreCpth, MreCrea, MreCsno, MreCsty, MreDebr, MreDehy, MreDobj,
@@ -6116,7 +6125,7 @@ def init():
         MrePack, MrePerk, MreProj, MrePwat, MreQust, MreRace, MreRads, MreRcct, MreRcpe, MreRegn,
         MreRepu, MreRgdl, MreScol, MreScpt, MreSlpd, MreSoun, MreSpel, MreStat, MreTact, MreTerm,
         MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWthr,
-        MreCell, MreWrld, MreNavm, MreNavi,
+        MreCell, MreWrld, MreNavm, MreNavi, 
         MreHeader,
         ))
     #--Simple records
@@ -6124,6 +6133,5 @@ def init():
         # set(('TES4','ACHR','ACRE','REFR','CELL','PGRD','ROAD','LAND','WRLD','INFO','DIAL','NAVM')))
         # decide how to handle 'PGRD','ROAD'
         set((
-        # set((
         'TES4','ACHR','ACRE','REFR','CELL','LAND','WRLD','INFO','DIAL','NAVI','PGRE','NAVM'
         )))

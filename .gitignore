@@ -23,3 +23,5 @@ Mopy/bash.ini
 scripts/dist/*.7z
 /Mopy/bash/game/test_fnv.txt
 /Mopy/bash/game/test_fo3.txt
+/Mopy/bash/game/test_fnv.pas
+/Mopy/bash/game/test_fo3.pas

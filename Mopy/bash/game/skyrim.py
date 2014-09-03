@@ -2487,13 +2487,18 @@ class MelScrxen(MelFids):
 
 # Probably obsolete.  Included for reference and testing.
 #------------------------------------------------------------------------------
-class MelSpells(MelStructs):
+class MelSpells(MelGroups):
     """Handle writing out the SPCT subrecord for the SPLO subrecord"""
-    def dumpData(self, record, out):
+    def __init__(self,attr='actorEffects'):
+        MelGroups.__init__(self,attr,
+            MelStruct('SPLO','=I',(FID,'spells',None),),
+            )
+
+    def dumpData(self,record,out):
         spells = record.__getattribute__(self.attr)
         if spells:
             out.packSub('SPCT','<I',len(spells))
-            MelStructs.dumpData(self,record,out)
+            MelGroups.dumpData(self,record,out)
 
 #------------------------------------------------------------------------------
 class MelString16(MelString):
@@ -3949,17 +3954,6 @@ class MreCont(MelRecord):
     """Container"""
     classType = 'CONT'
 
-    # wbCNTO :=
-    #   wbRStructExSK([0], [1], 'Item', [
-    #     wbStructExSK(CNTO, [0], [1], 'Item', [
-    #       wbFormIDCk('Item', [ARMO, AMMO, APPA, MISC, WEAP, BOOK, LVLI, KEYM, ALCH, INGR, LIGH, SLGM, SCRL]),
-    #       wbInteger('Count', itS32)
-    #     ]),
-    #   wbCOED
-    #   ], []);
-    # wbCOCT := wbInteger(COCT, 'Count', itU32)
-    # wbCNTOs := wbRArrayS('Items', wbCNTO)
-
     class MelContCnto(MelGroups):
         def __init__(self):
             MelGroups.__init__(self,'components',
@@ -3988,10 +3982,8 @@ class MreCont(MelRecord):
         MelBounds(),
         MelLString('FULL','full'),
         MelModel(),
-        # One Count: COCT
-        # Handled by MreContCnto
+        # COCT Handled by MreContCnto
         MelNull('COCT'),
-        # Repeating CNTO records: CNTO, CNTO, CNTO, CNTO : Of the Count COCT
         MelContCnto(),
         MelDestructible(),
         MelStruct('DATA','=Bf',(ContTypeFlags,'flags',0L),'weight'),
@@ -6358,7 +6350,8 @@ class MreNpc(MelRecord):
         MelOptStruct('VTCK', 'I', (FID, 'voicetype')),
         MelOptStruct('TPLT', 'I', (FID, 'template')),
         MelStruct('RNAM', 'I', (FID, 'race')),
-        # MelSpells handles writing the count for SPLOs
+        # MelSpells handles writing the count for SPCT
+        MelNull('SPCT'),
         MelSpells(),
         MelGroups('spells',
             MelOptStruct('SPLO','I','spell'),

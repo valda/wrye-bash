@@ -899,7 +899,8 @@ class esp:
     #--Dict mapping 'ignored' top types to un-ignored top types
     topIgTypes = dict()
 
-    recordTypes = set(topTypes + 'GRUP,TES4,ROAD,REFR,ACHR,ACRE,PGRD,LAND,INFO,PGRE,NAVM'.split(','))
+    recordTypes = set(topTypes + 'GRUP,TES4,ACHR,ACRE,INFO,LAND,NAVM,PGRE,PMIS,REFR'.split(','))
+
 
 class RecordHeader(brec.BaseRecordHeader):
     size = 24 # Size in bytes of a record header
@@ -1887,6 +1888,20 @@ class MreBptd(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MreBsgn(MelRecord):
+    """Birthsign record."""
+    classType = 'BSGN'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelString('FULL','full'),
+        MelString('ICON','iconPath'),
+        MelString('DESC','text'),
+        MelFids('SPLO','spells'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Needs removed, not used in Fallout New Vegas
+#------------------------------------------------------------------------------
 class MreCams(MelRecord):
     """Cams Type"""
     classType = 'CAMS'
@@ -1926,20 +1941,6 @@ class MreCams(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-#------------------------------------------------------------------------------
-class MreBsgn(MelRecord):
-    """Birthsign record."""
-    classType = 'BSGN'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelString('FULL','full'),
-        MelString('ICON','iconPath'),
-        MelString('DESC','text'),
-        MelFids('SPLO','spells'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreCell(MelRecord):
     """Cell record."""
@@ -4123,6 +4124,56 @@ class MrePgre(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MrePmis(MelRecord):
+    """Placed Missile"""
+    classType = 'PMIS'
+    _flags = Flags(0L,Flags.getNames('oppositeParent'))
+    _variableFlags = Flags(0L,Flags.getNames('isLongOrShort'))
+    _watertypeFlags = Flags(0L,Flags.getNames('reflection','refraction'))
+    melSet=MelSet(
+        MelString('EDID','eid'),
+        MelFid('NAME','base'),
+        MelFid('XEZN','encounterZone'),
+        MelBase('XRGD','ragdollData'),
+        MelBase('XRGB','ragdollBipedData'),
+        MelGroup('patrolData',
+            MelStruct('XPRD','f','idleTime'),
+            MelBase('XPPA','patrolScriptMarker'),
+            MelFid('INAM', 'idle'),
+            MelStruct('SCHR','4s4I',('unused1',null4),'numRefs','compiledSize','lastIndex','scriptType'),
+            MelBase('SCDA','compiled_p'),
+            MelString('SCTX','scriptText'),
+            MelGroups('vars',
+                MelStruct('SLSD','I12sB7s','index',('unused1',null4+null4+null4),(_variableFlags,'flags',0L),('unused2',null4+null3)),
+                MelString('SCVR','name')),
+            MelScrxen('SCRV/SCRO','references'),
+            MelFid('TNAM','topic'),
+            ),
+        MelOwnership(),
+        MelStruct('XCNT','i','count'),
+        MelStruct('XRDS','f','radius',),
+        MelStruct('XHLP','f','health',),
+        MelGroups('reflectedRefractedBy',
+            MelStruct('XPWR','2I',(FID,'waterReference'),(_watertypeFlags,'waterFlags',0L),),
+        ),
+        MelStructs('XDCR','II','linkedDecals',(FID,'reference'),'unknown'),
+        MelFid('XLKR','linkedReference'),
+        MelOptStruct('XCLP','8B','linkStartColorRed','linkStartColorGreen','linkStartColorBlue',('linkColorUnused1',null1),
+                     'linkEndColorRed','linkEndColorGreen','linkEndColorBlue',('linkColorUnused2',null1)),
+        MelGroup('activateParents',
+            MelStruct('XAPD','B','flags'),
+            MelStructs('XAPR','If','activateParentRefs',(FID,'reference'),'delay')
+            ),
+        MelOptStruct('XESP','IB3s',(FID,'parent'),(_flags,'parentFlags'),('unused1',null3)),
+        MelOptStruct('XEMI','I',(FID,'emitance')),
+        MelFid('XMBR','multiboundReference'),
+        MelBase('XIBS','ignoredBySandbox'),
+        MelOptStruct('XSCL','f',('scale',1.0)),
+        MelOptStruct('DATA','=6f',('posX',None),('posY',None),('posZ',None),('rotX',None),('rotY',None),('rotZ',None)),
+    )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
 class MreProj(MelRecord):
     """Projectile record."""
     classType = 'PROJ'
@@ -4769,6 +4820,23 @@ class MreSbsp(MelRecord):
 
 # Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
+class MreScol(MelRecord):
+    """Static Collection"""
+    classType = 'SCOL'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('OBND','=6h',
+                  'corner0X','corner0Y','corner0Z',
+                  'corner1X','corner1Y','corner1Z'),
+        MelModel(),
+        MelGroups('parts',
+            MelFid('ONAM','static'),
+            MelStructA('DATA','=7f','placement',('posX',None),('posY',None),('posZ',None),('rotX',None),('rotY',None),('rotZ',None),('scale',None),),
+        ),
+    )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
 class MreScpt(MelRecord):
     """Script record."""
     classType = 'SCPT'
@@ -4785,23 +4853,6 @@ class MreScpt(MelRecord):
             MelStruct('SLSD','I12sB7s','index',('unused1',null4+null4+null4),(_flags,'flags',0L),('unused2',null4+null3)),
             MelString('SCVR','name')),
         MelScrxen('SCRV/SCRO','references'),
-    )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-#------------------------------------------------------------------------------
-class MreScol(MelRecord):
-    """Static Collection"""
-    classType = 'SCOL'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
-        MelModel(),
-        MelGroups('parts',
-            MelFid('ONAM','static'),
-            MelStructA('DATA','=7f','placement',('posX',None),('posY',None),('posZ',None),('rotX',None),('rotY',None),('rotZ',None),('scale',None),),
-        ),
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -4856,16 +4907,6 @@ class MreSlgm(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 # Needs removed, not used in Fallout New Vegas
-#------------------------------------------------------------------------------
-class MreSlpd(MelRecord):
-    """Sleep deprivation stage record."""
-    classType = 'SLPD'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelStruct('DATA','2I','trigerThreshold',(FID,'actorEffect')),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
 #------------------------------------------------------------------------------
 class MreSoun(MelRecord):
     """Sound record."""
@@ -5450,16 +5491,14 @@ class MreWthr(MelRecord):
 
 mergeClasses = (
         # MreAchr, MreAcre, MreGmst, MrePgre,
-        MreActi, MreAddn, MreAlch, MreAnio, MreArma, MreArmo, MreAspc,
-        MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClmt,
-        MreCobj, MreCont, MreCpth, MreCrea, MreCsty, MreDebr, MreDobj,
-        MreDoor, MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn, MreGlob,
-        MreGras, MreHair, MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr,
-        MreIpct, MreIpds, MreKeym, MreLgtm, MreLigh, MreLscr, MreLtex, MreLvlc, MreLvli,
-        MreLvln, MreMesg, MreMgef, MreMicn, MreMisc, MreMstt, MreMusc, MreNote, MreNpc,
-        MrePack, MrePerk, MreProj, MrePwat, MreQust, MreRace, MreRads, MreRegn,
-        MreRgdl, MreScol, MreScpt, MreSoun, MreSpel, MreStat, MreTact, MreTerm,
-        MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWthr,
+        MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreAvif, MreBook,
+        MreBptd, MreCams, MreClas, MreClmt, MreCobj, MreCont, MreCpth, MreCrea, MreCsty, MreDebr,
+        MreDobj, MreDoor, MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn,
+        MreGlob, MreGras, MreHair, MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreIpct,
+        MreIpds, MreKeym, MreLgtm, MreLigh, MreLscr, MreLtex, MreLvlc, MreLvli, MreLvln, MreMesg,
+        MreMgef, MreMicn, MreMisc, MreMstt, MreMusc, MreNote, MreNpc, MrePack, MrePerk, MreProj,
+        MrePwat, MreQust, MreRace, MreRads, MreRegn, MreRgdl, MreScol, MreScpt, MreSoun, MreSpel,
+        MreStat, MreTact, MreTerm, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWthr,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -5487,18 +5526,16 @@ def init():
     brec.ModReader.recHeader = RecordHeader
 
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
-        MreAchr, MreAcre, MreDial, MreGmst, MrePgre,
-        MreActi, MreAddn, MreAlch, MreAnio, MreArma, MreArmo, MreAspc,
-        MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClmt,
-        MreCobj, MreCont, MreCpth, MreCrea, MreCsty, MreDebr, MreDobj,
-        MreDoor, MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn, MreGlob,
-        MreGras, MreHair, MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr,
-        MreIpct, MreIpds, MreKeym, MreLgtm, MreLigh, MreLscr, MreLtex, MreLvlc, MreLvli,
-        MreLvln, MreMesg, MreMgef, MreMicn, MreMisc, MreMstt, MreMusc, MreNote, MreNpc,
-        MrePack, MrePerk, MreProj, MrePwat, MreQust, MreRace, MreRads, MreRegn,
-        MreRgdl, MreScol, MreScpt, MreSoun, MreSpel, MreStat, MreTact, MreTerm,
-        MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWthr,
-        MreCell, MreWrld, MreNavm, MreNavi, 
+        MreAchr, MreAcre, MreDial, MreGmst, MreInfo, MrePgre, MrePmis, MreRefr
+        MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreAvif, MreBook,
+        MreBptd, MreCams, MreClas, MreClmt, MreCobj, MreCont, MreCpth, MreCrea, MreCsty, MreDebr,
+        MreDobj, MreDoor, MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn,
+        MreGlob, MreGras, MreHair, MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreIpct,
+        MreIpds, MreKeym, MreLgtm, MreLigh, MreLscr, MreLtex, MreLvlc, MreLvli, MreLvln, MreMesg,
+        MreMgef, MreMicn, MreMisc, MreMstt, MreMusc, MreNote, MreNpc, MrePack, MrePerk, MreProj,
+        MrePwat, MreQust, MreRace, MreRads, MreRegn, MreRgdl, MreScol, MreScpt, MreSoun, MreSpel,
+        MreStat, MreTact, MreTerm, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWthr,
+        MreCell, MreNavm, MreNavi, MreWrld, 
     MreHeader,
     ))
 
@@ -5506,6 +5543,6 @@ def init():
     brec.MreRecord.simpleTypes = (set(brec.MreRecord.type_class) -
         # set(('TES4','ACHR','ACRE','REFR','CELL','PGRD','ROAD','LAND','WRLD','INFO','DIAL','PGRE','NAVM')))
         set((
-        'TES4',
+        'TES4','ACHR','ACRE','CELL','DIAL','INFO','LAND','NAVI','NAVM','PGRE','PMIS','REFR','WRLD',
         )))
 

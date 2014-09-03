@@ -6007,6 +6007,7 @@ class MreWeap(MelRecord):
                     'regenRate','killImpulse','valueBMod1','valueBMod2','valueBMod3','impulseDist','skillReq'),
         MelStruct('CRDT','H2sfB3sI','criticalDamage','unknown3','criticalMultiplier',
                  (_cflags,'criticalFlags',0L),'unknown4',(FID,'criticalEffect',0L)),
+        MelWeapVats('VATS','I3f2B2s','vatsEffect','vatsSkill','vatsDamMult','vatsAp','vatsSilent','vatsModReqiured',('unused1',null2)),
         MelBase('VNAM','soundLevel'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

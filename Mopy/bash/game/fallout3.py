@@ -4838,6 +4838,7 @@ class MreSkil(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreSlgm(MelRecord):
     """Soul gem record."""
@@ -4851,6 +4852,17 @@ class MreSlgm(MelRecord):
         MelStruct('DATA','If','value','weight'),
         MelStruct('SOUL','B',('soul',0)),
         MelStruct('SLCP','B',('capacity',1)),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Needs removed, not used in Fallout New Vegas
+#------------------------------------------------------------------------------
+class MreSlpd(MelRecord):
+    """Sleep deprivation stage record."""
+    classType = 'SLPD'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('DATA','2I','trigerThreshold',(FID,'actorEffect')),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

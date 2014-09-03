@@ -1198,10 +1198,10 @@ class MelDestructible(MelGroup):
         """Initialize elements."""
         MelGroup.__init__(self,attr,
             MelStruct('DEST','i2B2s','health','count',
-                     (MelDestVatsFlags,'flags1',0L),'unused'),
+                     (MelDestructible.MelDestVatsFlags,'flags1',0L),'unused'),
             MelGroups('stages',
                 MelStruct('DSTD','=4Bi2Ii','health','index','damageStage',
-                          (MelDestStageFlags,'flags2',0L),'selfDamagePerSecond',
+                          (MelDestructible.MelDestStageFlags,'flags2',0L),'selfDamagePerSecond',
                           (FID,'explosion',None),(FID,'debris',None),'debrisCount'),
                 MelString('DMDL','model'),
                 MelBase('DMDT','dmdt'),

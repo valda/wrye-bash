@@ -27,11 +27,11 @@
 
 import struct
 from .. import brec
-from .. import bolt
-from .. import bush
 from ..brec import *
-from oblivion_const import bethDataFiles, allBethFiles
+from .. import bolt
 from ..bolt import Flags, DataDict, StateError, _unicode, _encode
+from .. import bush
+from oblivion_const import bethDataFiles, allBethFiles
 
 # Util Constants ---------------------------------------------------------------
 #--Null strings (for default empty byte arrays)

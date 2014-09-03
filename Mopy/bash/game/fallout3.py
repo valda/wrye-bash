@@ -27,11 +27,11 @@
 # Imports ----------------------------------------------------------------------
 import struct
 from .. import brec
-from .. import bolt
-from .. import bush
 from ..brec import *
-from fallout3_const import bethDataFiles, allBethFiles
+from .. import bolt
 from ..bolt import Flags, DataDict, StateError, _unicode, _encode
+from .. import bush
+from fallout3_const import bethDataFiles, allBethFiles
 
 # Util Constants ---------------------------------------------------------------
 #--Null strings (for default empty byte arrays)
@@ -1148,10 +1148,10 @@ class MelDestructible(MelGroup):
         """Initialize elements."""
         MelGroup.__init__(self,attr,
             MelStruct('DEST','i2B2s','health','count',
-                     (MelDestVatsFlags,'flags1',0L),'unused'),
+                     (MelDestructible.MelDestVatsFlags,'flags1',0L),'unused'),
             MelGroups('stages',
                 MelStruct('DSTD','=4Bi2Ii','health','index','damageStage',
-                          (MelDestStageFlags,'flags2',0L),'selfDamagePerSecond',
+                          (MelDestructible.MelDestStageFlags,'flags2',0L),'selfDamagePerSecond',
                           (FID,'explosion',None),(FID,'debris',None),'debrisCount'),
                 MelString('DMDL','model'),
                 MelBase('DMDT','dmdt'),

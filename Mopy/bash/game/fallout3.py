@@ -1133,18 +1133,30 @@ class MelConditions(MelStructs):
 #------------------------------------------------------------------------------
 class MelDestructible(MelGroup):
     """Represents a set of destruct record."""
+
+    MelDestVatsFlags = Flags(0L,Flags.getNames(
+        (0, 'vatsTargetable'),
+        ))
+
+    MelDestStageFlags = Flags(0L,Flags.getNames(
+        (0, 'capDamage'),
+        (1, 'disable'),
+        (2, 'destroy'),
+        ))
+
     def __init__(self,attr='destructible'):
         """Initialize elements."""
         MelGroup.__init__(self,attr,
-            MelStruct('DEST','i2B2s','health','count','flags1','unused'),
+            MelStruct('DEST','i2B2s','health','count',
+                     (MelDestVatsFlags,'flags1',0L),'unused'),
             MelGroups('stages',
-                MelStruct('DSTD','=4B4I','health','index','damageStage','flags2',
-                          'selfDamagePerSecond',(FID,'explosion',None),
-                          (FID,'debris',None),'debrisCount'),
+                MelStruct('DSTD','=4Bi2Ii','health','index','damageStage',
+                          (MelDestStageFlags,'flags2',0L),'selfDamagePerSecond',
+                          (FID,'explosion',None),(FID,'debris',None),'debrisCount'),
                 MelString('DMDL','model'),
                 MelBase('DMDT','dmdt'),
-                MelBase('DSTF','footer'),
                 ),
+            MelBase('DSTF','footer'),
         )
 
 #------------------------------------------------------------------------------

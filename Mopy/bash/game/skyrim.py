@@ -445,7 +445,7 @@ conditionFunctionData = ( #--0: no param; 1: int param; 2 formid param
     (142, 'GetWalkSpeed', 0, 0, 0),
     (143, 'GetCurrentAIProcedure', 0, 0, 0),
     (144, 'GetTrespassWarningLevel', 0, 0, 0),
-    (145, 'IsTresPassing', 0, 0, 0),
+    (145, 'IsTrespassing', 0, 0, 0),
     (146, 'IsInMyOwnedCell', 0, 0, 0),
     (147, 'GetWindSpeed', 0, 0, 0),
     (148, 'GetCurrentWeatherPercent', 0, 0, 0),
@@ -467,7 +467,7 @@ conditionFunctionData = ( #--0: no param; 1: int param; 2 formid param
     (176, 'IsPCAMurderer', 0, 0, 0),
     (180, 'HasSameEditorLocAsRef', 2, 2, 0),
     (181, 'HasSameEditorLocAsRefAlias', 2, 2, 0),
-    (182, 'GetEquiped', 2, 0, 0),
+    (182, 'GetEquipped', 2, 0, 0),
     (185, 'IsSwimming', 0, 0, 0),
     (188, 'GetPCSleepHours', 0, 0, 0),
     (190, 'GetAmountSoldStolen', 0, 0, 0),
@@ -487,7 +487,7 @@ conditionFunctionData = ( #--0: no param; 1: int param; 2 formid param
     (219, 'GetAnimAction', 0, 0, 0),
     (223, 'IsSpellTarget', 2, 0, 0),
     (224, 'GetVATSMode', 0, 0, 0),
-    (225, 'GetPersuationNumber', 0, 0, 0),
+    (225, 'GetPersuasionNumber', 0, 0, 0),
     (226, 'GetVampireFeed', 0, 0, 0),
     (227, 'GetCannibal', 0, 0, 0),
     (228, 'GetIsClassDefault', 2, 0, 0),
@@ -800,7 +800,7 @@ weaponTypes = (
     )
 
 #The pickle file for this game. Holds encoded GMST IDs from the big list below.
-pklfile = r'bash\db\Skyrim_ids.pkl'
+pklfile = ur'bash\db\Skyrim_ids.pkl'
 
 #--List of GMST's in the main plugin (Skyrim.esm) that have 0x00000000
 #  as the form id.  Any GMST as such needs it Editor Id listed here.
@@ -2229,30 +2229,24 @@ class MelDecalData(MelStruct):
 class MelDestructible(MelGroup):
     """Represents a set of destruct record."""
 
-    MelDestTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+    MelDestStageFlags = bolt.Flags(0L,bolt.Flags.getNames(
         (0, 'capDamage'),
         (1, 'disable'),
-        (2, 'clothing'),
+        (2, 'destroy'),
         (3, 'ignoreExternalDmg'),
         ))
 
     def __init__(self,attr='destructible'):
         """Initialize elements."""
-        MelGroup.__init__(
-            self,attr,
-            # 'vatsTargetable' is either True or False
-            # wbInteger('Health', itS32),  The S means signed
-            MelStruct('DEST','iBB2s','health','count','vatsTargetable','dest_unused'),
-            # wbRArray('Stages',
-                # wbRStruct('Stage', [
-                    # wbStruct(DSTD, 'Destruction Stage Data', [
-                    # wbRStructSK([0], 'Model', [
+        MelGroup.__init__(self,attr,
+            MelStruct('DEST','i2B2s','health','count','vatsTargetable','dest_unused'),
             MelGroups('stages',
-                MelStruct('DSTD','=4B4I','health','index','damageStage',(MelDestructible.MelDestTypeFlags,'flags',0L),
-                          'selfDamagePerSecond',(FID,'explosion',None),(FID,'debris',None),'debrisCount'),
+                MelStruct('DSTD','=4Bi2Ii','health','index','damageStage',
+                         (MelDestructible.MelDestStageFlags,'flags',0L),'selfDamagePerSecond',
+                         (FID,'explosion',None),(FID,'debris',None),'debrisCount'),
                 MelModel('model','DMDL'),
             ),
-            MelBase('DSTF','dstf_p'), # Appears just to signal the end of the destruction data
+            MelBase('DSTF','footer'),
         )
 
 #------------------------------------------------------------------------------

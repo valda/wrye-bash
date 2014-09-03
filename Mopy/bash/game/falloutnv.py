@@ -582,7 +582,7 @@ conditionFunctionData = ( #--0: no param; 1: int param; 2: formid param
     (478, 'GetThreatRatio', 2, 0),
     (480, 'GetIsUsedItemEquipType', 1, 0),
     (489, 'GetConcussed', 0, 0),
-    (492, 'GetMapMakerVisible', 1, 1),
+    (492, 'GetMapMarkerVisible', 1, 1),
     (495, 'GetPermanentActorValue', 1, 0),
     (496, 'GetKillingBlowLimb', 0, 0),
     (500, 'GetWeaponHealthPerc', 0, 0),
@@ -668,7 +668,7 @@ gmstEids = ['fPlayerDeathReloadTime','iMapMarkerVisibleDistance','fVanityModeWhe
 # 'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
 # 'Deflst', 'Destructible', 'WeaponMods'
 allTags = sorted((
-    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Stats',u'Names',u'Deflst',
+    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',u'Deflst',
     ))
 
 #--GLOB record tweaks used by bosh's GmstTweaker
@@ -1183,18 +1183,30 @@ class MelConditions(MelStructs):
 #------------------------------------------------------------------------------
 class MelDestructible(MelGroup):
     """Represents a set of destruct record."""
+
+    MelDestVatsFlags = Flags(0L,Flags.getNames(
+        (0, 'vatsTargetable'),
+        ))
+
+    MelDestStageFlags = Flags(0L,Flags.getNames(
+        (0, 'capDamage'),
+        (1, 'disable'),
+        (2, 'destroy'),
+        ))
+
     def __init__(self,attr='destructible'):
         """Initialize elements."""
         MelGroup.__init__(self,attr,
-            MelStruct('DEST','i2B2s','health','count','flags1','unused'),
+            MelStruct('DEST','i2B2s','health','count',
+                     (MelDestVatsFlags,'flags1',0L),'unused'),
             MelGroups('stages',
-                MelStruct('DSTD','=4B4I','health','index','damageStage','flags2',
-                          'selfDamagePerSecond',(FID,'explosion',None),
-                          (FID,'debris',None),'debrisCount'),
+                MelStruct('DSTD','=4Bi2Ii','health','index','damageStage',
+                          (MelDestStageFlags,'flags2',0L),'selfDamagePerSecond',
+                          (FID,'explosion',None),(FID,'debris',None),'debrisCount'),
                 MelString('DMDL','model'),
                 MelBase('DMDT','dmdt'),
-                MelBase('DSTF','footer'),
                 ),
+            MelBase('DSTF','footer'),
         )
 
 #------------------------------------------------------------------------------

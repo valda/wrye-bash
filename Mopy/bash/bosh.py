@@ -21904,7 +21904,12 @@ class DestructiblePatcher(ImportPatcher):
         #--Type Fields
         recAttrs_class = self.recAttrs_class = {}
         recFidAttrs_class = self.recFidAttrs_class = {}
-        self.longTypes = set(('ACTI','ALCH','AMMO','BOOK','CONT','CREA','DOOR','FURN','KEYM','MISC','NPC_','WEAP','PROJ','MSTT','TERM','TACT','IMOD'))
+        if bush.game.fsName == u'Fallout3':
+            self.longTypes = set(('ACTI','ALCH','AMMO','ARMO','BOOK','CONT','CREA','DOOR','FURN','KEYM','LIGH','MISC','MSTT','NPC_','PROJ','TACT','TERM','WEAP'))
+        elif bush.game.fsName == u'FalloutNV':
+            self.longTypes = set(('ACTI','ALCH','AMMO','ARMO','BOOK','CHIP','CONT','CREA','DOOR','FURN','IMOD','KEYM','LIGH','MISC','MSTT','NPC_','PROJ','TACT','TERM','WEAP'))
+        else:
+            self.longTypes = set()
         for recClass in (MreRecord.type_class[x] for x in self.longTypes):
             recAttrs_class[recClass] = ('destructible',)
 

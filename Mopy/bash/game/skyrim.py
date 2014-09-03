@@ -2245,8 +2245,8 @@ class MelDestructible(MelGroup):
                          (MelDestructible.MelDestStageFlags,'flags',0L),'selfDamagePerSecond',
                          (FID,'explosion',None),(FID,'debris',None),'debrisCount'),
                 MelModel('model','DMDL'),
+                MelBase('DSTF','footer'),
             ),
-            MelBase('DSTF','footer'),
         )
 
 #------------------------------------------------------------------------------

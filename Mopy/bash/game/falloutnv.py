@@ -1205,8 +1205,8 @@ class MelDestructible(MelGroup):
                           (FID,'explosion',None),(FID,'debris',None),'debrisCount'),
                 MelString('DMDL','model'),
                 MelBase('DMDT','dmdt'),
+                MelBase('DSTF','footer'),
                 ),
-            MelBase('DSTF','footer'),
         )
 
 #------------------------------------------------------------------------------

@@ -682,9 +682,9 @@ listTypes = ('LVLC','LVLI','LVLN')
 #--For fidListMerger patcher (FormID list patcher)
 fidListTypes = ('FLST',)
 
-namesTypes = set(('ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK',
-        'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR', 'EYES',
-        'FACT', 'FLOR', 'HAIR', 'INGR', 'KEYM', 'LIGH',
+namesTypes = set(('ALCH', 'AMMO', 'ARMO', 'BOOK',
+        'CLAS', 'CONT', 'CREA', 'DOOR', 'EYES',
+        'FACT', 'HAIR', 'INGR', 'KEYM', 'LIGH',
         'MISC', 'NOTE', 'NPC_', 'RACE', 'SPEL', 'TERM',
         'WEAP', 'ACTI', 'TACT'
         ))
@@ -3244,7 +3244,7 @@ class MreLscr(MelRecord):
         MelString('EDID','eid'),
         MelString('ICON','iconPath'),
         MelString('DESC','text'),
-        MelStructs('LNAM','I8s',(FID,'cell'),('unknown',null4+null4)),
+        MelStructs('LNAM','I8s','locations',(FID,'cell'),('unknown',null4+null4),),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -3485,7 +3485,7 @@ class MreNavi(MelRecord):
         MelStruct('NVER','I',('version',11)),
         MelNaviNvmi('NVMI','','unknowns',
                    'unknown1',(FID,'navigationMesh'),(FID,'location'),'gridX','gridY','unknown2'),
-        MelFidList(NVCI,'unknownDoors',),
+        MelFidList('NVCI','unknownDoors',),
        )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -4776,7 +4776,8 @@ class MreRegn(MelRecord):
             MelFid('RDMO','music'),
             MelRegnStructA('RDSD', '3I', 'sounds', (FID, 'sound'), (sdflags, 'flags'), 'chance'),
             MelRegnStructA('RDWT', '3I', 'weather', (FID, 'weather', None), 'chance', (FID, 'global', None)),
-    )
+            ),
+        )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
@@ -5526,7 +5527,7 @@ def init():
     brec.ModReader.recHeader = RecordHeader
 
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
-        MreAchr, MreAcre, MreDial, MreGmst, MreInfo, MrePgre, MrePmis, MreRefr
+        MreAchr, MreAcre, MreDial, MreGmst, MreInfo, MrePgre, MrePmis, MreRefr,
         MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc, MreAvif, MreBook,
         MreBptd, MreCams, MreClas, MreClmt, MreCobj, MreCont, MreCpth, MreCrea, MreCsty, MreDebr,
         MreDobj, MreDoor, MreEczn, MreEfsh, MreEnch, MreExpl, MreEyes, MreFact, MreFlst, MreFurn,

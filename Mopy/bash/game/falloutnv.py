@@ -3914,7 +3914,7 @@ class MreNavi(MelRecord):
         MelStruct('NVER','I',('version',11)),
         MelNaviNvmi('NVMI','','unknowns',
                    'unknown1',(FID,'navigationMesh'),(FID,'location'),'gridX','gridY','unknown2'),
-        MelFidList(NVCI,'unknownDoors',),
+        MelFidList('NVCI','unknownDoors',),
        )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -6000,12 +6000,11 @@ class MreWeap(MelRecord):
                     'rumbleLeftMotorStrength','rumbleRightMotorStrength','rumbleDuration','overrideDamageToWeaponMult',
                     'attackShotsPerSec','reloadTime','jamTime','aimArc','skill','rumblePattern','rambleWavelangth','limbDmgMult',
                     ('resistType',0xFFFFFFFF),'sightUsage','semiAutomaticFireDelayMin',
-                    'semiAutomaticFireDelayMax'),
+                    'semiAutomaticFireDelayMax',
                     # NV additions
                     'unknown3','effectMod1','effectMod2','effectMod3','valueAMod1','valueAMod2','valueAMod3',
                     'powerAttackAnimation','strengthReq',('unknown4',null1),'reloadAnimationMod',('unknown5',null2),
-                    'regenRate','killImpulse','valueBMod1','valueBMod2','valueBMod3','impulseDist','skillReq'
-                    ),
+                    'regenRate','killImpulse','valueBMod1','valueBMod2','valueBMod3','impulseDist','skillReq'),
         MelStruct('CRDT','H2sfB3sI','criticalDamage','unknown3','criticalMultiplier',
                  (_cflags,'criticalFlags',0L),'unknown4',(FID,'criticalEffect',0L)),
         MelBase('VNAM','soundLevel'),
@@ -6165,7 +6164,7 @@ def init():
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
 
         # Verified
-        MreAchr, MreAcre, MreDial, MreGmst, MreInfo, MrePgre, MrePmis, MreRefr
+        MreAchr, MreAcre, MreDial, MreGmst, MreInfo, MrePgre, MrePmis, MreRefr,
         MreActi, MreAddn, MreAlch, MreAloc, MreAmef, MreAmmo, MreAnio, MreArma, MreArmo, MreAspc,
         MreAvif, MreBook, MreBptd, MreCams, MreCcrd, MreCdck, MreChal, MreChip, MreClas, MreClmt,
         MreCmny, MreCobj, MreCont, MreCpth, MreCrea, MreCsno, MreCsty, MreDebr, MreDehy, MreDobj,

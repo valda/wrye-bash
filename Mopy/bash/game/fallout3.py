@@ -1637,8 +1637,8 @@ class MreAlch(MelRecord,MreHasEffects):
         MelString('MICO','smallIconPath'),
         MelFid('SCRI','script'),
         MelDestructible(),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         #-1:None,0:Big Guns,1:Energy Weapons,2:Small Guns,3:Melee Weapons,
         #4:Unarmed Weapon,5:Thrown Weapons,6:Mine,7:Body Wear,8:Head Wear,
         #9:Hand Wear,10:Chems,11:Stimpack,12:Food,13:Alcohol
@@ -1665,8 +1665,8 @@ class MreAmmo(MelRecord):
         MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
         MelDestructible(),
-        MelFid('YNAM','soundPickup'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelStruct('DATA','fB3sIB','speed',(_flags,'flags',0L),('unused1',null3),'value','clipRounds'),
         MelString('ONAM','shortName'),
         )
@@ -1759,7 +1759,7 @@ class MreArmo(MelRecord):
         MelModel('femaleWorld',4),
         MelString('ICO2','femaleIconPath'),
         MelString('MIC2','femaleSmallIconPath'),
-        MelString('BMCT','ragdollConstraintTemplate'),
+        MelString('BMCT','ragdollTemplatePath'),
         MelDestructible(),
         MelFid('REPL','repairList'),
         MelFid('BIPL','bipedModelList'),
@@ -1767,8 +1767,8 @@ class MreArmo(MelRecord):
         #4:Unarmed Weapon,5:Thrown Weapons,6:Mine,7:Body Wear,8:Head Wear,
         #9:Hand Wear,10:Chems,11:Stimpack,12:Food,13:Alcohol
         MelStruct('ETYP','i',('etype',-1)),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelStruct('DATA','=2if','value','health','weight'),
         MelStruct('DNAM','=hH','ar','flags'),
         )
@@ -2095,8 +2095,8 @@ class MreCobj(MelRecord):
         MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
         MelFid('SCRI','script'),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelStruct('DATA','if','value','weight'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -3165,8 +3165,8 @@ class MreKeym(MelRecord):
         MelString('MICO','smallIconPath'),
         MelFid('SCRI','script'),
         MelDestructible(),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelStruct('DATA','if','value','weight'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -3370,8 +3370,8 @@ class MreMisc(MelRecord):
         MelString('MICO','smallIconPath'),
         MelFid('SCRI','script'),
         MelDestructible(),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelStruct('DATA','if','value','weight'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -3538,8 +3538,8 @@ class MreNote(MelRecord):
         MelModel(),
         MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         #0:'sound',1:'text',2:'image',3:'voice'
         MelStruct('DATA','B','dataType'),
         MelFidList('ONAM','quests'),
@@ -5331,8 +5331,8 @@ class MreWeap(MelRecord):
         #0:bigGuns,1:energyWeapons,2:smallGuns,3:meleeWeapons,4:unarmedWeapon,5:thrownWeapons,6:mine,
         MelStruct('ETYP','i',('etype',-1)),
         MelFid('BIPL','bipedModelList'),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelModel('shellCasingModel',2),
         MelModel('scopeModel',3),
         MelFid('EFSD','scopeEffect'),

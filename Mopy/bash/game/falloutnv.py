@@ -1691,8 +1691,8 @@ class MreAlch(MelRecord,MreHasEffects):
         MelString('MICO','smallIconPath'),
         MelFid('SCRI','script'),
         MelDestructible(),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         #-1:None,0:Big Guns,1:Energy Weapons,2:Small Guns,3:Melee Weapons,
         #4:Unarmed Weapon,5:Thrown Weapons,6:Mine,7:Body Wear,8:Head Wear,
         #9:Hand Wear,10:Chems,11:Stimpack,12:Food,13:Alcohol
@@ -1772,8 +1772,8 @@ class MreAmmo(MelRecord):
         MelString('MICO','smallIconPath'),
         MelFid('SCRI','script'),
         MelDestructible(),
-        MelFid('YNAM','soundPickup'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelStruct('DATA','fB3sIB','speed',(_flags,'flags',0L),('unused1',null3),'value','clipRounds'),
         MelAmmoDat2('DAT2','IIfIf','projPerShot',(FID,'projectile',0L),'weight',(FID,'consumedAmmo'),'consumedPercentage'),
         MelString('ONAM','shortName'),
@@ -1904,7 +1904,7 @@ class MreArmo(MelRecord):
         MelModel('femaleWorld',4),
         MelString('ICO2','femaleIconPath'),
         MelString('MIC2','femaleSmallIconPath'),
-        MelString('BMCT','ragdollConstraintTemplate'),
+        MelString('BMCT','ragdollTemplatePath'),
         MelDestructible(),
         MelFid('REPL','repairList'),
         MelFid('BIPL','bipedModelList'),
@@ -1912,8 +1912,8 @@ class MreArmo(MelRecord):
         #4:Unarmed Weapon,5:Thrown Weapons,6:Mine,7:Body Wear,8:Head Wear,
         #9:Hand Wear,10:Chems,11:Stimpack,12:Food,13:Alcohol
         MelStruct('ETYP','i',('etype',-1)),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelStruct('DATA','=2if','value','health','weight'),
         MelArmoDnam('DNAM','=hHfI','ar','flags','dt',('unknown',0L)),
         MelStruct('BNAM','I',('overridesAnimationSound',0L)),
@@ -2100,8 +2100,8 @@ class MreCcrd(MelRecord):
         MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
         MelFid('SCRI','script'),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelString('TX00','textureFace'),
         MelString('TX01','textureBack'),
         MelStructs('INTV','I','suitAndValue','value'),
@@ -2223,8 +2223,8 @@ class MreChip(MelRecord):
         MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
         MelDestructible(),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -2332,8 +2332,8 @@ class MreCmny(MelRecord):
         MelModel(),
         MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelStruct('DATA','I','absoluteValue'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -2353,8 +2353,8 @@ class MreCobj(MelRecord):
         MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
         MelFid('SCRI','script'),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelStruct('DATA','if','value','weight'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -3335,8 +3335,8 @@ class MreImod(MelRecord):
         MelFid('SCRI','script'),
         MelString('DESC','description'),
         MelDestructible(),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelStruct('DATA','If','value','weight'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -3532,8 +3532,8 @@ class MreKeym(MelRecord):
         MelString('MICO','smallIconPath'),
         MelFid('SCRI','script'),
         MelDestructible(),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelStruct('DATA','if','value','weight'),
         MelFid('RNAM','soundRandomLooping'),
         )
@@ -3751,8 +3751,8 @@ class MreMisc(MelRecord):
         MelString('MICO','smallIconPath'),
         MelFid('SCRI','script'),
         MelDestructible(),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelStruct('DATA','if','value','weight'),
         MelFid('RNAM','soundRandomLooping'),
         )
@@ -3967,8 +3967,8 @@ class MreNote(MelRecord):
         MelModel(),
         MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         #0:'sound',1:'text',2:'image',3:'voice'
         MelStruct('DATA','B','dataType'),
         MelFidList('ONAM','quests'),
@@ -5922,8 +5922,8 @@ class MreWeap(MelRecord):
         #9:Hand Wear,10:Chems,11:Stimpack,12:Food,13:Alcohol
         MelStruct('ETYP','i',('etype',-1)),
         MelFid('BIPL','bipedModelList'),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelModel('shellCasingModel',2),
         MelModel('scopeModel',3),
         MelFid('EFSD','scopeEffect'),

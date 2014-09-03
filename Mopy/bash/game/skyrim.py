@@ -2497,9 +2497,9 @@ class MelSpells(MelGroups):
     def dumpData(self,record,out):
         spells = record.__getattribute__(self.attr)
         if spells:
-            out.packSub('SPCT','<I',len(spells))
+        out.packSub('SPCT','<I',len(record.actorEffects))
             MelGroups.dumpData(self,record,out)
-
+            
 #------------------------------------------------------------------------------
 class MelString16(MelString):
     """Represents a mod record string element."""
@@ -3042,7 +3042,7 @@ class MreAact(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreAchr(MelRecord):
     """Placed NPC"""
@@ -3151,6 +3151,7 @@ class MreAchr(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreActi(MelRecord):
     """Activator."""
@@ -3180,7 +3181,7 @@ class MreActi(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreAddn(MelRecord):
     """Addon"""
@@ -3195,7 +3196,7 @@ class MreAddn(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreAlch(MelRecord,MreHasEffects):
     """Ingestible"""
@@ -3220,22 +3221,8 @@ class MreAlch(MelRecord,MreHasEffects):
     # {0x00010000} 'Medicine',
     # {0x00020000} 'Poison'
     IngestibleFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0, 'noAutoCalcUnused'),
-        (1, 'foodItem'),
-        (2, 'unknown3'),
-        (3, 'unknown4'),
-        (4, 'unknown5'),
-        (5, 'unknown6'),
-        (6, 'unknown7'),
-        (7, 'unknown8'),
-        (8, 'unknown9'),
-        (9, 'unknown10'),
-        (10, 'unknown11'),
-        (11, 'unknown12'),
-        (12, 'unknown13'),
-        (13, 'unknown14'),
-        (14, 'unknown15'),
-        (15, 'unknown16'),
+        (0, 'autoCalc'),
+        (1, 'isFood'),
         (16, 'medicine'),
         (17, 'poison'),
     ))
@@ -3260,7 +3247,7 @@ class MreAlch(MelRecord,MreHasEffects):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreAmmo(MelRecord):
     """Ammo record (arrows)"""
@@ -3289,7 +3276,7 @@ class MreAmmo(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreAnio(MelRecord):
     """Anio record (Animated Object)"""
@@ -3297,11 +3284,11 @@ class MreAnio(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelModel(),
-        MelString('BNAM','unloadEvent'),
+        MelString('BNAM','animationId'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreAppa(MelRecord):
     """Appa record (Alchemical Apparatus)"""
@@ -3331,10 +3318,10 @@ class MreAppa(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreArma(MelRecord):
-    """Armor addon?"""
+    """Armor addon record."""
     classType = 'ARMA'
 
     # {0x01} 'Unknown 0',
@@ -3366,7 +3353,7 @@ class MreArma(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreArmo(MelRecord):
     """Armor"""
@@ -3380,15 +3367,16 @@ class MreArmo(MelRecord):
         MelOptStruct('EITM','I',(FID,'enchantment')),
         MelOptStruct('EAMT','H','enchantmentAmount',),
         MelModel('model2','MOD2'),
-        MelIcons(),
+        MelString('ICON','maleIconPath'),
+        MelString('MICO','maleSmallIconPath'),
         MelModel('model4','MOD4'),
-        MelString('ICO2','ico2_n'),
-        MelString('MIC2','mic2_n'),
+        MelString('ICO2','femaleIconPath'),
+        MelString('MIC2','femaleSmallIconPath'),
         MelBipedObjectData(),
         MelDestructible(),
         MelOptStruct('YNAM','I',(FID,'pickupSound')),
         MelOptStruct('ZNAM','I',(FID,'dropSound')),
-        MelString('BMCT','ragConTemp'), #Ragdoll Constraint Template
+        MelString('BMCT','ragdollTemplatePath'), #Ragdoll Constraint Template
         MelOptStruct('ETYP','I',(FID,'equipType')),
         MelOptStruct('BIDS','I',(FID,'bashImpact')),
         MelOptStruct('BAMT','I',(FID,'material')),
@@ -3403,7 +3391,7 @@ class MreArmo(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreArto(MelRecord):
     """Arto record (Art effect object)"""
@@ -3426,7 +3414,7 @@ class MreArto(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreAspc(MelRecord):
     """Aspc record (Acoustic Space)"""
@@ -3440,7 +3428,7 @@ class MreAspc(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreAstp(MelRecord):
     """Astp record (Association type)"""
@@ -3460,7 +3448,7 @@ class MreAstp(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreAvif(MelRecord):
     """ActorValue Information record."""
@@ -3471,7 +3459,8 @@ class MreAvif(MelRecord):
         MelString('DESC','description'),
         MelString('ANAM','abbreviation'),
         MelBase('CNAM','cnam_p'),
-        MelStruct('AVSK','4f','skillUseMult','skillOffsetMult','skillImproveMult','skillImproveOffset',),
+        MelStruct('AVSK','4f','skillUseMult','skillOffsetMult','skillImproveMult',
+                  'skillImproveOffset',),
         MelGroups('perkTree',
             MelFid('PNAM', 'perk',),
             MelBase('FNAM','fnam_p'),
@@ -3486,7 +3475,7 @@ class MreAvif(MelRecord):
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreBook(MelRecord):
     """Book Item"""
@@ -3527,6 +3516,37 @@ class MreBook(MelRecord):
     #  22:'Illusion',
     #  23:'Restoration',
     #  24:'Enchanting',
+
+    class MelBookData(MelBase):
+        """Teaches Skill or Spell, Integer or FormID"""
+        def hasFids(self,formElements):
+            formElements.add(self)
+        def loadData(self,record,ins,type,size,readId):
+            #0:Teaches Skill,1:Cannot be Taken,2:Teaches Spell
+            if record.flags.teachesSpell == 1: # Does '1' mean the flag is set and '0' means the falg is not set?
+                (value,) = ins.unpack('I',size,readId)
+                record.__setattr__(self.attr, (True, value)) # FID
+            else:
+                value = ins.readString(size,readId)
+                record.__setattr__(self.attr, (False, value)) # Signed Int
+            if self._debug: print unpacked
+        def dumpData(self,record,out):
+            value = record.__getattribute__(self.attr)
+            if value is None: return
+            (isFid, value) = value
+            if value is not None:
+            #0:Teaches Skill,1:Cannot be Taken,2:Teaches Spell
+                if record.flags.teachesSpell == 1:
+                    out.packRef(self.subType,value) # FID
+                else:
+                    out.packSub0(self.subType,value) # Signed Int
+        def mapFids(self,record,function,save=False):
+            value = record.__getattribute__(self.attr)
+            if value is None: return
+            (isFid, value) = value
+            if isFid:
+                result = function(value)
+                if save: record.__setattr__(self.attr,(isFid,result))
 
     melSet = MelSet(
         MelString('EDID','eid'),
@@ -5328,8 +5348,8 @@ class MreIngr(MelRecord):
         MelModel(),
         MelIcons(),
         MelFid('ETYP','equipmentType',),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelStruct('DATA','if','value','weight'),
         MelStruct('ENIT','iI','ingrValue',(IngrTypeFlags,'flags',0L),),
         MelEffects(),
@@ -5430,8 +5450,8 @@ class MreKeym(MelRecord):
         MelModel(),
         MelIcons(),
         MelDestructible(),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelNull('KSIZ'),
         MelKeywords('KWDA','keywords'),
         MelStruct('DATA','if','value','weight'),
@@ -6856,8 +6876,8 @@ class MreSlgm(MelRecord):
         MelModel(),
         MelIcons(),
         MelDestructible(),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelNull('KSIZ'),
         MelKeywords('KWDA','keywords'),
         MelStruct('DATA','If','value','weight'),
@@ -7441,8 +7461,8 @@ class MreScrl(MelRecord):
         MelString('DESC','description'),
         MelModel(),
         MelDestructible(),
-        MelFid('YNAM','soundPickUp',),
-        MelFid('ZNAM','soundDrop',),
+        MelFid('YNAM','pickupSound',),
+        MelFid('ZNAM','dropSound',),
         MelStruct('DATA','If','itemValue','itemWeight',),
         MelStruct('SPIT','IIIfIIffI','baseCost',(ScrollDataFlags,'dataFlags',0L),
                   'scrollType','chargeTime','castType','targetType',
@@ -7713,8 +7733,8 @@ class MreWeap(MelRecord):
         MelFid('ETYP','equipmentType',),
         MelFid('BIDS','blockBashImpactDataSet',),
         MelFid('BAMT','alternateBlockMaterial',),
-        MelFid('YNAM','soundPickUp',),
-        MelFid('ZNAM','soundDrop',),
+        MelFid('YNAM','pickupSound',),
+        MelFid('ZNAM','dropSound',),
         MelNull('KSIZ'),
         MelKeywords('KWDA','keywords'),
         MelLString('DESC','description'),
@@ -8017,9 +8037,9 @@ class MreWthr(MelRecord):
 #        MreWeap, MreWoop,
 
 mergeClasses = (
-        MreAact, MreActi, MreAddn, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo,
-        MreArto, MreAspc, MreAstp, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
-        MreLvsp, MreMisc, MreAlch, MreMgef,
+        MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo,
+        MreArto, MreAspc, MreAstp, MreAvif, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
+        MreLvsp, MreMisc, MreMgef,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8050,9 +8070,11 @@ def init():
 #        MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun,
 #        MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr,
 #        MreWeap, MreWoop,
+        MreAchr, MreGmst,
         MreAact, MreActi, MreAddn, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo,
         MreArto, MreAspc, MreAstp, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
         MreLvsp, MreMisc, MreAlch, MreMgef,
+        # MreCell, MreNavm, MreNavi, MreWrld,
         MreHeader,
         ))
 

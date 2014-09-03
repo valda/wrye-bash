@@ -211,12 +211,6 @@ class ess:
             out.write(buffer)
         return oldMasters
 
-#--The main plugin Wrye Bash should look for
-masterFiles = [
-    u'Oblivion.esm',
-    u'Nehrim.esm',
-    ]
-
 #--INI files that should show up in the INI Edits tab
 iniFiles = [
     u'Oblivion.ini',
@@ -225,16 +219,23 @@ iniFiles = [
 #--INI setting to setup Save Profiles
 saveProfilesKey = (u'General',u'SLocalSavePath')
 
+#--The main plugin Wrye Bash should look for
+masterFiles = [
+    u'Oblivion.esm',
+    u'Nehrim.esm',
+    ]
+#--Plugin files that can't be deactivated
+nonDeactivatableFiles = []
+
+
 #--Game ESM/ESP/BSA files
+#  These filenames need to be in lowercase,
 # bethDataFiles = set((
 # Moved to oblivion_const
 
 #--Every file in the Data directory from Bethsoft
 # allBethFiles = set((
 # Moved to oblivion_const
-
-#--Plugin files that can't be deactivated
-nonDeactivatableFiles = []
 
 #--BAIN: Directories that are OK to install to
 dataDirs = set((

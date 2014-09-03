@@ -25,12 +25,13 @@
 """This modules defines static data for use by bush, when TES V:
    Skyrim is set at the active game."""
 
+# Imports ----------------------------------------------------------------------
 import struct
 from .. import brec
-from .. import bolt
-from .. import bush
-from ..bolt import _encode
 from ..brec import *
+from .. import bolt
+from ..bolt  _unicode, _encode
+from .. import bush
 from skyrim_const import bethDataFiles, allBethFiles
 
 import itertools
@@ -138,8 +139,8 @@ dontSkip = (
 
 # Directories where specific file extensions should not be skipped by BAIN
 dontSkipDirs = {
-                # This rule is to allow mods with string translation enabled.
-                'interface\\translations':['.txt']
+# This rule is to allow mods with string translation enabled.
+    'interface\\translations':['.txt']
 }
 
 #Folders BAIN should never check

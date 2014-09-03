@@ -27,11 +27,11 @@
 # Imports ----------------------------------------------------------------------
 import struct
 from .. import brec
-from .. import bolt
-from .. import bush
 from ..brec import *
-from falloutnv_const import bethDataFiles, allBethFiles
+from .. import bolt
 from ..bolt import Flags, DataDict, StateError, _unicode, _encode
+from .. import bush
+from falloutnv_const import bethDataFiles, allBethFiles
 
 # Util Constants ---------------------------------------------------------------
 #--Null strings (for default empty byte arrays)
@@ -273,11 +273,6 @@ class ess:
             out.write(buffer)
         return oldMasters
 
-#--The main plugin Wrye Bash should look for
-masterFiles = [
-    u'FalloutNV.esm',
-    ]
-
 #--INI files that should show up in the INI Edits tab
 iniFiles = [
     u'Fallout.ini',
@@ -288,6 +283,14 @@ iniFiles = [
 ## (section,key)
 saveProfilesKey = (u'General',u'SLocalSavePath')
 
+#--The main plugin Wrye Bash should look for
+masterFiles = [
+    u'FalloutNV.esm',
+    ]
+
+#--Plugin files that can't be deactivated
+nonDeactivatableFiles = []
+
 #--Game ESM/ESP/BSA files
 # bethDataFiles = set((
 # Moved to falloutnv_const
@@ -295,9 +298,6 @@ saveProfilesKey = (u'General',u'SLocalSavePath')
 #--Every file in the Data directory from Bethsoft
 # allBethFiles = set((
 # Moved to falloutnv_const
-
-#--Plugin files that can't be deactivated
-nonDeactivatableFiles = []
 
 #--BAIN:
 ## These are the allowed default data directories that BAIN can install to

@@ -3047,13 +3047,7 @@ class MreAact(MelRecord):
 class MreAchr(MelRecord):
     """Placed NPC"""
     classType = 'ACHR'
-
-    # 'Set Enable State to Opposite of Parent',
-    # 'Pop In'
-    EnableParentFlags = bolt.Flags(0L,bolt.Flags.getNames(
-            (0, 'setEnableStatetoOppositeofParent'),
-            (1, 'popIn'),
-        ))
+    _flags = bolt.Flags(0L,bolt.Flags.getNames('oppositeParent','popIn'))
 
     # 'Parent Activate Only'
     ActivateParentsFlags = bolt.Flags(0L,bolt.Flags.getNames(
@@ -3069,82 +3063,28 @@ class MreAchr(MelRecord):
     # PDTO Topic Data wbEnum in TES5Edit
     # 'Topic Ref',
     # 'Topic Subtype'
-
-    # -------------------------
-    # class MelACHRPDTOHandeler(MelGroup):
-    # -------------------------
-    # wbPDTO :=
-    #   wbStruct(PDTO, 'Topic Data', [
-    #   wbInteger('Type', itU32, wbEnum([
-    #     'Topic Ref',
-    #     'Topic Subtype'
-    #   ])),
-    #   wbUnion('Data', wbTypeDecider, [
-    #     wbFormIDCk('Topic', [DIAL, NULL]),
-    #     wbString('Subtype', 4)
-    #   ])
-    # ]);
-    # wbPDTOs := wbRArray('Topic', wbPDTO, cpNormal, False, nil);
-    # wbPDTOs,
-    # -------------------------
-    # wbUnion means that a condition has to be met. When the condition is 0
-    # it uses the first line, 1 is the next line.
-    # -------------------------
-    # wbEnum is an Enumeration and I don't know how to handle them.  For now
-    # make them flags so that if the patcher needs to mitigate the change
-    # it will be there already.
-    # -------------------------
-    # wbPDTOs,
-    # -------------------------
-    # Data in PDTO needs decide if it's a FormID or String.
-    # Because one is four bytes and the other is a string with a four
-    # byte length.  [00000008] 'A string' not [08] 'A string'
-    # -------------------------
-    # class MelACHRPDTOHandeler(MelGroup):
-    # -------------------------
-    # Handle the flags first
-    # (ACHRTopicDataFlags,'topicDataFlags',0L),
-    # Then decide if it is a string or FormID.
-    # If it's a valid string then it's a string,
-    # if it's a valid FormID then it's a FormID
-    # Output the record with the flags first then the Data
-    # Also this need to be repeating for as many as are present.
-    # like with MelGroups, or MelFids it's repeating
-    # PDTO, PDTO, PDTO, PDTO...
-    # -------------------------
-
+    
+    # class MelACHRPDTOHandeler
+    # if 'type' in PDTO is equal to 1 then 'data' is '4s' not FID
+    
     melSet = MelSet(
         MelString('EDID','eid'),
         MelVmad(),
-        #These last two don't have other records to reference for how to enter them
-        # wbFormIDCk(NAME, 'Base', [NPC_], False, cpNormal, True),
-        # wbFormIDCk(XEZN, 'Encounter Zone', [ECZN]),
-        # TES5Edit cares about what the FormID type is such as NPC_ or ECZN, Wrye Bash does not.
-        # Use the four letter name of the record and then the label within quotes from TES5Edit
         MelFid('NAME','base'),
         MelFid('XEZN','encounterZone'),
 
         # {--- Ragdoll ---}
 
-        # wbXRGD := wbByteArray(XRGD, 'Ragdoll Data');
-        # wbXRGB := wbByteArray(XRGB, 'Ragdoll Biped Data');
-        # wbByteArray without a parameter or "0" means that the data is
-        # read from the file just as it is found, and written without being altered.
-        MelBase('XRGD','xrgd_p'),
-        MelBase('XRGB','xrgb_p'),
-        # A Struct in TES5Edit either contains fields or records.
-        # Wrye Bash uses MelStruct for fields and MelGroup for Records.
+        MelBase('XRGD','ragdollData'),
+        MelBase('XRGB','ragdollBipedData'),
 
         # {--- Patrol Data ---}
 
         MelGroup('patrolData',
             MelStruct('XPRD','f','idleTime',),
-            # In TES5Edit wbEmpty is normally a Marker with no value like an
-            # empty xml tag <record></record> or <record />
             MelNull('XPPA'),
             MelFid('INAM','idle'),
             MelGroup('patrolData',
-                # wbUnknown means it has not or cannot be decoded
                 MelBase('SCHR','schr_p'),
                 MelBase('SCDA','scda_p'),
                 MelBase('SCTX','sctx_p'),
@@ -3152,10 +3092,9 @@ class MreAchr(MelRecord):
                 MelBase('SCRO','scro_p'),
             ),
             # Should Be -> MelACHRPDTOHandeler(),
-            MelBase('PDTO','pdto_p'),
+            MelStructs('PDTO','2I','topicData','type',(FID,'data'),),
             MelFid('TNAM','topic'),
         ),
-        # End of MelGroup('patrolData',"
 
         # {--- Leveled Actor ----}
         MelStruct('XLCM','i','levelModifier'),
@@ -3192,13 +3131,13 @@ class MreAchr(MelRecord):
         MelStruct('XFVC','f','favorCost',),
 
         # {--- Enable Parent ---}
-        MelStruct('XESP','IB3s',(FID,'Reference'),(EnableParentFlags,'flags',0L),'unused',),
+        MelOptStruct('XESP','IB3s',(FID,'parent'),(_flags,'parentFlags'),'unused',),
 
         # {--- Ownership ---}
         MelOwnership(),
 
         # {--- Emittance ---}
-        MelFid('XEMI','emittance',),
+        MelOptStruct('XEMI','I',(FID,'emittance')),
 
         # {--- MultiBound ---}
         MelFid('XMBR','multiBoundReference',),
@@ -3207,13 +3146,11 @@ class MreAchr(MelRecord):
         MelNull('XIBS'),
 
         # {--- 3D Data ---}
-        MelStruct('XSCL','f','scale',),
-        MelStruct('DATA','6f','potX','potY','potY','rotX','rotY','rotZ',),
+        MelOptStruct('XSCL','f',('scale',1.0)),
+        MelOptStruct('DATA','=6f',('posX',None),('posY',None),('posZ',None),('rotX',None),('rotY',None),('rotZ',None)),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# PDTO Needs a union decider and contains FormIDs Not Mergable until syntax is
-# updated
 #------------------------------------------------------------------------------
 class MreActi(MelRecord):
     """Activator."""

@@ -1529,7 +1529,7 @@ class MreAchr(MelRecord):
             MelStructs('XAPR','If','activateParentRefs',(FID,'reference'),'delay')
             ),
         MelOptStruct('XESP','IB3s',(FID,'parent'),(_flags,'parentFlags'),('unused1',null3)),
-        MelOptStruct('XEMI','I',(FID,'emitance')),
+        MelOptStruct('XEMI','I',(FID,'emittance')),
         MelFid('XMBR','multiboundReference'),
         MelBase('XIBS','ignoredBySandbox'),
         MelOptStruct('XSCL','f',('scale',1.0)),
@@ -1577,7 +1577,7 @@ class MreAcre(MelRecord):
             MelStructs('XAPR','If','activateParentRefs',(FID,'reference'),'delay')
             ),
         MelOptStruct('XESP','IB3s',(FID,'parent'),(_flags,'parentFlags'),('unused1',null3)),
-        MelOptStruct('XEMI','I',(FID,'emitance')),
+        MelOptStruct('XEMI','I',(FID,'emittance')),
         MelFid('XMBR','multiboundReference'),
         MelBase('XIBS','ignoredBySandbox'),
         MelOptStruct('XSCL','f',('scale',1.0)),
@@ -4090,7 +4090,7 @@ class MrePgre(MelRecord):
             MelStructs('XAPR','If','activateParentRefs',(FID,'reference'),'delay')
             ),
         MelOptStruct('XESP','IB3s',(FID,'parent'),(_flags,'parentFlags'),('unused1',null3)),
-        MelOptStruct('XEMI','I',(FID,'emitance')),
+        MelOptStruct('XEMI','I',(FID,'emittance')),
         MelFid('XMBR','multiboundReference'),
         MelBase('XIBS','ignoredBySandbox'),
         MelOptStruct('XSCL','f',('scale',1.0)),
@@ -4140,7 +4140,7 @@ class MrePmis(MelRecord):
             MelStructs('XAPR','If','activateParentRefs',(FID,'reference'),'delay')
             ),
         MelOptStruct('XESP','IB3s',(FID,'parent'),(_flags,'parentFlags'),('unused1',null3)),
-        MelOptStruct('XEMI','I',(FID,'emitance')),
+        MelOptStruct('XEMI','I',(FID,'emittance')),
         MelFid('XMBR','multiboundReference'),
         MelBase('XIBS','ignoredBySandbox'),
         MelOptStruct('XSCL','f',('scale',1.0)),
@@ -4626,7 +4626,7 @@ class MreRefr(MelRecord):
             MelStructs('XAPR','If','activateParentRefs',(FID,'reference'),'delay')
             ),
         MelOptStruct('XESP','IB3s',(FID,'parent'),(_parentFlags,'parentFlags'),('unused6',null3)),
-        MelOptStruct('XEMI','I',(FID,'emitance')),
+        MelOptStruct('XEMI','I',(FID,'emittance')),
         MelFid('XMBR','multiboundReference'),
         MelOptStruct('XACT','I',(_actFlags,'actFlags',0L)), ####Action Flag
         MelBase('ONAM','onam_p'), ####Open by Default, wbEmpty

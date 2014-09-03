@@ -2438,11 +2438,6 @@ class MelModel(MelGroup):
 class MelOwnership(MelGroup):
     """Handles XOWN, XRNK for cells and cell children."""
 
-#  wbOwnership := wbRStruct('Ownership', [
-#    wbFormIDCkNoReach(XOWN, 'Owner', [FACT, ACHR, NPC_]),
-#    wbInteger(XRNK, 'Faction rank', itS32)
-#  ], []);
-
     def __init__(self,attr='ownership'):
         """Initialize."""
         MelGroup.__init__(self,attr,
@@ -6363,7 +6358,8 @@ class MreNpc(MelRecord):
         MelOptStruct('VTCK', 'I', (FID, 'voicetype')),
         MelOptStruct('TPLT', 'I', (FID, 'template')),
         MelStruct('RNAM', 'I', (FID, 'race')),
-        MelNull('SPCT'),
+        # MelSpells handles writing the count for SPLOs
+        MelSpells(),
         MelGroups('spells',
             MelOptStruct('SPLO','I','spell'),
             ),

@@ -4745,7 +4745,7 @@ class MreRgdl(MelRecord):
             'snapMaxLinearVelocity','snapMaxAngularVelocity','snapMaxLinearDistance',
             'snapMaxAngularDistance','posMaxVelLinear',
             'posMaxVelAngular','posMaxVelProjectile','posMaxVelMelee'),
-        MelStructA('RAFB','H','feedbackDynamicBones',),
+        MelStructA('RAFB','H','feedbackDynamicBones','bone'),
         MelStruct('RAPS','3HBs4f','matchBones1','matchBones2','matchBones3',
             (_flags,'flags'),'unused3','motorsStrength',
             'poseActivationDelayTime','matchErrorAllowance',
@@ -4789,6 +4789,23 @@ class MreScpt(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MreScol(MelRecord):
+    """Static Collection"""
+    classType = 'SCOL'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('OBND','=6h',
+                  'corner0X','corner0Y','corner0Z',
+                  'corner1X','corner1Y','corner1Z'),
+        MelModel(),
+        MelGroups('parts',
+            MelFid('ONAM','static'),
+            MelStructA('DATA','=7f','placement',('posX',None),('posY',None),('posZ',None),('rotX',None),('rotY',None),('rotZ',None),('scale',None),),
+        ),
+    )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
 class MreSgst(MelRecord,MreHasEffects):
     """Sigil stone record."""
     classType = 'SGST'
@@ -4803,6 +4820,7 @@ class MreSgst(MelRecord,MreHasEffects):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreSkil(MelRecord):
     """Skill record."""

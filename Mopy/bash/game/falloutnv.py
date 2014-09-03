@@ -5276,7 +5276,7 @@ class MreRgdl(MelRecord):
             'snapMaxLinearVelocity','snapMaxAngularVelocity','snapMaxLinearDistance',
             'snapMaxAngularDistance','posMaxVelLinear',
             'posMaxVelAngular','posMaxVelProjectile','posMaxVelMelee'),
-        MelStructA('RAFB','H','feedbackDynamicBones',),
+        MelStructA('RAFB','H','feedbackDynamicBones','bone'),
         MelStruct('RAPS','3HBs4f','matchBones1','matchBones2','matchBones3',
             (_flags,'flags'),'unused3','motorsStrength',
             'poseActivationDelayTime','matchErrorAllowance',
@@ -5331,7 +5331,7 @@ class MreScol(MelRecord):
         MelModel(),
         MelGroups('parts',
             MelFid('ONAM','static'),
-            MelStruct('DATA','=76f',('posX',None),('posY',None),('posZ',None),('rotX',None),('rotY',None),('rotZ',None),('scale',None),),
+            MelStructA('DATA','=7f','placement',('posX',None),('posY',None),('posZ',None),('rotX',None),('rotY',None),('rotZ',None),('scale',None),),
         ),
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

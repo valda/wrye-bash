@@ -3304,7 +3304,7 @@ class MreMesg(MelRecord):
     """Message Record."""
     classType = 'MESG'
 
-    MesgTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+    MesgTypeFlags = Flags(0L,Flags.getNames(
             (0, 'messageBox'),
             (1, 'autoDisplay'),
         ))

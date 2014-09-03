@@ -5940,7 +5940,7 @@ class MreWeap(MelRecord):
         MelFids('WMS1','soundMod1Shoot3Ds'),
         MelFid('WMS2','soundMod1Shoot2D'),
         MelStruct('DATA','2IfHB','value','health','weight','damage','clipsize'),
-        MelWeapDnam('DNAM','I2f4B5fI4B2f2I11fiI2fi4f3I3f2IsB2s6fI',
+        MelWeapDnam('DNAM','I2f4B4f4sI4B2f2I11fiI2fi3f4s3I3f2IsB2s6fI',
                     'animationType','animationMultiplier','reach',(_dflags1,'dnamFlags1',0L),
                     'gripAnimation','ammoUse','reloadAnimation','minSpread','spread',
                     'unknown','sightFov','unknown2',(FID,'projectile',0L),
@@ -5948,14 +5948,15 @@ class MreWeap(MelRecord):
                     'onHit',(_dflags2,'dnamFlags2',0L),'animationAttackMultiplier','fireRate','overrideActionPoint',
                     'rumbleLeftMotorStrength','rumbleRightMotorStrength','rumbleDuration','overrideDamageToWeaponMult',
                     'attackShotsPerSec','reloadTime','jamTime','aimArc','skill','rumblePattern','rambleWavelangth','limbDmgMult',
-                    ('resistType',0xFFFFFFFF),'sightUsage','semiAutomaticFireDelayMin','semiAutomaticFireDelayMax',
+                    ('resistType',0xFFFFFFFF),'sightUsage','semiAutomaticFireDelayMin',
+                    'semiAutomaticFireDelayMax'),
                     # NV additions
                     'unknown3','effectMod1','effectMod2','effectMod3','valueAMod1','valueAMod2','valueAMod3',
                     'powerAttackAnimation','strengthReq',('unknown4',null1),'reloadAnimationMod',('unknown5',null2),
                     'regenRate','killImpulse','valueBMod1','valueBMod2','valueBMod3','impulseDist','skillReq'
                     ),
-        MelStruct('CRDT','IfHI','criticalDamage','criticalMultiplier',(_cflags,'criticalFlags',0L),(FID,'criticalEffect',0L)),
-        MelWeapVats('VATS','I3fBB2s','vatsEffect','vatsSkill','vatsDamMult','vatsAp','vatsSilent','vatsModReqiured',('unused1',null2)),
+        MelStruct('CRDT','H2sfB3sI','criticalDamage','unknown3','criticalMultiplier',
+                 (_cflags,'criticalFlags',0L),'unknown4',(FID,'criticalEffect',0L)),
         MelBase('VNAM','soundLevel'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

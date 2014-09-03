@@ -5268,11 +5268,6 @@ class MreWeap(MelRecord):
             'shortBurst',
             'RumbleAlternate',
             'longBurst',
-            'unknown12','unknown13','unknown14','unknown15',
-            'unknown16','unknown17','unknown18','unknown19',
-            'unknown20','unknown21','unknown22','unknown23',
-            'unknown24','unknown25','unknown26','unknown27',
-            'unknown28','unknown29','unknown30','unknown31',
         ))
     _cflags = Flags(0L,Flags.getNames(
             'onDeath',
@@ -5337,7 +5332,7 @@ class MreWeap(MelRecord):
         MelFid('NAM9','equip'),
         MelFid('NAM8','unequip'),
         MelStruct('DATA','2IfHB','value','health','weight','damage','clipsize'),
-        MelWeapDnam('DNAM','Iff4B5fI4BffII11fIIffIfff',
+        MelWeapDnam('DNAM','I2f4B4f4sI4B2f2I11fiI2fi3f',
                     'animationType','animationMultiplier','reach',(_dflags1,'dnamFlags1',0L),
                     'gripAnimation','ammoUse','reloadAnimation','minSpread','spread',
                     'unknown','sightFov','unknown2',(FID,'projectile',0L),
@@ -5345,8 +5340,10 @@ class MreWeap(MelRecord):
                     'onHit',(_dflags2,'dnamFlags2',0L),'animationAttackMultiplier','fireRate','overrideActionPoint',
                     'rumbleLeftMotorStrength','rumbleRightMotorStrength','rumbleDuration','overrideDamageToWeaponMult',
                     'attackShotsPerSec','reloadTime','jamTime','aimArc','skill','rumblePattern','rambleWavelangth','limbDmgMult',
-                    ('resistType',0xFFFFFFFF),'sightUsage','semiAutomaticFireDelayMin','semiAutomaticFireDelayMax'),
-        MelStruct('CRDT','IfHI','criticalDamage','criticalMultiplier',(_cflags,'criticalFlags',0L),(FID,'criticalEffect',0L)),
+                    ('resistType',0xFFFFFFFF),'sightUsage','semiAutomaticFireDelayMin',
+                    'semiAutomaticFireDelayMax'),
+        MelStruct('CRDT','H2sfB3sI','criticalDamage','unknown3','criticalMultiplier',
+                 (_cflags,'criticalFlags',0L),'unknown4',(FID,'criticalEffect',0L)),
         MelBase('VNAM','soundLevel'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

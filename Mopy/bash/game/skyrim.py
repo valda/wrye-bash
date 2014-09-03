@@ -2321,30 +2321,36 @@ class MreHasEffects:
 class MelIcons(MelGroup):
     """Handles ICON and MICO."""
 
-#  wbICON := wbRStruct('Icon', [
-#    wbString(ICON, 'Large Icon filename'),
-#    wbString(MICO, 'Small Icon filename')
-#  ], [], cpNormal, False, nil, True);
-
     def __init__(self,attr='iconsIaM'):
         """Initialize."""
         # iconsIaM = icons ICON and MICO
         MelGroup.__init__(self,attr,
-            MelString('ICON','icon'),
-            MelString('MICO','mico_n'),
+            MelString('ICON','iconPath'),
+            MelString('MICO','smallIconPath'),
         )
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+        if record.iconsIaM and record.iconsIaM.iconPath:
+            MelGroup.dumpData(self,record,out)
+        if record.iconsIaM and record.iconsIaM.smallIconPath:
+            MelGroup.dumpData(self,record,out)
+#-------------------------------------------------------------------------------
+class MelIcons2(MelGroup):
+    """Handles ICON and MICO."""
 
-#------------------------------------------------------------------------------
-# Is this required?  How can it be modified to only output what is present in
-# the record.  Example, if ICON is there but MICO is not Skip MICO but if MICO
-# is there but ICON is not Skip ICON
-#------------------------------------------------------------------------------
-#    def dumpData(self,record,out):
-#        """Dumps data from record to outstream."""
-#        if record.iconsIaM and record.iconsIaM.icon:
-#            MelGroup.dumpData(self,record,out)
-
-# Needs syntax check but otherwise Correct for Skyrim
+    def __init__(self,attr='iconsIaM2'):
+        """Initialize."""
+        # iconsIaM = icons ICON and MICO
+        MelGroup.__init__(self,attr,
+            MelString('ICO2','iconPath2'),
+            MelString('MIC2','smallIconPath2'),
+        )
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+        if record.iconsIaM and record.iconsIaM.iconPath2:
+            MelGroup.dumpData(self,record,out)
+        if record.iconsIaM and record.iconsIaM.smallIconPath2:
+            MelGroup.dumpData(self,record,out)
 #-------------------------------------------------------------------------------
 class MelKeywords(MelFidList):
     """Handle writing out the KSIZ subrecord for the KWDA subrecord"""

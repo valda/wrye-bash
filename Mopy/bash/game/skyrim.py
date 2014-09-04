@@ -3537,8 +3537,8 @@ class MreBook(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed() + ['modb']
 
-# DATA needs to have 'skillOrSpell' save an integer or FormID to be mergable.
-# After syntax checks and DATA is formatted correctly, this record is correct for Skyrim 1.8
+# DATA needs to have 'skillOrSpell' save an integer or FormID
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreBptd(MelRecord):
     """Body part data record."""
@@ -3646,11 +3646,32 @@ class MreCams(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreCell(MelRecord):
     """Cell"""
     classType = 'CELL'
+
+    # {0x0001} 'Is Interior Cell',
+    # {0x0002} 'Has Water',
+    # {0x0004} 'Can''t Travel From Here',
+    # {0x0008} 'No LOD Water',
+    # {0x0010} 'Unknown 5',
+    # {0x0020} 'Public Area',
+    # {0x0040} 'Hand Changed',
+    # {0x0080} 'Show Sky',
+    # {0x0100} 'Use Sky Lighting'
+    CellDataFlags = bolt.Flags(0L,bolt.Flags.getNames(
+            (0, 'isInteriorCell'),
+            (1, 'hasWater'),
+            (2, 'can'),
+            (3, 'noLODWater'),
+            (4, 'unknown5'),
+        (5,'publicPlace'),
+            (6, 'handChanged'),
+            (7, 'showSky'),
+            (8, 'useSkyLighting'),
+        ))
 
     # {0x00000001}'Ambient Color',
     # {0x00000002}'Directional Color',
@@ -3684,26 +3705,6 @@ class MreCell(MelRecord):
             (3, 'quad4'),
         ))
 
-    # {0x0001} 'Is Interior Cell',
-    # {0x0002} 'Has Water',
-    # {0x0004} 'Can''t Travel From Here',
-    # {0x0008} 'No LOD Water',
-    # {0x0010} 'Unknown 5',
-    # {0x0020} 'Public Area',
-    # {0x0040} 'Hand Changed',
-    # {0x0080} 'Show Sky',
-    # {0x0100} 'Use Sky Lighting'
-    CellDataFlags = bolt.Flags(0L,bolt.Flags.getNames(
-            (0, 'isInteriorCell'),
-            (1, 'hasWater'),
-            (2, 'can'),
-            (3, 'noLODWater'),
-            (4, 'unknown5'),
-            (5, 'publicArea'),
-            (6, 'handChanged'),
-            (7, 'showSky'),
-            (8, 'useSkyLighting'),
-        ))
 
 # Flags can be itU8, but CELL\DATA has a critical role in various wbImplementation.pas routines
 # and replacing it with wbUnion generates error when setting for example persistent flag in REFR.
@@ -3713,19 +3714,25 @@ class MreCell(MelRecord):
         MelLString('FULL','full'),
         MelStruct('DATA','H',(CellDataFlags,'flags',0L),),
         MelStruct('XCLC','2iI','pos_x','pos_y',(CellGridFlags,'flags',0L),),
-        MelBase('XCLL','lighting',),
-        # MelStruct('XCLL','3Bs3Bs3Bs2f2i3f3Bs3fI',
-        #          'red_ac','green_ac','blue_ac','unknown_ac',
-        #          'red_dc','green_dc','blue_dc','unknown_dc',
-        #          'red_fcn','green_fcn','blue_fcn','unknown_fcn',
-        #          'fogNear','fogFar','directionalRotationXY','directionalRotationZ',
-        #          'directionalFade','fogClipDistance','fogPower',
-        #          Missing Ambient Colors
-        #          'red_fcf','green_fcf','blue_fcf','unknown_fcf',
-        #          'fogMax','lightFadeBegin','lightFadeEnd',(CellInheritedFlags,'flags',0L),),
+        MelStruct('XCLL','3Bs3Bs3Bs2f2i3f4B4B4B4B4B4B4BfBBBsfffI',
+                 'ambientRed','ambientGreen','ambientBlue','unknown_ac',
+                 'directionalRed','directionalGreen','directionalBlue','unknown_dc',
+                 'fogRed','fogGreen','fogBlue','unknown_fcn',
+                 'fogNear','fogFar','directionalXY','directionalZ',
+                 'directionalFade','fogClip','fogPower',
+                 'redXplus','greenXplus','blueXplus','unknownXplus', # 'X+'
+                 'redXminus','greenXminus','blueXminus','unknownXminus', # 'X-'
+                 'redYplus','greenYplus','blueYplus','unknownYplus', # 'Y+'
+                 'redYminus','greenYminus','blueYminus','unknownYminus', # 'Y-'
+                 'redZplus','greenZplus','blueZplus','unknownZplus', # 'Z+'
+                 'redZminus','greenZminus','blueZminus','unknownZminus', # 'Z-'
+                 'redSpec','greenSpec','blueSpec','unknownSpec', # Specular Color Values
+                 'fresnelPower' # Fresnel Power
+             )
+
         MelBase('TVDT','unknown_TVDT'),
         MelBase('MHDT','unknown_MHDT'),
-        MelFid('LTMP','lightingTemplate',),
+        MelFid('LTMP','lightTemplate',),
         # leftover flags, they are now in XCLC
         MelBase('LNAM','unknown_LNAM'),
         # XCLW sometimes has $FF7FFFFF and causes invalid floatation point
@@ -3751,7 +3758,8 @@ class MreCell(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# XCLL Needs Update for Ambient Colors
+
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreClas(MelRecord):
     """Clas record (Alchemical Apparatus)"""
@@ -5559,15 +5567,15 @@ class MreLctn(MelRecord):
 class MelLgtmData(MelStruct):
     def __init__(self,type='DALC'):
         MelStruct.__init__(self,type,'=4B4B4B4B4B4B4Bf',
-                           'red','green','blue','unknown', # 'X+'
-                           'red','green','blue','unknown', # 'X-'
-                           'red','green','blue','unknown', # 'Y+'
-                           'red','green','blue','unknown', # 'Y-'
-                           'red','green','blue','unknown', # 'Z+'
-                           'red','green','blue','unknown', # 'Z-'
-                           'red','green','blue','unknown', # Specular Color Values
-                           'fresnelPower' # Fresnel Power
-                           )
+            'redXplus','greenXplus','blueXplus','unknownXplus', # 'X+'
+            'redXminus','greenXminus','blueXminus','unknownXminus', # 'X-'
+            'redYplus','greenYplus','blueYplus','unknownYplus', # 'Y+'
+            'redYminus','greenYminus','blueYminus','unknownYminus', # 'Y-'
+            'redZplus','greenZplus','blueZplus','unknownZplus', # 'Z+'
+            'redZminus','greenZminus','blueZminus','unknownZminus', # 'Z-'
+            'redSpec','greenSpec','blueSpec','unknownSpec', # Specular Color Values
+            'fresnelPower' # Fresnel Power
+        )
 
 class MreLgtm(MelRecord):
     """Lgtm Item"""

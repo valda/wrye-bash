@@ -3571,10 +3571,11 @@ class ModInfo(FileInfo):
             for iniFile in iniFiles:
                 for key in (u'sResourceArchiveList',u'sResourceArchiveList2'):
                     extraBsa = iniFile.getSetting(u'Archive',key,u'').split(u',')
-                    extraBsa = [dirs['mods'].join(x.strip()) for x in extraBsa]
+                    extraBsa = [x.strip() for x in extraBsa]
+                    extraBsa = [dirs['mods'].join(x) for x in extraBsa if x]
                     extraBsa.reverse()
                     bsaPaths.extend(extraBsa)
-            bsaPaths = [x for x in bsaPaths if x.exists()]
+            bsaPaths = [x for x in bsaPaths if x.exists() and x.isfile()]
             bsaFiles = {}
             targetJoin = dirs['bsaCache'].join
             for file in extract:

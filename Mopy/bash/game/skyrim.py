@@ -2497,7 +2497,7 @@ class MelSpells(MelGroups):
     def dumpData(self,record,out):
         spells = record.__getattribute__(self.attr)
         if spells:
-        out.packSub('SPCT','<I',len(record.actorEffects))
+            out.packSub('SPCT','<I',len(record.actorEffects))
             MelGroups.dumpData(self,record,out)
             
 #------------------------------------------------------------------------------
@@ -3517,37 +3517,6 @@ class MreBook(MelRecord):
     #  23:'Restoration',
     #  24:'Enchanting',
 
-    class MelBookData(MelBase):
-        """Teaches Skill or Spell, Integer or FormID"""
-        def hasFids(self,formElements):
-            formElements.add(self)
-        def loadData(self,record,ins,type,size,readId):
-            #0:Teaches Skill,1:Cannot be Taken,2:Teaches Spell
-            if record.flags.teachesSpell == 1: # Does '1' mean the flag is set and '0' means the falg is not set?
-                (value,) = ins.unpack('I',size,readId)
-                record.__setattr__(self.attr, (True, value)) # FID
-            else:
-                value = ins.readString(size,readId)
-                record.__setattr__(self.attr, (False, value)) # Signed Int
-            if self._debug: print unpacked
-        def dumpData(self,record,out):
-            value = record.__getattribute__(self.attr)
-            if value is None: return
-            (isFid, value) = value
-            if value is not None:
-            #0:Teaches Skill,1:Cannot be Taken,2:Teaches Spell
-                if record.flags.teachesSpell == 1:
-                    out.packRef(self.subType,value) # FID
-                else:
-                    out.packSub0(self.subType,value) # Signed Int
-        def mapFids(self,record,function,save=False):
-            value = record.__getattribute__(self.attr)
-            if value is None: return
-            (isFid, value) = value
-            if isFid:
-                result = function(value)
-                if save: record.__setattr__(self.attr,(isFid,result))
-
     melSet = MelSet(
         MelString('EDID','eid'),
         MelVmad(),
@@ -3561,8 +3530,8 @@ class MreBook(MelRecord):
         MelOptStruct('ZNAM','I',(FID,'dropSound')),
         MelNull('KSIZ'),
         MelKeywords('KWDA','keywords'),
-        MelStruct('DATA','2B2siIf',(BookTypeFlags,'flags',0L),('bookType',0),
-            'unused',('skillOrSpell',-1),'value','weight'),
+        MelStruct('DATA','2B2sIIf',(BookTypeFlags,'flags',0L),('bookType',0),
+            'unused',(FID,'skillOrSpell',0L),'value','weight'),
         MelFid('INAM','inventoryArt'),
         MelLString('CNAM','description'),
         )
@@ -3572,7 +3541,7 @@ class MreBook(MelRecord):
 # After syntax checks and DATA is formatted correctly, this record is correct for Skyrim 1.8
 #------------------------------------------------------------------------------
 class MreBptd(MelRecord):
-    """Bptd Item"""
+    """Body part data record."""
     classType = 'BPTD'
 
     # BPND has two wbEnum in TES5Edit
@@ -3585,46 +3554,57 @@ class MreBptd(MelRecord):
     # 4 :'Fly Grab',
     # 5 :'Saddle'
 
-    BptdDamageFlags = bolt.Flags(0L,bolt.Flags.getNames(
-            (0, 'severable'),
-            (1, 'iKData'),
-            (2, 'iKDataBipedData'),
-            (3, 'explodable'),
-            (4, 'iKDataIsHead'),
-            (5, 'iKDataHeadtracking'),
-            (6, 'toHitChanceAbsolute'),
-        ))
-
+    _flags = Flags(0L,Flags.getNames('severable','ikData','ikBipedData',
+        'explodable','ikIsHead','ikHeadtracking','toHitChanceAbsolute'))
+    class MelBptdGroups(MelGroups):
+        def loadData(self,record,ins,type,size,readId):
+            """Reads data from ins into record attribute."""
+            if type == self.type0:
+                target = self.getDefault()
+                record.__getattribute__(self.attr).append(target)
+            else:
+                targets = record.__getattribute__(self.attr)
+                if targets:
+                    target = targets[-1]
+                elif type == 'BPNN': # for NVVoidBodyPartData, NVraven02
+                    target = self.getDefault()
+                    record.__getattribute__(self.attr).append(target)
+            slots = []
+            for element in self.elements:
+                slots.extend(element.getSlotsUsed())
+            target.__slots__ = slots
+            self.loaders[type].loadData(target,ins,type,size,readId)
     melSet = MelSet(
         MelString('EDID','eid'),
         MelModel(),
-        MelGroups('bodyParts',
-            MelLString('BPTN','partName'),
+        MelBptdGroups('bodyParts',
+            MelString('BPTN','partName'),
             MelString('PNAM','poseMatching'),
-            MelString('BPNN','partNode'),
-            MelString('BPNT','vATSTarget'),
-            MelString('BPNI','iKDataStartNode'),
+            MelString('BPNN','nodeName'),
+            MelString('BPNT','vatsTarget'),
+            MelString('BPNI','ikDataStartNode'),
             MelStruct('BPND','f3Bb2BH2I2fi2I7f2I2B2sf','damageMult',
-                      (BptdDamageFlags,'flags',0L),'bodyPartType','healthPercent',
-                      'actorValue','toHitChance','explodableExplosionChancepct',
-                      'explodableDebrisCount',(FID,'explodableDebris'),
-                      (FID,'Explodable - Explosion'),'trackingMaxAngle',
+                      (_flags,'flags'),'partType','healthPercent','actorValue',
+                      'toHitChance','explodableChancePercent',
+                      'explodableDebrisCount',(FID,'explodableDebris',0L),
+                      (FID,'explodableExplosion',0L),'trackingMaxAngle',
                       'explodableDebrisScale','severableDebrisCount',
-                      (FID,'Severable - Debris'),(FID,'Severable - Explosion'),
-                      'severableDebrisScale','translate-x','translate-y',
-                      'translate-z','rotation-x','rotation-y','rotation-z',
-                      (FID,'Severable - Impact DataSet'),
-                      (FID,'Explodable - Impact DataSet'),
-                      'severableDecalCount','explodableDecalCount','unknown',
-                      'limbReplacementScale',),
+                      (FID,'severableDebris',0L),(FID,'severableExplosion',0L),
+                      'severableDebrisScale','goreEffectPosTransX',
+                      'goreEffectPosTransY','goreEffectPosTransZ',
+                      'goreEffectPosRotX','goreEffectPosRotY','goreEffectPosRotZ',
+                      (FID,'severableImpactDataSet',0L),
+                      (FID,'explodableImpactDataSet',0L),'severableDecalCount',
+                      'explodableDecalCount',('unused',null2),
+                      'limbReplacementScale'),
             MelString('NAM1','limbReplacementModel'),
             MelString('NAM4','goreEffectsTargetBone'),
-            MelBase('NAM5','Texture files hashes'),
+            MelBase('NAM5','textureFilesHashes'),
             ),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreCams(MelRecord):
     """Cams Type"""
@@ -8037,8 +8017,8 @@ class MreWthr(MelRecord):
 #        MreWeap, MreWoop,
 
 mergeClasses = (
-        MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo,
-        MreArto, MreAspc, MreAstp, MreAvif, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
+        MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
+        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
         MreLvsp, MreMisc, MreMgef,
     )
 
@@ -8071,9 +8051,9 @@ def init():
 #        MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr,
 #        MreWeap, MreWoop,
         MreAchr, MreGmst,
-        MreAact, MreActi, MreAddn, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo,
-        MreArto, MreAspc, MreAstp, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
-        MreLvsp, MreMisc, MreAlch, MreMgef,
+        MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
+        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
+        MreLvsp, MreMisc, MreMgef,
         # MreCell, MreNavm, MreNavi, MreWrld,
         MreHeader,
         ))

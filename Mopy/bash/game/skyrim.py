@@ -3820,7 +3820,7 @@ class MreClfm(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreClmt(MelRecord):
     """Climate"""
@@ -3830,15 +3830,15 @@ class MreClmt(MelRecord):
         MelGroups('weatherTypes',
             MelStruct('WLST','IiI',(FID,'weather',None),'chance',(FID,'global',None),),
             ),
-        MelLString('FNAM','sunTexture'),
-        MelLString('GNAM','sunGlareTexture'),
+        MelLString('FNAM','sunPath'),
+        MelLString('GNAM','glarePath'),
         MelModel(),
-        MelStruct('TNAM','6B','sunriseBegin','sunriseEnd','sunsetBegin','sunsetEnd',
-                  'volatility','moonsPhaseLength',),
+        MelStruct('TNAM','6B','riseBegin','riseEnd','setBegin','setEnd',
+                  'volatility','phaseLength',),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreCobj(MelRecord):
     """Constructible Object record (recipies)"""
@@ -8024,9 +8024,10 @@ class MreWthr(MelRecord):
 #        MreWeap, MreWoop,
 
 mergeClasses = (
+        # MreAchr, MreAcre, MreGmst, MrePgre,
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
-        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
-        MreLvsp, MreMisc, MreMgef,
+        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClmt, MreCobj, MreGlob,
+        MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8059,9 +8060,9 @@ def init():
 #        MreWeap, MreWoop,
         MreAchr, MreGmst,
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
-        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
-        MreLvsp, MreMisc, MreMgef,
-        # MreCell, MreNavm, MreNavi, MreWrld,
+        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClmt, MreCobj, MreGlob,
+        MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef,
+        MreCell, # MreNavm, MreNavi, MreWrld,
         MreHeader,
         ))
 

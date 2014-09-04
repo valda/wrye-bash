@@ -567,6 +567,62 @@ class MelFids(MelBase):
             if save: fids[index] = result
 
 #------------------------------------------------------------------------------
+class MelNull(MelBase):
+    """Represents an obsolete record. Reads bytes from instream, but then
+    discards them and is otherwise inactive."""
+
+    def __init__(self,type):
+        """Initialize."""
+        self.subType = type
+        self._debug = False
+
+    def getSlotsUsed(self):
+        return ()
+
+    def setDefault(self,record):
+        """Sets default value for record instance."""
+        pass
+
+    def loadData(self,record,ins,type,size,readId):
+        """Reads data from ins into record attribute."""
+        junk = ins.read(size,readId)
+        if self._debug: print u' ',record.fid,unicode(junk)
+
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+        pass
+
+#------------------------------------------------------------------------------
+class MelCountedFids(MelFids):
+    """Handle writing out a preceding 'count' subrecord for Fid subrecords.
+       For example, SPCT holds an int telling how  many SPLO subrecord there
+       are."""
+
+    # Used to ignore the count record on loading.  Writing is handled by dumpData
+    # In the SPCT/SPLO example, the NullLoader will handle "reading" the SPCT
+    # subrecord, where "reading" = ignoring
+    # NulLoader = MelNull('ANY')
+
+    def __init__(self, countedType, attr, counterType, counterFormat='<I', default=None):
+        # In the SPCT/SPLO example, countedType is SPLO, counterType is SPCT
+        MelFids.__init__(self, countedType, attr, default)
+        self.counterType = counterType
+        self.counterFormat = counterFormat
+
+    def getLoaders(self, loaders):
+        """Register loaders for both the counted and counter subrecords"""
+        # Counted
+        MelFids.getLoaders(self, loaders)
+        # Counter
+        loaders[self.counterType] = MelNull(self.counterType)
+
+    def dumpData(self, record, out):
+        value = record.__getattribute__(self.attr)
+        if value:
+            out.packSub(self.counterType, self.counterFormat, len(value))
+            MelFids.dumpData(self, record, out)
+
+#------------------------------------------------------------------------------
 class MelFidList(MelFids):
     """Represents a listmod record fid elements. The only difference from
     MelFids is how the data is stored. For MelFidList, the data is stored
@@ -718,32 +774,6 @@ class MelGroups(MelGroup):
         for target in record.__getattribute__(self.attr):
             for element in formElements:
                 element.mapFids(target,function,save)
-
-#------------------------------------------------------------------------------
-class MelNull(MelBase):
-    """Represents an obsolete record. Reads bytes from instream, but then
-    discards them and is otherwise inactive."""
-
-    def __init__(self,type):
-        """Initialize."""
-        self.subType = type
-        self._debug = False
-
-    def getSlotsUsed(self):
-        return ()
-
-    def setDefault(self,record):
-        """Sets default value for record instance."""
-        pass
-
-    def loadData(self,record,ins,type,size,readId):
-        """Reads data from ins into record attribute."""
-        junk = ins.read(size,readId)
-        if self._debug: print u' ',record.fid,unicode(junk)
-
-    def dumpData(self,record,out):
-        """Dumps data from record to outstream."""
-        pass
 
 #------------------------------------------------------------------------------
 class MelXpci(MelNull):

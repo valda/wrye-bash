@@ -3533,7 +3533,7 @@ class MreBook(MelRecord):
         MelStruct('DATA','2B2sIIf',(BookTypeFlags,'flags',0L),('bookType',0),
             'unused',(FID,'skillOrSpell',0L),'value','weight'),
         MelFid('INAM','inventoryArt'),
-        MelLString('CNAM','description'),
+        MelLString('CNAM','text'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed() + ['modb']
 

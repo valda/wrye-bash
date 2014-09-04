@@ -3807,7 +3807,7 @@ class MreClas(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreClfm(MelRecord):
     """Clfm Item"""

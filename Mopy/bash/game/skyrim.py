@@ -3456,7 +3456,7 @@ class MreAvif(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelLString('FULL','full'),
-        MelString('DESC','description'),
+        MelLString('DESC','description'),
         MelString('ANAM','abbreviation'),
         MelBase('CNAM','cnam_p'),
         MelStruct('AVSK','4f','skillUseMult','skillOffsetMult','skillImproveMult',
@@ -5659,7 +5659,7 @@ class MreLscr(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelIcons(),
-        MelString('DESC','text'),
+        MelLString('DESC','description'),
         MelConditions(),
         MelFid('NNAM','loadingScreenNIF'),
         MelStruct('SNAM','f','initialScale',),
@@ -5814,7 +5814,7 @@ class MreMesg(MelRecord):
 
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelString('DESC','description'),
+        MelLString('DESC','description'),
         MelLString('FULL','full'),
         # 'INAM' leftover
         MelFid('INAM','iconUnused'),
@@ -6958,7 +6958,7 @@ class MreShou(MelRecord):
         MelString('EDID','eid'),
         MelLString('FULL','full'),
         MelFid('MDOB','menuDisplayObject'),
-        MelString('DESC','description'),
+        MelLString('DESC','description'),
         # Don't sort
         MelGroups('wordsOfPower',
             MelStruct('SNAM','2If',(FID,'word',None),(FID,'spell',None),'recoveryTime',),
@@ -7438,7 +7438,7 @@ class MreScrl(MelRecord):
         MelKeywords('KWDA','keywords'),
         MelFids('MDOB','menuDisplayObject'),
         MelFid('ETYP','equipmentType',),
-        MelString('DESC','description'),
+        MelLString('DESC','description'),
         MelModel(),
         MelDestructible(),
         MelFid('YNAM','pickupSound',),

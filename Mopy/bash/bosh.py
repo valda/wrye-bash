@@ -5010,11 +5010,21 @@ class ModInfos(FileInfos):
             language = oblivionIni.getSetting(u'General',u'sLanguage',u'English')
             sbody,ext = modName.sbody,modName.ext
             bsaPaths = [modInfo.getBsaPath()]
-            for key in (u'sResourceArchiveList',u'sResourceArchiveList2'):
-                extraBsa = oblivionIni.getSetting(u'Archive',key,u'').split(u',')
-                extraBsa = [dirs['mods'].join(x.strip()) for x in extraBsa]
-                bsaPaths.extend(extraBsa)
-            bsaPaths = [x for x in bsaPaths if x.exists()]
+            if bush.game.fsName == u'Skyrim':
+                iniPaths = [ModInfo(self.dir,name).getIniPath() for name in modInfos.ordered]
+                iniFiles = [IniFile(iniPath) for iniPath in iniPaths if iniPath.exists()]
+                # iniFiles.reverse()
+                iniFiles.append(oblivionIni)
+            else:
+                iniFiles = [oblivionIni]
+            for iniFile in iniFiles:
+                for key in (u'sResourceArchiveList',u'sResourceArchiveList2'):
+                    extraBsa = iniFile.getSetting(u'Archive',key,u'').split(u',')
+                    extraBsa = [x.strip() for x in extraBsa]
+                    extraBsa = [dirs['mods'].join(x) for x in extraBsa if x]
+                    # extraBsa.reverse()
+                    bsaPaths.extend(extraBsa)
+            bsaPaths = [x for x in bsaPaths if x.exists() and x.isfile()]
             bsaFiles = {}
             for stringsFile in bush.game.esp.stringsFiles:
                 dir,join,format = stringsFile

@@ -3753,7 +3753,7 @@ class MreCell(MelRecord):
         MelFid('XCCM','skyWeatherFromRegion',),
         MelFid('XCAS','acousticSpace',),
         MelFid('XEZN','encounterZone',),
-        MelFid('XCMO','musicType',),
+        MelFid('XCMO','music',),
         MelFid('XCIM','imageSpace',),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

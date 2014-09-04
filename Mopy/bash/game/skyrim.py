@@ -3728,8 +3728,7 @@ class MreCell(MelRecord):
                  'redZminus','greenZminus','blueZminus','unknownZminus', # 'Z-'
                  'redSpec','greenSpec','blueSpec','unknownSpec', # Specular Color Values
                  'fresnelPower' # Fresnel Power
-             )
-
+             ),
         MelBase('TVDT','unknown_TVDT'),
         MelBase('MHDT','unknown_MHDT'),
         MelFid('LTMP','lightTemplate',),

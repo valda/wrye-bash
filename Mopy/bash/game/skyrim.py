@@ -4378,7 +4378,7 @@ class MreEqup(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreExpl(MelRecord):
     """Explosion record."""
@@ -4394,7 +4394,6 @@ class MreExpl(MelRecord):
     # 'Chain',
     # 'No Controller Vibration'
     ExplTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0, 'unknown1'),
         (1, 'alwaysUsesWorldOrientation'),
         (2, 'knockDownAlways'),
         (3, 'knockDownByFormular'),
@@ -4413,14 +4412,14 @@ class MreExpl(MelRecord):
         MelFid('EITM','objectEffect'),
         MelFid('MNAM','imageSpaceModifier'),
         MelStruct('DATA','6I5f2I',(FID,'light',None),(FID,'sound1',None),(FID,'sound2',None),
-                  (FID,'impactDataSet',None),(FID,'placedObject',None),(FID,'spawnProjectile',None),
+                  (FID,'impactDataset',None),(FID,'placedObject',None),(FID,'spawnProjectile',None),
                   'force','damage','radius','isRadius','verticalOffsetMult',
                   (ExplTypeFlags,'flags',0L),'soundLevel',
             ),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreEyes(MelRecord):
     """Eyes Item"""
@@ -4438,12 +4437,12 @@ class MreEyes(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelLString('FULL','full'),
-        MelString('ICON','icon'),
+        MelString('ICON','iconPath'),
         MelStruct('DATA','B',(EyesTypeFlags,'flags',0L)),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MelFactCrva(MelStruct):
     """Fact Crva Custom Unpacker"""
@@ -4453,13 +4452,14 @@ class MelFactCrva(MelStruct):
     # 'attackOnSight',
     def __init__(self,type='CRVA'):
         MelStruct.__init__(self,type,'2B5Hf2H',
-                  'arrest','attackOnSight','murder','assault',
-                  'trespass','pickpocket','unknown',
-                  'stealMultiplier',
-                  'escape',
-                  'werewolf',
-            )
+                           'arrest','attackOnSight','murder','assault',
+                           'trespass','pickpocket','unknown',
+                           'stealMultiplier',
+                           'escape',
+                           'werewolf',)
 
+    # MelStruct('CRVA','2B5Hf2H','arrest','attackOnSight','murder','assult',
+    # 'trespass','pickpocket','unknown','stealMultiplier','escape','werewolf'),
     def loadData(self,record,ins,type,size,readId):
         """Reads data from ins into record attribute."""
         if size == 12:
@@ -4500,54 +4500,24 @@ class MreFact(MelRecord):
     # {0x00004000}'Vendor',
     # {0x00008000}'Can Be Owner',
     # {0x00010000}'Ignore Crimes: Werewolf',
-    # {0x00020000}'Unknown 18',
-    # {0x00040000}'Unknown 19',
-    # {0x00080000}'Unknown 20',
-    # {0x00100000}'Unknown 21',
-    # {0x00200000}'Unknown 22',
-    # {0x00400000}'Unknown 23',
-    # {0x00800000}'Unknown 24',
-    # {0x01000000}'Unknown 25',
-    # {0x02000000}'Unknown 26',
-    # {0x04000000}'Unknown 27',
-    # {0x08000000}'Unknown 28',
-    # {0x10000000}'Unknown 29',
-    # {0x20000000}'Unknown 30',
-    # {0x40000000}'Unknown 31',
-    # {0x80000000}'Unknown 32'
     FactGeneralTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0, 'hiddenFromNPC'),
+        (0, 'hiddenFromPC'),
         (1, 'specialCombat'),
         (2, 'unknown3'),
         (3, 'unknown4'),
         (4, 'unknown5'),
         (5, 'unknown6'),
-        (6, 'irackCrime'),
-        (7, 'ignoreCrimes:Murder'),
-        (8, 'ignoreCrimes:Assult'),
-        (9, 'ignoreCrimes:Stealing'),
-        (10, 'ignoreCrimes:Trespass'),
+        (6, 'trackCrime'),
+        (7, 'ignoreCrimesMurder'),
+        (8, 'ignoreCrimesAssult'),
+        (9, 'ignoreCrimesStealing'),
+        (10, 'ignoreCrimesTrespass'),
         (11, 'doNotReportCrimesAgainstMembers'),
         (12, 'crimeGold-UseDefaults'),
-        (13, 'ignoreCrimes:Pickpocket'),
-        (14, 'vendor'),
+        (13, 'ignoreCrimesPickpocket'),
+        (14, 'allowSell'), # vendor
         (15, 'canBeOwner'),
-        (16, 'ignoreCrimes:Werewolf'),
-        (17, 'unknown18'),
-        (18, 'unknown19'),
-        (19, 'unknown20'),
-        (20, 'unknown21'),
-        (21, 'unknown22'),
-        (22, 'unknown23'),
-        (23, 'unknown24'),
-        (24, 'unknown25'),
-        (25, 'unknown26'),
-        (26, 'unknown27'),
-        (27, 'unknown28'),
-        (28, 'unknown29'),
-        (29, 'unknown30'),
-        (30, 'unknown31'),
-        (31, 'unknown32'),
+        (16, 'ignoreCrimesWerewolf'),
     ))
 
     # ENIT has wbEnum in TES5Edit
@@ -4590,11 +4560,9 @@ class MreFact(MelRecord):
         MelFid('PLCN','playerInventoryContainer'),
         MelFid('CRGR','sharedCrimeFactionList'),
         MelFid('JOUT','jailOutfit'),
-        # MelStruct('CRVA','2B5Hf2H','arrest','attackOnSight','murder','assult',
-        # 'trespass','pickpocket','unknown','stealMultiplier','escape','werewolf'),
         MelFactCrva(),
         MelGroups('ranks',
-            MelStruct('RNAM','I','rankNumber'),
+            MelStruct('RNAM','I','rank'),
             MelLString('MNAM','maleTitle'),
             MelLString('FNAM','femaleTitle'),
             MelString('INAM','insigniaUnused'),
@@ -4603,13 +4571,12 @@ class MreFact(MelRecord):
         MelFid('VENC','merchantContainer'),
         MelStruct('VENV','3H2s2B2s','startHour','endHour','radius','unknownOne',
                   'onlyBuysStolenItems','notSellBuy','UnknownTwo'),
-        MelStruct('PLVD','iIi','type','locationValue','radius',),
+        MelStruct('PLVD','iIi','type',(FID,'locationValue'),'radius',),
         MelConditions(),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# PLVD Needs a Union Decider
-# PLVD has FromIDs currently unacounted for MreFact is Not Mergable
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreFlor(MelRecord):
     """Flor Item"""
@@ -8031,7 +7998,8 @@ mergeClasses = (
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
         MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreDoor, MreGlob,
-        MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch,
+        MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
+        MreExpl, MreEyes, MreFact,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8066,7 +8034,7 @@ def init():
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
         MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreDoor, MreGlob,
-        MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch,
+        MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
         MreCell, # MreNavm, MreNavi, MreWrld,
         MreHeader,
         ))

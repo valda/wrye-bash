@@ -1736,16 +1736,18 @@ listTypes = ('LVLI','LVLN','LVSP',)
 fidListTypes = ('FLST',)
 
 namesTypes = set((
-        'ACTI', 'ALCH', 'AMMO', 'ARMO', 'APPA', 'MISC',
+    'ACTI', 'ALCH', 'AMMO', 'ARMO', 'APPA', 'MISC',
 ))
 pricesTypes = {'ALCH':{},'AMMO':{},'ARMO':{},'APPA':{},'MISC':{}}
 statsTypes = {
-            'ALCH':('eid', 'weight', 'value'),
-            'AMMO':('eid', 'value', 'damage'),
-            'ARMO':('eid', 'weight', 'value', 'armorRating'),
-            'APPA':('eid', 'weight', 'value'),
-            'MISC':('eid', 'weight', 'value'),
-            }
+    'ALCH':('eid', 'weight', 'value'),
+    'AMMO':('eid', 'value', 'damage'),
+    'ARMO':('eid', 'weight', 'value', 'armorRating'),
+    'APPA':('eid', 'weight', 'value'),
+    'BOOK':('eid', 'weight', 'value'),
+    'INGR':('eid', 'weight', 'value'),
+    'MISC':('eid', 'weight', 'value'),
+    }
 statsHeaders = (
                 #--Alch
                 (u'ALCH',
@@ -1761,6 +1763,14 @@ statsHeaders = (
                     _(u'Editor Id'),_(u'Weight'),_(u'Value'),_('armorRating'))) + u'"\n')),
                 #--Apparatus
                 (u'APPA',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+                #Books
+                (u'BOOK',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+                    #Ingredients
+                (u'INGR',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
                     _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
                 #--Misc

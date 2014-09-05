@@ -1387,7 +1387,12 @@ class ItemStats:
                               'weight':self.sfloat,
                               'value':self.sint,
                               'damage':self.sint,
-                              'armorRating':self.sint,}
+                              'armorRating':self.sint,
+                              'duration':self.sint,
+                              'speed':self.sfloat,
+                              'reach':self.sfloat,
+                              'enchantPoints':self.sint,
+                              }
         elif bush.game.fsName in (u'FalloutNV', u'Fallout3'):
             self.attr_type = {'eid':self.sstr,
                               'weight':self.sfloat,
@@ -1454,8 +1459,7 @@ class ItemStats:
                               'duration':self.sint,
                               'quality':self.sfloat,
                               'uses':self.sint,
-                              'reach':self.sfloat,
-                              'armorRating':self.sint,}
+                              'reach':self.sfloat,}
         for group in self.class_attrs:
             self.class_fid_attr_value[group] = {}
 

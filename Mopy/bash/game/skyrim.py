@@ -1740,13 +1740,17 @@ namesTypes = set((
 ))
 pricesTypes = {'ALCH':{},'AMMO':{},'ARMO':{},'APPA':{},'MISC':{}}
 statsTypes = {
-    'ALCH':('eid', 'weight', 'value'),
-    'AMMO':('eid', 'value', 'damage'),
-    'ARMO':('eid', 'weight', 'value', 'armorRating'),
-    'APPA':('eid', 'weight', 'value'),
-    'BOOK':('eid', 'weight', 'value'),
-    'INGR':('eid', 'weight', 'value'),
-    'MISC':('eid', 'weight', 'value'),
+        'ALCH':('eid', 'weight', 'value'),
+        'AMMO':('eid', 'value', 'damage'),
+        'APPA':('eid', 'weight', 'value'),
+        'ARMO':('eid', 'weight', 'value', 'armorRating'),
+        'BOOK':('eid', 'weight', 'value'),
+        'INGR':('eid', 'weight', 'value'),
+        'KEYM':('eid', 'weight', 'value'),
+        'LIGH':('eid', 'weight', 'value', 'duration'),
+        'MISC':('eid', 'weight', 'value'),
+        'SLGM':('eid', 'weight', 'value'),
+        'WEAP':('eid', 'weight', 'value', 'damage', 'speed', 'reach', 'enchantPoints'),
     }
 statsHeaders = (
                 #--Alch
@@ -1757,14 +1761,14 @@ statsHeaders = (
                 (u'AMMO',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
                     _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
-                #--Armo
-                (u'ARMO',
-                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
-                    _(u'Editor Id'),_(u'Weight'),_(u'Value'),_('armorRating'))) + u'"\n')),
                 #--Apparatus
                 (u'APPA',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
                     _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+                #--Armo
+                (u'ARMO',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'),_('armorRating'))) + u'"\n')),
                 #Books
                 (u'BOOK',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
@@ -1773,10 +1777,27 @@ statsHeaders = (
                 (u'INGR',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
                     _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+                #--Keys
+                (u'KEYM',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+                #Lights
+                (u'LIGH',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Duration'))) + u'"\n')),
                 #--Misc
                 (u'MISC',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
                     _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+                #Soulgems
+                (u'SLGM',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+                #--Weapons
+                (u'WEAP',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Damage'),
+                    _(u'Speed'),_(u'Reach'),_(u'EPoints'))) + u'"\n')),
                 )
 
 # Mod Record Elements ----------------------------------------------------------
@@ -5425,7 +5446,7 @@ class MreKeym(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreKywd(MelRecord):
     """Keyword record."""
@@ -5637,7 +5658,7 @@ class MreLigh(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreLscr(MelRecord):
     """Load screen."""
@@ -6854,7 +6875,7 @@ class MreSlgm(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreSmbn(MelRecord):
     """Story Manager Branch Node"""
@@ -7695,7 +7716,7 @@ class MreWeap(MelRecord):
         MelModel('model1','MODL'),
         MelIcons(),
         MelFid('EITM','objectEffect',),
-        MelStruct('EAMT','H','enchantmentAmount'),
+        MelStruct('EAMT','H','enchantPoints'),
         MelDestructible(),
         MelFid('ETYP','equipmentType',),
         MelFid('BIDS','blockBashImpactDataSet',),
@@ -7732,7 +7753,7 @@ class MreWeap(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreWoop(MelRecord):
     """Word of Power"""
@@ -8010,7 +8031,7 @@ mergeClasses = (
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreDoor, MreGlob,
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
         MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
-        MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr,
+        MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8047,7 +8068,7 @@ def init():
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreDoor, MreGlob,
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
         MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
-        MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr,
+        MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
         MreCell, # MreNavm, MreNavi, MreWrld,
         MreHeader,
         ))

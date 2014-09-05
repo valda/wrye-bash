@@ -1722,7 +1722,7 @@ GmstTweaks = [
 
 #--Patchers available when building a Bashed Patch
 patchers = (
-    u'AliasesPatcher', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
+    u'AliasesPatcher', u'FidListsMerger', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
     u'PatchMerger', u'StatsPatcher'
     )
 
@@ -4989,7 +4989,7 @@ class MreIdle(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreIdlm(MelRecord):
     """Idle marker record."""
@@ -5014,7 +5014,7 @@ class MreIdlm(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreInfo(MelRecord):
     """Dialog response"""
@@ -5239,7 +5239,7 @@ class MreImad(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Many Things Marked MelBase that could be updated with dumpExtra=
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreImgs(MelRecord):
     """Imgs Item"""
@@ -5277,7 +5277,7 @@ class MreImgs(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreIngr(MelRecord):
     """INGR (ingredient) record."""
@@ -5313,7 +5313,7 @@ class MreIngr(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreIpctData(MelStruct):
     """Ipct Data Custom Unpacker"""
@@ -8000,7 +8000,7 @@ mergeClasses = (
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreDoor, MreGlob,
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
         MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
-        MreHdpt,
+        MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8036,6 +8036,8 @@ def init():
         MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreDoor, MreGlob,
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
+        MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
+        MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr,
         MreCell, # MreNavm, MreNavi, MreWrld,
         MreHeader,
         ))

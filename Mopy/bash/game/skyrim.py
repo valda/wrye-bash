@@ -4215,7 +4215,7 @@ class MreDual(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreEczn(MelRecord):
     """Encounter Zone record."""
@@ -4234,7 +4234,7 @@ class MreEczn(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreEfsh(MelRecord):
     """Efsh Record"""
@@ -4335,9 +4335,9 @@ class MreEfsh(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
-class MreEnch(MelRecord):
+class MreEnch(MelRecord,MreHasEffects):
     """Enchants"""
     classType = 'ENCH'
 
@@ -4356,15 +4356,16 @@ class MreEnch(MelRecord):
         MelString('EDID','eid'),
         MelBounds(),
         MelLString('FULL','full'),
-        MelStruct('ENIT','i2Ii2If2I','enchantmentCost',(EnchGeneralFlags,'generalFlags',0L),'castType',
-                  'enchantmentAmount','targetType','enchantType',
-                  'chargeTime',(FID,'baseEnchantment'),(FID,'wornRestrictions'),
+        MelStruct('ENIT','i2Ii2If2I','enchantmentCost',(EnchGeneralFlags,
+                  'generalFlags',0L),'castType','enchantmentAmount','targetType',
+                  'enchantType','chargeTime',(FID,'baseEnchantment'),
+                  (FID,'wornRestrictions'),
             ),
         MelEffects(),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreEqup(MelRecord):
     """Equp Item"""
@@ -8030,7 +8031,7 @@ mergeClasses = (
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
         MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreDoor, MreGlob,
-        MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef,
+        MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8064,8 +8065,8 @@ def init():
         MreAchr, MreGmst, MreDial, MreInfo,
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
         MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
-        MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreGlob,
-        MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef,
+        MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreDoor, MreGlob,
+        MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch,
         MreCell, # MreNavm, MreNavi, MreWrld,
         MreHeader,
         ))

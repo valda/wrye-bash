@@ -2991,7 +2991,8 @@ class MreFlst(MelRecord):
         self.mergeOverLast = False #--Merge overrides last mod merged
         self.mergeSources = None #--Set to list by other functions
         self.items  = None #--Set of items included in list
-        self.deflsts = None #--Set of items deleted by list (Deflst mods)
+        #--Set of items deleted by list (Deflst mods) unused for Skyrim
+        self.deflsts = None
 
     def mergeFilter(self,modSet):
         """Filter out items that don't come from specified modSet."""

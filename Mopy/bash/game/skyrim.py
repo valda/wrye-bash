@@ -1457,8 +1457,8 @@ gmstEids = ['bAutoAimBasedOnDistance','fActionPointsAttackMagic','fActionPointsA
 
 #--Tags supported by this game
 allTags = sorted((
-    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats'
-))
+    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',u'Deflst',
+    ))
 
 #--GLOB record tweaks used by bosh's GmstTweaker
 #  Each entry is a tuple in the following format:
@@ -3868,7 +3868,7 @@ class MreCobj(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreColl(MelRecord):
     """Collision Layer"""
@@ -3892,7 +3892,7 @@ class MreColl(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreCont(MelRecord):
     """Container"""
@@ -3926,7 +3926,6 @@ class MreCont(MelRecord):
         MelBounds(),
         MelLString('FULL','full'),
         MelModel(),
-        # COCT Handled by MreContCnto
         MelNull('COCT'),
         MelContCnto(),
         MelDestructible(),
@@ -3936,7 +3935,7 @@ class MreCont(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# MelContCnto, COCT, and CNTO needs to be finished.
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreCpth(MelRecord):
     """Camera Path"""
@@ -3953,13 +3952,13 @@ class MreCpth(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelConditions(),
-        MelFids('ANAM','relatedCameraPaths',),
+        MelFidList('ANAM','relatedCameraPaths',),
         MelStruct('DATA','B','cameraZoom',),
         MelFids('SNAM','cameraShots',),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreCsty(MelRecord):
     """Csty Item"""
@@ -3991,26 +3990,46 @@ class MreCsty(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreDebr(MelRecord):
     """Debris record."""
     classType = 'DEBR'
 
-    ExplTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0, 'hasCollissionData'),
-    ))
-
+    _flags = bolt.Flags(0L,bolt.Flags.getNames('hasCollissionData'))
+    class MelDebrData(MelStruct):
+        subType = 'DATA'
+        _elements = (('percentage',0),('modPath',null1),(_flags,'flags',0L),)
+        def __init__(self):
+            """Initialize."""
+            self.attrs,self.defaults,self.actions,self.formAttrs = self.parseElements(*self._elements)
+            self._debug = False
+        def loadData(self,record,ins,type,size,readId):
+            """Reads data from ins into record attribute."""
+            data = ins.read(size,readId)
+            (record.percentage,) = struct.unpack('B',data[0:1])
+            record.modPath = data[1:-2]
+            if data[-2] != null1:
+                raise ModError(ins.inName,_('Unexpected subrecord: ')+readId)
+            (record.flags,) = struct.unpack('B',data[-1])
+        def dumpData(self,record,out):
+            """Dumps data from record to outstream."""
+            data = ''
+            data += struct.pack('B',record.percentage)
+            data += record.modPath
+            data += null1
+            data += struct.pack('B',record.flags)
+            out.packSub('DATA',data)
     melSet = MelSet(
         MelString('EDID','eid'),
         MelGroups('models',
-            MelStruct('DATA','BsB','percentage','modelFilename',(ExplTypeFlags,'flags',0L),),
+            MelDebrData(),
             MelBase('MODT','modt_p'),
         ),
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreDial(MelRecord):
     """Dialogue Records"""
@@ -4633,14 +4652,14 @@ class MreFlor(MelRecord):
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
 class MreFlst(MelRecord):
-    """Flst Item"""
+    """FormID list record."""
     classType = 'FLST'
     melSet = MelSet(
         MelString('EDID','eid'),
         MelFids('LNAM','formIDInList'),
         )
     __slots__ = (MelRecord.__slots__ + melSet.getSlotsUsed() +
-        ['mergeOverLast','mergeSources','items'])
+        ['mergeOverLast','mergeSources','items','deflsts'])
 
     def __init__(self,header,ins=None,unpack=False):
         """Initialize."""
@@ -8026,7 +8045,8 @@ class MreWthr(MelRecord):
 mergeClasses = (
         # MreAchr, MreAcre, MreGmst, MrePgre,
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
-        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClmt, MreCobj, MreGlob,
+        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
+        MreColl, MreCont, MreCpth, MreCsty, MreGlob,
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef,
     )
 
@@ -8060,7 +8080,8 @@ def init():
 #        MreWeap, MreWoop,
         MreAchr, MreGmst,
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
-        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClmt, MreCobj, MreGlob,
+        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
+        MreColl, MreCont, MreCpth, MreCsty, MreGlob,
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef,
         MreCell, # MreNavm, MreNavi, MreWrld,
         MreHeader,

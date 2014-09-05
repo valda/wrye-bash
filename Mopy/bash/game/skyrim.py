@@ -4594,13 +4594,13 @@ class MreFlor(MelRecord):
         MelBase('PNAM','unknown01'),
         MelLString('RNAM','activateTextOverride'),
         MelBase('FNAM','unknown02'),
-        MelFid('PFIG','harvestIngredient'),
+        MelFid('PFIG','ingredient'),
         MelFid('SNAM','harvestSound'),
         MelStruct('PFPC','4B','spring','summer','fall','winter',),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreFlst(MelRecord):
     """FormID list record."""
@@ -4665,6 +4665,7 @@ class MreFlst(MelRecord):
         #--Done
         self.setChanged()
 
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreFurn(MelRecord):
     """Furniture"""
@@ -4795,20 +4796,20 @@ class MreFurn(MelRecord):
         MelStruct('MNAM','I',(FurnActiveMarkerFlags,'activeMarker_f',0L)),
         MelStruct('WBDT','Bb','benchType','usesSkill',),
         MelFid('NAM1','associatedSpell'),
-        MelGroups('markerArray',
+        MelGroups('markers',
             MelStruct('ENAM','I','markerIndex',),
             MelStruct('NAM0','2sH','unknown',(MarkerEntryPointFlags,'disabledPoints_f',0L),),
             MelFid('FNMK','markerKeyword',),
             ),
-        MelGroups('markerArray',
+        MelGroups('entryPoints',
             MelStruct('FNPR','2H','markerType',
                       (MarkerEntryPointFlags,'entryPointsFlags',0L),),
             ),
-        MelString('XMRK','mico_n'),
+        MelString('XMRK','modelFilename'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreFstp(MelRecord):
     """Footstep"""
@@ -4820,7 +4821,7 @@ class MreFstp(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreFsts(MelRecord):
     """Footstep Set."""
@@ -4830,12 +4831,11 @@ class MreFsts(MelRecord):
         MelStruct('XCNT','5I','walkForward','runForward','walkForwardAlt',
                   'runForwardAlt','walkForwardAlternate2',
             ),
-        MelFids('DATA','footstepSets'),
+        MelFidList('DATA','footstepSets'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
-# Need to check if DATA can have more then one FormID if so MelFidList
+# Verified for 305
 #------------------------------------------------------------------------------
 # Marker for organization please don't remove ---------------------------------
 # GLOB ------------------------------------------------------------------------
@@ -4846,7 +4846,7 @@ class MreGmst(MreGmstBase):
     Master = u'Skyrim'
     isKeyedByEid = True # NULL fids are acceptable.
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreGras(MelRecord):
     """Grass record."""
@@ -4881,7 +4881,7 @@ class MreGras(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreHazd(MelRecord):
     """Hazard"""
@@ -4911,7 +4911,7 @@ class MreHazd(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreHdpt(MelRecord):
     """Head Part"""
@@ -4950,7 +4950,7 @@ class MreHdpt(MelRecord):
         MelString('EDID','eid'),
         MelLString('FULL','full'),
         MelModel(),
-        MelStruct('DATA','B',(HdptTypeFlags,'hdptDataFlags',0L),),
+        MelStruct('DATA','B',(HdptTypeFlags,'flags',0L),),
         MelStruct('PNAM','I','hdptTypes',),
         MelFids('HNAM','extraParts'),
         MelGroups('partsData',
@@ -4963,7 +4963,7 @@ class MreHdpt(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreIdle(MelRecord):
     """Idle record."""
@@ -7999,7 +7999,8 @@ mergeClasses = (
         MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreDoor, MreGlob,
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
-        MreExpl, MreEyes, MreFact,
+        MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
+        MreHdpt,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers

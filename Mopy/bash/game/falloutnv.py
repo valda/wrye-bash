@@ -2985,6 +2985,21 @@ class MreFact(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MreFlor(MelRecord):
+    """Flora (plant) record."""
+    classType = 'FLOR'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelString('FULL','full'),
+        MelModel(),
+        MelFid('SCRI','script'),
+        MelFid('PFIG','ingredient'),
+        MelStruct('PFPC','4B','spring','summer','fall','winter'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Needs removed, not used in Fallout New Vegas
+#------------------------------------------------------------------------------
 class MreFlst(MelRecord):
     """FormID list record."""
     classType = 'FLST'
@@ -3047,22 +3062,6 @@ class MreFlst(MelRecord):
             self.mergeSources = [otherMod]
         #--Done
         self.setChanged()
-
-#------------------------------------------------------------------------------
-class MreFlor(MelRecord):
-    """Flora (plant) record."""
-    classType = 'FLOR'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelString('FULL','full'),
-        MelModel(),
-        MelFid('SCRI','script'),
-        MelFid('PFIG','ingredient'),
-        MelStruct('PFPC','4B','spring','summer','fall','winter'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreFurn(MelRecord):
     """Furniture record."""

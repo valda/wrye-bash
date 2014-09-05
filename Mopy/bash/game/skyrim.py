@@ -3878,14 +3878,14 @@ class MreCobj(MelRecord):
 
     class MelCobjCnto(MelGroups):
         def __init__(self):
-            MelGroups.__init__(self,'components',
+            MelGroups.__init__(self,'items',
                 MelStruct('CNTO','=2I',(FID,'item',None),'count'),
                 MelCoed(),
                 )
 
         def dumpData(self,record,out):
             # Only write the COCT/CNTO/COED subrecords if count > 0
-            out.packSub('COCT','I',len(record.components))
+            out.packSub('COCT','I',len(record.items))
             MelGroups.dumpData(self,record,out)
 
     melSet = MelSet(
@@ -3931,14 +3931,14 @@ class MreCont(MelRecord):
 
     class MelContCnto(MelGroups):
         def __init__(self):
-            MelGroups.__init__(self,'components',
+            MelGroups.__init__(self,'items',
                 MelStruct('CNTO','Ii',(FID,'item',None),'count'),
                 MelCoed(),
                 )
 
         def dumpData(self,record,out):
             # Only write the COCT/CNTO/COED subrecords if count > 0
-            out.packSub('COCT','I',len(record.components))
+            out.packSub('COCT','I',len(record.items))
             MelGroups.dumpData(self,record,out)
 
 

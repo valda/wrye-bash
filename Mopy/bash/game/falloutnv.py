@@ -2592,9 +2592,11 @@ class MreCsty(MelRecord):
 class MreDebr(MelRecord):
     """Debris record."""
     classType = 'DEBR'
+
+    _flags = bolt.Flags(0L,bolt.Flags.getNames('hasCollissionData'))
     class MelDebrData(MelStruct):
         subType = 'DATA'
-        _elements = (('percentage',0),('modPath',null1),('flags',0))
+        _elements = (('percentage',0),('modPath',null1),(_flags,'flags',0L),)
         def __init__(self):
             """Initialize."""
             self.attrs,self.defaults,self.actions,self.formAttrs = self.parseElements(*self._elements)

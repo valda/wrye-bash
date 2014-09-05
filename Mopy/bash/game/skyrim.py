@@ -2022,8 +2022,8 @@ class MelBipedObjectData(MelStruct):
 class MelBounds(MelStruct):
     def __init__(self):
         MelStruct.__init__(self,'OBND','=6h',
-            'x1','y1','z1',
-            'x2','y2','z2')
+            'boundX1','boundY1','boundZ1',
+            'boundX2','boundY2','boundZ2')
 
 #------------------------------------------------------------------------------
 class MelCoed(MelOptStruct):
@@ -4133,7 +4133,7 @@ class MreDlvw(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreDlbr(MelRecord):
     """Dialog Branch"""
@@ -4154,30 +4154,30 @@ class MreDlbr(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreDobj(MelRecord):
     """Default Object Manager"""
     classType = 'DOBJ'
     melSet = MelSet(
+        MelString('EDID','eid'),
         MelGroups('objects',
             MelStruct('DNAM','2I','objectUse',(FID,'objectID',None),),
             ),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreDoor(MelRecord):
     """Door Record"""
     classType = 'DOOR'
 
     DoorTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0, 'unknown1'),
         (1, 'automatic'),
         (2, 'hidden'),
         (3, 'minimalUse'),
-        (4, 'sliding'),
+        (4, 'slidingDoor'),
         (5, 'doNotOpenInCombatSearch'),
     ))
 
@@ -4188,14 +4188,14 @@ class MreDoor(MelRecord):
         MelLString('FULL','full'),
         MelModel(),
         MelDestructible(),
-        MelFid('SNAM','openSound'),
-        MelFid('ANAM','openSound'),
-        MelFid('BNAM','openSound'),
+        MelFid('SNAM','soundOpen'),
+        MelFid('ANAM','soundClose'),
+        MelFid('BNAM','soundLoop'),
         MelStruct('FNAM','B',(DoorTypeFlags,'flags',0L),),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreDual(MelRecord):
     """Dual Cast Data"""
@@ -7492,7 +7492,7 @@ class MreTact(MelRecord):
         MelNull('KSIZ'),
         MelKeywords('KWDA','keywords'),
         MelBase('PNAM','pnam_p'),
-        MelOptStruct('SNAM','I',(FID,'loopingSound')),
+        MelOptStruct('SNAM','I',(FID,'soundLoop')),
         MelBase('FNAM','fnam_p'),
         MelOptStruct('VNAM','I',(FID,'voiceType')),
         )
@@ -8029,7 +8029,7 @@ mergeClasses = (
         # MreAchr, MreAcre, MreGmst, MrePgre,
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
         MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
-        MreColl, MreCont, MreCpth, MreCsty, MreGlob,
+        MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreDoor, MreGlob,
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef,
     )
 
@@ -8064,7 +8064,7 @@ def init():
         MreAchr, MreGmst, MreDial, MreInfo,
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
         MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
-        MreColl, MreCont, MreCpth, MreCsty, MreGlob,
+        MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreGlob,
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef,
         MreCell, # MreNavm, MreNavi, MreWrld,
         MreHeader,

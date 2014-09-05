@@ -4067,8 +4067,55 @@ class MreDial(MelRecord):
         MelStruct('SNAM','4s','subtypeName',),
         MelStruct('TIFC','I','infoCount',),
         )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed() + ['infoStamp','infoStamp2','infos']
 
+    def __init__(self,header,ins=None,unpack=False):
+        """Initialize."""
+        MelRecord.__init__(self,header,ins,unpack)
+        self.infoStamp = 0 #--Stamp for info GRUP
+        self.infoStamp2 = 0 #--Stamp for info GRUP
+        self.infos = []
+
+    def loadInfos(self,ins,endPos,infoClass):
+        """Load infos from ins. Called from MobDials."""
+        infos = self.infos
+        recHead = ins.unpackRecHeader
+        infosAppend = infos.append
+        while not ins.atEnd(endPos,'INFO Block'):
+            #--Get record info and handle it
+            header = recHead()
+            recType = header[0]
+            if recType == 'INFO':
+                info = infoClass(header,ins,True)
+                infosAppend(info)
+            else:
+                raise ModError(ins.inName, _('Unexpected %s record in %s group.')
+                    % (recType,"INFO"))
+
+    def dump(self,out):
+        """Dumps self., then group header and then records."""
+        MreRecord.dump(self,out)
+        if not self.infos: return
+        # Magic number '24': size of Skyrim's record header
+        # Magic format '4sIIIII': format for Skyrim's GRUP record
+        size = 24 + sum([24 + info.getSize() for info in self.infos])
+        out.pack('4sIIIII','GRUP',size,self.fid,7,self.infoStamp,self.infoStamp2)
+        for info in self.infos: info.dump(out)
+
+    def updateMasters(self,masters):
+        """Updates set of master names according to masters actually used."""
+        MelRecord.updateMasters(self,masters)
+        for info in self.infos:
+            info.updateMasters(masters)
+
+    def convertFids(self,mapper,toLong):
+        """Converts fids between formats according to mapper.
+        toLong should be True if converting to long format or False if converting to short format."""
+        MelRecord.convertFids(self,mapper,toLong)
+        for info in self.infos:
+            info.convertFids(mapper,toLong)
+
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreDlvw(MelRecord):
     """Dialog View"""
@@ -4087,70 +4134,6 @@ class MreDlvw(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 # Verified Correct for Skyrim 1.8
-#------------------------------------------------------------------------------
-# Found error.  MobDials in bosh.py is looking for "def loadInfos"
-#------------------------------------------------------------------------------
-#     def __init__(self,header,ins=None,unpack=False):
-#         """Initialize."""
-#         MelRecord.__init__(self,header,ins,unpack)
-#         self.infoStamp = 0 #--Stamp for info GRUP
-#         self.infoStamp2 = 0 #--Stamp for info GRUP
-#         self.infos = []
-#
-#     def loadInfos(self,ins,endPos,infoClass):
-#         """Load infos from ins. Called from MobDials."""
-#         infos = self.infos
-#         recHead = ins.unpackRecHeader
-#         infosAppend = infos.append
-#         while not ins.atEnd(endPos,'INFO Block'):
-#             #--Get record info and handle it
-#             header = recHead()
-#             recType = header[0]
-#             if recType == 'INFO':
-#                 info = infoClass(header,ins,True)
-#                 infosAppend(info)
-#             else:
-#                 raise ModError(ins.inName, _('Unexpected %s record in %s group.')
-#                     % (recType,"INFO"))
-#
-#     def dump(self,out):
-#         """Dumps self., then group header and then records."""
-#         MreRecord.dump(self,out)
-#         if not self.infos: return
-#         size = 20 + sum([20 + info.getSize() for info in self.infos])
-#         out.pack('4sIIIII','GRUP',size,self.fid,7,self.infoStamp,self.infoStamp2)
-#         for info in self.infos: info.dump(out)
-#
-#     def updateMasters(self,masters):
-#         """Updates set of master names according to masters actually used."""
-#         MelRecord.updateMasters(self,masters)
-#         for info in self.infos:
-#             info.updateMasters(masters)
-#
-#     def convertFids(self,mapper,toLong):
-#         """Converts fids between formats according to mapper.
-#         toLong should be True if converting to long format or False if converting to short format."""
-#         MelRecord.convertFids(self,mapper,toLong)
-#         for info in self.infos:
-#             info.convertFids(mapper,toLong)
-#
-#------------------------------------------------------------------------------
-# Above routines need update for Skyrim
-#------------------------------------------------------------------------------
-# Causes unknown errors that don't make sense
-# Error in Dawnguard.esm
-# bosh.py 1526 load:
-# Traceback (most recent call last):
-#   File "bash\bosh.py", line 1520, in load
-#     selfTops[label].load(ins,unpack and (topClass != MobBase))
-#   File "bash\bosh.py", line 495, in load
-#     self.loadData(ins, ins.tell()+self.size-self.header.__class__.size)
-#   File "bash\bosh.py", line 718, in loadData
-#     recordLoadInfos = record.loadInfos
-# AttributeError: 'MreRecord' object has no attribute 'loadInfos'
-#
-# MreDial does not need any custom unpacker
-# Otherwise should be correct for Skyrim
 #------------------------------------------------------------------------------
 class MreDlbr(MelRecord):
     """Dialog Branch"""
@@ -5133,7 +5116,7 @@ class MreInfo(MelRecord):
         MelBase('DATA','data_p'),
         MelStruct('ENAM','2H',(EnamResponseFlags,'flags',0L),'resetHours',),
         MelFid('TPIC','topic',),
-        MelFid('PNAM','previousINFO',),
+        MelFid('PNAM','prevInfo',),
         MelStruct('CNAM','I','favorLevel',),
         MelFids('TCLT','response',),
         MelFid('DNAM','responseData',),
@@ -5142,16 +5125,16 @@ class MreInfo(MelRecord):
             MelStruct('TRDT','II4sB3sIB3s','emotionType','emotionValue',
                       'unused','responsenumber','unused',(FID,'sound'),
                       (InfoResponsesFlags,'flags',0L),'unused',),
-            MelString('NAM1','responseText'),
+            MelLString('NAM1','responseText'),
             MelString('NAM2','scriptNotes'),
             MelString('NAM3','edits'),
-            MelFid('SNAM','idleAnimations:Speaker',),
-            MelFid('LNAM','idleAnimations:Listener',),
+            MelFid('SNAM','idleAnimationsSpeaker',),
+            MelFid('LNAM','idleAnimationsListener',),
             ),
 
         MelConditions(),
 
-        MelGroups('responses',
+        MelGroups('leftOver',
             MelBase('SCHR','unknown1'),
             MelFid('QNAM','unknown2'),
             MelNull('NEXT'),
@@ -5163,7 +5146,7 @@ class MreInfo(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreImad(MelRecord):
     """Image Space Adapter"""
@@ -8078,7 +8061,7 @@ def init():
 #        MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun,
 #        MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr,
 #        MreWeap, MreWoop,
-        MreAchr, MreGmst,
+        MreAchr, MreGmst, MreDial, MreInfo,
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
         MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
         MreColl, MreCont, MreCpth, MreCsty, MreGlob,
@@ -8090,5 +8073,5 @@ def init():
     #--Simple records
     brec.MreRecord.simpleTypes = (set(brec.MreRecord.type_class) -
         set((
-        'TES4',
+        'TES4','ACHR','CELL','DIAL','INFO',
         )))

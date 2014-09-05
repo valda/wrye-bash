@@ -2694,7 +2694,7 @@ class MreDial(MelRecord):
                 MelBase('INFX','infx_p'),
             ),
         ),
-         MelString('FULL','full'),
+        MelString('FULL','full'),
         MelStruct('PNAM','f','priority'),
         MelString('TDUM','tdum_p'),
         MelDialData('DATA','BB','dialType',(_flags,'dialFlags',0L)),
@@ -2731,7 +2731,9 @@ class MreDial(MelRecord):
         """Dumps self., then group header and then records."""
         MreRecord.dump(self,out)
         if not self.infos: return
-        size = 20 + sum([20 + info.getSize() for info in self.infos])
+        # Magic number '24': size of Fallout New Vegas's record header
+        # Magic format '4sIIIII': format for Fallout New Vegas's GRUP record
+        size = 24 + sum([24 + info.getSize() for info in self.infos])
         out.pack('4sIIIII','GRUP',size,self.fid,7,self.infoStamp,self.infoStamp2)
         for info in self.infos: info.dump(out)
 

@@ -6285,10 +6285,10 @@ class MreNpc(MelRecord):
         MelString('EDID', 'eid'),
         MelVmad(),
         MelBounds(),
-        MelStruct('ACBS','IHHhHHHhHHH',(NpcFlags1,'flags1',0L),'magickaOffset',
-                  'staminaOffset','level','levelMult','calcminlevel',
+        MelStruct('ACBS','IHHhHHHhHHH',(NpcFlags1,'npcFlags1',0L),'magickaOffset',
+                  'staminaOffset','level','calcminlevel',
                   'calcmaxlevel','speedMultiplier','dispositionBase',
-                  (NpcFlags2,'flags2',0L),'healthOffset','bleedoutOverride',
+                  (NpcFlags2,'npcFlags2',0L),'healthOffset','bleedoutOverride',
                   ),
         MelStructs('SNAM','IB3s','factions',(FID, 'faction'), 'rank', 'snamUnused'),
         MelOptStruct('INAM', 'I', (FID, 'deathitem')),
@@ -6296,11 +6296,13 @@ class MreNpc(MelRecord):
         MelOptStruct('TPLT', 'I', (FID, 'template')),
         MelStruct('RNAM', 'I', (FID, 'race')),
         # MelSpells handles writing the count for SPCT
-        MelNull('SPCT'),
-        MelSpells(),
-        MelGroups('spells',
-            MelOptStruct('SPLO','I','spell'),
-            ),
+        #MelNull('SPCT'),
+        #MelSpells(),
+        #MelGroups('spells',
+        #    MelOptStruct('SPLO','I','spell'),
+        #    ),
+        MelCountedFids('SPLO', 'spells', 'SPCT', '<I'),
+
         MelDestructible(),
         MelOptStruct('WNAM','I',(FID, 'wormArmor')),
         MelOptStruct('ANAM','I',(FID, 'farawaymodel')),
@@ -6316,7 +6318,7 @@ class MreNpc(MelRecord):
         MelOptStruct('GWOR', 'I', (FID, 'guardWarn')),
         MelOptStruct('ECOR', 'I', (FID, 'combat')),
         MelStruct('PRKZ','I','perkCount'),
-        MelGroups('spells',
+        MelGroups('perks',
             MelOptStruct('PRKR','IB3s',(FID, 'perk'),'rank','prkrUnused'),
             ),
         MelNull('COCT'),
@@ -8032,6 +8034,7 @@ mergeClasses = (
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
         MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
         MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
+        MreNpc
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers

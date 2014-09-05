@@ -10504,12 +10504,10 @@ class PatchFile(ModFile):
                 #--Error checks
                 if 'WRLD' in modFile.tops and modFile.WRLD.orphansSkipped:
                     self.worldOrphanMods.append(modName)
-                # Probably Oblivion Only
-                if bush.game.fsName == u'Oblivion':
-                    if 'SCPT' in modFile.tops and modName != u'Oblivion.esm':
-                        gls = modFile.SCPT.getRecord(0x00025811)
-                        if gls and gls.compiledSize == 4 and gls.lastIndex == 0:
-                            self.compiledAllMods.append(modName)
+                if 'SCPT' in modFile.tops and modName != u'Oblivion.esm':
+                    gls = modFile.SCPT.getRecord(0x00025811)
+                    if gls and gls.compiledSize == 4 and gls.lastIndex == 0:
+                        self.compiledAllMods.append(modName)
                 pstate = index+0.5
                 isMerged = modName in self.mergeSet
                 doFilter = isMerged and u'Filter' in bashTags

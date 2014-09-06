@@ -601,7 +601,7 @@ class MelCountedFids(MelFids):
     # Used to ignore the count record on loading.  Writing is handled by dumpData
     # In the SPCT/SPLO example, the NullLoader will handle "reading" the SPCT
     # subrecord, where "reading" = ignoring
-    # NulLoader = MelNull('ANY')
+    NulLoader = MelNull('ANY')
 
     def __init__(self, countedType, attr, counterType, counterFormat='<I', default=None):
         # In the SPCT/SPLO example, countedType is SPLO, counterType is SPCT
@@ -614,10 +614,10 @@ class MelCountedFids(MelFids):
         # Counted
         MelFids.getLoaders(self, loaders)
         # Counter
-        loaders[self.counterType] = MelNull(self.counterType)
+        loaders[self.countType] = MelCountedFids.NullLoader
 
     def dumpData(self, record, out):
-        value = record.__getattribute__(self.attr)
+        value = record.__getattribute__(self.value)
         if value:
             out.packSub(self.counterType, self.counterFormat, len(value))
             MelFids.dumpData(self, record, out)

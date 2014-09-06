@@ -14583,7 +14583,6 @@ class NamesPatcher(ImportPatcher):
     """Import names from source mods/files."""
     name = _(u'Import Names')
     text = _(u"Import names from source mods/files.")
-    canAutoItemCheck = True #--GUI: Whether new items are checked by default or not.
     if bush.game.fsName == u'Skryim':
         autoRe = re.compile(ur"^Skyrim.esm$",re.I|re.U)
     if bush.game.fsName == u'Oblivion':

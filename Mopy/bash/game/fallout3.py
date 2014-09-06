@@ -271,11 +271,6 @@ class ess:
             out.write(buffer)
         return oldMasters
 
-#--The main plugin Wrye Bash should look for
-masterFiles = [
-    u'Fallout3.esm',
-    ]
-
 #--INI files that should show up in the INI Edits tab
 iniFiles = [
     u'Fallout.ini',
@@ -286,6 +281,17 @@ iniFiles = [
 ## (section,key)
 saveProfilesKey = (u'General',u'SLocalSavePath')
 
+#--The main plugin Wrye Bash should look for
+masterFiles = [
+    u'Fallout3.esm',
+    ]
+
+#--Plugin files that can't be deactivated
+nonDeactivatableFiles = []
+
+#--The pickle file for this game.  Holds encoded GMST IDs from the big list below
+pklfile = ur'bash\db\Fallout3_ids.pkl'
+
 #--Game ESM/ESP/BSA files
 # bethDataFiles = set()
 # Moved to fallout3_const
@@ -293,9 +299,6 @@ saveProfilesKey = (u'General',u'SLocalSavePath')
 #--Every file in the Data directory from Bethsoft
 # allBethFiles = set((
 # Moved to fallout3_const
-
-#--Plugin files that can't be deactivated
-nonDeactivatableFiles = []
 
 #--BAIN:
 ## These are the allowed default data directories that BAIN can install to
@@ -592,20 +595,6 @@ allConditions = set(entry[0] for entry in conditionFunctionData)
 fid1Conditions = set(entry[0] for entry in conditionFunctionData if entry[2] == 2)
 fid2Conditions = set(entry[0] for entry in conditionFunctionData if entry[3] == 2)
 
-# Magic Info ------------------------------------------------------------------
-weaponTypes = (
-    _(u'Big gun'),
-    _(u'Energy'),
-    _(u'Small gun'),
-    _(u'Melee'),
-    _(u'Unarmed'),
-    _(u'Thrown'),
-    _(u'Mine'),
-    )
-
-#--The pickle file for this game.  Holds encoded GMST IDs from the big list below
-pklfile = ur'bash\db\Fallout3_ids.pkl'
-
 #--List of GMST's in the main plugin (Oblivion.esm) that have 0x00000000
 #  as the form id.  Any GMST as such needs it Editor Id listed here.
 gmstEids = ['fPlayerDeathReloadTime','iMapMarkerVisibleDistance','fVanityModeWheelMax','fChase3rdPersonZUnitsPerSecond',
@@ -617,20 +606,6 @@ gmstEids = ['fPlayerDeathReloadTime','iMapMarkerVisibleDistance','fVanityModeWhe
     'iRemoveExcessDeadComplexTotalActorCount','iRemoveExcessDeadComplexCount', 'fRemoveExcessDeadTime','fRemoveExcessComplexDeadTime',
     'iLevItemLevelDifferenceMax','fMoveWeightMax',
     ]
-
-#--Bash Tags supported by this game
-# 'Body-F', 'Body-M', 'Body-Size-M', 'Body-Size-F', 'C.Climate', 'C.Light', 'C.Music', 'C.Name', 'C.RecordFlags',
-# 'C.Owner', 'C.Water','Deactivate', 'Delev', 'Eyes', 'Factions', 'Relations', 'Filter', 'Graphics', 'Hair',
-# 'IIM', 'Invent', 'Names', 'NoMerge', 'NpcFaces', 'R.Relations', 'Relev', 'Scripts', 'ScriptContents', 'Sound',
-# 'Stats', 'Voice-F', 'Voice-M', 'R.Teeth', 'R.Mouth', 'R.Ears', 'R.Head', 'R.Attributes-F',
-# 'R.Attributes-M', 'R.Skills', 'R.Description', 'Roads', 'Actors.Anims',
-# 'Actors.AIData', 'Actors.DeathItem', 'Actors.AIPackages', 'Actors.AIPackagesForceAdd', 'Actors.Stats',
-# 'Actors.ACBS', 'NPC.Class', 'Actors.CombatStyle', 'Creatures.Blood',
-# 'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
-# 'Deflst', 'Destructible'
-allTags = sorted((
-    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Stats',u'Names',u'Deflst',
-    ))
 
 #--GLOB record tweaks used by bosh's GmstTweaker
 #  Each entry is a tuple in the following format:
@@ -665,6 +640,20 @@ GlobalsTweaks = [
 ## NOTE: only required if the GmstTweaker has been enabled for this game
 GmstTweaks = [
 ]
+
+#--Bash Tags supported by this game
+# 'Body-F', 'Body-M', 'Body-Size-M', 'Body-Size-F', 'C.Climate', 'C.Light', 'C.Music', 'C.Name', 'C.RecordFlags',
+# 'C.Owner', 'C.Water','Deactivate', 'Delev', 'Eyes', 'Factions', 'Relations', 'Filter', 'Graphics', 'Hair',
+# 'IIM', 'Invent', 'Names', 'NoMerge', 'NpcFaces', 'R.Relations', 'Relev', 'Scripts', 'ScriptContents', 'Sound',
+# 'Stats', 'Voice-F', 'Voice-M', 'R.Teeth', 'R.Mouth', 'R.Ears', 'R.Head', 'R.Attributes-F',
+# 'R.Attributes-M', 'R.Skills', 'R.Description', 'Roads', 'Actors.Anims',
+# 'Actors.AIData', 'Actors.DeathItem', 'Actors.AIPackages', 'Actors.AIPackagesForceAdd', 'Actors.Stats',
+# 'Actors.ACBS', 'NPC.Class', 'Actors.CombatStyle', 'Creatures.Blood',
+# 'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
+# 'Deflst', 'Destructible'
+allTags = sorted((
+    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Stats',u'Names',u'Deflst',
+    ))
 
 #--Patcher available when building a Bashed Patch (refrerenced by class name)
 patchers = (
@@ -758,6 +747,17 @@ statsHeaders = (
 
 # Constants
 FID = 'FID' #--Used by MelStruct classes to indicate fid elements.
+
+# Magic Info ------------------------------------------------------------------
+weaponTypes = (
+    _(u'Big gun'),
+    _(u'Energy'),
+    _(u'Small gun'),
+    _(u'Melee'),
+    _(u'Unarmed'),
+    _(u'Thrown'),
+    _(u'Mine'),
+    )
 
 # Race Info -------------------------------------------------------------------
 raceNames = {

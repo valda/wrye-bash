@@ -291,6 +291,9 @@ masterFiles = [
 #--Plugin files that can't be deactivated
 nonDeactivatableFiles = []
 
+#--The pickle file for this game.  Holds encoded GMST IDs from the big list below
+pklfile = ur'bash\db\FalloutNV_ids.pkl'
+
 #--Game ESM/ESP/BSA files
 # bethDataFiles = set((
 # Moved to falloutnv_const
@@ -631,20 +634,6 @@ allConditions = set(entry[0] for entry in conditionFunctionData)
 fid1Conditions = set(entry[0] for entry in conditionFunctionData if entry[2] == 2)
 fid2Conditions = set(entry[0] for entry in conditionFunctionData if entry[3] == 2)
 
-# Magic Info ------------------------------------------------------------------
-weaponTypes = (
-    _(u'Big gun'),
-    _(u'Energy'),
-    _(u'Small gun'),
-    _(u'Melee'),
-    _(u'Unarmed'),
-    _(u'Thrown'),
-    _(u'Mine'),
-    )
-
-#--The pickle file for this game.  Holds encoded GMST IDs from the big list below
-pklfile = ur'bash\db\FalloutNV_ids.pkl'
-
 #--List of GMST's in the main plugin (Oblivion.esm) that have 0x00000000
 #  as the form id.  Any GMST as such needs it Editor Id listed here.
 gmstEids = ['fPlayerDeathReloadTime','iMapMarkerVisibleDistance','fVanityModeWheelMax','fChase3rdPersonZUnitsPerSecond',
@@ -656,20 +645,6 @@ gmstEids = ['fPlayerDeathReloadTime','iMapMarkerVisibleDistance','fVanityModeWhe
     'iRemoveExcessDeadComplexTotalActorCount','iRemoveExcessDeadComplexCount', 'fRemoveExcessDeadTime','fRemoveExcessComplexDeadTime',
     'iLevItemLevelDifferenceMax','fMoveWeightMax',
     ]
-
-#--Bash Tags supported by this game
-# 'Body-F', 'Body-M', 'Body-Size-M', 'Body-Size-F', 'C.Climate', 'C.Light', 'C.Music', 'C.Name', 'C.RecordFlags',
-# 'C.Owner', 'C.Water','Deactivate', 'Delev', 'Eyes', 'Factions', 'Relations', 'Filter', 'Graphics', 'Hair',
-# 'IIM', 'Invent', 'Names', 'NoMerge', 'NpcFaces', 'R.Relations', 'Relev', 'Scripts', 'ScriptContents', 'Sound',
-# 'Stats', 'Voice-F', 'Voice-M', 'R.Teeth', 'R.Mouth', 'R.Ears', 'R.Head', 'R.Attributes-F',
-# 'R.Attributes-M', 'R.Skills', 'R.Description', 'Roads', 'Actors.Anims',
-# 'Actors.AIData', 'Actors.DeathItem', 'Actors.AIPackages', 'Actors.AIPackagesForceAdd', 'Actors.Stats',
-# 'Actors.ACBS', 'NPC.Class', 'Actors.CombatStyle', 'Creatures.Blood',
-# 'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
-# 'Deflst', 'Destructible', 'WeaponMods'
-allTags = sorted((
-    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',u'Deflst',
-    ))
 
 #--GLOB record tweaks used by bosh's GmstTweaker
 #  Each entry is a tuple in the following format:
@@ -704,6 +679,20 @@ GlobalsTweaks = [
 ## NOTE: only required if the GmstTweaker has been enabled for this game
 GmstTweaks = [
 ]
+
+#--Bash Tags supported by this game
+# 'Body-F', 'Body-M', 'Body-Size-M', 'Body-Size-F', 'C.Climate', 'C.Light', 'C.Music', 'C.Name', 'C.RecordFlags',
+# 'C.Owner', 'C.Water','Deactivate', 'Delev', 'Eyes', 'Factions', 'Relations', 'Filter', 'Graphics', 'Hair',
+# 'IIM', 'Invent', 'Names', 'NoMerge', 'NpcFaces', 'R.Relations', 'Relev', 'Scripts', 'ScriptContents', 'Sound',
+# 'Stats', 'Voice-F', 'Voice-M', 'R.Teeth', 'R.Mouth', 'R.Ears', 'R.Head', 'R.Attributes-F',
+# 'R.Attributes-M', 'R.Skills', 'R.Description', 'Roads', 'Actors.Anims',
+# 'Actors.AIData', 'Actors.DeathItem', 'Actors.AIPackages', 'Actors.AIPackagesForceAdd', 'Actors.Stats',
+# 'Actors.ACBS', 'NPC.Class', 'Actors.CombatStyle', 'Creatures.Blood',
+# 'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
+# 'Deflst', 'Destructible', 'WeaponMods'
+allTags = sorted((
+    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',u'Deflst',
+    ))
 
 #--Patcher available when building a Bashed Patch (refrerenced by class name)
 patchers = (
@@ -805,6 +794,17 @@ statsHeaders = (
 
 # FormID
 FID = 'FID' #--Used by MelStruct classes to indicate fid elements.
+
+# Magic Info ------------------------------------------------------------------
+weaponTypes = (
+    _(u'Big gun'),
+    _(u'Energy'),
+    _(u'Small gun'),
+    _(u'Melee'),
+    _(u'Unarmed'),
+    _(u'Thrown'),
+    _(u'Mine'),
+    )
 
 # Race Info -------------------------------------------------------------------
 raceNames = {
@@ -914,6 +914,7 @@ class esp:
     ## These are the valid 'version' numbers for the game file headers
     validHeaderVersions = (0.94,1.32,1.33,1.34)
 
+    #--Strings Files, Skyrim only
     stringsFiles = []
 
     #--Class to use to read the TES4 record

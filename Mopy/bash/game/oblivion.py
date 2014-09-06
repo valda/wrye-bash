@@ -227,6 +227,8 @@ masterFiles = [
 #--Plugin files that can't be deactivated
 nonDeactivatableFiles = []
 
+#The pickle file for this game. Holds encoded GMST IDs from the big list below.
+pklfile = ur'bash\db\Oblivion_ids.pkl'
 
 #--Game ESM/ESP/BSA files
 #  These filenames need to be in lowercase,
@@ -480,19 +482,6 @@ conditionFunctionData = ( #--0: no param; 1: int param; 2: formid param
 allConditions = set(entry[0] for entry in conditionFunctionData)
 fid1Conditions = set(entry[0] for entry in conditionFunctionData if entry[2] == 2)
 fid2Conditions = set(entry[0] for entry in conditionFunctionData if entry[3] == 2)
-
-# Magic Info ------------------------------------------------------------------
-weaponTypes = (
-    _(u'Blade (1 Handed)'),
-    _(u'Blade (2 Handed)'),
-    _(u'Blunt (1 Handed)'),
-    _(u'Blunt (2 Handed)'),
-    _(u'Staff'),
-    _(u'Bow'),
-    )
-
-#The pickle file for this game. Holds encoded GMST IDs from the big list below.
-pklfile = ur'bash\db\Oblivion_ids.pkl'
 
 #--List of GMST's in the main plugin (Oblivion.esm) that have 0x00000000
 #  as the form id.  Any GMST as such needs it Editor Id listed here.
@@ -842,16 +831,6 @@ gmstEids = ['fAbsorbBoltGrowWidth','fAbsorbBoltSmallWidth','fAbsorbBoltsRadius',
     'sFloraSuccessMessage','sQuickSaving','sFastTravelHorseatGate',
     'sLoadingArea','sQuickLoading','sNoCharge',
     ]
-
-#--Tags supported by this game
-allTags = sorted((u'Body-F', u'Body-M', u'Body-Size-M', u'Body-Size-F', u'C.Climate', u'C.Light', u'C.Music', u'C.Name', u'C.RecordFlags',
-                  u'C.Owner', u'C.Water', u'Deactivate', u'Delev', u'Eyes', u'Factions', u'Relations', u'Filter', u'Graphics', u'Hair',
-                  u'IIM', u'Invent', u'Names', u'NoMerge', u'NpcFaces', u'R.Relations', u'Relev', u'Scripts', u'ScriptContents', u'Sound',
-                  u'SpellStats', u'Stats', u'Voice-F', u'Voice-M', u'R.Teeth', u'R.Mouth', u'R.Ears', u'R.Head', u'R.Attributes-F',
-                  u'R.Attributes-M', u'R.Skills', u'R.Description', u'R.AddSpells', u'R.ChangeSpells', u'Roads', u'Actors.Anims',
-                  u'Actors.AIData', u'Actors.DeathItem', u'Actors.AIPackages', u'Actors.AIPackagesForceAdd', u'Actors.Stats',
-                  u'Actors.ACBS', u'NPC.Class', u'Actors.CombatStyle', u'Creatures.Blood', u'Actors.Spells', u'Actors.SpellsForceAdd',
-                  u'NPC.Race', u'Actors.Skeleton', u'NpcFacesForceFullImport', u'MustBeActiveIfImported', u'Npc.HairOnly', u'Npc.EyesOnly')) ##, 'ForceMerge'
 
 #--GLOB record tweaks used by bosh's GmstTweaker
 #  Each entry is a tuple in the following format:
@@ -1488,6 +1467,16 @@ GmstTweaks = [
         ),
     ]
 
+#--Tags supported by this game
+allTags = sorted((u'Body-F', u'Body-M', u'Body-Size-M', u'Body-Size-F', u'C.Climate', u'C.Light', u'C.Music', u'C.Name', u'C.RecordFlags',
+                  u'C.Owner', u'C.Water', u'Deactivate', u'Delev', u'Eyes', u'Factions', u'Relations', u'Filter', u'Graphics', u'Hair',
+                  u'IIM', u'Invent', u'Names', u'NoMerge', u'NpcFaces', u'R.Relations', u'Relev', u'Scripts', u'ScriptContents', u'Sound',
+                  u'SpellStats', u'Stats', u'Voice-F', u'Voice-M', u'R.Teeth', u'R.Mouth', u'R.Ears', u'R.Head', u'R.Attributes-F',
+                  u'R.Attributes-M', u'R.Skills', u'R.Description', u'R.AddSpells', u'R.ChangeSpells', u'Roads', u'Actors.Anims',
+                  u'Actors.AIData', u'Actors.DeathItem', u'Actors.AIPackages', u'Actors.AIPackagesForceAdd', u'Actors.Stats',
+                  u'Actors.ACBS', u'NPC.Class', u'Actors.CombatStyle', u'Creatures.Blood', u'Actors.Spells', u'Actors.SpellsForceAdd',
+                  u'NPC.Race', u'Actors.Skeleton', u'NpcFacesForceFullImport', u'MustBeActiveIfImported', u'Npc.HairOnly', u'Npc.EyesOnly')) ##, 'ForceMerge'
+
 #--Patchers available when building a Bashed Patch
 patchers = (
     'AliasesPatcher', 'AssortedTweaker', 'PatchMerger', 'AlchemicalCatalogs',
@@ -1600,6 +1589,16 @@ statsHeaders = (
                     _(u'Speed'),_(u'Reach'),_(u'EPoints'))) + u'"\n')),
                 )
 
+# Magic Info ------------------------------------------------------------------
+weaponTypes = (
+    _(u'Blade (1 Handed)'),
+    _(u'Blade (2 Handed)'),
+    _(u'Blunt (1 Handed)'),
+    _(u'Blunt (2 Handed)'),
+    _(u'Staff'),
+    _(u'Bow'),
+    )
+
 # Race Info -------------------------------------------------------------------
 raceNames = {
     0x23fe9 : _(u'Argonian'),
@@ -1664,6 +1663,7 @@ class esp:
     #--Valid ESM/ESP header versions
     validHeaderVersions = (0.8,1.0)
 
+    #--Strings Files, Skyrim only
     stringsFiles = []
 
     #--Top types in Oblivion order.

@@ -1710,6 +1710,7 @@ allTags = sorted((
     u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',
     ))
 
+
 #--Patchers available when building a Bashed Patch
 patchers = (
     u'AliasesPatcher', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',

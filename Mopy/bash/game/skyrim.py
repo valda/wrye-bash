@@ -5889,7 +5889,7 @@ class MreMgef(MelRecord):
         MelVmad(),
         MelLString('FULL','full'),
         MelFid('MDOB','harvestIngredient'),
-        MelCountedFids('KWDA', 'keywords', 'KSIZ', '<I'),
+        MelCountedFidList('KWDA', 'keywords', 'KSIZ', '<I'),
         MelStruct('DATA','IfIiiH2sIfIIIIffffIiIIIIiIIIfIfI4s4sIIIIff',
             (MgefGeneralFlags,'flags',0L),'baseCost',(FID,'assocItem'),
             'magicSkill','resistValue',
@@ -5929,8 +5929,7 @@ class MreMisc(MelRecord):
         MelDestructible(),
         MelOptStruct('YNAM','I',(FID,'pickupSound')),
         MelOptStruct('ZNAM','I',(FID,'dropSound')),
-        MelNull('KSIZ'),
-        MelKeywords('KWDA','keywords'),
+        MelCountedFidList('KWDA', 'keywords', 'KSIZ', '<I'),
         MelStruct('DATA','=If','value','weight'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -6296,7 +6295,7 @@ class MreNpc(MelRecord):
         MelStruct('RNAM', 'I', (FID, 'race')),
         MelOptStruct('SPCT', 'I', 'count'),
         MelGroups('spells',
-            MelOptStruct('SPLO','I','spell'),
+            MelOptStruct('SPLO','I',(FID, 'spell')),
             ),
         MelDestructible(),
         MelOptStruct('WNAM','I',(FID, 'wormArmor')),

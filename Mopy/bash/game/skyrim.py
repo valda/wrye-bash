@@ -278,6 +278,9 @@ nonDeactivatableFiles = [
     u'Update.esm',
     ]
 
+#The pickle file for this game. Holds encoded GMST IDs from the big list below.
+pklfile = ur'bash\db\Skyrim_ids.pkl'
+
 #--Game ESM/ESP/BSA files
 #  These filenames need to be in lowercase,
 # bethDataFiles = set()
@@ -788,19 +791,6 @@ fid1Conditions = set(entry[0] for entry in conditionFunctionData if entry[2] == 
 fid2Conditions = set(entry[0] for entry in conditionFunctionData if entry[3] == 2)
 # Skip 3 and 4 because it needs to be set per runOn
 fid5Conditions = set(entry[0] for entry in conditionFunctionData if entry[4] == 2)
-
-# Magic Info ------------------------------------------------------------------
-weaponTypes = (
-    _(u'Blade (1 Handed)'),
-    _(u'Blade (2 Handed)'),
-    _(u'Blunt (1 Handed)'),
-    _(u'Blunt (2 Handed)'),
-    _(u'Staff'),
-    _(u'Bow'),
-    )
-
-#The pickle file for this game. Holds encoded GMST IDs from the big list below.
-pklfile = ur'bash\db\Skyrim_ids.pkl'
 
 #--List of GMST's in the main plugin (Skyrim.esm) that have 0x00000000
 #  as the form id.  Any GMST as such needs it Editor Id listed here.
@@ -1455,11 +1445,6 @@ gmstEids = ['bAutoAimBasedOnDistance','fActionPointsAttackMagic','fActionPointsA
     'sRSMFinishedWarning','sVerletCape','uiMuteMusicPauseTime',
     ]
 
-#--Tags supported by this game
-allTags = sorted((
-    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',u'Deflst',
-    ))
-
 #--GLOB record tweaks used by bosh's GmstTweaker
 #  Each entry is a tuple in the following format:
 #    (DisplayText, MouseoverText, GLOB EditorID, Option1, Option2, Option3, ..., OptionN)
@@ -1720,9 +1705,14 @@ GmstTweaks = [
         ),
     ]
 
+#--Tags supported by this game
+allTags = sorted((
+    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',
+    ))
+
 #--Patchers available when building a Bashed Patch
 patchers = (
-    u'AliasesPatcher', u'FidListsMerger', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
+    u'AliasesPatcher', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
     u'PatchMerger', u'StatsPatcher'
     )
 
@@ -1805,6 +1795,16 @@ statsHeaders = (
 # Constants
 FID = 'FID' #--Used by MelStruct classes to indicate fid elements.
 
+# Magic Info ------------------------------------------------------------------
+weaponTypes = (
+    _(u'Blade (1 Handed)'),
+    _(u'Blade (2 Handed)'),
+    _(u'Blunt (1 Handed)'),
+    _(u'Blunt (2 Handed)'),
+    _(u'Staff'),
+    _(u'Bow'),
+    )
+
 # Race Info -------------------------------------------------------------------
 raceNames = {
     0x13740 : _(u'Argonian'),
@@ -1868,7 +1868,7 @@ class esp:
     #--Valid ESM/ESP header versions
     validHeaderVersions = (0.94, 1.70,)
 
-    #--Strings Files
+    #--Strings Files, Skyrim only
     stringsFiles = [
         ('mods',(u'Strings',),u'%(body)s_%(language)s.STRINGS'),
         ('mods',(u'Strings',),u'%(body)s_%(language)s.DLSTRINGS'),
@@ -4640,61 +4640,7 @@ class MreFlst(MelRecord):
         MelString('EDID','eid'),
         MelFids('LNAM','formIDInList'),
         )
-    __slots__ = (MelRecord.__slots__ + melSet.getSlotsUsed() +
-        ['mergeOverLast','mergeSources','items','deflsts'])
-
-    def __init__(self,header,ins=None,unpack=False):
-        """Initialize."""
-        MelRecord.__init__(self,header,ins,unpack)
-        self.mergeOverLast = False #--Merge overrides last mod merged
-        self.mergeSources = None #--Set to list by other functions
-        self.items  = None #--Set of items included in list
-        #--Set of items deleted by list (Deflst mods) unused for Skyrim
-        self.deflsts = None
-
-    def mergeFilter(self,modSet):
-        """Filter out items that don't come from specified modSet."""
-        if not self.longFids: raise StateError(_("Fids not in long format"))
-        self.formIDInList = [fid for fid in self.formIDInList if fid[0] in modSet]
-
-    def mergeWith(self,other,otherMod):
-        """Merges newLevl settings and entries with self.
-        Requires that: self.items, other.deflsts be defined."""
-        if not self.longFids: raise StateError(_("Fids not in long format"))
-        if not other.longFids: raise StateError(_("Fids not in long format"))
-        #--Remove items based on other.removes
-        if other.deflsts:
-            removeItems = self.items & other.deflsts
-            self.formIDInList = [fid for fid in self.formIDInList if fid not in removeItems]
-            self.items = (self.items | other.deflsts)
-        hasOldItems = bool(self.items)
-        #--Add new items from other
-        newItems = set()
-        formIDInListAppend = self.formIDInList.append
-        newItemsAdd = newItems.add
-        for fid in other.formIDInList:
-            if fid not in self.items:
-                formIDInListAppend(fid)
-                newItemsAdd(fid)
-        if newItems:
-            self.items |= newItems
-            self.formIDInList.sort
-        #--Is merged list different from other? (And thus written to patch.)
-        if len(self.formIDInList) != len(other.formIDInList):
-            self.mergeOverLast = True
-        else:
-            for selfEntry,otherEntry in zip(self.formIDInList,other.formIDInList):
-                if selfEntry != otherEntry:
-                    self.mergeOverLast = True
-                    break
-            else:
-                self.mergeOverLast = False
-        if self.mergeOverLast:
-            self.mergeSources.append(otherMod)
-        else:
-            self.mergeSources = [otherMod]
-        #--Done
-        self.setChanged()
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 # Verified for 305
 #------------------------------------------------------------------------------

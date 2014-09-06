@@ -5889,30 +5889,33 @@ class MreMgef(MelRecord):
         MelVmad(),
         MelLString('FULL','full'),
         MelFid('MDOB','harvestIngredient'),
-        MelNull('KSIZ'),
-        MelKeywords('KWDA','keywords'),
+        MelCountedFidList('KWDA', 'keywords', 'KSIZ', '<I'),
         MelStruct('DATA','IfIiiH2sIfIIIIffffIiIIIIiIIIfIfI4s4sIIIIff',
             (MgefGeneralFlags,'flags',0L),'baseCost',(FID,'assocItem'),
             'magicSkill','resistValue',
             # 'counterEffectCount' is a count of ESCE records
             'counterEffectCount',
-            'unknown1',(FID,'castingLight'),'taperWeight',(FID,'hitShader'),
+            ('unknown1',null2),(FID,'castingLight'),'taperWeight',(FID,'hitShader'),
             (FID,'enchantShader'),'minimumSkillLevel','spellmakingArea',
             'spellmakingCastingTime','taperCurve','taperDuration',
             'secondAvWeight','mgefArchtype','actorValue',(FID,'projectile'),
             (FID,'explosion'),'castingType','delivery','secondActorValue',
             (FID,'castingArt'),(FID,'hitEffectArt'),(FID,'impactData'),
             'skillUsageMultiplier',(FID,'dualCastingArt'),'dualCastingScale',
-            (FID,'enchantArt'),'unknown2','unknown3',(FID,'equipAbility'),
+            (FID,'enchantArt'),('unknown2',null4),('unknown3',null4),(FID,'equipAbility'),
             (FID,'imageSpaceModifier'),(FID,'perkToApply'),'castingSoundLevel',
             'scriptEffectAiScore','scriptEffectAiDelayTime',),
-        MelGroups('counterEffects',
-            MelOptStruct('ESCE','I',(FID,'counterEffectCode',0)),),
+        MelFids('ESCE','counterEffects'),
         MelStructA('SNDD','2I','sounds','soundType',(FID,'sound')),
         MelLString('DNAM','magicItemDescription'),
         MelConditions(),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+    def dumpData(self,out):
+        counterEffects = self.counterEffects
+        self.counterEffectCount = len(counterEffects) if counterEffects else 0
+        MelRecord.dumpData(self,out)
 
 # Verified Correct for Skyrim 1.8
 # DATA needs an updating counter
@@ -5930,8 +5933,7 @@ class MreMisc(MelRecord):
         MelDestructible(),
         MelOptStruct('YNAM','I',(FID,'pickupSound')),
         MelOptStruct('ZNAM','I',(FID,'dropSound')),
-        MelNull('KSIZ'),
-        MelKeywords('KWDA','keywords'),
+        MelCountedFidList('KWDA', 'keywords', 'KSIZ', '<I'),
         MelStruct('DATA','=If','value','weight'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -6295,10 +6297,7 @@ class MreNpc(MelRecord):
         MelOptStruct('VTCK', 'I', (FID, 'voicetype')),
         MelOptStruct('TPLT', 'I', (FID, 'template')),
         MelStruct('RNAM', 'I', (FID, 'race')),
-        MelOptStruct('SPCT', 'I', 'count'),
-        MelGroups('spells',
-            MelOptStruct('SPLO','I','spell'),
-            ),
+        MelCountedFids('SPLO', 'keywords', 'SPCT', '<I'),
         MelDestructible(),
         MelOptStruct('WNAM','I',(FID, 'wormArmor')),
         MelOptStruct('ANAM','I',(FID, 'farawaymodel')),
@@ -6313,7 +6312,7 @@ class MreNpc(MelRecord):
         MelOptStruct('OCOR', 'I', (FID, 'observe')),
         MelOptStruct('GWOR', 'I', (FID, 'guardWarn')),
         MelOptStruct('ECOR', 'I', (FID, 'combat')),
-        MelStruct('PRKZ','I','perkCount'),
+        MelOptStruct('PRKZ','I','perkCount'),
         MelGroups('perks',
             MelOptStruct('PRKR','IB3s',(FID, 'perk'),'rank','prkrUnused'),
             ),
@@ -7111,7 +7110,7 @@ class MreScen(MelRecord):
 
         MelGroups('actors',
             MelStruct('ALID','I','actorID',),
-            MelStruct('LNAM','I',(ScenFlags2,'flags2',0L),),
+            MelStruct('LNAM','I',(ScenFlags2,'scenFlags2',0L),),
             MelStruct('DNAM','I',(ScenFlags3,'flags3',0L),),
             ),
         MelGroups('actions',
@@ -7737,10 +7736,10 @@ class MreWeap(MelRecord):
         MelFid('NAM8','unequipSound',),
         MelStruct('DATA','IfH','value','weight','damage',),
         MelStruct('DNAM','B3s2fH2sf4s4B2f2I5f12si8si4sf','animationType','unknown1',
-                  'speed','reach',(WeapFlags1,'flags'),'unknown2','sightFOV',
+                  'speed','reach',(WeapFlags1,'flags',0L),'unknown2','sightFOV',
                   'unknown3','baseVATSToHitChance','attackAnimation',
                   'numProjectiles','embeddedWeaponAVunused','rangeMin',
-                  'rangeMax','onHit',(WeapFlags2,'flags2'),
+                  'rangeMax','onHit',(WeapFlags2,'weapFlags2',0L),
                   'animationAttackMult','unknown4','rumbleLeftMotorStrength',
                   'rumbleRightMotorStrength','rumbleDuration','unknown5',
                   'skill','unknown6','resist','unknown7','stagger',),

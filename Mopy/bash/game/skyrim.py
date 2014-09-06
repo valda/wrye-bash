@@ -5424,7 +5424,7 @@ class MreIpds(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreKeym(MelRecord):
     """KEYM Key records."""
@@ -5457,7 +5457,7 @@ class MreKywd(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 # Commented out for performance reasons. Slows down loading quite a bit.
 # If Bash ever wants to be able to add masters to a mod, this minimal definition is required
@@ -5493,7 +5493,7 @@ class MreLcrt(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreLctn(MelRecord):
     """Location"""
@@ -5562,7 +5562,7 @@ class MreLctn(MelRecord):
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8, not mergable
+# Verified for 305, not mergable
 #------------------------------------------------------------------------------
 class MelLgtmData(MelStruct):
     def __init__(self,type='DALC'):
@@ -5584,25 +5584,25 @@ class MreLgtm(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         # 92 Bytes
-        MelStruct('DATA','4B4B4B2f2i3f8I4B3fI',
-            'red','green','blue','unknown',
-            'red','green','blue','unknown',
-            'red','green','blue','unknown',
+        # WindhelmLightingTemplate [LGTM:0007BA87] unknown1 only 24 Bytes
+        MelStruct('DATA','3Bs3Bs3Bs2f2i3f32s3Bs3f4s',
+            'redLigh','greenLigh','blueLigh','unknownLigh',
+            'redDirect','greenDirect','blueDirect','unknownDirect',
+            'redFog','greenFog','blueFog','unknownFog',
             'fogNear','fogFar',
             'dirRotXY','dirRotZ',
             'directionalFade','fogClipDist','fogPower',
-            'unknown','unknown','unknown','unknown',
-            'unknown','unknown','unknown','unknown',
-            'red','green','blue','unknown',
+            'unknown1'
+            'redFogFar','greenFogFar','blueFogFar','unknownFogFar',
             'fogMax',
             'lightFaceStart','lightFadeEnd',
-            'unknown',),
+            'unknown2',),
         # 32 Bytes
         MelLgtmData(),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# If Syntax Correct, Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreLigh(MelRecord):
     """Light"""
@@ -5678,7 +5678,7 @@ class MreLscr(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreLtex(MelRecord):
     """Landscape Texture."""
@@ -5694,7 +5694,7 @@ class MreLtex(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreLeveledList(MreLeveledListBase):
     """Skryim Leveled item/creature/spell list."""
@@ -5730,7 +5730,7 @@ class MreLvln(MreLeveledList):
         )
     __slots__ = MreLeveledList.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreLvli(MreLeveledList):
     classType = 'LVLI'
@@ -5747,7 +5747,7 @@ class MreLvli(MreLeveledList):
         )
     __slots__ = MreLeveledList.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreLvsp(MreLeveledList):
     classType = 'LVSP'
@@ -5763,7 +5763,7 @@ class MreLvsp(MreLeveledList):
         )
     __slots__ = MreLeveledList.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreMato(MelRecord):
     """Material Object Records"""
@@ -5787,7 +5787,7 @@ class MreMato(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreMatt(MelRecord):
     """Material Type Record."""
@@ -5809,7 +5809,7 @@ class MreMatt(MelRecord):
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreMesg(MelRecord):
     """Message Record."""
@@ -8030,7 +8030,8 @@ mergeClasses = (
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
         MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
         MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
-        MreNpc, MreIpct,
+        MreNpc, MreIpct, MreIpds, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLscr, MreLtex, MreMato,
+        MreMatt,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8067,7 +8068,7 @@ def init():
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
         MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
         MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
-        MreNpc, MreIpct,
+        MreNpc, MreIpct, MreIpds, MreKywd, MreLcrt, MreLctn, MreLgtm,
         MreCell, # MreNavm, MreNavi, MreWrld,
         MreHeader,
         ))

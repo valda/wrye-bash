@@ -154,6 +154,7 @@ def Init(path):
         'Nehrim':LIBBSA_VERSION_TES4,
         LIBBSA_VERSION_TES4:LIBBSA_VERSION_TES4,
         'Skyrim':LIBBSA_VERSION_TES5,
+        LIBBSA_VERSION_TES5:LIBBSA_VERSION_TES5,
         }
 
     # =========================================================================

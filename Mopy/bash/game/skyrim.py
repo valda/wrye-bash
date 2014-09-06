@@ -6295,14 +6295,10 @@ class MreNpc(MelRecord):
         MelOptStruct('VTCK', 'I', (FID, 'voicetype')),
         MelOptStruct('TPLT', 'I', (FID, 'template')),
         MelStruct('RNAM', 'I', (FID, 'race')),
-        # MelSpells handles writing the count for SPCT
-        #MelNull('SPCT'),
-        #MelSpells(),
-        #MelGroups('spells',
-        #    MelOptStruct('SPLO','I','spell'),
-        #    ),
-        MelCountedFids('SPLO', 'spells', 'SPCT', '<I'),
-
+        MelOptStruct('SPCT', 'I', 'count'),
+        MelGroups('spells',
+            MelOptStruct('SPLO','I','spell'),
+            ),
         MelDestructible(),
         MelOptStruct('WNAM','I',(FID, 'wormArmor')),
         MelOptStruct('ANAM','I',(FID, 'farawaymodel')),
@@ -8034,7 +8030,7 @@ mergeClasses = (
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
         MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
         MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
-        MreNpc
+        MreNpc,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8072,6 +8068,7 @@ def init():
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
         MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
         MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
+        MreNpc,
         MreCell, # MreNavm, MreNavi, MreWrld,
         MreHeader,
         ))

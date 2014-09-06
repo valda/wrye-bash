@@ -5410,7 +5410,7 @@ class MreIpct(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreIpds(MelRecord):
     """Ipds Item"""
@@ -8030,7 +8030,7 @@ mergeClasses = (
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
         MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
         MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
-        MreNpc,
+        MreNpc, MreIpct,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8061,14 +8061,13 @@ def init():
 #        MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun,
 #        MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr,
 #        MreWeap, MreWoop,
-        MreAchr, MreGmst, MreDial, MreInfo,
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
         MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreDoor, MreGlob,
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
         MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
         MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
-        MreNpc,
+        MreNpc, MreIpct,
         MreCell, # MreNavm, MreNavi, MreWrld,
         MreHeader,
         ))

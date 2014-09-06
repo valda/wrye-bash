@@ -5895,23 +5895,27 @@ class MreMgef(MelRecord):
             'magicSkill','resistValue',
             # 'counterEffectCount' is a count of ESCE records
             'counterEffectCount',
-            'unknown1',(FID,'castingLight'),'taperWeight',(FID,'hitShader'),
+            ('unknown1',null2),(FID,'castingLight'),'taperWeight',(FID,'hitShader'),
             (FID,'enchantShader'),'minimumSkillLevel','spellmakingArea',
             'spellmakingCastingTime','taperCurve','taperDuration',
             'secondAvWeight','mgefArchtype','actorValue',(FID,'projectile'),
             (FID,'explosion'),'castingType','delivery','secondActorValue',
             (FID,'castingArt'),(FID,'hitEffectArt'),(FID,'impactData'),
             'skillUsageMultiplier',(FID,'dualCastingArt'),'dualCastingScale',
-            (FID,'enchantArt'),'unknown2','unknown3',(FID,'equipAbility'),
+            (FID,'enchantArt'),('unknown2',null4),('unknown3',null4),(FID,'equipAbility'),
             (FID,'imageSpaceModifier'),(FID,'perkToApply'),'castingSoundLevel',
             'scriptEffectAiScore','scriptEffectAiDelayTime',),
-        MelGroups('counterEffects',
-            MelOptStruct('ESCE','I',(FID,'counterEffectCode',0)),),
+        MelFids('ESCE','counterEffects'),
         MelStructA('SNDD','2I','sounds','soundType',(FID,'sound')),
         MelLString('DNAM','magicItemDescription'),
         MelConditions(),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+    def dumpData(self,out):
+        counterEffects = self.counterEffects
+        self.counterEffectCount = len(counterEffects) if counterEffects else 0
+        MelRecord.dumpData(self,out)
 
 # Verified Correct for Skyrim 1.8
 # DATA needs an updating counter

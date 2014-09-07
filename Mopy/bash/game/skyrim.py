@@ -3521,6 +3521,8 @@ class MreAvif(MelRecord):
     # subrecord size = 4
     # file pos = 1437112
     # Error in Update.esm
+    
+    # TypeError: __init__() takes exactly 4 arguments (5 given)
 
     class MelAvifCnam(MelStructs):
         """Handle older truncated CNAM for AVIF subrecord."""
@@ -3559,7 +3561,7 @@ class MreAvif(MelRecord):
             MelStruct('INAM','I','index',),
         ),
     )
-    melSet.loaders = MelCnamLoaders(melSet.loaders,*melSet.elements[4:7])
+    # melSet.loaders = MelCnamLoaders(melSet.loaders,*melSet.elements[4:7])
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
     
     def dumpData(self,record,out):

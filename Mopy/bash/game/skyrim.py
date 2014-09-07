@@ -6065,7 +6065,7 @@ class MreNavi(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305, Not Mergable - FormIDs unaccounted for
 #------------------------------------------------------------------------------
 class MreNavm(MelRecord):
     """Navigation Mesh"""
@@ -6152,7 +6152,7 @@ class MreNavm(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305, Not Mergable - FormIDs unaccounted for
 #------------------------------------------------------------------------------
 class MelNpcCnto(MelGroups):
     def __init__(self):
@@ -6166,7 +6166,6 @@ class MelNpcCnto(MelGroups):
         out.packSub('COCT','I',len(record.container))
         MelGroups.dumpData(self,record,out)
 
-#------------------------------------------------------------------------------
 class MreNpc(MelRecord):
     """Npc"""
     classType = 'NPC_'
@@ -6395,8 +6394,13 @@ class MreNpc(MelRecord):
             ),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+    
+    def dumpData(self,out):
+        perks = self.perks
+        self.perkCount = len(perks) if perks else 0
+        MelRecord.dumpData(self,out)
 
-# Not fully tested
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreOtft(MelRecord):
     """Otft Item"""

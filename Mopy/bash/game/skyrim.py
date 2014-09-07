@@ -1727,14 +1727,14 @@ listTypes = ('LVLI','LVLN','LVSP',)
 fidListTypes = ('FLST',)
 
 
-# remaining to add: 'PERK', 'RACE', 'WRLD'
+# remaining to add: 'PERK', 'RACE', 'WRLD', 'CELL',
 namesTypes = set((
-    'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'AVIF', 'BOOK', 'CELL', 'CLAS', 'CLFM',
+    'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'AVIF', 'BOOK', 'CLAS', 'CLFM',
     'CONT', 'DIAL', 'DOOR', 'ENCH', 'EXPL', 'EYES', 'FACT', 'FLOR', 'FURN', 'HAZD',
     'HDPT', 'INGR', 'KEYM', 'LCTN', 'LIGH', 'MESG', 'MGEF', 'MISC', 'MSTT', 'NPC_',
     'PROJ', 'SCRL', 'SHOU', 'SLGM', 'SNCT', 'SPEL', 'TACT', 'TREE', 'WATR', 'WEAP',
-    'WOOP', 
-))
+    'WOOP'
+    ))
 pricesTypes = {'ALCH':{},'AMMO':{},'APPA':{},'ARMO':{},'BOOK':{},'INGR':{},'KEYM':{},'LIGH':{},'MISC':{},'SLGM':{},'WEAP':{}}
 statsTypes = {
         'ALCH':('eid', 'weight', 'value'),
@@ -3491,6 +3491,22 @@ class MreAstp(MelRecord):
 class MreAvif(MelRecord):
     """ActorValue Information record."""
     classType = 'AVIF'
+
+    class MelAvifCnam(MelStruct):
+        """Handle writing second CNAM for AVIF subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 4:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            else:
+                raise "Unexpected size encountered for ARMO subrecord: %s" % size
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked, record.flags.getTrueAttrs()
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelLString('FULL','full'),
@@ -3507,7 +3523,7 @@ class MreAvif(MelRecord):
             MelStruct('HNAM','f','horizontalPosition'),
             MelStruct('VNAM','f','verticalPosition'),
             MelFid('SNAM','associatedSkill',),
-            MelStructs('CNAM','I','connections','lineToIndex',),
+            MelAvifCnam('CNAM','I','connections','lineToIndex',),
             MelStruct('INAM','I','index',),
         ),
     )
@@ -4610,10 +4626,16 @@ class MreFact(MelRecord):
         MelStruct('VENV','3H2s2B2s','startHour','endHour','radius','unknownOne',
                   'onlyBuysStolenItems','notSellBuy','UnknownTwo'),
         MelStruct('PLVD','iIi','type',(FID,'locationValue'),'radius',),
+        MelStruct('CITC','I','conditionCount'),
         MelConditions(),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
+    def dumpData(self,out):
+        conditions = self.conditions
+        self.conditionCount = len(conditions) if conditions else 0
+        MelRecord.dumpData(self,out)
+        
 # Verified for 305
 #------------------------------------------------------------------------------
 class MreFlor(MelRecord):
@@ -5008,7 +5030,7 @@ class MreHdpt(MelRecord):
         MelFids('HNAM','extraParts'),
         MelGroups('partsData',
             MelStruct('NAM0','I','headPartType',),
-            MelLString('NAM1','filename'),
+            MelString('NAM1','filename'),
             ),
         MelFid('TNAM','textureSet'),
         MelFid('CNAM','color'),

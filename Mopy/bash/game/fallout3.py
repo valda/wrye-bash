@@ -5445,15 +5445,15 @@ class MreWthr(MelRecord):
 #------------------------------------------------------------------------------
 # These Are normally not mergable but added to brec.MreRecord.type_class
 #
-#       MreCell,
+#       
 #------------------------------------------------------------------------------
 # These have undefined FormIDs Do not merge them
 #
-#       MreNavi, MreNavm,
+#       
 #------------------------------------------------------------------------------
 # These need syntax revision but can be merged once that is corrected
 #
-#       MreAchr, MreDial, MreLctn, MreInfo, MreFact, MrePerk,
+#       
 #------------------------------------------------------------------------------
 #--Mergeable record types
 # Old Mergable from Valda's version

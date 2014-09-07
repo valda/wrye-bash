@@ -1727,11 +1727,11 @@ listTypes = ('LVLI','LVLN','LVSP',)
 fidListTypes = ('FLST',)
 
 
-# remaining to add: 'PERK', 'RACE', 'WRLD', 'CELL',
+# remaining to add: 'PERK', 'RACE', 'WRLD', 'CELL', 'LCTN',
 namesTypes = set((
     'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'AVIF', 'BOOK', 'CLAS', 'CLFM',
     'CONT', 'DIAL', 'DOOR', 'ENCH', 'EXPL', 'EYES', 'FACT', 'FLOR', 'FURN', 'HAZD',
-    'HDPT', 'INGR', 'KEYM', 'LCTN', 'LIGH', 'MESG', 'MGEF', 'MISC', 'MSTT', 'NPC_',
+    'HDPT', 'INGR', 'KEYM', 'LIGH', 'MESG', 'MGEF', 'MISC', 'MSTT', 'NPC_',
     'PROJ', 'SCRL', 'SHOU', 'SLGM', 'SNCT', 'SPEL', 'TACT', 'TREE', 'WATR', 'WEAP',
     'WOOP'
     ))
@@ -7537,7 +7537,7 @@ class MreSopm(MelRecord):
         MelSopmData(),
         MelStruct('ANAM','4s2f5B','unknown','minDistance','maxDistance',
                   'curve1','curve2','curve3','curve4','curve5',
-                   dumpRemaining='extraData',),
+                   dumpExtra='extraData',),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -8229,12 +8229,13 @@ class MreWthr(MelRecord):
 
 mergeClasses = (
         # MreAchr, MreDial, MreGmst, MreInfo,
+        # MreLctn, 
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
         MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual,
         MreEczn, MreEfsh, MreEnch, MreEqup, MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFstp,
         MreFsts, MreFurn, MreGlob, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs,
-        MreIngr, MreIpct, MreIpds, MreKeym, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLigh, MreLscr,
+        MreIngr, MreIpct, MreIpds, MreKeym, MreKywd, MreLcrt, MreLgtm, MreLigh, MreLscr,
         MreLtex, MreLvli, MreLvln, MreLvsp, MreMato, MreMatt, MreMesg, MreMgef, MreMisc, MreMovt,
         MreMstt, MreMusc, MreMust, MreNpc, MreOtft, MreProj, MreRela, MreRevb, MreRfct, MreScrl,
         MreShou, MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun, MreSpel,
@@ -8257,12 +8258,13 @@ def init():
     #--Record Types
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
         MreAchr, MreDial, MreGmst, MreInfo,
+        # MreLctn, 
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
         MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual,
         MreEczn, MreEfsh, MreEnch, MreEqup, MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFstp,
         MreFsts, MreFurn, MreGlob, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs,
-        MreIngr, MreIpct, MreIpds, MreKeym, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLigh, MreLscr,
+        MreIngr, MreIpct, MreIpds, MreKeym, MreKywd, MreLcrt, MreLgtm, MreLigh, MreLscr,
         MreLtex, MreLvli, MreLvln, MreLvsp, MreMato, MreMatt, MreMesg, MreMgef, MreMisc, MreMovt,
         MreMstt, MreMusc, MreMust, MreNpc, MreOtft, MreProj, MreRela, MreRevb, MreRfct, MreScrl,
         MreShou, MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun, MreSpel,

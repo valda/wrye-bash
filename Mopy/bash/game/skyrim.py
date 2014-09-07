@@ -5853,7 +5853,7 @@ class MreMesg(MelRecord):
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreMgef(MelRecord):
     """Mgef Item"""
@@ -5933,8 +5933,7 @@ class MreMgef(MelRecord):
         self.counterEffectCount = len(counterEffects) if counterEffects else 0
         MelRecord.dumpData(self,out)
 
-# Verified Correct for Skyrim 1.8
-# DATA needs an updating counter
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreMisc(MelRecord):
     """Misc. Item"""
@@ -5954,7 +5953,7 @@ class MreMisc(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# If VMAD correct then Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreMovt(MelRecord):
     """Movt Item"""
@@ -5970,7 +5969,7 @@ class MreMovt(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreMstt(MelRecord):
     """Moveable static record."""
@@ -5992,7 +5991,7 @@ class MreMstt(MelRecord):
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreMusc(MelRecord):
     """Music type record."""
@@ -6013,12 +6012,11 @@ class MreMusc(MelRecord):
         # Divided by 100 in TES5Edit, probably for editing only
         MelStruct('PNAM','2H','priority','duckingDB'),
         MelStruct('WNAM','f','fadeDuration'),
-        MelFids('TNAM','musicTracks'),
+        MelFidList('TNAM','musicTracks'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# If Syntax Correct, Verified Correct for Skyrim 1.8
-# Need to check if TNAM can have more then one FormID if so MelFidList
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreMust(MelRecord):
     """Music Track"""
@@ -6033,19 +6031,24 @@ class MreMust(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('CNAM','I','trackType'),
-        MelStruct('FLTV','f','duration'),
-        MelStruct('DNAM','I','fadeOut'),
+        MelOptStruct('FLTV','f','duration'),
+        MelOptStruct('DNAM','I','fadeOut'),
         MelString('ANAM','trackFilename'),
         MelString('BNAM','finaleFilename'),
         MelStructA('FNAM','f','cuePoints'),
-        MelStruct('LNAM','2fI','loopBegins','loopEnds','loopCount',),
+        MelOptStruct('LNAM','2fI','loopBegins','loopEnds','loopCount',),
         MelStruct('CITC','I','conditionCount'),
         MelConditions(),
         MelFidList('SNAM','tracks',),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified Correct for Skyrim 1.8
+    
+    def dumpData(self,out):
+        conditions = self.conditions
+        self.conditionCount = len(conditions) if conditions else 0
+        MelRecord.dumpData(self,out)
+        
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreNavi(MelRecord):
     """Navigation Mesh Info Map"""
@@ -8046,7 +8049,7 @@ mergeClasses = (
         MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
         MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
         MreNpc, MreIpct, MreIpds, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLscr, MreLtex, MreMato,
-        MreMatt,
+        MreMatt, MreMesg, MreMgef, MreMisc, MreMovt, MreMstt, MreMusc, MreMust,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8083,7 +8086,8 @@ def init():
         MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
         MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
         MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
-        MreNpc, MreIpct, MreIpds, MreKywd, MreLcrt, MreLctn, MreLgtm,
+        MreNpc, MreIpct, MreIpds, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLscr, MreLtex, MreMato,
+        MreMatt, MreMesg, MreMgef, MreMisc, MreMovt, MreMstt, MreMusc, MreMust,
         MreCell, # MreNavm, MreNavi, MreWrld,
         MreHeader,
         ))

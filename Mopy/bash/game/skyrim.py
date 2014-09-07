@@ -1726,10 +1726,16 @@ listTypes = ('LVLI','LVLN','LVSP',)
 #--For fidListMerger patcher (FormID list patcher)
 fidListTypes = ('FLST',)
 
+
+# remaining to add: 'PERK', 'RACE', 'WRLD'
 namesTypes = set((
-    'ACTI', 'ALCH', 'AMMO', 'ARMO', 'APPA', 'MISC',
+    'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'AVIF', 'BOOK', 'CELL', 'CLAS', 'CLFM',
+    'CONT', 'DIAL', 'DOOR', 'ENCH', 'EXPL', 'EYES', 'FACT', 'FLOR', 'FURN', 'HAZD',
+    'HDPT', 'INGR', 'KEYM', 'LCTN', 'LIGH', 'MESG', 'MGEF', 'MISC', 'MSTT', 'NPC_',
+    'PROJ', 'SCRL', 'SHOU', 'SLGM', 'SNCT', 'SPEL', 'TACT', 'TREE', 'WATR', 'WEAP',
+    'WOOP', 
 ))
-pricesTypes = {'ALCH':{},'AMMO':{},'ARMO':{},'APPA':{},'MISC':{}}
+pricesTypes = {'ALCH':{},'AMMO':{},'APPA':{},'ARMO':{},'BOOK':{},'INGR':{},'KEYM':{},'LIGH':{},'MISC':{},'SLGM':{},'WEAP':{}}
 statsTypes = {
         'ALCH':('eid', 'weight', 'value'),
         'AMMO':('eid', 'value', 'damage'),

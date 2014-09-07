@@ -6035,7 +6035,7 @@ class MreMust(MelRecord):
         MelOptStruct('DNAM','I','fadeOut'),
         MelString('ANAM','trackFilename'),
         MelString('BNAM','finaleFilename'),
-        MelStructA('FNAM','f','cuePoints'),
+        MelOptStructA('FNAM','f','cuePoints'),
         MelOptStruct('LNAM','2fI','loopBegins','loopEnds','loopCount',),
         MelStruct('CITC','I','conditionCount'),
         MelConditions(),

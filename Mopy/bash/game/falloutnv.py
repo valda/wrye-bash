@@ -4276,6 +4276,7 @@ class MrePack(MelRecord):
             for subtype in ('INAM','SCHR','SCDA','SCTX','SLSD','SCVR','SCRV','SCRO','TNAM'):
                 self.melSet.loaders[subtype] = element
             element.loadData(record,ins,type,size,readId)
+
     #--MelSet
     melSet = MelSet(
         MelString('EDID','eid'),

@@ -3499,20 +3499,45 @@ class MreAvif(MelRecord):
     """ActorValue Information record."""
     classType = 'AVIF'
 
-    class MelAvifCnam(MelStruct):
-        """Handle writing second CNAM for AVIF subrecord."""
+    #--CNAM loader
+    class MelCnamLoaders(DataDict):
+        """Since CNAM subrecords occur in two different places, we need
+        to replace ordinary 'loaders' dictionary with a 'dictionary' that will
+        return the correct element to handle the CNAM subrecord. 'Correct'
+        element is determined by which other subrecords have been encountered."""
+        def __init__(self,loaders,actorinfo,perks):
+            self.data = loaders
+            self.type_cnam = {'EDID':actorinfo, 'SNAM':perks}
+            self.cnam = actorinfo #--Which cnam element loader to use next.
+        def __getitem__(self,key):
+            if key == 'CNAM': return self.cnam
+            self.cnam = self.type_cnam.get(key, self.cnam)
+            return self.data[key]
+
+    # unpack requires a string argument of length 16
+    # Error loading 'AVIF' record and/or subrecord: 00000450
+    # eid = u'AVSmithing'
+    # subrecord = 'CNAM'
+    # subrecord size = 4
+    # file pos = 1437112
+    # Error in Update.esm
+
+    class MelAvifCnam(MelStructs):
+        """Handle older truncated CNAM for AVIF subrecord."""
         def loadData(self,record,ins,type,size,readId):
-            if size == 4:
+            if size == 16:
                 MelStruct.loadData(self,record,ins,type,size,readId)
                 return
+            elif size == 4:
+                unpacked = ins.unpack('I',size,readId)
             else:
-                raise "Unexpected size encountered for ARMO subrecord: %s" % size
+                raise ModSizeError(self.inName,recType+'.'+type,size,expSize,True)
             unpacked += self.defaults[len(unpacked):]
             setter = record.__setattr__
             for attr,value,action in zip(self.attrs,unpacked,self.actions):
                 if callable(action): value = action(value)
                 setter(attr,value)
-            if self._debug: print unpacked, record.flags.getTrueAttrs()
+            if self._debug: print unpacked
 
     melSet = MelSet(
         MelString('EDID','eid'),
@@ -3534,7 +3559,13 @@ class MreAvif(MelRecord):
             MelStruct('INAM','I','index',),
         ),
     )
+    melSet.loaders = MelCnamLoaders(melSet.loaders,*melSet.elements[4:7])
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+    
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+        if record.iconsIaM and record.cnam_p:
+            MelGroup.dumpData(self,record,out)
 
 # Verified for 305
 #------------------------------------------------------------------------------
@@ -4413,11 +4444,28 @@ class MreEnch(MelRecord,MreHasEffects):
         (2, 'extendDurationOnRecast'),
     ))
 
+    class MelEnchEnit(MelStruct):
+        """Handle older truncated ENIT for ENCH subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 36:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 32:
+                unpacked = ins.unpack('i2Ii2IfI',size,readId)
+            else:
+                raise ModSizeError(self.inName,recType+'.'+type,size,expSize,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelBounds(),
         MelLString('FULL','full'),
-        MelStruct('ENIT','i2Ii2If2I','enchantmentCost',(EnchGeneralFlags,
+        MelEnchEnit('ENIT','i2Ii2If2I','enchantmentCost',(EnchGeneralFlags,
                   'generalFlags',0L),'castType','enchantmentAmount','targetType',
                   'enchantType','chargeTime',(FID,'baseEnchantment'),
                   (FID,'wornRestrictions'),
@@ -4465,6 +4513,27 @@ class MreExpl(MelRecord):
         (8, 'noControllerVibration'),
     ))
 
+    class MelExplData(MelStruct):
+        """Handle older truncated DATA for EXPL subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 52:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 48:
+                unpacked = ins.unpack('6I5fI',size,readId)
+            elif size == 44:
+                unpacked = ins.unpack('6I5f',size,readId)
+            elif size == 40:
+                unpacked = ins.unpack('6I4f',size,readId)
+            else:
+                raise ModSizeError(self.inName,recType+'.'+type,size,expSize,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked, record.flags.getTrueAttrs()
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelBounds(),
@@ -4472,7 +4541,7 @@ class MreExpl(MelRecord):
         MelModel(),
         MelFid('EITM','objectEffect'),
         MelFid('MNAM','imageSpaceModifier'),
-        MelStruct('DATA','6I5f2I',(FID,'light',None),(FID,'sound1',None),(FID,'sound2',None),
+        MelExplData('DATA','6I5f2I',(FID,'light',None),(FID,'sound1',None),(FID,'sound2',None),
                   (FID,'impactDataset',None),(FID,'placedObject',None),(FID,'spawnProjectile',None),
                   'force','damage','radius','isRadius','verticalOffsetMult',
                   (ExplTypeFlags,'flags',0L),'soundLevel',
@@ -4505,41 +4574,6 @@ class MreEyes(MelRecord):
 
 # Verified for 305
 #------------------------------------------------------------------------------
-class MelFactCrva(MelStruct):
-    """Fact Crva Custom Unpacker"""
-
-    # These are Boolean values
-    # 'arrest',
-    # 'attackOnSight',
-    def __init__(self,type='CRVA'):
-        MelStruct.__init__(self,type,'2B5Hf2H',
-                           'arrest','attackOnSight','murder','assault',
-                           'trespass','pickpocket','unknown',
-                           'stealMultiplier',
-                           'escape',
-                           'werewolf',)
-
-    # MelStruct('CRVA','2B5Hf2H','arrest','attackOnSight','murder','assult',
-    # 'trespass','pickpocket','unknown','stealMultiplier','escape','werewolf'),
-    def loadData(self,record,ins,type,size,readId):
-        """Reads data from ins into record attribute."""
-        if size == 12:
-            # 12 Bytes for legacy data post Skyrim 1.5 CRVA is always 20 bytes
-            # BBHHHHH + FHH
-            unpacked = ins.unpack('=2B5H',size,readId) + (0,0,0,)
-            setter = record.__setattr__
-            for attr,value,action in zip(self.attrs,unpacked,self.actions):
-                if action: value = action(value)
-                setter(attr,value)
-            if self._debug:
-                print u' ',zip(self.attrs,unpacked)
-                if len(unpacked) != len(self.attrs):
-                    print u' ',unpacked
-        elif size != 20:
-            raise ModSizeError(ins.inName,readId,20,size,True)
-        else:
-            MelStruct.loadData(self,record,ins,type,size,readId)
-
 class MreFact(MelRecord):
     """Fact Faction Records"""
     classType = 'FACT'
@@ -4608,6 +4642,25 @@ class MreFact(MelRecord):
 #     wbInteger('Radius', itS32)
 #   ]);
 
+    class MelFactCrva(MelStruct):
+        """Handle older truncated CRVA for FACT subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 20:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 16:
+                unpacked = ins.unpack('2B5Hf',size,readId)
+            elif size == 12:
+                unpacked = ins.unpack('2B5H',size,readId)
+            else:
+                raise ModSizeError(self.inName,recType+'.'+type,size,expSize,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelLString('FULL','full'),
@@ -4621,7 +4674,10 @@ class MreFact(MelRecord):
         MelFid('PLCN','playerInventoryContainer'),
         MelFid('CRGR','sharedCrimeFactionList'),
         MelFid('JOUT','jailOutfit'),
-        MelFactCrva(),
+        # These are Boolean values
+        # 'arrest', 'attackOnSight',
+        MelFactCrva('CRVA','2B5Hf2H','arrest','attackOnSight','murder','assult',
+        'trespass','pickpocket','unknown','stealMultiplier','escape','werewolf'),
         MelGroups('ranks',
             MelStruct('RNAM','I','rank'),
             MelLString('MNAM','maleTitle'),
@@ -4987,6 +5043,7 @@ class MreHazd(MelRecord):
         MelBounds(),
         MelLString('FULL','full'),
         MelModel(),
+        MelFid('MNAM','imageSpaceModifier'),
         MelStruct('DATA','I4f5I','limit','radius','lifetime',
                   'imageSpaceRadius','targetInterval',(HazdTypeFlags,'flags',0L),
                   (FID,'spell'),(FID,'light'),(FID,'impactDataSet'),(FID,'sound'),),
@@ -6878,13 +6935,15 @@ class MreProj(MelRecord):
     ))
 
     class MelProjData(MelStruct):
-        """Handle older trucated DATA for PROJ subrecord."""
+        """Handle older truncated DATA for PROJ subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 92:
                 MelStruct.loadData(self,record,ins,type,size,readId)
                 return
             elif size == 88:
                 unpacked = ins.unpack('2H3f2I3f2I3f3I4fI',size,readId)
+            elif size == 84:
+                unpacked = ins.unpack('2H3f2I3f2I3f3I4f',size,readId)
             else:
                 raise ModSizeError(self.inName,recType+'.'+type,size,expSize,True)
             unpacked += self.defaults[len(unpacked):]

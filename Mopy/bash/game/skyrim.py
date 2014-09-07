@@ -6559,6 +6559,8 @@ class MrePack(MelRecord):
                 element = self.loaders['onEnd']
             elif type == 'POCA':
                 element = self.loaders['onChange']
+            # 'SCHR','SCDA','SCTX','SLSD','SCVR','SCRV','SCRO',
+            # All older Script records chould be discarded if found
             for subtype in ('INAM','TNAM'):
                 self.melSet.loaders[subtype] = element
             element.loadData(record,ins,type,size,readId)
@@ -6873,7 +6875,7 @@ class MreProj(MelRecord):
                   ('coneSpread',0.00000),('collisionRadius',0.00000),('lifetime',0.00000),
                   ('relaunchInterval',0.00000),(FID,'decalData',0),(FID,'collisionLayer',0),
                   ),
-        MelGroups('models',
+        MelGroup('models',
             MelString('NAM1','muzzleFlashPath'),
             MelBase('NAM2','nam2_p'),
         ),
@@ -6881,7 +6883,7 @@ class MreProj(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 # Marker for organization please don't remove ---------------------------------
 # QUST ------------------------------------------------------------------------
@@ -6975,7 +6977,7 @@ class MreRela(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreRevb(MelRecord):
     """Reverb Parameters"""
@@ -6990,7 +6992,7 @@ class MreRevb(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreRfct(MelRecord):
     """Rfct Item"""
@@ -7011,7 +7013,7 @@ class MreRfct(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreSlgm(MelRecord):
     """Soul gem record."""
@@ -7066,7 +7068,12 @@ class MreSmbn(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+    def dumpData(self,out):
+        conditions = self.conditions
+        self.conditionCount = len(conditions) if conditions else 0
+        MelRecord.dumpData(self,out)
+        
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreSmqn(MelRecord):
     """Story Manager Quest Node"""
@@ -7102,7 +7109,14 @@ class MreSmqn(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+    def dumpData(self,out):
+        quests = self.quests
+        self.questCount = len(quests) if quests else 0
+        conditions = self.conditions
+        self.conditionCount = len(conditions) if conditions else 0
+        MelRecord.dumpData(self,out)
+        
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreSmen(MelRecord):
     """Story Manager Event Node"""
@@ -7126,7 +7140,12 @@ class MreSmen(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+    def dumpData(self,out):
+        conditions = self.conditions
+        self.conditionCount = len(conditions) if conditions else 0
+        MelRecord.dumpData(self,out)
+        
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreShou(MelRecord):
     """Shout Records"""
@@ -7143,7 +7162,7 @@ class MreShou(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreScen(MelRecord):
     """Scene"""
@@ -7356,7 +7375,7 @@ class MreSndr(MelRecord):
         MelBase('CNAM','cnam_p'),
         MelFid('GNAM','category',),
         MelFid('SNAM','alternateSoundFor',),
-        MelGroups('soundFiles',
+        MelGroups('sounds',
             MelString('ANAM','fileName',),
             ),
         MelFid('ONAM','outputModel',),
@@ -7369,7 +7388,7 @@ class MreSndr(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreSnct(MelRecord):
     """Sound Category"""
@@ -7390,7 +7409,7 @@ class MreSnct(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MelSopmData(MelStruct):
     def __init__(self,type='ONAM'):
@@ -7430,7 +7449,7 @@ class MreSopm(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreSoun(MelRecord):
     """Soun Item"""
@@ -7439,17 +7458,16 @@ class MreSoun(MelRecord):
         MelString('EDID','eid'),
         MelBounds(),
         # FNAM Leftover, Unused
-        MelString('FNAM','fxPath'),
+        MelString('FNAM','soundFileUnused'),
         # SNDD Leftover, Unused
-        MelBase('SNDD','soundData'),
+        MelBase('SNDD','soundDataUnused'),
         MelFid('SDSC','soundDescriptor'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
-# class MreSpel(MelRecord,MreHasEffects):
-class MreSpel(MelRecord):
+class MreSpel(MelRecord,MreHasEffects):
     """Spell record."""
     classType = 'SPEL'
 
@@ -7516,7 +7534,7 @@ class MreSpel(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
     # DATA has wbEnum in TES5Edit
     # Assinged as 'type' in MelSpgdData
@@ -7525,10 +7543,10 @@ class MreSpel(MelRecord):
 class MelSpgdData(MelStruct):
     def __init__(self,type='DATA'):
         MelStruct.__init__(self,type,'=7f4If',
-                           'gravityVelocity','rotationVelocity','particleSizeX','particleSizeY',
-                           'centerOffsetMin','centerOffsetMax','initialRotationRange',
-                           'numSubtexturesX','numSubtexturesY','type',
-                           ('boxSize',0),
+                           'gravityVelocity','rotationVelocity','particleSizeX',
+                           'particleSizeY','centerOffsetMin','centerOffsetMax',
+                           'initialRotationRange','numSubtexturesX',
+                           'numSubtexturesY','type',('boxSize',0),
                            ('particleDensity',0),
                            )
 
@@ -7564,7 +7582,7 @@ class MreSpgd(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreScrl(MelRecord):
     """Scroll record."""
@@ -8202,7 +8220,9 @@ mergeClasses = (
         MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
         MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
         MreNpc, MreIpct, MreIpds, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLscr, MreLtex, MreMato,
-        MreMatt, MreMesg, MreMgef, MreMisc, MreMovt, MreMstt, MreMusc, MreMust, MreOtft,
+        MreMatt, MreMesg, MreMgef, MreMisc, MreMovt, MreMstt, MreMusc, MreMust, MreOtft, MreProj,
+        MreRela, MreRevb, MreRfct, MreSmbn, MreSmqn, MreSmen, MreShou, MreSndr, MreSnct, MreSopm,
+        MreSoun, MreSpel, MreSpgd,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8240,7 +8260,9 @@ def init():
         MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
         MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
         MreNpc, MreIpct, MreIpds, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLscr, MreLtex, MreMato,
-        MreMatt, MreMesg, MreMgef, MreMisc, MreMovt, MreMstt, MreMusc, MreMust, MreOtft,
+        MreMatt, MreMesg, MreMgef, MreMisc, MreMovt, MreMstt, MreMusc, MreMust, MreOtft, MreProj,
+        MreRela, MreRevb, MreRfct, MreSmbn, MreSmqn, MreSmen, MreShou, MreSndr, MreSnct, MreSopm,
+        MreSoun, MreSpel, MreSpgd,
         MreCell, # MreNavm, MreNavi, MreWrld,
         MreHeader,
         ))

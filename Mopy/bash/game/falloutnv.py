@@ -5979,7 +5979,6 @@ class MreWeap(MelRecord):
         MelFids('WMS1','soundMod1Shoot3Ds'),
         MelFid('WMS2','soundMod1Shoot2D'),
         MelStruct('DATA','2IfHB','value','health','weight','damage','clipsize'),
-        -----------------------------------------------------------------------
         MelWeapDnam('DNAM','I2f4B4f4sI4B2f2I11fiI2fi3f4s3I3f2IsB2s6fI',
                     'animationType','animationMultiplier','reach',
                     (_dflags1,'dnamFlags1',0L),'gripAnimation','ammoUse',

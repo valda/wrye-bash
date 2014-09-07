@@ -1736,7 +1736,7 @@ fidListTypes = ('FLST',)
 
 # remaining to add: 'PERK', 'RACE', 'WRLD', 'CELL', 'LCTN',
 namesTypes = set((
-    'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'AVIF', 'BOOK', 'CLAS', 'CLFM',
+    'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLFM',
     'CONT', 'DIAL', 'DOOR', 'ENCH', 'EXPL', 'EYES', 'FACT', 'FLOR', 'FURN', 'HAZD',
     'HDPT', 'INGR', 'KEYM', 'LIGH', 'MESG', 'MGEF', 'MISC', 'MSTT', 'NPC_',
     'PROJ', 'SCRL', 'SHOU', 'SLGM', 'SNCT', 'SPEL', 'TACT', 'TREE', 'WATR', 'WEAP',
@@ -8295,9 +8295,9 @@ class MreWthr(MelRecord):
 
 mergeClasses = (
         # MreAchr, MreDial, MreGmst, MreInfo,
-        # MreLctn, 
+        # MreLctn, MreAvif, 
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
-        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
+        MreAspc, MreAstp, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual,
         MreEczn, MreEfsh, MreEnch, MreEqup, MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFstp,
         MreFsts, MreFurn, MreGlob, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs,
@@ -8324,9 +8324,9 @@ def init():
     #--Record Types
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
         MreAchr, MreDial, MreGmst, MreInfo,
-        # MreLctn, 
+        # MreLctn, MreAvif, 
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
-        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
+        MreAspc, MreAstp, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual,
         MreEczn, MreEfsh, MreEnch, MreEqup, MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFstp,
         MreFsts, MreFurn, MreGlob, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs,

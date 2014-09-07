@@ -7527,7 +7527,7 @@ class MreSpel(MelRecord,MreHasEffects):
         MelFid('MDOB', 'menuDisplayObject'),
         MelFid('ETYP', 'equipmentType'),
         MelLString('DESC','description'),
-        MelStruct('SPIT','IIIfIIffI','baseCost',(SpelTypeFlags,'dataFlags',0L),
+        MelStruct('SPIT','IIIfIIffI','cost',(SpelTypeFlags,'dataFlags',0L),
                   'scrollType','chargeTime','castType','targetType',
                   'castDuration','range',(FID,'halfCostPerk'),),
         MelEffects(),
@@ -7584,7 +7584,7 @@ class MreSpgd(MelRecord):
 
 # Verified for 305
 #------------------------------------------------------------------------------
-class MreScrl(MelRecord):
+class MreScrl(MelRecord,MreHasEffects):
     """Scroll record."""
     classType = 'SCRL'
 
@@ -7646,7 +7646,7 @@ class MreScrl(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreStat(MelRecord):
     """Static model record."""
@@ -7662,7 +7662,7 @@ class MreStat(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 # MNAM Should use a custom unpacker if needed for the patcher otherwise MelBase
 #------------------------------------------------------------------------------
 class MreTact(MelRecord):
@@ -7684,7 +7684,7 @@ class MreTact(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreTree(MelRecord):
     """Tree Item"""
@@ -7703,7 +7703,7 @@ class MreTree(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreTxst(MelRecord):
     """Texture Set"""
@@ -7736,7 +7736,7 @@ class MreTxst(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreVtyp(MelRecord):
     """Vtyp Item"""
@@ -7755,7 +7755,7 @@ class MreVtyp(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreWatr(MelRecord):
     """Water"""
@@ -7779,10 +7779,10 @@ class MreWatr(MelRecord):
         MelFid('XNAM','spell',),
         MelFid('INAM','imageSpace',),
         MelStruct('DATA','H','damagePerSecond'),
-        MelStruct('DNAM','7f4s2f3Bs3Bs3B5s43f','unknown','unknown','unknown',
-                  'unknown','specularPropertiesSunSpecularPower',
+        MelStruct('DNAM','7f4s2f3Bs3Bs3B5s43f','unknown1','unknown2','unknown3',
+                  'unknown4','specularPropertiesSunSpecularPower',
                   'waterPropertiesReflectivityAmount',
-                  'waterPropertiesFresnelAmount','unknown',
+                  'waterPropertiesFresnelAmount','unknown5',
                   'fogPropertiesAboveWaterFogDistanceNearPlane',
                   'fogPropertiesAboveWaterFogDistanceFarPlane',
                   # Shallow Color
@@ -7791,24 +7791,24 @@ class MreWatr(MelRecord):
                   'red_dc','green_dc','blue_dc','unknown_dc',
                   # Reflection Color
                   'red_rc','green_rc','blue_rc','unknown_rc',
-                  'unknown','unknown','unknown','unknown','unknown',
+                  'unknown6','unknown7','unknown8','unknown9','unknown10',
                   'displacementSimulatorStartingSize',
                   'displacementSimulatorForce','displacementSimulatorVelocity',
                   'displacementSimulatorFalloff','displacementSimulatorDampner',
-                  'unknown','noisePropertiesNoiseFalloff',
+                  'unknown11','noisePropertiesNoiseFalloff',
                   'noisePropertiesLayerOneWindDirection',
                   'noisePropertiesLayerTwoWindDirection',
                   'noisePropertiesLayerThreeWindDirection',
                   'noisePropertiesLayerOneWindSpeed',
                   'noisePropertiesLayerTwoWindSpeed',
                   'noisePropertiesLayerThreeWindSpeed',
-                  'unknown','unknown','fogPropertiesAboveWaterFogAmount',
-                  'unknown','fogPropertiesUnderWaterFogAmount',
+                  'unknown12','unknown13','fogPropertiesAboveWaterFogAmount',
+                  'unknown14','fogPropertiesUnderWaterFogAmount',
                   'fogPropertiesUnderWaterFogDistanceNearPlane',
                   'fogPropertiesUnderWaterFogDistanceFarPlane',
                   'waterPropertiesRefractionMagnitude',
                   'specularPropertiesSpecularPower',
-                  'unknown','specularPropertiesSpecularRadius',
+                  'unknown15','specularPropertiesSpecularRadius',
                   'specularPropertiesSpecularBrightness',
                   'noisePropertiesLayerOneUVScale',
                   'noisePropertiesLayerTwoUVScale',
@@ -7834,7 +7834,7 @@ class MreWatr(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreWeap(MelRecord):
     """Weapon"""
@@ -7926,15 +7926,15 @@ class MreWeap(MelRecord):
         MelFid('NAM8','unequipSound',),
         MelStruct('DATA','IfH','value','weight','damage',),
         MelStruct('DNAM','B3s2fH2sf4s4B2f2I5f12si8si4sf','animationType','unknown1',
-                  'speed','reach',(WeapFlags1,'flags',0L),'unknown2','sightFOV',
+                  'speed','reach',(WeapFlags1,'dnamFlags1',0L),'unknown2','sightFOV',
                   'unknown3','baseVATSToHitChance','attackAnimation',
-                  'numProjectiles','embeddedWeaponAVunused','rangeMin',
-                  'rangeMax','onHit',(WeapFlags2,'weapFlags2',0L),
-                  'animationAttackMult','unknown4','rumbleLeftMotorStrength',
+                  'numProjectiles','embeddedWeaponAVunused','minRange',
+                  'maxRange','onHit',(WeapFlags2,'dnamFlags2',0L),
+                  'animationAttackMultiplier','unknown4','rumbleLeftMotorStrength',
                   'rumbleRightMotorStrength','rumbleDuration','unknown5',
                   'skill','unknown6','resist','unknown7','stagger',),
-        MelStruct('CRDT','H2sfB3sI','critDamage','unused2','pctMult',
-                  (WeapFlags3,'flags',0L),'unused3',(FID,'Effect'),),
+        MelStruct('CRDT','H2sfB3sI','critDamage','unused2','criticalMultiplier',
+                  (WeapFlags3,'criticalFlags',0L),'unused3',(FID,'criticalEffect'),),
         MelStruct('VNAM','I','detectionSoundLevel'),
         MelFid('CNAM','template',),
         )
@@ -7952,7 +7952,7 @@ class MreWoop(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified Correct for Skyrim 1.8
+# Verified for 305
 #------------------------------------------------------------------------------
 class MreWrld(MelRecord):
     """Worldspace"""
@@ -8152,7 +8152,7 @@ class MreWthr(MelRecord):
                   'windDirection','windDirectionRange',),
         MelStruct('NAM1','I',(WthrFlags2,'flags',0L),),
         MelGroups('sounds',
-            MelStruct('SNAM','2I',(FID,'weatherSound'),'weatherType'),
+            MelOptStruct('SNAM','2I',(FID,'weatherSound'),'weatherType'),
             ),
         MelFids('TNAM','skyStatics',),
         MelStruct('IMSP','4I',(FID,'imageSpacesSunrise'),(FID,'imageSpacesDay'),
@@ -8164,7 +8164,8 @@ class MreWthr(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Many Things Marked MelBase that need updated
+# Verified for 305
+# Some things Marked MelBase could be updated if mitigation needed
 #------------------------------------------------------------------------------
 # Unused records, they have empty GRUP in skyrim.esm---------------------------
 # CLDC ------------------------------------------------------------------------
@@ -8222,7 +8223,8 @@ mergeClasses = (
         MreNpc, MreIpct, MreIpds, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLscr, MreLtex, MreMato,
         MreMatt, MreMesg, MreMgef, MreMisc, MreMovt, MreMstt, MreMusc, MreMust, MreOtft, MreProj,
         MreRela, MreRevb, MreRfct, MreSmbn, MreSmqn, MreSmen, MreShou, MreSndr, MreSnct, MreSopm,
-        MreSoun, MreSpel, MreSpgd,
+        MreSoun, MreSpel, MreSpgd, MreScrl, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr,
+        MreWoop, MreWthr,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8262,7 +8264,8 @@ def init():
         MreNpc, MreIpct, MreIpds, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLscr, MreLtex, MreMato,
         MreMatt, MreMesg, MreMgef, MreMisc, MreMovt, MreMstt, MreMusc, MreMust, MreOtft, MreProj,
         MreRela, MreRevb, MreRfct, MreSmbn, MreSmqn, MreSmen, MreShou, MreSndr, MreSnct, MreSopm,
-        MreSoun, MreSpel, MreSpgd,
+        MreSoun, MreSpel, MreSpgd, MreScrl, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr,
+        MreWoop, MreWthr,
         MreCell, # MreNavm, MreNavi, MreWrld,
         MreHeader,
         ))

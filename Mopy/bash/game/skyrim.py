@@ -4149,24 +4149,6 @@ class MreDial(MelRecord):
 
 # Verified for 305
 #------------------------------------------------------------------------------
-class MreDlvw(MelRecord):
-    """Dialog View"""
-    classType = 'DLVW'
-
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelFid('QNAM','quest',),
-        MelFids('BNAM','branches',),
-        MelGroups('unknownTNAM',
-            MelBase('TNAM','unknown',),
-            ),
-        MelBase('ENAM','unknownENAM'),
-        MelBase('DNAM','unknownDNAM'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified for 305
-#------------------------------------------------------------------------------
 class MreDlbr(MelRecord):
     """Dialog Branch"""
     classType = 'DLBR'
@@ -4183,6 +4165,24 @@ class MreDlbr(MelRecord):
         MelStruct('TNAM','I','unknown'),
         MelStruct('DNAM','I',(DialogBranchFlags,'flags',0L),),
         MelFid('SNAM','startingTopic',),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified for 305
+#------------------------------------------------------------------------------
+class MreDlvw(MelRecord):
+    """Dialog View"""
+    classType = 'DLVW'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelFid('QNAM','quest',),
+        MelFids('BNAM','branches',),
+        MelGroups('unknownTNAM',
+            MelBase('TNAM','unknown',),
+            ),
+        MelBase('ENAM','unknownENAM'),
+        MelBase('DNAM','unknownDNAM'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -4714,6 +4714,32 @@ class MreFlst(MelRecord):
 
 # Verified for 305
 #------------------------------------------------------------------------------
+class MreFstp(MelRecord):
+    """Footstep"""
+    classType = 'FSTP'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelFid('DATA','impactSet'),
+        MelString('ANAM','tag'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified for 305
+#------------------------------------------------------------------------------
+class MreFsts(MelRecord):
+    """Footstep Set."""
+    classType = 'FSTS'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('XCNT','5I','walkForward','runForward','walkForwardAlt',
+                  'runForwardAlt','walkForwardAlternate2',
+            ),
+        MelFidList('DATA','footstepSets'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified for 305
+#------------------------------------------------------------------------------
 class MreFurn(MelRecord):
     """Furniture"""
     classType = 'FURN'
@@ -4853,32 +4879,6 @@ class MreFurn(MelRecord):
                       (MarkerEntryPointFlags,'entryPointsFlags',0L),),
             ),
         MelString('XMRK','modelFilename'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified for 305
-#------------------------------------------------------------------------------
-class MreFstp(MelRecord):
-    """Footstep"""
-    classType = 'FSTP'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelFid('DATA','impactSet'),
-        MelString('ANAM','tag'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified for 305
-#------------------------------------------------------------------------------
-class MreFsts(MelRecord):
-    """Footstep Set."""
-    classType = 'FSTS'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelStruct('XCNT','5I','walkForward','runForward','walkForwardAlt',
-                  'runForwardAlt','walkForwardAlternate2',
-            ),
-        MelFidList('DATA','footstepSets'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -5729,6 +5729,23 @@ class MreLeveledList(MreLeveledListBase):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreLvli(MreLeveledList):
+    classType = 'LVLI'
+    copyAttrs = ('chanceNone','glob',)
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelStruct('LVLD','B','chanceNone'),
+        MelStruct('LVLF','B',(MreLeveledListBase._flags,'flags',0L)),
+        MelOptStruct('LVLG','I',(FID,'glob')),
+        MelNull('LLCT'),
+        MreLeveledList.MelLevListLvlo(),
+        )
+    __slots__ = MreLeveledList.__slots__ + melSet.getSlotsUsed()
+
+# Verified for 305
+#------------------------------------------------------------------------------
 class MreLvln(MreLeveledList):
     classType = 'LVLN'
     copyAttrs = ('chanceNone','model','modt_p',)
@@ -5743,23 +5760,6 @@ class MreLvln(MreLeveledList):
         MreLeveledList.MelLevListLvlo(),
         MelString('MODL','model'),
         MelBase('MODT','modt_p'),
-        )
-    __slots__ = MreLeveledList.__slots__ + melSet.getSlotsUsed()
-
-# Verified for 305
-#------------------------------------------------------------------------------
-class MreLvli(MreLeveledList):
-    classType = 'LVLI'
-    copyAttrs = ('chanceNone','glob',)
-
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelBounds(),
-        MelStruct('LVLD','B','chanceNone'),
-        MelStruct('LVLF','B',(MreLeveledListBase._flags,'flags',0L)),
-        MelOptStruct('LVLG','I',(FID,'glob')),
-        MelNull('LLCT'),
-        MreLeveledList.MelLevListLvlo(),
         )
     __slots__ = MreLeveledList.__slots__ + melSet.getSlotsUsed()
 
@@ -7015,155 +7015,6 @@ class MreRfct(MelRecord):
 
 # Verified for 305
 #------------------------------------------------------------------------------
-class MreSlgm(MelRecord):
-    """Soul gem record."""
-    classType = 'SLGM'
-
-    # SOUL and SLCP have wbEnum in TES5Edit
-    # Assigned to 'soul' and 'capacity' for WB
-    # 0 :'None',
-    # 1 :'Petty',
-    # 2 :'Lesser',
-    # 3 :'Common',
-    # 4 :'Greater',
-    # 5 :'Grand'
-
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelBounds(),
-        MelLString('FULL','full'),
-        MelModel(),
-        MelIcons(),
-        MelDestructible(),
-        MelFid('YNAM','pickupSound'),
-        MelFid('ZNAM','dropSound'),
-        MelNull('KSIZ'),
-        MelKeywords('KWDA','keywords'),
-        MelStruct('DATA','If','value','weight'),
-        MelStruct('SOUL','B',('soul',0),),
-        MelStruct('SLCP','B',('capacity',1),),
-        MelFid('NAM0','linkedTo'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified for 305
-#------------------------------------------------------------------------------
-class MreSmbn(MelRecord):
-    """Story Manager Branch Node"""
-    classType = 'SMBN'
-
-    SmbnNodeFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0,'Random'),
-        (1,'noChildWarn'),
-    ))
-
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelFid('PNAM','parent',),
-        MelFid('SNAM','child',),
-        MelStruct('CITC','I','conditionCount'),
-        MelConditions(),
-        MelStruct('DNAM','I',(SmbnNodeFlags,'nodeFlags',0L),),
-        MelBase('XNAM','xnam_p'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-    def dumpData(self,out):
-        conditions = self.conditions
-        self.conditionCount = len(conditions) if conditions else 0
-        MelRecord.dumpData(self,out)
-        
-# Verified for 305
-#------------------------------------------------------------------------------
-class MreSmqn(MelRecord):
-    """Story Manager Quest Node"""
-    classType = 'SMQN'
-
-    # "Do all" = "Do all before repeating"
-    SmqnQuestFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0,'doAll'),
-        (1,'sharesEvent'),
-        (2,'numQuestsToRun'),
-    ))
-
-    SmqnNodeFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0,'Random'),
-        (1,'noChildWarn'),
-    ))
-
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelFid('PNAM','parent',),
-        MelFid('SNAM','child',),
-        MelStruct('CITC','I','conditionCount'),
-        MelConditions(),
-        MelStruct('DNAM','2H',(SmqnNodeFlags,'nodeFlags',0L),(SmqnQuestFlags,'questFlags',0L),),
-        MelStruct('XNAM','I','maxConcurrentQuests'),
-        MelStruct('MNAM','I','numQuestsToRun'),
-        MelStruct('QNAM','I','questCount'),
-        MelGroups('quests',
-            MelFid('NNAM','quest',),
-            MelBase('FNAM','fnam_p'),
-            MelStruct('RNAM','f','hoursUntilReset'),
-            )
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-    def dumpData(self,out):
-        quests = self.quests
-        self.questCount = len(quests) if quests else 0
-        conditions = self.conditions
-        self.conditionCount = len(conditions) if conditions else 0
-        MelRecord.dumpData(self,out)
-        
-# Verified for 305
-#------------------------------------------------------------------------------
-class MreSmen(MelRecord):
-    """Story Manager Event Node"""
-    classType = 'SMEN'
-
-    SmenNodeFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0,'Random'),
-        (1,'noChildWarn'),
-    ))
-
-    # ENAM is four chars with no length byte, like AIPL, or CHRR
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelFid('PNAM','parent',),
-        MelFid('SNAM','child',),
-        MelStruct('CITC','I','conditionCount'),
-        MelConditions(),
-        MelStruct('DNAM','I',(SmenNodeFlags,'nodeFlags',0L),),
-        MelBase('XNAM','xnam_p'),
-        MelString('ENAM','type'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-    def dumpData(self,out):
-        conditions = self.conditions
-        self.conditionCount = len(conditions) if conditions else 0
-        MelRecord.dumpData(self,out)
-        
-# Verified for 305
-#------------------------------------------------------------------------------
-class MreShou(MelRecord):
-    """Shout Records"""
-    classType = 'SHOU'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelLString('FULL','full'),
-        MelFid('MDOB','menuDisplayObject'),
-        MelLString('DESC','description'),
-        # Don't sort
-        MelGroups('wordsOfPower',
-            MelStruct('SNAM','2If',(FID,'word',None),(FID,'spell',None),'recoveryTime',),
-            ),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified for 305
-#------------------------------------------------------------------------------
 class MreScen(MelRecord):
     """Scene"""
     classType = 'SCEN'
@@ -7359,6 +7210,240 @@ class MreScen(MelRecord):
 
 # Verified Correct for Skyrim 1.8
 #------------------------------------------------------------------------------
+class MreScrl(MelRecord,MreHasEffects):
+    """Scroll record."""
+    classType = 'SCRL'
+
+    # SPIT has several wbEnum refer to wbSPIT in TES5Edit
+
+    ScrollDataFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0,'manualCostCalc'),
+        (1,'unknown2'),
+        (2,'unknown3'),
+        (3,'unknown4'),
+        (4,'unknown5'),
+        (5,'unknown6'),
+        (6,'unknown7'),
+        (7,'unknown8'),
+        (8,'unknown9'),
+        (9,'unknown10'),
+        (10,'unknown11'),
+        (11,'unknown12'),
+        (12,'unknown13'),
+        (13,'unknown14'),
+        (14,'unknown15'),
+        (15,'unknown16'),
+        (16,'unknown17'),
+        (17,'pcStartSpell'),
+        (18,'unknown19'),
+        (19,'areaEffectIgnoresLOS'),
+        (20,'ignoreResistance'),
+        (21,'noAbsorbReflect'),
+        (22,'unknown23'),
+        (23,'noDualCastModification'),
+        (24,'unknown25'),
+        (25,'unknown26'),
+        (26,'unknown27'),
+        (27,'unknown28'),
+        (28,'unknown29'),
+        (29,'unknown30'),
+        (30,'unknown31'),
+        (31,'unknown32'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelLString('FULL','full'),
+        MelNull('KSIZ'),
+        MelKeywords('KWDA','keywords'),
+        MelFids('MDOB','menuDisplayObject'),
+        MelFid('ETYP','equipmentType',),
+        MelLString('DESC','description'),
+        MelModel(),
+        MelDestructible(),
+        MelFid('YNAM','pickupSound',),
+        MelFid('ZNAM','dropSound',),
+        MelStruct('DATA','If','itemValue','itemWeight',),
+        MelStruct('SPIT','IIIfIIffI','baseCost',(ScrollDataFlags,'dataFlags',0L),
+                  'scrollType','chargeTime','castType','targetType',
+                  'castDuration','range',(FID,'halfCostPerk'),),
+        MelEffects(),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified for 305
+#------------------------------------------------------------------------------
+class MreShou(MelRecord):
+    """Shout Records"""
+    classType = 'SHOU'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelLString('FULL','full'),
+        MelFid('MDOB','menuDisplayObject'),
+        MelLString('DESC','description'),
+        # Don't sort
+        MelGroups('wordsOfPower',
+            MelStruct('SNAM','2If',(FID,'word',None),(FID,'spell',None),'recoveryTime',),
+            ),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified for 305
+#------------------------------------------------------------------------------
+class MreSlgm(MelRecord):
+    """Soul gem record."""
+    classType = 'SLGM'
+
+    # SOUL and SLCP have wbEnum in TES5Edit
+    # Assigned to 'soul' and 'capacity' for WB
+    # 0 :'None',
+    # 1 :'Petty',
+    # 2 :'Lesser',
+    # 3 :'Common',
+    # 4 :'Greater',
+    # 5 :'Grand'
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelBounds(),
+        MelLString('FULL','full'),
+        MelModel(),
+        MelIcons(),
+        MelDestructible(),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
+        MelNull('KSIZ'),
+        MelKeywords('KWDA','keywords'),
+        MelStruct('DATA','If','value','weight'),
+        MelStruct('SOUL','B',('soul',0),),
+        MelStruct('SLCP','B',('capacity',1),),
+        MelFid('NAM0','linkedTo'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified for 305
+#------------------------------------------------------------------------------
+class MreSmbn(MelRecord):
+    """Story Manager Branch Node"""
+    classType = 'SMBN'
+
+    SmbnNodeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0,'Random'),
+        (1,'noChildWarn'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelFid('PNAM','parent',),
+        MelFid('SNAM','child',),
+        MelStruct('CITC','I','conditionCount'),
+        MelConditions(),
+        MelStruct('DNAM','I',(SmbnNodeFlags,'nodeFlags',0L),),
+        MelBase('XNAM','xnam_p'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+    def dumpData(self,out):
+        conditions = self.conditions
+        self.conditionCount = len(conditions) if conditions else 0
+        MelRecord.dumpData(self,out)
+        
+# Verified for 305
+#------------------------------------------------------------------------------
+class MreSmen(MelRecord):
+    """Story Manager Event Node"""
+    classType = 'SMEN'
+
+    SmenNodeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0,'Random'),
+        (1,'noChildWarn'),
+    ))
+
+    # ENAM is four chars with no length byte, like AIPL, or CHRR
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelFid('PNAM','parent',),
+        MelFid('SNAM','child',),
+        MelStruct('CITC','I','conditionCount'),
+        MelConditions(),
+        MelStruct('DNAM','I',(SmenNodeFlags,'nodeFlags',0L),),
+        MelBase('XNAM','xnam_p'),
+        MelString('ENAM','type'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+    def dumpData(self,out):
+        conditions = self.conditions
+        self.conditionCount = len(conditions) if conditions else 0
+        MelRecord.dumpData(self,out)
+        
+# Verified for 305
+#------------------------------------------------------------------------------
+class MreSmqn(MelRecord):
+    """Story Manager Quest Node"""
+    classType = 'SMQN'
+
+    # "Do all" = "Do all before repeating"
+    SmqnQuestFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0,'doAll'),
+        (1,'sharesEvent'),
+        (2,'numQuestsToRun'),
+    ))
+
+    SmqnNodeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0,'Random'),
+        (1,'noChildWarn'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelFid('PNAM','parent',),
+        MelFid('SNAM','child',),
+        MelStruct('CITC','I','conditionCount'),
+        MelConditions(),
+        MelStruct('DNAM','2H',(SmqnNodeFlags,'nodeFlags',0L),(SmqnQuestFlags,'questFlags',0L),),
+        MelStruct('XNAM','I','maxConcurrentQuests'),
+        MelStruct('MNAM','I','numQuestsToRun'),
+        MelStruct('QNAM','I','questCount'),
+        MelGroups('quests',
+            MelFid('NNAM','quest',),
+            MelBase('FNAM','fnam_p'),
+            MelStruct('RNAM','f','hoursUntilReset'),
+            )
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+    def dumpData(self,out):
+        quests = self.quests
+        self.questCount = len(quests) if quests else 0
+        conditions = self.conditions
+        self.conditionCount = len(conditions) if conditions else 0
+        MelRecord.dumpData(self,out)
+        
+# Verified for 305
+#------------------------------------------------------------------------------
+class MreSnct(MelRecord):
+    """Sound Category"""
+    classType = 'SNCT'
+
+    SoundCategoryFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0,'muteWhenSubmerged'),
+        (1,'shouldAppearOnMenu'),
+    ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelLString('FULL','full'),
+        MelStruct('FNAM','I',(SoundCategoryFlags,'flags',0L),),
+        MelFid('PNAM','parent',),
+        MelStruct('VNAM','H','staticVolumeMultiplier'),
+        MelStruct('UNAM','H','defaultMenuValue'),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Verified for 305
+#------------------------------------------------------------------------------
 class MreSndr(MelRecord):
     """Sound Descriptor"""
     classType = 'SNDR'
@@ -7385,27 +7470,6 @@ class MreSndr(MelRecord):
                   'rumbleSendValue',),
         MelStruct('BNAM','2b2BH','pctFrequencyShift','pctFrequencyVariance','priority',
                   'dbVariance','staticAttenuation',),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified for 305
-#------------------------------------------------------------------------------
-class MreSnct(MelRecord):
-    """Sound Category"""
-    classType = 'SNCT'
-
-    SoundCategoryFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0,'muteWhenSubmerged'),
-        (1,'shouldAppearOnMenu'),
-    ))
-
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelLString('FULL','full'),
-        MelStruct('FNAM','I',(SoundCategoryFlags,'flags',0L),),
-        MelFid('PNAM','parent',),
-        MelStruct('VNAM','H','staticVolumeMultiplier'),
-        MelStruct('UNAM','H','defaultMenuValue'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -7579,70 +7643,6 @@ class MreSpgd(MelRecord):
         MelString('EDID','eid'),
         MelSpgdData(),
         MelString('ICON','icon'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Verified for 305
-#------------------------------------------------------------------------------
-class MreScrl(MelRecord,MreHasEffects):
-    """Scroll record."""
-    classType = 'SCRL'
-
-    # SPIT has several wbEnum refer to wbSPIT in TES5Edit
-
-    ScrollDataFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0,'manualCostCalc'),
-        (1,'unknown2'),
-        (2,'unknown3'),
-        (3,'unknown4'),
-        (4,'unknown5'),
-        (5,'unknown6'),
-        (6,'unknown7'),
-        (7,'unknown8'),
-        (8,'unknown9'),
-        (9,'unknown10'),
-        (10,'unknown11'),
-        (11,'unknown12'),
-        (12,'unknown13'),
-        (13,'unknown14'),
-        (14,'unknown15'),
-        (15,'unknown16'),
-        (16,'unknown17'),
-        (17,'pcStartSpell'),
-        (18,'unknown19'),
-        (19,'areaEffectIgnoresLOS'),
-        (20,'ignoreResistance'),
-        (21,'noAbsorbReflect'),
-        (22,'unknown23'),
-        (23,'noDualCastModification'),
-        (24,'unknown25'),
-        (25,'unknown26'),
-        (26,'unknown27'),
-        (27,'unknown28'),
-        (28,'unknown29'),
-        (29,'unknown30'),
-        (30,'unknown31'),
-        (31,'unknown32'),
-    ))
-
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelBounds(),
-        MelLString('FULL','full'),
-        MelNull('KSIZ'),
-        MelKeywords('KWDA','keywords'),
-        MelFids('MDOB','menuDisplayObject'),
-        MelFid('ETYP','equipmentType',),
-        MelLString('DESC','description'),
-        MelModel(),
-        MelDestructible(),
-        MelFid('YNAM','pickupSound',),
-        MelFid('ZNAM','dropSound',),
-        MelStruct('DATA','If','itemValue','itemWeight',),
-        MelStruct('SPIT','IIIfIIffI','baseCost',(ScrollDataFlags,'dataFlags',0L),
-                  'scrollType','chargeTime','castType','targetType',
-                  'castDuration','range',(FID,'halfCostPerk'),),
-        MelEffects(),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -8198,33 +8198,19 @@ class MreWthr(MelRecord):
 #       MreAchr, MreDial, MreLctn, MreInfo, MreFact, MrePerk,
 #------------------------------------------------------------------------------
 #--Mergeable record types
-#        MreAlch,
-#        MreAvif, MreBook, MreBptd, MreCams,
-#        MreClas, MreClfm, MreClmt, MreColl, MreCont, MreCpth, MreCsty,
-#        MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual, MreEczn, MreEfsh,
-#        MreEnch, MreEqup, MreExpl, MreEyes, MreFlor, MreFlst, MreFstp, MreFsts,
-#        MreFurn, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm,
-#        MreImgs, MreIngr, MreIpct, MreIpds, MreKeym, MreKywd, MreLcrt, MreLgtm,
-#        MreLigh, MreLscr, MreLtex, MreMato, MreMatt,
-#        MreMesg, MreMgef, MreMovt, MreMstt, MreMusc, MreMust, MreNpc_,
-#        MreOtft, MreProj, MreRela, MreRevb, MreRfct, MreScen, MreScrl, MreShou,
-#        MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun,
-#        MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr,
-#        MreWeap, MreWoop,
 
 mergeClasses = (
-        # MreAchr, MreAcre, MreGmst, MrePgre,
+        # MreAchr, MreDial, MreGmst, MreInfo,
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
         MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
-        MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreDoor, MreGlob,
-        MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
-        MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
-        MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
-        MreNpc, MreIpct, MreIpds, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLscr, MreLtex, MreMato,
-        MreMatt, MreMesg, MreMgef, MreMisc, MreMovt, MreMstt, MreMusc, MreMust, MreOtft, MreProj,
-        MreRela, MreRevb, MreRfct, MreSmbn, MreSmqn, MreSmen, MreShou, MreSndr, MreSnct, MreSopm,
-        MreSoun, MreSpel, MreSpgd, MreScrl, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr,
-        MreWoop, MreWthr,
+        MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual,
+        MreEczn, MreEfsh, MreEnch, MreEqup, MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFstp,
+        MreFsts, MreFurn, MreGlob, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs,
+        MreIngr, MreIpct, MreIpds, MreKeym, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLigh, MreLscr,
+        MreLtex, MreLvli, MreLvln, MreLvsp, MreMato, MreMatt, MreMesg, MreMgef, MreMisc, MreMovt,
+        MreMstt, MreMusc, MreMust, MreNpc, MreOtft, MreProj, MreRela, MreRevb, MreRfct, MreScrl,
+        MreShou, MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun, MreSpel,
+        MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWoop, MreWthr,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8242,30 +8228,17 @@ def init():
 
     #--Record Types
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
-#        MreAlch,
-#        MreAvif, MreBook, MreBptd, MreCams,
-#        MreClas, MreClfm, MreClmt, MreColl, MreCont, MreCpth, MreCsty,
-#        MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual, MreEczn, MreEfsh,
-#        MreEnch, MreEqup, MreExpl, MreEyes, MreFlor, MreFlst, MreFstp, MreFsts,
-#        MreFurn, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm,
-#        MreImgs, MreIngr, MreIpct, MreIpds, MreKeym, MreKywd, MreLcrt, MreLgtm,
-#        MreLigh, MreLscr, MreLtex, MreMato, MreMatt,
-#        MreMesg, MreMgef, MreMovt, MreMstt, MreMusc, MreMust, MreNpc_,
-#        MreOtft, MreProj, MreRela, MreRevb, MreRfct, MreScen, MreScrl, MreShou,
-#        MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun,
-#        MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr,
-#        MreWeap, MreWoop,
+        MreAchr, MreDial, MreGmst, MreInfo,
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
         MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
-        MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlvw, MreDlbr, MreDobj, MreDoor, MreGlob,
-        MreLvli, MreLvln, MreLvsp, MreMisc, MreMgef, MreDual, MreEczn, MreEfsh, MreEnch, MreEqup,
-        MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFurn, MreFstp, MreFsts, MreGras, MreHazd,
-        MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs, MreIngr, MreKeym, MreLigh, MreSlgm, MreWeap,
-        MreNpc, MreIpct, MreIpds, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLscr, MreLtex, MreMato,
-        MreMatt, MreMesg, MreMgef, MreMisc, MreMovt, MreMstt, MreMusc, MreMust, MreOtft, MreProj,
-        MreRela, MreRevb, MreRfct, MreSmbn, MreSmqn, MreSmen, MreShou, MreSndr, MreSnct, MreSopm,
-        MreSoun, MreSpel, MreSpgd, MreScrl, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr,
-        MreWoop, MreWthr,
+        MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual,
+        MreEczn, MreEfsh, MreEnch, MreEqup, MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFstp,
+        MreFsts, MreFurn, MreGlob, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm, MreImad, MreImgs,
+        MreIngr, MreIpct, MreIpds, MreKeym, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLigh, MreLscr,
+        MreLtex, MreLvli, MreLvln, MreLvsp, MreMato, MreMatt, MreMesg, MreMgef, MreMisc, MreMovt,
+        MreMstt, MreMusc, MreMust, MreNpc, MreOtft, MreProj, MreRela, MreRevb, MreRfct, MreScrl,
+        MreShou, MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun, MreSpel,
+        MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWoop, MreWthr,
         MreCell, # MreNavm, MreNavi, MreWrld,
         MreHeader,
         ))

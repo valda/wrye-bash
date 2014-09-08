@@ -15174,18 +15174,31 @@ class SoundPatcher(ImportPatcher):
         self.classestemp = set()
         #--Type Fields
         recAttrs_class = self.recAttrs_class = {}
-        for recClass in (MreRecord.type_class[x] for x in ('MGEF',)):
-            recAttrs_class[recClass] = ('castingSound','boltSound','hitSound','areaSound')
-        for recClass in (MreRecord.type_class[x] for x in ('ACTI','LIGH')):
-            recAttrs_class[recClass] = ('sound',)
-        for recClass in (MreRecord.type_class[x] for x in ('WTHR',)):
-            recAttrs_class[recClass] = ('sounds',)
+        for recClass in (MreRecord.type_class[x] for x in ('ACTI',)):
+            recAttrs_class[recClass] = ('dropSound','pickupSound','soundLooping','sound')
+        for recClass in (MreRecord.type_class[x] for x in ('ADDN',)):
+            recAttrs_class[recClass] = ('ambientSound')
+        for recClass in (MreRecord.type_class[x] for x in ('ALCH',)):
+            recAttrs_class[recClass] = ('dropSound','pickupSound','soundConsume')
+        for recClass in (MreRecord.type_class[x] for x in ('ASPC',)):
+            recAttrs_class[recClass] = ('soundLooping','useSoundFromRegion','ambientSound')
         for recClass in (MreRecord.type_class[x] for x in ('CONT',)):
-            recAttrs_class[recClass] = ('soundOpen','soundClose')
+            recAttrs_class[recClass] = ('soundOpen','soundClose','soundRandomLooping')
         for recClass in (MreRecord.type_class[x] for x in ('DOOR',)):
             recAttrs_class[recClass] = ('soundOpen','soundClose','soundLoop')
+        for recClass in (MreRecord.type_class[x] for x in ('LIGH',)):
+            recAttrs_class[recClass] = ('sound')
+        for recClass in (MreRecord.type_class[x] for x in ('MGEF',)):
+            recAttrs_class[recClass] = ('areaSound', 'boltSound', 'castingSound', 'hitSound', 'sounds')
+        for recClass in (MreRecord.type_class[x] for x in ('WTHR',)):
+            recAttrs_class[recClass] = ('sounds')
+        for recClass in (MreRecord.type_class[x] for x in ('WEAP',)):
+            recAttrs_class[recClass] = ('attackSound','attackSound2D','attackLoopSound',
+                'attackFailSound','idleSound','equipSound','unequipSound','soundGunShot2D',
+                'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo','soundBlock',
+                'soundMod1Shoot3Ds','soundMod1Shoot2D')
         #--Needs Longs
-        self.longTypes = set(('MGEF','ACTI','LIGH','WTHR','CONT','DOOR'))
+        self.longTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP'))
 
     def initData(self,progress):
         """Get sounds from source files."""

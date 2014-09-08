@@ -655,7 +655,7 @@ allTags = sorted((
     u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Stats',u'Names',u'Deflst',u'Sound',u'Destructible',
     ))
 
-#--Patcher available when building a Bashed Patch (refrerenced by class name)
+#--Patcher available when building a Bashed Patch (referenced by class name)
 patchers = (
     u'AliasesPatcher', u'DestructiblePatcher', u'FidListsMerger', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
     u'PatchMerger', 'SoundPatcher', u'StatsPatcher'
@@ -864,6 +864,7 @@ class esp:
     ## These are the valid 'version' numbers for the game file headers
     validHeaderVersions = (0.85,0.94)
 
+    #--Strings Files, Skyrim only
     stringsFiles = []
 
     #--Class to use to read the TES4 record
@@ -2673,7 +2674,8 @@ class MreFlst(MelRecord):
         self.mergeOverLast = False #--Merge overrides last mod merged
         self.mergeSources = None #--Set to list by other functions
         self.items  = None #--Set of items included in list
-        self.deflsts = None #--Set of items deleted by list (Deflst mods)
+        #--Set of items deleted by list (Deflst mods) unused for Skyrim
+        self.deflsts = None
 
     def mergeFilter(self,modSet):
         """Filter out items that don't come from specified modSet."""
@@ -2744,7 +2746,7 @@ class MreFurn(MelRecord):
 # Defined in brec.py as class MreGlob(MelRecord) ------------------------------
 #------------------------------------------------------------------------------
 class MreGmst(MreGmstBase):
-    """Skyrim GMST record"""
+    """Fallout 3 GMST record"""
     Master = u'Fallout3'
     isKeyedByEid = True # NULL fids are acceptable.
 

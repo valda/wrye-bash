@@ -694,7 +694,7 @@ allTags = sorted((
     u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',u'Deflst',u'Sound',u'Destructible',u'WeaponMods',
     ))
 
-#--Patcher available when building a Bashed Patch (refrerenced by class name)
+#--Patcher available when building a Bashed Patch (referenced by class name)
 patchers = (
     u'AliasesPatcher', u'DestructiblePatcher', u'FidListsMerger', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
     u'PatchMerger', 'SoundPatcher', u'StatsPatcher', u'WeaponModsPatcher'
@@ -3085,7 +3085,7 @@ class MreFurn(MelRecord):
 # Defined in brec.py as class MreGlob(MelRecord) ------------------------------
 #------------------------------------------------------------------------------
 class MreGmst(MreGmstBase):
-    """Skyrim GMST record"""
+    """Fallout New Vegas GMST record"""
     Master = u'Fallout3'
     isKeyedByEid = True # NULL fids are acceptable.
 

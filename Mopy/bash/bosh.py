@@ -663,7 +663,7 @@ class ModFile:
         if 'MGEF' in self.tops:
             for record in self.MGEF.getActiveRecords():
                 if isinstance(record,MreRecord.type_class['MGEF']):
-                    if fsName == u'Skyrim':
+                    if bush.game.fsName == u'Skyrim':
                         mgef_school[record.eid] = record.magicSkill
                     else:
                         mgef_school[record.eid] = record.school

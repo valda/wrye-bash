@@ -4851,7 +4851,6 @@ class MreFurn(MelRecord):
     # {0x0001} 'Unknown 0',
     # {0x0002} 'Ignored By Sandbox'
     FurnGeneralFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0, 'unknownOne'),
         (1, 'ignoredBySandbox'),
     ))
 
@@ -4970,7 +4969,7 @@ class MreFurn(MelRecord):
         MelBase('PNAM','pnam_p'),
         MelStruct('FNAM','H',(FurnGeneralFlags,'general_f',0L),),
         MelFid('KNAM','interactionKeyword'),
-        MelStruct('MNAM','I',(FurnActiveMarkerFlags,'activeMarker_f',0L)),
+        MelStruct('MNAM','I',(FurnActiveMarkerFlags,'activeMarkers',0L)),
         MelStruct('WBDT','Bb','benchType','usesSkill',),
         MelFid('NAM1','associatedSpell'),
         MelGroups('markers',

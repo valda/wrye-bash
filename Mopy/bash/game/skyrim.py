@@ -3579,86 +3579,6 @@ class MelBookData(MelStruct):
         (2, 'teachesSpell'),
     ))
 
-    def __init__(self,type='DATA'):
-        """Initialize."""
-        MelStruct.__init__(self,type,'2B2siIf',(MelBookData.bookTypeFlags,'flags',0L),
-            ('bookType',0),'unused',('skillOrSpell',-1),'value','weight'),
-
-    def getDefault(self):
-        """Returns a default copy of object."""
-        target = MelStruct.getDefault(self)
-        target.form123 = 'iIf'
-        return target
-
-    def hasFids(self,formElements):
-        """Include self if has fids."""
-        formElements.add(self)
-
-    def loadData(self,record,ins,type,size,readId):
-        """Reads data from ins into record attribute."""
-        if type == 'DATA':
-            if size != 16:
-                raise ModSizeError(ins.inName,readId,16,size,False)
-        else:
-            raise ModError(ins.inName,_(u'Unexpected subrecord: ')+readId)
-        target = MelObject()
-        # I can't figure out what the list is I am appending.
-        # ????.append(target)
-        record.append(target)
-        target.__slots__ = self.attrs
-        unpacked1 = ins.unpack('=2B2s',4,readId)
-        (target.flags,target.bookType,target.unused) = unpacked1
-        if record.flags.teachesSpell == 1:
-            # Form1 is FID
-            form1 = 'I'
-        else:    
-            # Form1 is signed int32 or Global
-            form1 = 'i'
-        # Form2 is Param2
-        form2 = 'I'
-        form3 = 'f'
-        if size == 16:
-            form123 = form1+form2+form3
-            unpacked2 = ins.unpack(form123,12,readId)
-            (target.skillOrSpell,target.value,target.weight) = unpacked2
-        else:
-            raise ModSizeError(ins.inName,readId,16,size,False)
-        target.form123 = form123
-        if self._debug:
-            unpacked = unpacked1+unpacked2
-            print u' ',zip(self.attrs,unpacked)
-            if len(unpacked) != len(self.attrs):
-                print u' ',unpacked
-
-    def dumpData(self,record,out):
-        """Dumps data from record to outstream."""
-        for target in record.self:
-            out.packSub('DATA','=2B2s'+target.form123,
-                target.flags, target.bookType, target.unused,
-                target.skillOrSpell, target.value, target.weight)
-
-    def mapFids(self,record,function,save=False):
-        """Applies function to fids. If save is true, then fid is set
-        to result of function."""
-        for target in record.self:
-            form123 = target.form123
-            if form123[0] == 'I':
-                result = function(target.param1)
-                if save: target.skillOrSpell = result
-
-class MreBook(MelRecord):
-    """Book Item"""
-    classType = 'BOOK'
-
-    # {0x01} 'Teaches Skill',
-    # {0x02} 'Can''t be Taken',
-    # {0x04} 'Teaches Spell',
-    BookTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
-            (0, 'teachesSkill'),
-            (1, 'cantBeTaken'),
-            (2, 'teachesSpell'),
-        ))
-
     # DATA Book Type is wbEnum in TES5Edit
     # Assigned to 'bookType' for WB
     # 0, 'Book/Tome',
@@ -3686,6 +3606,23 @@ class MreBook(MelRecord):
     #  23:'Restoration',
     #  24:'Enchanting',
 
+    def __init__(self,type='DATA'):
+        """Initialize."""
+        MelStruct.__init__(self,type,'2B2siIf',(MelBookData.bookTypeFlags,'flags',0L),
+            ('bookType',0),('unused',null2),('skillOrSpell',0),'value','weight'),
+
+    def hasFids(self,formElements):
+        """Include self if has fids."""
+        formElements.add(self)
+
+    def mapFids(self,record,function,save=False):
+        if record.flags.teachesSpell:
+            result = function(record.skillOrSpell)
+            if save: record.skillOrSpell = result
+
+class MreBook(MelRecord):
+    """Book Item"""
+    classType = 'BOOK'
     melSet = MelSet(
         MelString('EDID','eid'),
         MelVmad(),
@@ -3699,8 +3636,7 @@ class MreBook(MelRecord):
         MelOptStruct('ZNAM','I',(FID,'dropSound')),
         MelNull('KSIZ'),
         MelKeywords('KWDA','keywords'),
-        MelStruct('DATA','2B2sIIf',(BookTypeFlags,'flags',0L),('bookType',0),
-            'unused',(FID,'skillOrSpell',None),'value','weight'),
+        MelBookData(),
         MelFid('INAM','inventoryArt'),
         MelLString('CNAM','text'),
         )

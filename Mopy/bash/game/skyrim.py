@@ -5420,7 +5420,7 @@ class MreImgs(MelRecord):
 
 # Verified for 305
 #------------------------------------------------------------------------------
-class MreIngr(MelRecord):
+class MreIngr(MelRecord,MreHasEffects):
     """INGR (ingredient) record."""
     classType = 'INGR'
 

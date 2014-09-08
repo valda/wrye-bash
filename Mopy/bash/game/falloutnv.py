@@ -691,13 +691,13 @@ GmstTweaks = [
 # 'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
 # 'Deflst', 'Destructible', 'WeaponMods'
 allTags = sorted((
-    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',u'Deflst',u'Sound',
+    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',u'Deflst',u'Sound',u'Destructible',u'WeaponMods',
     ))
 
 #--Patcher available when building a Bashed Patch (refrerenced by class name)
 patchers = (
-    u'AliasesPatcher', u'FidListsMerger', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
-    u'PatchMerger', 'SoundPatcher', u'StatsPatcher'
+    u'AliasesPatcher', u'DestructiblePatcher', u'FidListsMerger', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
+    u'PatchMerger', 'SoundPatcher', u'StatsPatcher', u'WeaponModsPatcher'
     )
 
 #--CBash patchers available when building a Bashed Patch
@@ -706,9 +706,6 @@ CBash_patchers = (
 
 #--For ListMerger patcher (leveled list patcher)
 listTypes = ('LVLC','LVLI','LVLN')
-
-#--For fidListMerger patcher (FormID list patcher)
-fidListTypes = ('FLST',)
 
 namesTypes = set((
     'ACTI','ALCH','AMMO','ARMO','BOOK','CCRD','CHIP','CLAS','CMNY','CONT','CREA',
@@ -2526,7 +2523,7 @@ class MreCrea(MreActor):
         MelFids('PKID','aiPackages'),
         MelStrings('KFFZ','animations'),
         MelStruct('DATA','=4Bh2sh7B','type','combatSkill','magicSkill',
-            'stealthSkill','health','unused2','damage','strength','perception',
+            'stealthSkill','health',('unused2',null2),'damage','strength','perception',
             'endurance','charisma','intelligence','agility','luck'),
         MelStruct('RNAM','B','attackReach'),
         MelFid('ZNAM','combatStyle'),

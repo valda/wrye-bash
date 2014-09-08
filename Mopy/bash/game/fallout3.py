@@ -652,12 +652,12 @@ GmstTweaks = [
 # 'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
 # 'Deflst', 'Destructible'
 allTags = sorted((
-    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Stats',u'Names',u'Deflst',u'Sound',
+    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Stats',u'Names',u'Deflst',u'Sound',u'Destructible',
     ))
 
 #--Patcher available when building a Bashed Patch (refrerenced by class name)
 patchers = (
-    u'AliasesPatcher', u'FidListsMerger', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
+    u'AliasesPatcher', u'DestructiblePatcher', u'FidListsMerger', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
     u'PatchMerger', 'SoundPatcher', u'StatsPatcher'
     )
 
@@ -667,9 +667,6 @@ CBash_patchers = (
 
 #--For ListMerger patcher (leveled list patcher)
 listTypes = ('LVLC','LVLI','LVLN')
-
-#--For fidListMerger patcher (FormID list patcher)
-fidListTypes = ('FLST',)
 
 namesTypes = set(('ALCH', 'AMMO', 'ARMO', 'BOOK',
         'CLAS', 'CONT', 'CREA', 'DOOR', 'EYES',

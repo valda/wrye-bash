@@ -1730,10 +1730,6 @@ CBash_patchers = tuple()
 # For ListsMerger
 listTypes = ('LVLI','LVLN','LVSP',)
 
-#--For fidListMerger patcher (FormID list patcher)
-fidListTypes = ('FLST',)
-
-
 # remaining to add: 'PERK', 'RACE', 'LCTN', 'AVIF',
 namesTypes = set((
     'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLFM',
@@ -5806,7 +5802,7 @@ class MreLtex(MelRecord):
 # Verified for 305
 #------------------------------------------------------------------------------
 class MreLeveledList(MreLeveledListBase):
-    """Skryim Leveled item/creature/spell list."""
+    """Skyrim Leveled item/creature/spell list."""
 
     class MelLevListLvlo(MelGroups):
         def __init__(self):

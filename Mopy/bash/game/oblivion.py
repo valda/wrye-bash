@@ -1510,9 +1510,6 @@ CBash_patchers = (
 #--For ListMerger patcher (leveled list patcher)
 listTypes = ('LVLC','LVLI','LVSP',)
 
-#--For fidListMerger patcher (FormID list patcher)
-fidListTypes = ()
-
 namesTypes = set((
         'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'BSGN', 'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR',
         'EYES', 'FACT', 'FLOR', 'HAIR','INGR', 'KEYM', 'LIGH', 'MISC', 'NPC_', 'RACE', 'SGST',

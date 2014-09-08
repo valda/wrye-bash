@@ -3567,18 +3567,17 @@ class MreAvif(MelRecord):
 
 # Verified for 305
 #------------------------------------------------------------------------------
-class MreBook(MelRecord):
-    """Book Item"""
-    classType = 'BOOK'
-
+class MelBookData(MelStruct):
+    """Determines if the book teaches the player a Skill or Spell. 
+    skillOrSpell is FID when flag teachesSpell is set."""
     # {0x01} 'Teaches Skill',
     # {0x02} 'Can''t be Taken',
     # {0x04} 'Teaches Spell',
-    BookTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
-            (0, 'teachesSkill'),
-            (1, 'cantBeTaken'),
-            (2, 'teachesSpell'),
-        ))
+    bookTypeFlags = bolt.Flags(0L,bolt.Flags.getNames(
+        (0, 'teachesSkill'),
+        (1, 'cantBeTaken'),
+        (2, 'teachesSpell'),
+    ))
 
     # DATA Book Type is wbEnum in TES5Edit
     # Assigned to 'bookType' for WB
@@ -3607,6 +3606,23 @@ class MreBook(MelRecord):
     #  23:'Restoration',
     #  24:'Enchanting',
 
+    def __init__(self,type='DATA'):
+        """Initialize."""
+        MelStruct.__init__(self,type,'2B2siIf',(MelBookData.bookTypeFlags,'flags',0L),
+            ('bookType',0),('unused',null2),('skillOrSpell',0),'value','weight'),
+
+    def hasFids(self,formElements):
+        """Include self if has fids."""
+        formElements.add(self)
+
+    def mapFids(self,record,function,save=False):
+        if record.flags.teachesSpell:
+            result = function(record.skillOrSpell)
+            if save: record.skillOrSpell = result
+
+class MreBook(MelRecord):
+    """Book Item"""
+    classType = 'BOOK'
     melSet = MelSet(
         MelString('EDID','eid'),
         MelVmad(),
@@ -3620,8 +3636,7 @@ class MreBook(MelRecord):
         MelOptStruct('ZNAM','I',(FID,'dropSound')),
         MelNull('KSIZ'),
         MelKeywords('KWDA','keywords'),
-        MelStruct('DATA','2B2sIIf',(BookTypeFlags,'flags',0L),('bookType',0),
-            'unused',(FID,'skillOrSpell',None),'value','weight'),
+        MelBookData(),
         MelFid('INAM','inventoryArt'),
         MelLString('CNAM','text'),
         )

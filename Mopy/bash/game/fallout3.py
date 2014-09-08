@@ -652,13 +652,13 @@ GmstTweaks = [
 # 'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
 # 'Deflst', 'Destructible'
 allTags = sorted((
-    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Stats',u'Names',u'Deflst',
+    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Stats',u'Names',u'Deflst',u'Sound',
     ))
 
 #--Patcher available when building a Bashed Patch (refrerenced by class name)
 patchers = (
     u'AliasesPatcher', u'FidListsMerger', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
-    u'PatchMerger', u'StatsPatcher'
+    u'PatchMerger', 'SoundPatcher', u'StatsPatcher'
     )
 
 #--CBash patchers available when building a Bashed Patch
@@ -3206,8 +3206,9 @@ class MreLigh(MelRecord):
         MelDestructible(),
         MelString('FULL','full'),
         MelString('ICON','iconPath'),
-        MelStruct('DATA','iI3BsI2fIf','duration','radius','red','green','blue',('unused1',null1),
-            (_flags,'flags',0L),'falloff','fov','value','weight'),
+        MelStruct('DATA','iI3BsI2fIf','duration','radius','red','green','blue',
+                  ('unused1',null1),(_flags,'flags',0L),'falloff','fov','value',
+                  'weight'),
         MelOptStruct('FNAM','f',('fade',None)),
         MelFid('SNAM','sound'),
         )
@@ -3336,7 +3337,7 @@ class MreMgef(MelRecord):
         MelModel(),
         MelStruct('DATA','IfI2iH2sIf6I2fIi',
             (_flags,'flags'),'baseCost',(FID,'associated'),'school','resistValue',
-            'numCounters',('unused1',null2),(FID,'light',0),'projectileSpeed',
+            'counterEffectCount',('unused1',null2),(FID,'light',0),'projectileSpeed',
             (FID,'effectShader',0),(FID,'objectDisplayShader',0),
             (FID,'castingSound',0),(FID,'boltSound',0),(FID,'hitSound',0),
             (FID,'areaSound',0),('cefEnchantment',0.0),('cefBarter',0.0),
@@ -3345,6 +3346,11 @@ class MreMgef(MelRecord):
             MelOptStruct('ESCE','I',(FID,'counterEffectCode',0)),),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+    def dumpData(self,out):
+        counterEffects = self.counterEffects
+        self.counterEffectCount = len(counterEffects) if counterEffects else 0
+        MelRecord.dumpData(self,out)
 
 #------------------------------------------------------------------------------
 class MreMicn(MelRecord):
@@ -5347,9 +5353,9 @@ class MreWeap(MelRecord):
         MelFid('NAM7','soundGunShot3DLooping'),
         MelFid('TNAM','soundMeleeSwingGunNoAmmo'),
         MelFid('NAM6','soundBlock'),
-        MelFid('UNAM','idle'),
-        MelFid('NAM9','equip'),
-        MelFid('NAM8','unequip'),
+        MelFid('UNAM','idleSound',),
+        MelFid('NAM9','equipSound',),
+        MelFid('NAM8','unequipSound',),
         MelStruct('DATA','2IfHB','value','health','weight','damage','clipsize'),
         MelWeapDnam('DNAM','I2f4B4f4sI4B2f2I11fiI2fi3f',
                     'animationType','animationMultiplier','reach',(_dflags1,'dnamFlags1',0L),

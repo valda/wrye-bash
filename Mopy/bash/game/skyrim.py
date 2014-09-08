@@ -1714,14 +1714,14 @@ GmstTweaks = [
 
 #--Tags supported by this game
 allTags = sorted((
-    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',
+    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',u'Sound',
     ))
 
 
 #--Patchers available when building a Bashed Patch
 patchers = (
     u'AliasesPatcher', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
-    u'PatchMerger', u'StatsPatcher'
+    u'PatchMerger', 'SoundPatcher', u'StatsPatcher'
     )
 
 #--CBash patchers available when building a Bashed Patch
@@ -1734,7 +1734,7 @@ listTypes = ('LVLI','LVLN','LVSP',)
 fidListTypes = ('FLST',)
 
 
-# remaining to add: 'PERK', 'RACE', 'WRLD', 'CELL', 'LCTN', 'AVIF',
+# remaining to add: 'PERK', 'RACE', 'LCTN', 'AVIF',
 namesTypes = set((
     'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLFM',
     'CONT', 'DIAL', 'DOOR', 'ENCH', 'EXPL', 'EYES', 'FACT', 'FLOR', 'FURN', 'HAZD',
@@ -3625,7 +3625,7 @@ class MreBook(MelRecord):
         MelNull('KSIZ'),
         MelKeywords('KWDA','keywords'),
         MelStruct('DATA','2B2sIIf',(BookTypeFlags,'flags',0L),('bookType',0),
-            'unused',(FID,'skillOrSpell',0L),'value','weight'),
+            'unused',(FID,'skillOrSpell',None),'value','weight'),
         MelFid('INAM','inventoryArt'),
         MelLString('CNAM','text'),
         )
@@ -5757,14 +5757,13 @@ class MreLigh(MelRecord):
         MelDestructible(),
         MelLString('FULL','full'),
         MelIcons(),
-        MelStruct('DATA','iI4BI6fIf','duration','radius',
-                'red','green','blue','unknown',
-                (LighTypeFlags,'flags',0L),'falloffExponent','fov','nearClip',
-                # fe = 'Flicker Effect'
-                'fePeriod','feIntensityAmplitude','feMovementAmplitude',
-                'value','weight',),
+        # fe = 'Flicker Effect'
+        MelStruct('DATA','iI4BI6fIf','duration','radius','red','green','blue',
+                  'unknown',(LighTypeFlags,'flags',0L),'falloffExponent','fov',
+                  'nearClip','fePeriod','feIntensityAmplitude',
+                  'feMovementAmplitude','value','weight',),
         MelStruct('FNAM','f','fadevalue',),
-        MelFid('SNAM','sound',),
+        MelFid('SNAM','sound'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

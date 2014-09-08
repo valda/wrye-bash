@@ -14583,6 +14583,10 @@ class NamesPatcher(ImportPatcher):
     """Import names from source mods/files."""
     name = _(u'Import Names')
     text = _(u"Import names from source mods/files.")
+    if bush.game.fsName == u'Fallout3':
+        autoRe = re.compile(ur"^Fallout3.esm$",re.I|re.U)
+    if bush.game.fsName == u'FalloutNV':
+        autoRe = re.compile(ur"^FalloutNV.esm$",re.I|re.U)
     if bush.game.fsName == u'Skryim':
         autoRe = re.compile(ur"^Skyrim.esm$",re.I|re.U)
     if bush.game.fsName == u'Oblivion':

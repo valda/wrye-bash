@@ -1734,7 +1734,7 @@ listTypes = ('LVLI','LVLN','LVSP',)
 fidListTypes = ('FLST',)
 
 
-# remaining to add: 'PERK', 'RACE', 'WRLD', 'CELL', 'LCTN',
+# remaining to add: 'PERK', 'RACE', 'WRLD', 'CELL', 'LCTN', 'AVIF',
 namesTypes = set((
     'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLFM',
     'CONT', 'DIAL', 'DOOR', 'ENCH', 'EXPL', 'EYES', 'FACT', 'FLOR', 'FURN', 'HAZD',
@@ -8106,9 +8106,8 @@ class MreWrld(MelRecord):
         MelFid('XLCN','location',),
         MelGroup('parent',
             MelFid('WNAM','worldspace',),
-            MelStruct('PNAM','Bs',(WrldFlags1,'flags',0L),'unknown',),
+            MelStruct('PNAM','Bs',(WrldFlags1,'parentFlags',0L),'unknown',),
         ),
-        # [ftt]      ], []),
         MelFid('CNAM','climate',),
         MelFid('NAM2','water',),
         MelFid('NAM3','lODWaterType',),
@@ -8123,7 +8122,7 @@ class MreWrld(MelRecord):
         MelStruct('ONAM','4f','worldMapScale','cellXOffset','cellYOffset',
                   'cellZOffset',),
         MelStruct('NAMA','f','distantLODMultiplier',),
-        MelStruct('DATA','I',(WrldFlags2,'flags',0L),),
+        MelStruct('DATA','B',(WrldFlags2,'dataFlags',0L),),
         # {>>> Object Bounds doesn't show up in CK <<<}
         MelStruct('NAM0','2f','minObjX','minObjY',),
         MelStruct('NAM9','2f','maxObjX','maxObjY',),
@@ -8337,12 +8336,12 @@ def init():
         MreMstt, MreMusc, MreMust, MreNpc, MreOtft, MreProj, MreRela, MreRevb, MreRfct, MreScrl,
         MreShou, MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun, MreSpel,
         MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWoop, MreWthr,
-        MreCell, # MreNavm, MreNavi, MreWrld,
+        MreCell, MreWrld, # MreNavm, MreNavi
         MreHeader,
         ))
 
     #--Simple records
     brec.MreRecord.simpleTypes = (set(brec.MreRecord.type_class) -
         set((
-        'TES4','ACHR','CELL','DIAL','INFO',
+        'TES4','ACHR','CELL','DIAL','INFO','WRLD'
         )))

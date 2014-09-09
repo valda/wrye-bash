@@ -1714,7 +1714,7 @@ GmstTweaks = [
 
 #--Tags supported by this game
 allTags = sorted((
-    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',u'Sound',
+    u'Relev',u'Delev',u'Factions',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',u'Sound',
     ))
 
 
@@ -4960,20 +4960,17 @@ class MreFurn(MelRecord):
         MelDestructible(),
         MelCountedFidList('KWDA', 'keywords', 'KSIZ', '<I'),
         MelBase('PNAM','pnam_p'),
-        MelStruct('FNAM','H',(FurnGeneralFlags,'general_f',0L),),
+        MelStruct('FNAM','H',(FurnGeneralFlags,'general_f',None),),
         MelFid('KNAM','interactionKeyword'),
-        MelStruct('MNAM','I',(FurnActiveMarkerFlags,'activeMarkers',0L)),
+        MelStruct('MNAM','I',(FurnActiveMarkerFlags,'activeMarkers',None)),
         MelStruct('WBDT','Bb','benchType','usesSkill',),
         MelFid('NAM1','associatedSpell'),
         MelGroups('markers',
             MelStruct('ENAM','I','markerIndex',),
-            MelStruct('NAM0','2sH','unknown',(MarkerEntryPointFlags,'disabledPoints_f',0L),),
+            MelStruct('NAM0','2sH','unknown',(MarkerEntryPointFlags,'disabledPoints_f',None),),
             MelFid('FNMK','markerKeyword',),
             ),
-        MelGroups('entryPoints',
-            MelStruct('FNPR','2H','markerType',
-                      (MarkerEntryPointFlags,'entryPointsFlags',0L),),
-            ),
+        MelStructs('FNPR','2H','entryPoints','markerType',(MarkerEntryPointFlags,'entryPointsFlags',None),),
         MelString('XMRK','modelFilename'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -5782,7 +5779,7 @@ class MreLscr(MelRecord):
         MelStruct('SNAM','f','initialScale',),
         MelStruct('RNAM','3h','rotGridY','rotGridX''rotGridZ',),
         MelStruct('ONAM','2h','rotOffsetMin','rotOffsetMax',),
-        MelStruct('XNAM','3h','transGridY','transGridX''transGridZ',),
+        MelStruct('XNAM','3f','transGridY','transGridX','transGridZ',),
         MelString('MOD2','cameraPath'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

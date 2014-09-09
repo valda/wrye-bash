@@ -1714,14 +1714,16 @@ GmstTweaks = [
 
 #--Tags supported by this game
 allTags = sorted((
-    u'Relev',u'Delev',u'Factions',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats',u'Sound',
+    u'Deactivate', u'Delev', u'Factions', u'Filter', u'Names', u'NoMerge', u'Relations',
+    u'Relev', u'Sound', u'Stats',
     ))
 
 
 #--Patchers available when building a Bashed Patch
 patchers = (
-    u'AliasesPatcher', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
-    u'PatchMerger', 'SoundPatcher', u'StatsPatcher'
+    u'AliasesPatcher', u'GmstTweaker', u'ImportFactions', u'ImportRelations',
+    u'ListsMerger', u'NamesPatcher', u'PatchMerger', u'SoundPatcher',
+    u'StatsPatcher',
     )
 
 #--CBash patchers available when building a Bashed Patch
@@ -5777,7 +5779,7 @@ class MreLscr(MelRecord):
         MelConditions(),
         MelFid('NNAM','loadingScreenNIF'),
         MelStruct('SNAM','f','initialScale',),
-        MelStruct('RNAM','3h','rotGridY','rotGridX''rotGridZ',),
+        MelStruct('RNAM','3h','rotGridY','rotGridX','rotGridZ',),
         MelStruct('ONAM','2h','rotOffsetMin','rotOffsetMax',),
         MelStruct('XNAM','3f','transGridY','transGridX','transGridZ',),
         MelString('MOD2','cameraPath'),

@@ -652,13 +652,15 @@ GmstTweaks = [
 # 'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
 # 'Deflst', 'Destructible'
 allTags = sorted((
-    u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Stats',u'Names',u'Deflst',u'Sound',u'Destructible',
+    u'Deactivate', u'Deflst', u'Delev', u'Destructible', u'Factions', u'Filter',
+    u'Names', u'NoMerge', u'Relations', u'Relev', u'Sound', u'Stats',
     ))
 
 #--Patcher available when building a Bashed Patch (referenced by class name)
 patchers = (
-    u'AliasesPatcher', u'DestructiblePatcher', u'FidListsMerger', u'GmstTweaker', u'ListsMerger', u'NamesPatcher',
-    u'PatchMerger', 'SoundPatcher', u'StatsPatcher'
+    u'AliasesPatcher', u'DestructiblePatcher', u'FidListsMerger', u'GmstTweaker',
+    u'ImportFactions', u'ImportRelations',u'ListsMerger', u'NamesPatcher',
+    u'PatchMerger', 'SoundPatcher', u'StatsPatcher',
     )
 
 #--CBash patchers available when building a Bashed Patch

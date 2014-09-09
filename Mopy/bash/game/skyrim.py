@@ -1729,6 +1729,8 @@ CBash_patchers = tuple()
 
 # For ListsMerger
 listTypes = ('LVLI','LVLN','LVSP',)
+# Needs longs in SoundPatcher
+soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP'))
 
 # remaining to add: 'PERK', 'RACE', 'LCTN', 'AVIF',
 namesTypes = set((
@@ -4027,10 +4029,7 @@ class MreCont(MelRecord):
         MelLString('FULL','full'),
         MelModel(),
         MelNull('COCT'),
-        MelGroups('items',
-            MelCountedFids('CNTO', 'item', 'COCT', '<I'),
-            MelCoed(),
-            )
+        MelContCnto(),
         MelDestructible(),
         MelStruct('DATA','=Bf',(ContTypeFlags,'flags',0L),'weight'),
         MelFid('SNAM','soundOpen'),
@@ -4675,10 +4674,8 @@ class MreFact(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelLString('FULL','full'),
-        MelGroups('relationArray',
-            MelStruct('XNAM','IiI',(FID,'faction'),'modifier','combatReaction',),
-            ),
-        MelStruct('DATA','I',(FactGeneralTypeFlags,'factionGeneralFlags',0L),),
+        MelStructs('XNAM','IiI','relations',(FID,'faction'),'mod','combatReaction',),
+        MelStruct('DATA','I',(FactGeneralTypeFlags,'flags',0L),),
         MelFid('JAIL','exteriorJailMarker'),
         MelFid('WAIT','followerWaitMarker'),
         MelFid('STOL','stolenGoodsContainer'),
@@ -4693,7 +4690,7 @@ class MreFact(MelRecord):
             MelStruct('RNAM','I','rank'),
             MelLString('MNAM','maleTitle'),
             MelLString('FNAM','femaleTitle'),
-            MelString('INAM','insigniaUnused'),
+            MelString('INAM','insigniaPath'),
         ),
         MelFid('VEND','vendorBuySellList'),
         MelFid('VENC','merchantContainer'),
@@ -6401,16 +6398,16 @@ class MreNpc(MelRecord):
         MelString('EDID', 'eid'),
         MelVmad(),
         MelBounds(),
-        MelStruct('ACBS','IHHhHHHhHHH',(NpcFlags1,'npcFlags1',0L),'magickaOffset',
-                  'staminaOffset','level','calcminlevel',
-                  'calcmaxlevel','speedMultiplier','dispositionBase',
+        MelStruct('ACBS','IHHhHHHhHHH',(NpcFlags1,'flags',0L),'magickaOffset',
+                  'staminaOffset','level','calcMin',
+                  'calcMax','speedMultiplier','dispotionBase',
                   (NpcFlags2,'npcFlags2',0L),'healthOffset','bleedoutOverride',
                   ),
         MelStructs('SNAM','IB3s','factions',(FID, 'faction'), 'rank', 'snamUnused'),
-        MelOptStruct('INAM', 'I', (FID, 'deathitem')),
-        MelOptStruct('VTCK', 'I', (FID, 'voicetype')),
+        MelOptStruct('INAM', 'I', (FID, 'deathItem')),
+        MelOptStruct('VTCK', 'I', (FID, 'voice')),
         MelOptStruct('TPLT', 'I', (FID, 'template')),
-        MelStruct('RNAM', 'I', (FID, 'race')),
+        MelFid('RNAM','race'),
         MelCountedFids('SPLO', 'keywords', 'SPCT', '<I'),
         MelDestructible(),
         MelOptStruct('WNAM','I',(FID, 'wormArmor')),

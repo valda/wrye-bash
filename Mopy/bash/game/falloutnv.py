@@ -706,6 +706,8 @@ CBash_patchers = (
 
 #--For ListMerger patcher (leveled list patcher)
 listTypes = ('LVLC','LVLI','LVLN')
+# Needs longs in SoundPatcher
+soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP'))
 
 namesTypes = set((
     'ACTI','ALCH','AMMO','ARMO','BOOK','CCRD','CHIP','CLAS','CMNY','CONT','CREA',
@@ -4075,11 +4077,10 @@ class MreNpc(MreActor):
                   'boundX2','boundY2','boundZ2'),
         MelString('FULL','full'),
         MelModel(),
-        MelStruct('ACBS','=I2Hh3Hf2H',
-            (_flags,'flags',0L),'fatigue','barterGold',
-            ('level',1),'calcMin','calcMax','speedMultiplier','karma','dispotionBase','templateFlags'),
-        MelStructs('SNAM','=IB3s','factions',
-            (FID,'faction',None),'rank',('unused1','ODB')),
+        MelStruct('ACBS','=I2Hh3Hf2H',(_flags,'flags',0L),'fatigue','barterGold',
+                 ('level',1),'calcMin','calcMax','speedMultiplier','karma',
+                 'dispotionBase','templateFlags'),
+        MelStructs('SNAM','=IB3s','factions',(FID,'faction',None),'rank',('unused1','ODB')),
         MelFid('INAM','deathItem'),
         MelFid('VTCK','voice'),
         MelFid('TPLT','template'),

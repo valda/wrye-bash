@@ -15198,7 +15198,7 @@ class SoundPatcher(ImportPatcher):
                 'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo','soundBlock',
                 'soundMod1Shoot3Ds','soundMod1Shoot2D')
         #--Needs Longs
-        self.longTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP'))
+        self.longTypes = bush.game.soundsLongsTypes
 
     def initData(self,progress):
         """Get sounds from source files."""

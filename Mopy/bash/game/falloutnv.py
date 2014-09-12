@@ -5590,13 +5590,27 @@ class MreSpel(MelRecord,MreHasEffects):
 class MreStat(MelRecord):
     """Static model record."""
     classType = 'STAT'
+
+    # passthroughSound
+    # -1, 'NONE'
+    #  0, 'BushA',
+    #  1, 'BushB',
+    #  2, 'BushC',
+    #  3, 'BushD',
+    #  4, 'BushE',
+    #  5, 'BushF',
+    #  6, 'BushG',
+    #  7, 'BushH',
+    #  8, 'BushI',
+    #  9, 'BushJ'
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
+                  'boundX1','boundY1','boundZ1',
+                  'boundX2','boundY2','boundZ2'),
         MelModel(),
-        MelStruct('BRUS','=B',('passthroughSound',255)),
+        MelStruct('BRUS','=b',('passthroughSound',-1)),
         MelFid('RNAM','soundRandomLooping'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

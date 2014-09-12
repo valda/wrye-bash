@@ -12010,7 +12010,7 @@ class CellImporter(ImportPatcher):
     name = _(u'Import Cells')
     text = _(u"Import cells (climate, lighting, and water) from source mods.")
     tip = text
-    autoKey = (u'C.Climate',u'C.Light',u'C.Water',u'C.Owner',u'C.Name',u'C.RecordFlags',u'C.Music')#,u'C.Maps')
+    autoKey = bush.game.cellAutoKeys
 
     #--Patch Phase ------------------------------------------------------------
     def initPatchFile(self,patchFile,loadMods):
@@ -12019,28 +12019,8 @@ class CellImporter(ImportPatcher):
         self.cellData = {}
         self.sourceMods = self.getConfigChecked()
         self.isActive = bool(self.sourceMods)
-        self.recAttrs = {
-            u'C.Climate': ('climate',),
-            u'C.Music': ('music',),
-            u'C.Name': ('full',),
-            u'C.Owner': ('ownership',),
-            u'C.Water': ('water','waterHeight'),
-            u'C.Light': ('ambientRed','ambientGreen','ambientBlue','unused1',
-                        'directionalRed','directionalGreen','directionalBlue','unused2',
-                        'fogRed','fogGreen','fogBlue','unused3',
-                        'fogNear','fogFar','directionalXY','directionalZ',
-                        'directionalFade','fogClip'),
-            u'C.RecordFlags': ('flags1',), # Yes seems funky but thats the way it is
-            }
-        self.recFlags = {
-            u'C.Climate': 'behaveLikeExterior',
-            u'C.Music': '',
-            u'C.Name': '',
-            u'C.Owner': 'publicPlace',
-            u'C.Water': 'hasWater',
-            u'C.Light': '',
-            u'C.RecordFlags': '',
-            }
+        self.recAttrs = bush.game.cellRecAttrs
+        self.recFlags = bush.game.cellRecFlags
 
     def getReadClasses(self):
         """Returns load factory classes needed for reading."""

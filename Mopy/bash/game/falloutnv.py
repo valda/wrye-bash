@@ -1119,8 +1119,32 @@ statsHeaders = (
                 _('VATS Skill'), _('VATS Dam. Mult'), _('VATS AP'))) + '"\n')),
         )
 
-# Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
+# CellImporter
+cellAutoKeys = (
+    u'C.Climate',u'C.Light',u'C.Water',u'C.Owner',u'C.Name',u'C.RecordFlags',u'C.Music')#,u'C.Maps')
+cellRecAttrs = {
+            u'C.Climate': ('climate',),
+            u'C.Music': ('music',),
+            u'C.Name': ('full',),
+            u'C.Owner': ('ownership',),
+            u'C.Water': ('water','waterHeight'),
+            u'C.Light': ('ambientRed','ambientGreen','ambientBlue','unused1',
+                        'directionalRed','directionalGreen','directionalBlue','unused2',
+                        'fogRed','fogGreen','fogBlue','unused3',
+                        'fogNear','fogFar','directionalXY','directionalZ',
+                        'directionalFade','fogClip'),
+            u'C.RecordFlags': ('flags1',), # Yes seems funky but thats the way it is
+            }
+cellRecFlags = {
+            u'C.Climate': 'behaveLikeExterior',
+            u'C.Music': '',
+            u'C.Name': '',
+            u'C.Owner': 'publicPlace',
+            u'C.Water': 'hasWater',
+            u'C.Light': '',
+            u'C.RecordFlags': '',
+            }
 
 
 # FormID

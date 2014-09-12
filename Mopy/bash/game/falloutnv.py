@@ -1138,18 +1138,14 @@ class MelConditions(MelStructs):
     of parameters depends on function index."""
     def __init__(self):
         """Initialize."""
-        MelStructs.__init__(self,'CTDA','B3sfIiiii','conditions',
-            'operFlag',('unused1',null3),'compValue','ifunc','param1','param2','param3','param4')
-
-    def getLoaders(self,loaders):
-        """Adds self as loader for type."""
-        loaders[self.subType] = self
-        #loaders['CTDT'] = self #--Older CTDT type for ai package records.
+        MelStructs.__init__(self,'CTDA','=B3sfH2siiII','conditions',
+            'operFlag',('unused1',null3),'compValue','ifunc',('unused2',null2),
+            'param1','param2','runOn','reference')
 
     def getDefault(self):
         """Returns a default copy of object."""
         target = MelStructs.getDefault(self)
-        target.form1234 = 'iiii'
+        target.form1234 = 'iiII'
         return target
 
     def hasFids(self,formElements):
@@ -1162,51 +1158,54 @@ class MelConditions(MelStructs):
             if size != 28 and size != 24 and size != 20:
                 raise ModSizeError(ins.inName,readId,28,size,False)
         else:
-            raise ModError(ins.inName,_('Unexpected subrecord: ')+readId)
-        #if type == 'CTDT' and size != 20:
-        #    raise ModSizeError(ins.inName,readId,20,size,True)
+            raise ModError(ins.inName,_(u'Unexpected subrecord: ')+readId)
         target = MelObject()
         record.conditions.append(target)
         target.__slots__ = self.attrs
-        unpacked1 = ins.unpack('B3sfI',12,readId)
-        (target.operFlag,target.unused1,target.compValue,ifunc) = unpacked1
+        unpacked1 = ins.unpack('=B3sfH2s',12,readId)
+        (target.operFlag,target.unused1,target.compValue,ifunc,target.unused2) = unpacked1
         #--Get parameters
-        if ifunc not in bush.allConditions:
-            raise BoltError(_('Unknown condition function: %d') % ifunc)
-        form1 = 'iI'[ifunc in bush.fid1Conditions]
-        form2 = 'iI'[ifunc in bush.fid2Conditions]
-        form3 = 'iI'[ifunc in bush.fid3Conditions]
-        form4 = 'iI'[ifunc in bush.fid4Conditions]
+        if ifunc not in allConditions:
+            raise bolt.BoltError(u'Unknown condition function: %d\nparam1: %08X\nparam2: %08X' % (ifunc,ins.unpackRef(), ins.unpackRef()))
+        # Form1 is Param1
+        form1 = 'I' if ifunc in fid1Conditions else 'i'
+        # Form2 is Param2
+        form2 = 'I' if ifunc in fid2Conditions else 'i'
+        # Form3 is runOn
+        form3 = 'I'
+        # Form4 is reference, this is a formID when runOn = 2
+        form4 = 'I'
         if size == 28:
             form1234 = form1+form2+form3+form4
             unpacked2 = ins.unpack(form1234,16,readId)
-            (target.param1,target.param2,target.param3,target.param4) = unpacked2
+            (target.param1,target.param2,target.runOn,target.reference) = unpacked2
         elif size == 24:
             form1234 = form1+form2+form3
             unpacked2 = ins.unpack(form1234,12,readId)
-            (target.param1,target.param2,target.param3) = unpacked2
-            target.param4 = null4
+            (target.param1,target.param2,target.runOn) = unpacked2
+            target.reference = null4
         elif size == 20:
             form1234 = form1+form2
             unpacked2 = ins.unpack(form1234,8,readId)
             (target.param1,target.param2) = unpacked2
-            target.param3 = null4
-            target.param4 = null4
+            target.runOn = null4
+            target.reference = null4
         else:
             raise ModSizeError(ins.inName,readId,28,size,False)
         (target.ifunc,target.form1234) = (ifunc,form1234)
         if self._debug:
             unpacked = unpacked1+unpacked2
-            print ' ',zip(self.attrs,unpacked)
+            print u' ',zip(self.attrs,unpacked)
             if len(unpacked) != len(self.attrs):
-                print ' ',unpacked
+                print u' ',unpacked
 
     def dumpData(self,record,out):
         """Dumps data from record to outstream."""
         for target in record.conditions:
-            out.packSub('CTDA','B3sfI'+target.form1234,
+            out.packSub('CTDA','=B3sfH2s'+target.form1234,
                 target.operFlag, target.unused1, target.compValue,
-                target.ifunc, target.param1, target.param2, target.param3, target.param4)
+                target.ifunc, target.unused2, target.param1, target.param2,
+                target.runOn, target.reference)
 
     def mapFids(self,record,function,save=False):
         """Applies function to fids. If save is true, then fid is set
@@ -1219,12 +1218,11 @@ class MelConditions(MelStructs):
             if form1234[1] == 'I':
                 result = function(target.param2)
                 if save: target.param2 = result
-            if len(form1234) > 2 and form1234[2] == 'I':
-                result = function(target.param3)
-                if save: target.param3 = result
-            if len(form1234) > 3 and form1234[3] == 'I':
-                result = function(target.param4)
-                if save: target.param4 = result
+            # runOn is intU32, never FID, and Enum in FNVEdit
+            #0:Subject,1:Target,2:Reference,3:Combat Target,4:Linked Reference
+            if len(form1234) > 3 and form1234[3] == 'I' and target.runOn == 2:
+                result = function(target.reference)
+                if save: target.reference = result
 
 #------------------------------------------------------------------------------
 class MelDestructible(MelGroup):

@@ -14574,7 +14574,7 @@ class CBash_ImportActorsSpells(CBash_ImportPatcher):
 from patcher.oblivion.utilities import FullNames, CBash_FullNames
 
 class NamesPatcher(ImportPatcher):
-    """Merged leveled lists mod file."""
+    """Import names from source mods/files."""
     name = _(u'Import Names')
     text = _(u"Import names from source mods/files.")
     autoRe = bush.game.namesPatcherMaster

@@ -287,6 +287,8 @@ masterFiles = [
 #--Plugin files that can't be deactivated
 nonDeactivatableFiles = []
 
+namesPatcherMaster = re.compile(ur"^Fallout3.esm$",re.I|re.U)
+
 #--The pickle file for this game.  Holds encoded GMST IDs from the big list below
 pklfile = ur'bash\db\Fallout3_ids.pkl'
 

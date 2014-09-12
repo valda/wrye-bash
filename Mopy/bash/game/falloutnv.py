@@ -5344,9 +5344,9 @@ class MreRepu(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelString('FULL','full'),
-        MelString('ICON','largeIconPath'),
+        MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
-        MelStruct('DATA','I','value'),
+        MelStruct('DATA','f','value'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

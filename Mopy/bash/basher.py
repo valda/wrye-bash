@@ -8079,6 +8079,9 @@ class ListsMerger(bosh.ListsMerger,ListPatcher):
 class CBash_ListsMerger(bosh.CBash_ListsMerger,ListPatcher):
     listLabel = _(u'Override Delev/Relev Tags')
 
+class FidListsMerger(bosh.FidListsMerger,ListPatcher):
+    listLabel = _("Override Deflst Tags")
+
 class MFactMarker(bosh.MFactMarker,ListPatcher): pass
 class CBash_MFactMarker(bosh.CBash_MFactMarker,ListPatcher): pass
 
@@ -14301,6 +14304,12 @@ class Mod_ListPatchConfig(Link):
                             clip.write(u'    %s\n' % label)
             elif isinstance(patcher, (bosh.CBash_ListsMerger,bosh.ListsMerger)):
                 # Leveled Lists
+                patcher.configChoices = conf.get('configChoices',{})
+                for item in conf.get('configItems',[]):
+                    log(u'. __%s__' % patcher.getItemLabel(item))
+                    clip.write(u'    %s\n' % patcher.getItemLabel(item))
+            elif isinstance(patcher, (bosh.FidListsMerger)):
+                # FormID Lists
                 patcher.configChoices = conf.get('configChoices',{})
                 for item in conf.get('configItems',[]):
                     log(u'. __%s__' % patcher.getItemLabel(item))

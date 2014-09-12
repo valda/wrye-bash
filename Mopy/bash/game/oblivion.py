@@ -1485,15 +1485,14 @@ allTags = sorted((u'Body-F', u'Body-M', u'Body-Size-M', u'Body-Size-F', u'C.Clim
 
 #--Patchers available when building a Bashed Patch
 patchers = (
-    'AliasesPatcher', 'AssortedTweaker', 'PatchMerger', 'AlchemicalCatalogs',
-    'KFFZPatcher', 'ActorImporter', 'DeathItemPatcher', 'NPCAIPackagePatcher',
-    'CoblExhaustion', 'UpdateReferences', 'CellImporter', 'ClothesTweaker',
-    'GmstTweaker', 'GraphicsPatcher', 'ImportFactions',
-    'ImportInventory', 'SpellsPatcher', 'TweakActors', 'ImportRelations',
-    'ImportScripts', 'ImportActorsSpells',
-    'ListsMerger', 'MFactMarker', 'NamesPatcher', 'NamesTweaker',
-    'NpcFacePatcher', 'RacePatcher', 'RoadImporter',
-    'SoundPatcher', 'StatsPatcher', 'SEWorldEnforcer', 'ContentsChecker',
+    u'ActorImporter', u'AlchemicalCatalogs', u'AliasesPatcher', u'AssortedTweaker',
+    u'CellImporter', u'ClothesTweaker', u'CoblExhaustion', u'ContentsChecker',
+    u'DeathItemPatcher', u'GmstTweaker', u'GraphicsPatcher', u'ImportActorsSpells',
+    u'ImportFactions', u'ImportInventory', u'ImportRelations', u'ImportScripts',
+    u'KFFZPatcher', u'ListsMerger', u'MFactMarker', u'NamesPatcher', u'NamesTweaker',
+    u'NPCAIPackagePatcher', u'NpcFacePatcher', u'PatchMerger', u'RacePatcher',
+    u'RoadImporter', u'SEWorldEnforcer', u'SoundPatcher', u'SpellsPatcher',
+    u'StatsPatcher', u'TweakActors', u'UpdateReferences',
     )
 
 #--CBash patchers available when building a Bashed Patch

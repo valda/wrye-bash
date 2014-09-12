@@ -3936,6 +3936,7 @@ class MreNavi(MelRecord):
         MelStruct('NVER','I',('version',11)),
         MelNaviNvmi('NVMI','','unknowns',
                    'unknown1',(FID,'navigationMesh'),(FID,'location'),'gridX','gridY','unknown2'),
+        MelFidList('NVCI','unknownDoors',),
        )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

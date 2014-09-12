@@ -3067,7 +3067,8 @@ class MreNpc(MreActor):
         (13,'noRumors'),
         (14,'summonable'),
         (15,'noPersuasion'),
-        (20,'canCorpseCheck'),))
+        (20,'canCorpseCheck'),
+        ))
     #--AI Service flags
     aiService = Flags(0L,Flags.getNames(
         (0,'weapons'),
@@ -3083,7 +3084,8 @@ class MreNpc(MreActor):
         (13,'potions'),
         (14,'training'),
         (16,'recharge'),
-        (17,'repair'),))
+        (17,'repair'),
+        ))
     #--Mel NPC DATA
     class MelNpcData(MelStruct):
         """Convert npc stats into skills, health, attributes."""

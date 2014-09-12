@@ -1762,13 +1762,19 @@ class RecordHeader(brec.BaseRecordHeader):
         """Returns the record header packed into a string for writing to file."""
         if self.recType == 'GRUP':
             if isinstance(self.label,str):
-                return struct.pack('=4sI4sII',self.recType,self.size,self.label,self.groupType,self.stamp)
+                return struct.pack('=4sI4sII',self.recType,self.size,
+				                   self.label,self.groupType,self.stamp
+								   )
             elif isinstance(self.label,tuple):
-                return struct.pack('=4sIhhII',self.recType,self.size,self.label[0],self.label[1],self.groupType,self.stamp)
+                return struct.pack('=4sIhhII',self.recType,self.size,
+				                   self.label[0],self.label[1],self.groupType,
+								   self.stamp)
             else:
-                return struct.pack('=4s4I',self.recType,self.size,self.label,self.groupType,self.stamp)
+                return struct.pack('=4s4I',self.recType,self.size,self.label,
+				                   self.groupType,self.stamp)
         else:
-            return struct.pack('=4s4I',self.recType,self.size,self.flags1,self.fid,self.flags2)
+            return struct.pack('=4s4I',self.recType,self.size,self.flags1,
+			                   self.fid,self.flags2)
 
 #------------------------------------------------------------------------------
 # Record Elements    ----------------------------------------------------------

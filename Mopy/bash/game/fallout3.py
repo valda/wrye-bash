@@ -3796,7 +3796,7 @@ class MrePack(MelRecord):
                 setter(attr,value)
             if self._debug: print unpacked
     class MelPackPkdd(MelOptStruct):
-        """Handle older trucated PKDD for PACK subrecord."""
+        """Handle older truncated PKDD for PACK subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 24:
                 MelStruct.loadData(self,record,ins,type,size,readId)
@@ -3959,7 +3959,7 @@ class MrePerk(MelRecord):
     """Perk record."""
     classType = 'PERK'
     class MelPerkData(MelStruct):
-        """Handle older trucated DATA for PERK subrecord."""
+        """Handle older truncated DATA for PERK subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 5:
                 MelStruct.loadData(self,record,ins,type,size,readId)
@@ -4193,7 +4193,7 @@ class MreQust(MelRecord):
             return self.data[key]
 
     class MelQustData(MelStruct):
-        """Handle older trucated DATA for QUST subrecord."""
+        """Handle older truncated DATA for QUST subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 8:
                 MelStruct.loadData(self,record,ins,type,size,readId)
@@ -4449,7 +4449,7 @@ class MreRefr(MelRecord):
     _destinationFlags = Flags(0L,Flags.getNames('noAlarm'))
     _variableFlags = Flags(0L,Flags.getNames('isLongOrShort'))
     class MelRefrXloc(MelOptStruct):
-        """Handle older trucated XLOC for REFR subrecord."""
+        """Handle older truncated XLOC for REFR subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 20:
                 MelStruct.loadData(self,record,ins,type,size,readId)
@@ -4887,7 +4887,7 @@ class MreTerm(MelRecord):
     _menuFlags = Flags(0L,Flags.getNames('addNote','forceRedraw'))
     _variableFlags = Flags(0L,Flags.getNames('isLongOrShort'))
     class MelTermDnam(MelStruct):
-        """Handle older trucated DNAM for TERM subrecord."""
+        """Handle older truncated DNAM for TERM subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 4:
                 MelStruct.loadData(self,record,ins,type,size,readId)
@@ -5026,7 +5026,7 @@ class MreWatr(MelRecord):
     classType = 'WATR'
     _flags = Flags(0L,Flags.getNames('causesDmg','reflective'))
     class MelWatrData(MelStruct):
-        """Handle older trucated DATA for WATR subrecord."""
+        """Handle older truncated DATA for WATR subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 186:
                 MelStruct.loadData(self,record,ins,type,size,readId)
@@ -5040,7 +5040,7 @@ class MreWatr(MelRecord):
             out.packSub(self.subType,'H',record.damage)
 
     class MelWatrDnam(MelStruct):
-        """Handle older trucated DNAM for WATR subrecord."""
+        """Handle older truncated DNAM for WATR subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 196:
                 MelStruct.loadData(self,record,ins,type,size,readId)
@@ -5150,7 +5150,7 @@ class MreWeap(MelRecord):
         ))
 
     class MelWeapDnam(MelStruct):
-        """Handle older trucated DNAM for WEAP subrecord."""
+        """Handle older truncated DNAM for WEAP subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 136:
                 MelStruct.loadData(self,record,ins,type,size,readId)

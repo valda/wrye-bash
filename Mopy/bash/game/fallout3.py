@@ -2353,9 +2353,12 @@ class MreDebr(MelRecord):
     """Debris record."""
     classType = 'DEBR'
     class MelDebrData(MelStruct):
+        subType = 'DATA'
+        _elements = (('percentage',0),('modPath',null1),('flags',0))
         def __init__(self):
             """Initialize."""
-            MelStruct.__init__(self,'DATA','IsI',('percentage',0),('modPath',null1),('flags',0))
+            self.attrs,self.defaults,self.actions,self.formAttrs = self.parseElements(*self._elements)
+            self._debug = False
         def loadData(self,record,ins,type,size,readId):
             """Reads data from ins into record attribute."""
             data = ins.read(size,readId)

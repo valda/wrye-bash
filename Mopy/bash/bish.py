@@ -156,7 +156,7 @@ def readRecord(record, melSet=0, skipLabel=0):
     elif hasattr(record, 'melSet'):
         melSet = record.melSet.getSlotsUsed()
         if record.recType == 'DIAL':
-            melSet += ['infoStamp','infos']
+            melSet += ['infoStamp','infoStamp2','infos']
     elif hasattr(record, '__slots__'):
         melSet = getattr(record, '__slots__')
     elif hasattr(record, '__dict__'):

@@ -3206,7 +3206,7 @@ class MreIdle(MelRecord):
                 return
             elif size == 6:
                 #--Else 6 byte record (skips flags and unknown2...
-                unpacked = ins.unpack('4BH',size,readId)
+                unpacked = ins.unpack('3Bsh',size,readId)
             else:
                 raise "Unexpected size encountered for IDLE:DATA subrecord: %s" % size
             unpacked += self.defaults[len(unpacked):]
@@ -3220,7 +3220,8 @@ class MreIdle(MelRecord):
         MelModel(),
         MelConditions(),
         MelStruct('ANAM','II',(FID,'parent'),(FID,'prevId')),
-        MelIdleData('DATA','4BH2B','group','loopMin','loopMax','unknown1','delay','flags','unknown2'),
+        MelIdleData('DATA','3BshBs','group','loopMin','loopMax','unknown1',
+                    'delay','flags','unknown2'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

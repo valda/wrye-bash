@@ -27,10 +27,11 @@
 # Imports ----------------------------------------------------------------------
 import struct
 from .. import brec
-from .. import bolt
-from .. import bush
 from ..brec import *
-from ..bolt import Flags, DataDict, StateError
+from .. import bolt
+from ..bolt import Flags, DataDict, StateError, _unicode, _encode
+from .. import bush
+from fallout3_const import bethDataFiles, allBethFiles
 
 # Util Constants ---------------------------------------------------------------
 #--Null strings (for default empty byte arrays)
@@ -272,6 +273,7 @@ class ess:
 
 #--INI files that should show up in the INI Edits tab
 iniFiles = [
+    u'Fallout.ini',
     u'FalloutPrefs.ini',
     ]
 

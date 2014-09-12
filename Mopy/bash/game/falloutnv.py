@@ -27,10 +27,11 @@
 # Imports ----------------------------------------------------------------------
 import struct
 from .. import brec
-from .. import bolt
-from .. import bush
 from ..brec import *
-from ..bolt import Flags, DataDict, StateError
+from .. import bolt
+from ..bolt import Flags, DataDict, StateError, _unicode, _encode
+from .. import bush
+from falloutnv_const import bethDataFiles, allBethFiles
 
 # Util Constants ---------------------------------------------------------------
 #--Null strings (for default empty byte arrays)
@@ -136,8 +137,9 @@ dontSkipDirs = {
 }
 
 #--Folders BAIN should never CRC check in the Data directory
-SkipBAINRefresh = set((
-    # Use lowercase names
+SkipBAINRefresh = set ((
+    #Use lowercase names
+    u'fnvedit backups',
 ))
 
 #--Some stuff dealing with INI files
@@ -273,8 +275,8 @@ class ess:
 
 #--INI files that should show up in the INI Edits tab
 iniFiles = [
+    u'Fallout.ini',
     u'FalloutPrefs.ini',
-    u'Fallout_default.ini',
     ]
 
 #-- INI setting used to setup Save Profiles

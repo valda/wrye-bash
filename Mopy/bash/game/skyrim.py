@@ -25,6 +25,7 @@
 """This modules defines static data for use by bush, when TES V:
    Skyrim is set at the active game."""
 
+# Imports ----------------------------------------------------------------------
 import struct
 from .. import brec
 from ..brec import *
@@ -138,8 +139,8 @@ dontSkip = (
 
 # Directories where specific file extensions should not be skipped by BAIN
 dontSkipDirs = {
-                # This rule is to allow mods with string translation enabled.
-                'interface\\translations':['.txt']
+# This rule is to allow mods with string translation enabled.
+    'interface\\translations':['.txt']
 }
 
 #Folders BAIN should never check
@@ -163,6 +164,9 @@ class ess:
     canReadBasic = True         # All the basic stuff needed for the Saves Tab
     canEditMasters = True       # Adjusting save file masters
     canEditMore = False         # No advanced editing
+
+    # Save file extension.
+    ext = u'.ess';
 
     @staticmethod
     def load(ins,header):
@@ -281,7 +285,7 @@ nonDeactivatableFiles = [
 namesPatcherMaster = re.compile(ur"^Skyrim.esm$",re.I|re.U)
 
 #The pickle file for this game. Holds encoded GMST IDs from the big list below.
-pklfile = r'bash\db\Skyrim_ids.pkl'
+pklfile = ur'bash\db\Skyrim_ids.pkl'
 
 #--Game ESM/ESP/BSA files
 #  These filenames need to be in lowercase,

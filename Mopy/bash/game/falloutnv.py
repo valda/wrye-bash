@@ -3795,7 +3795,7 @@ class MreMicn(MelRecord):
     classType = 'MICN'
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelString('ICON','largeIconPath'),
+        MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

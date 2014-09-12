@@ -4555,7 +4555,7 @@ class MreRads(MelRecord):
 #------------------------------------------------------------------------------
 class MreRefr(MelRecord):
     classType = 'REFR'
-    _flags = Flags(0L,Flags.getNames('visible', 'canTravelTo'))
+    _flags = Flags(0L,Flags.getNames('visible', 'canTravelTo','showAllHidden'))
     _parentFlags = Flags(0L,Flags.getNames('oppositeParent'))
     _actFlags = Flags(0L,Flags.getNames('useDefault', 'activate','open','openByDefault'))
     _lockFlags = Flags(0L,Flags.getNames(None, None, 'leveledLock'))
@@ -4599,6 +4599,7 @@ class MreRefr(MelRecord):
                     record.full = ins.readString(size,readId)
                 elif type == 'TNAM':
                     record.markerType, record.unused5 = insUnpack('Bs',size,readId)
+                # WMI1 not used in FO3, leaving so it doesn't break something
                 elif type == 'WMI1':
                     record.reputation = insUnpack('I',size,readId)
                 pos = insTell()
@@ -4616,6 +4617,7 @@ class MreRefr(MelRecord):
                     if value != None:
                         out.packSub0('FULL',value)
                     out.packSub('TNAM','Bs',record.markerType, record.unused5)
+                    # WMI1 not used in FO3, leaving so it doesn't break something
                     out.packRef('WMI1',record.reputation)
                 except struct.error:
                     print self.subType,self.format,record.flags,record.full,record.markerType
@@ -4637,16 +4639,6 @@ class MreRefr(MelRecord):
         MelOptStruct('XTEL','I6fI',(FID,'destinationFid'),'destinationPosX','destinationPosY',
             'destinationPosZ','destinationRotX','destinationRotY','destinationRotZ',(_destinationFlags,'destinationFlags')),
         MelRefrXmrk('XMRK','',('hasXmrk',False),(_flags,'flags',0L),'full','markerType',('unused5',null1),(FID,'reputation')), ####Map Marker Start Marker, wbEmpty
-        MelGroup('audioData',
-            MelBase('MMRK','audioMarker'),
-            MelBase('FULL','full_p'),
-            MelFid('CNAM','audioLocation'),
-            MelBase('BNAM','bnam_p'),
-            MelBase('MNAM','mnam_p'),
-            MelBase('NNAM','nnam_p'),
-            ),
-        MelBase('XSRF','xsrf_p'),
-        MelBase('XSRD','xsrd_p'),
         MelFid('XTRG','targetId'),
         MelOptStruct('XLCM','i',('levelMod',None)),
         MelGroup('patrolData',
@@ -4684,9 +4676,8 @@ class MreRefr(MelRecord):
             MelStruct('XAPD','B','flags'),
             MelStructs('XAPR','If','activateParentRefs',(FID,'reference'),'delay')
             ),
-        MelString('XATO','activationPrompt'),
         MelOptStruct('XESP','IB3s',(FID,'parent'),(_parentFlags,'parentFlags'),('unused6',null3)),
-        MelOptStruct('XEMI','I',(FID,'emitance')),
+        MelOptStruct('XEMI','I',(FID,'emittance')),
         MelFid('XMBR','multiboundReference'),
         MelOptStruct('XACT','I',(_actFlags,'actFlags',0L)), ####Action Flag
         MelBase('ONAM','onam_p'), ####Open by Default, wbEmpty

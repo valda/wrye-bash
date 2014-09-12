@@ -1519,14 +1519,16 @@ class MelModel(MelGroup):
         for element in self.elements[:2]: element.debug(on)
         return self
 
+#------------------------------------------------------------------------------
 class MelOwnership(MelGroup):
     """Handles XOWN, XRNK, and XGLB for cells and cell children."""
 
-    def __init__(self):
+    def __init__(self,attr='ownership'):
         """Initialize."""
-        MelGroup.__init__(self, 'ownership',
+        MelGroup.__init__(self,attr,
             MelFid('XOWN','owner'),
             MelOptStruct('XRNK','i',('rank',None)),
+            # Double check XGLB it's not used in FNVEdit
             MelFid('XGLB','global'),
         )
 

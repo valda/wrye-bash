@@ -703,9 +703,13 @@ allTags = sorted((
     u'WeaponMods',
     ))
 
-#--Patcher available when building a Bashed Patch (refrerenced by class name)
+#--Patcher available when building a Bashed Patch (referenced by class name)
 patchers = (
-)
+    u'AliasesPatcher', u'CellImporter', u'DestructiblePatcher', u'FidListsMerger',
+    u'GmstTweaker', u'ImportFactions', u'ImportRelations', u'ListsMerger',
+    u'NamesPatcher', u'PatchMerger', 'SoundPatcher', u'StatsPatcher',
+    u'WeaponModsPatcher',
+    )
 
 #--CBash patchers available when building a Bashed Patch
 CBash_patchers = (

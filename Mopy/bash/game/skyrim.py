@@ -1727,8 +1727,8 @@ allTags = sorted((
 
 #--Patchers available when building a Bashed Patch
 patchers = (
-    u'AliasesPatcher', u'PatchMerger', u'ListsMerger', u'GmstTweaker',
-    u'NamesPatcher', u'StatsPatcher'
+    u'AliasesPatcher', u'CellImporter', u'GmstTweaker', u'ListsMerger',
+    u'NamesPatcher', u'PatchMerger', u'SoundPatcher', u'StatsPatcher',
     )
 
 #--CBash patchers available when building a Bashed Patch

@@ -7886,10 +7886,10 @@ class MreWatr(MelRecord):
         MelFid('XNAM','spell',),
         MelFid('INAM','imageSpace',),
         MelStruct('DATA','H','damagePerSecond'),
-        MelStruct('DNAM','7f4s2f3Bs3Bs3B5s43f','unknown1','unknown2','unknown3',
+        MelStruct('DNAM','7f4s2f3Bs3Bs3Bs4s43f','unknown1','unknown2','unknown3',
                   'unknown4','specularPropertiesSunSpecularPower',
                   'waterPropertiesReflectivityAmount',
-                  'waterPropertiesFresnelAmount','unknown5',
+                  'waterPropertiesFresnelAmount',('unknown5',null4),
                   'fogPropertiesAboveWaterFogDistanceNearPlane',
                   'fogPropertiesAboveWaterFogDistanceFarPlane',
                   # Shallow Color
@@ -7898,7 +7898,7 @@ class MreWatr(MelRecord):
                   'red_dc','green_dc','blue_dc','unknown_dc',
                   # Reflection Color
                   'red_rc','green_rc','blue_rc','unknown_rc',
-                  'unknown6','unknown7','unknown8','unknown9','unknown10',
+                  ('unknown6',null4),'unknown7','unknown8','unknown9','unknown10',
                   'displacementSimulatorStartingSize',
                   'displacementSimulatorForce','displacementSimulatorVelocity',
                   'displacementSimulatorFalloff','displacementSimulatorDampner',

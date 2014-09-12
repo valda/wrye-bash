@@ -1719,7 +1719,11 @@ GmstTweaks = [
     ]
 
 #--Tags supported by this game
-allTags = sorted((u'Relev',u'Delev',u'Filter',u'NoMerge',u'Deactivate',u'Names',u'Stats'))
+allTags = sorted((
+    u'C.Climate', u'C.Light', u'C.Music' u'C.Name', u'C.Owner', u'C.RecordFlags',
+    u'C.Water', u'Deactivate', u'Delev', u'Filter', u'Names', u'NoMerge', u'Relev',
+    u'Sound', u'Stats',
+    ))
 
 #--Patchers available when building a Bashed Patch
 patchers = (

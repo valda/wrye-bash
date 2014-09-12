@@ -4203,21 +4203,23 @@ class MrePmis(MelRecord):
 class MreProj(MelRecord):
     """Projectile record."""
     classType = 'PROJ'
-    _flags = Flags(0,Flags.getNames('hitscan',
-                                    'explosive',
-                                    'altTriger',
-                                    'muzzleFlash',
-                                    'unknown4',
-                                    'canbeDisable',
-                                    'canbePickedUp',
-                                    'superSonic',
-                                    'pinsLimbs',
-                                    'passThroughSmallTransparent'))
+    _flags = Flags(0,Flags.getNames(
+        'hitscan',
+        'explosive',
+        'altTriger',
+        'muzzleFlash',
+        None,
+        'canbeDisable',
+        'canbePickedUp',
+        'superSonic',
+        'pinsLimbs',
+        'passThroughSmallTransparent'
+        ))
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
+                  'boundX1','boundY1','boundZ1',
+                  'boundX2','boundY2','boundZ2'),
         MelString('FULL','full'),
         MelModel(),
         MelDestructible(),
@@ -4227,9 +4229,10 @@ class MreProj(MelRecord):
                   ('explosionAltTrigerProximity',0.00000),('explosionAltTrigerTimer',0.00000),
                   (FID,'explosion',0),(FID,'sound',0),('muzzleFlashDuration',0.00000),
                   ('fadeDuration',0.00000),('impactForce',0.00000),
-                  (FID,'soundCountDown',0),(FID,'soundDisable',0),(FID,'defaultWeaponSource',0)),
+                  (FID,'soundCountDown',0),(FID,'soundDisable',0),
+                  (FID,'defaultWeaponSource',0),),
         MelString('NAM1','muzzleFlashPath'),
-        MelBase('NAM2','_nam2'), #--Should be a struct. Maybe later.
+        MelBase('NAM2','_nam2'),
         MelStruct('VNAM','I','soundLevel'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

@@ -4251,11 +4251,11 @@ class MrePwat(MelRecord):
         ( 6,'reflectsSky'),
         ( 7,'reflectsDynamicObjects'),
         ( 8,'reflectsDeadBodies'),
-        ( 9,'reflects2'),
-        (10,'reflects2Actors'),
-        (11,'reflects2Lands'),
-        (16,'reflects2DynamicObjects'),
-        (17,'reflects2DeadBodies'),
+        ( 9,'refracts'),
+        (10,'refractsActors'),
+        (11,'refractsLands'),
+        (16,'refractsDynamicObjects'),
+        (17,'refractsDeadBodies'),
         (18,'silhouetteReflections'),
         (28,'depth'),
         (29,'objectTextureCoordinates'),
@@ -4264,8 +4264,8 @@ class MrePwat(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
+                  'boundX1','boundY1','boundZ1',
+                  'boundX2','boundY2','boundZ2'),
         MelModel(),
         MelStruct('DNAM','2I',(_flags,'flags'),(FID,'water'))
         )

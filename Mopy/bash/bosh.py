@@ -10509,7 +10509,11 @@ class PatchFile(ModFile):
         mergeIdsAdd = mergeIds.add
         loadSet = self.loadSet
         modFile.convertToLongFids()
-        badForm = (GPath(u"Oblivion.esm"),0xA31D) #--DarkPCB record
+        # Probably Oblivion Only
+        if bush.game.fsName == u'Oblivion':
+            badForm = (GPath(u"Oblivion.esm"),0xA31D) #--DarkPCB record
+        else:
+            badForm = ()
         selfLoadFactoryRecTypes = self.loadFactory.recTypes
         selfMergeFactoryType_class = self.mergeFactory.type_class
         selfReadFactoryAddClass = self.readFactory.addClass

@@ -1512,7 +1512,7 @@ CBash_patchers = (
     'CBash_ContentsChecker',
     )
 
-# For ListsMerger
+#--For ListMerger patcher (leveled list patcher)
 listTypes = ('LVLC','LVLI','LVSP',)
 # Needs longs in SoundPatcher
 soundsLongsTypes = set(('MGEF','ACTI','LIGH','WTHR','CONT','DOOR'))
@@ -1522,6 +1522,10 @@ namesTypes = set((
         'EYES', 'FACT', 'FLOR', 'HAIR','INGR', 'KEYM', 'LIGH', 'MISC', 'NPC_', 'RACE', 'SGST',
         'SLGM', 'SPEL','WEAP',))
 pricesTypes = {'ALCH':{},'AMMO':{},'APPA':{},'ARMO':{},'BOOK':{},'CLOT':{},'INGR':{},'KEYM':{},'LIGH':{},'MISC':{},'SGST':{},'SLGM':{},'WEAP':{}}
+
+#-------------------------------------------------------------------------------
+# StatsImporter
+#-------------------------------------------------------------------------------
 statsTypes = {
             'ALCH':('eid', 'weight', 'value'),
             'AMMO':('eid', 'weight', 'value', 'damage', 'speed', 'enchantPoints'),
@@ -1595,6 +1599,7 @@ statsHeaders = (
 
 #-------------------------------------------------------------------------------
 # CellImporter
+#-------------------------------------------------------------------------------
 cellAutoKeys = (
     u'C.Climate',u'C.Light',u'C.Water',u'C.Owner',u'C.Name',u'C.RecordFlags',u'C.Music')#,u'C.Maps')
 cellRecAttrs = {
@@ -1699,6 +1704,7 @@ class esp:
     #--Valid ESM/ESP header versions
     validHeaderVersions = (0.8,1.0)
 
+    #--Strings Files, Skyrim only
     stringsFiles = []
 
     #--Top types in Oblivion order.

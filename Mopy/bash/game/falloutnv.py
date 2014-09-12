@@ -721,16 +721,20 @@ listTypes = ('LVLC','LVLI','LVLN')
 soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP'))
 
 namesTypes = set((
-        'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR',
-        'EYES', 'FACT', 'FLOR', 'HAIR', 'INGR', 'KEYM', 'LIGH', 'MISC', 'NOTE', 'NPC_',
-        'RACE', 'SPEL', 'TERM', 'WEAP', 'ACTI', 'TACT',
-        'CMNY', 'CCRD', 'IMOD', 'REPU', 'RCPE', 'RCCT', 'CHIP', 'CSNO'))
-pricesTypes = {}
+    'ACTI','ALCH','AMMO','ARMO','BOOK','CCRD','CHIP','CLAS','CMNY','CONT','CREA',
+    'CSNO','DOOR','EYES','FACT','HAIR','IMOD','INGR','KEYM','LIGH','MISC','NOTE',
+    'NPC_','RACE','RCCT','RCPE','REPU','SPEL','TACT','TERM','WEAP',
+    ))
+pricesTypes = {'ALCH':{},'AMMO':{},'ARMO':{},'ARMA':{},'BOOK':{},'INGR':{},'KEYM':{},'LIGH':{},'MISC':{},'WEAP':{}}
+
+#-------------------------------------------------------------------------------
+# StatsImporter
+#-------------------------------------------------------------------------------
 statsTypes = {
         'ALCH':('eid', 'weight', 'value'),
         'AMMO':('eid', 'weight', 'value', 'speed', 'clipRounds','projPerShot'),
-        'ARMO':('eid', 'weight', 'value', 'health', 'ar','dt'),
         'ARMA':('eid', 'weight', 'value', 'health', 'ar','dt'),
+        'ARMO':('eid', 'weight', 'value', 'health', 'ar','dt'),
         'BOOK':('eid', 'weight', 'value'),
         'INGR':('eid', 'weight', 'value'),
         'KEYM':('eid', 'weight', 'value'),
@@ -745,60 +749,66 @@ statsTypes = {
                 'strengthReq','regenRate','killImpulse','impulseDist','skillReq',
                 'criticalDamage','criticalMultiplier',
                 'vatsSkill','vatsDamMult','vatsAp'),
-        }
+    }
 statsHeaders = (
         #--Alch
-        ('ALCH',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'ALCH',
+            (u'"' + '","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #Ammo
-        ('AMMO',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Speed'),_('Clip Rounds'),_('Proj/Shot'))) + '"\n')),
+        (u'AMMO',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Speed'),_(u'Clip Rounds'),_(u'Proj/Shot'))) + u'"\n')),
         #--Armor
-        ('ARMO',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('AR'),_('DT'))) + '"\n')),
+        (u'ARMO',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Health'),_(u'AR'),_(u'DT'))) + u'"\n')),
         #--Armor Addon
-        ('ARMA',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('AR'),_('DT'))) + '"\n')),
+        (u'ARMA',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Health'),_(u'AR'),_(u'DT'))) + '"\n')),
         #Books
-        ('BOOK',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'BOOK',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #Ingredients
-        ('INGR',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'INGR',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+           _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #--Keys
-        ('KEYM',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'KEYM',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #Lights
-        ('LIGH',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Duration'))) + '"\n')),
+        (u'LIGH',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Duration'))) + u'"\n')),
         #--Misc
-        ('MISC',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'MISC',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #--Weapons
-        ('WEAP',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('Damage'),_('Clip Size'),
-            _('Animation Multiplier'), _('Reach'), _('Ammo Use'), _('Min Spread'), _('Spread'), _('Sight Fov'), _('Base VATS To-Hit Chance'), _('Projectile Count'),
-            _('Min Range'), _('Max Range'), _('Animation Attack Multiplier'), _('Fire Rate'), _('Override - Action Point'), _('Rumble - Left Motor Strength'),
-            _('rRmble - Right Motor Strength'), _('Rumble - Duration'), _('Override - Damage To Weapon Mult'), _('Attack Shots/Sec'),
-            _('Reload Time'), _('Jam Time'), _('Aim Arc'), _('Ramble - Wavelangth'), _('Limb Dmg Mult'), _('Sight Usage'),
-            _('Semi-Automatic Fire Delay Min'), _('Semi-Automatic Fire Delay Max'),
-            _('Strength Req'), _('Regen Rate'), _('Kill Impulse'), _('Impulse Dist'), _('Skill Req'),
-                _('Critical Damage'), _('Crit % Mult'),
-                _('VATS Skill'), _('VATS Dam. Mult'), _('VATS AP'))) + '"\n')),
+        (u'WEAP',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Health'),_(u'Damage'),
+            _(u'Clip Size'),_(u'Animation Multiplier'),_(u'Reach'),_(u'Ammo Use'),
+            _(u'Min Spread'),_(u'Spread'),_(u'Sight Fov'),
+            _(u'Base VATS To-Hit Chance'), _(u'Projectile Count'),_(u'Min Range'),
+            _(u'Max Range'), _(u'Animation Attack Multiplier'), _(u'Fire Rate'),
+            _(u'Override - Action Point'), _(u'Rumble - Left Motor Strength'),
+            _(u'rRmble - Right Motor Strength'), _(u'Rumble - Duration'),
+            _(u'Override - Damage To Weapon Mult'), _(u'Attack Shots/Sec'),
+            _(u'Reload Time'), _(u'Jam Time'), _(u'Aim Arc'), _(u'Ramble - Wavelangth'),
+            _(u'Limb Dmg Mult'), _(u'Sight Usage'),_(u'Semi-Automatic Fire Delay Min'),
+            _(u'Semi-Automatic Fire Delay Max'),_(u'Strength Req'), _(u'Regen Rate'),
+            _(u'Kill Impulse'), _(u'Impulse Dist'), _(u'Skill Req'),_(u'Critical Damage'),
+            _(u'Crit % Mult'),_(u'VATS Skill'), _(u'VATS Dam. Mult'),
+            _(u'VATS AP'))) + u'"\n')),
         )
 
 #-------------------------------------------------------------------------------
 # CellImporter
+#-------------------------------------------------------------------------------
 cellAutoKeys = (
     u'C.Climate',u'C.Light',u'C.Water',u'C.Owner',u'C.Name',u'C.RecordFlags',u'C.Music')#,u'C.Maps')
 cellRecAttrs = {

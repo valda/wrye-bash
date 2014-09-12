@@ -8048,6 +8048,10 @@ class CBash_ImportScripts(bosh.CBash_ImportScripts,ListPatcher):pass
 class SpellsPatcher(bosh.SpellsPatcher,ListPatcher):pass
 class CBash_SpellsPatcher(bosh.CBash_SpellsPatcher,ListPatcher):pass
 
+class DestructiblePatcher(bosh.DestructiblePatcher,ListPatcher): pass
+
+class WeaponModsPatcher(bosh.WeaponModsPatcher,ListPatcher): pass
+
 # Patchers 30 ------------------------------------------------------------------
 class AssortedTweaker(bosh.AssortedTweaker,TweakPatcher): pass
 class CBash_AssortedTweaker(bosh.CBash_AssortedTweaker,TweakPatcher): pass

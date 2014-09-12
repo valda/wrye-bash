@@ -792,13 +792,13 @@ FID = 'FID' #--Used by MelStruct classes to indicate fid elements.
 
 # Magic Info ------------------------------------------------------------------
 weaponTypes = (
-    _('Big gun'),
-    _('Energy'),
-    _('Small gun'),
-    _('Melee'),
-    _('Unarmed'),
-    _('Thrown'),
-    _('Mine'),
+    _(u'Big gun'),
+    _(u'Energy'),
+    _(u'Small gun'),
+    _(u'Melee'),
+    _(u'Unarmed'),
+    _(u'Thrown'),
+    _(u'Mine'),
     )
 
 # Race Info -------------------------------------------------------------------

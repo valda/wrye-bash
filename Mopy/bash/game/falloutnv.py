@@ -1970,11 +1970,13 @@ class MreArmo(MelRecord):
 class MreAspc(MelRecord):
     """Acoustic space record."""
     classType = 'ASPC'
+    isKeyedByEid = True # NULL fids are acceptible
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
+                  'boundX1','boundY1','boundZ1',
+                  'boundX2','boundY2','boundZ2'),
         MelFids('SNAM','soundLooping'),
         MelStruct('WNAM','I','wallaTrigerCount'),
         MelFid('RDAT','useSoundFromRegion'),

@@ -4510,7 +4510,7 @@ class MrePerk(MelRecord):
         MelString('EDID','eid'),
         MelString('FULL','full'),
         MelString('DESC','description'),
-        MelString('ICON','largeIconPath'),
+        MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
         MelConditions(),
         MelGroup('_data',

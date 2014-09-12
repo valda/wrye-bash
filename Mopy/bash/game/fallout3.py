@@ -1967,7 +1967,7 @@ class MreCell(MelRecord):
     inheritFlags = Flags(0L,Flags.getNames('ambientColor','directionalColor','fogColor','fogNear','fogFar',
         'directionalRotation','directionalFade','clipDistance','fogPower'))
     class MelCoordinates(MelOptStruct):
-        """Handle older trucated XCLC for CELL subrecord."""
+        """Handle older truncated XCLC for CELL subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 12:
                 MelStruct.loadData(self,record,ins,type,size,readId)
@@ -1986,7 +1986,7 @@ class MreCell(MelRecord):
             if not record.flags.isInterior:
                 MelOptStruct.dumpData(self,record,out)
     class MelCellXcll(MelOptStruct):
-        """Handle older trucated XCLL for CELL subrecord."""
+        """Handle older truncated XCLL for CELL subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 40:
                 MelStruct.loadData(self,record,ins,type,size,readId)

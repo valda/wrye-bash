@@ -1914,13 +1914,8 @@ class MreArmo(MelRecord):
         (6,'notPlayable'),
         (7,'heavyArmor')
     ))
-    _etype = Flags(0L,Flags.getNames(
-        'alcohol','bigGuns','bodyWear','chems','energyWeapons','food','handWear','headWear',
-        'meleeWeapons','mine','none','smallGuns','stimpack','thrownWeapons','unarmedWeapon'
-    ))
-
     class MelArmoDnam(MelStruct):
-        """Handle older trucated DNAM for ARMO subrecord."""
+        """Handle older truncated DNAM for ARMO subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 12:
                 MelStruct.loadData(self,record,ins,type,size,readId)
@@ -1939,29 +1934,32 @@ class MreArmo(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
+                  'boundX1','boundY1','boundZ1',
+                  'boundX2','boundY2','boundZ2'),
         MelString('FULL','full'),
         MelFid('SCRI','script'),
         MelFid('EITM','objectEffect'),
         MelStruct('BMDT','=2I',(_flags,'bipedFlags',0L),(_generalFlags,'generalFlags',0L)),
         MelModel('maleBody'),
         MelModel('maleWorld',2),
-        MelString('ICON','maleLargeIconPath'),
+        MelString('ICON','maleIconPath'),
         MelString('MICO','maleSmallIconPath'),
         MelModel('femaleBody',3),
         MelModel('femaleWorld',4),
-        MelString('ICO2','femaleLargeIconPath'),
+        MelString('ICO2','femaleIconPath'),
         MelString('MIC2','femaleSmallIconPath'),
-        MelString('BMCT','ragdollConstraintTemplate'),
+        MelString('BMCT','ragdollTemplatePath'),
         MelDestructible(),
         MelFid('REPL','repairList'),
         MelFid('BIPL','bipedModelList'),
-        MelStruct('ETYP','I',(_etype,'etype',0L)),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
-        MelStruct('DATA','=IIf','value','health','weight'),
-        MelArmoDnam('DNAM','=HHfI','ar','flags','dt',('unknown',0L)), # AR is multiplied by 100.
+        #-1:None,0:Big Guns,1:Energy Weapons,2:Small Guns,3:Melee Weapons,
+        #4:Unarmed Weapon,5:Thrown Weapons,6:Mine,7:Body Wear,8:Head Wear,
+        #9:Hand Wear,10:Chems,11:Stimpack,12:Food,13:Alcohol
+        MelStruct('ETYP','i',('etype',-1)),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
+        MelStruct('DATA','=2if','value','health','weight'),
+        MelArmoDnam('DNAM','=hHfI','ar','flags','dt',('unknown',0L)),
         MelStruct('BNAM','I',('overridesAnimationSound',0L)),
         MelStructs('SNAM','IB3sI','animationSounds',(FID,'sound'),'chance',('unused','\xb7\xe7\x0b'),'type'),
         MelFid('TNAM','animationSoundsTemplate'),

@@ -570,6 +570,8 @@ settingDefaults = {
     #--Tes4View/Edit/Trans
     'tes4View.iKnowWhatImDoing':False,
     'tes5View.iKnowWhatImDoing':False,
+    'fo3View.iKnowWhatImDoing':False,
+    'fnvView.iKnowWhatImDoing':False,
     #--BOSS:
     'BOSS.ClearLockTimes':True,
     'BOSS.AlwaysUpdate':True,
@@ -11590,6 +11592,22 @@ class Mods_Tes5ViewExpert(BoolLink):
                                           )
 
 #------------------------------------------------------------------------------
+class Mods_Fo3ViewExpert(BoolLink):
+    """Toggle Fo3Edit expert mode (when launched via Bash)."""
+    def __init__(self): BoolLink.__init__(self,
+                                          _(u'Fo3Edit Expert'),
+                                          'fo3View.iKnowWhatImDoing',
+                                          )
+
+#------------------------------------------------------------------------------
+class Mods_FnvViewExpert(BoolLink):
+    """Toggle FnvEdit expert mode (when launched via Bash)."""
+    def __init__(self): BoolLink.__init__(self,
+                                          _(u'FnvEdit Expert'),
+                                          'fnvView.iKnowWhatImDoing',
+                                          )
+
+#------------------------------------------------------------------------------
 class Mods_BOSSDisableLockTimes(BoolLink):
     """Toggle Lock Load Order disabling when launching BOSS through Bash."""
     def __init__(self): BoolLink.__init__(self,
@@ -17196,6 +17214,10 @@ class App_Tes4View(App_Button):
             self.mainMenu.append(Mods_Tes5ViewExpert())
         elif( bush.game.fsName == 'Oblivion' or bush.game.fsName == 'Nehrim' ):
             self.mainMenu.append(Mods_Tes4ViewExpert())
+        elif( bush.game.fsName == 'Fallout3' ):
+            self.mainMenu.append(Mods_Fo3ViewExpert())
+        elif( bush.game.fsName == 'FalloutNV' ):
+            self.mainMenu.append(Mods_FnvViewExpert())
 
     def IsPresent(self):
         if self.exePath in bosh.undefinedPaths or not self.exePath.exists():
@@ -17217,6 +17239,12 @@ class App_Tes4View(App_Button):
                 extraArgs.append(u'-IKnowWhatImDoing')
         if( bush.game.fsName == 'Skyrim' ):
             if settings['tes5View.iKnowWhatImDoing']:
+                extraArgs.append(u'-IKnowWhatImDoing')
+        if( bush.game.fsName == 'Fallout3' ):
+            if settings['fo3View.iKnowWhatImDoing']:
+                extraArgs.append(u'-IKnowWhatImDoing')
+        if( bush.game.fsName == 'FalloutNV' ):
+            if settings['fnvView.iKnowWhatImDoing']:
                 extraArgs.append(u'-IKnowWhatImDoing')
         App_Button.Execute(self,event,tuple(extraArgs))
 
@@ -17910,6 +17938,18 @@ def InitStatusBar():
             imageList(u'tools/tes4edit%s.png'),
             _(u"Launch TES5Edit"),
             uid=u'TES5Edit'))
+    BashStatusBar.buttons.append( #Fo3Edit
+        App_Tes4View(
+            (bosh.tooldirs['Fo3EditPath'],u'-FO3 -edit'),
+            imageList(u'tools/tes4edit%s.png'),
+            _(u"Launch FO3Edit"),
+            uid=u'FO3Edit'))
+    BashStatusBar.buttons.append( #FnvEdit
+        App_Tes4View(
+            (bosh.tooldirs['FnvEditPath'],u'-FNV -edit'),
+            imageList(u'tools/tes4edit%s.png'),
+            _(u"Launch FNVEdit"),
+            uid=u'FNVEdit'))
     BashStatusBar.buttons.append( #TesVGecko
         App_Button( (bosh.tooldirs['Tes5GeckoPath']),
             imageList(u'tools/tesvgecko%s.png'),

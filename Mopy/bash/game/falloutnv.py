@@ -6099,6 +6099,35 @@ class MreWrld(MelRecord):
 class MreWthr(MelRecord):
     """Weather record."""
     classType = 'WTHR'
+
+    class MelPnamHandler(MelStructA):
+        """Handle older truncated ONAM for WTHR subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 96:
+                MelStructA.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 64:
+                valueList = ['0'] * 32
+                oldFormat = '3Bs' * 16
+                addToFormat = '3Bs' * 8
+                unpacked = ins.unpack(oldFormat,size,readId)
+                unpackedList = list(unpacked)
+                unpackedList.extend(valueList)
+                lenUnpacked = len(unpackedList)
+                raise ModSizeError(record.inName,record.recType+'.'+type,size,ModReader.recHeader.size,True)
+            else:
+                raise ModSizeError(record.inName,record.recType+'.'+type,size,ModReader.recHeader.size,True)
+
+    class MelNam0Handler(MelStructA):
+        """Handle older truncated NAM0 for WTHR subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 240:
+                MelStructA.loadData(self,record,ins,type,size,readId)
+                return
+            else:
+            # Smaller size is 160
+                raise ModSizeError(record.inName,record.recType+'.'+type,size,ModReader.recHeader.size,True)
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelFid("\x00IAD", 'sunriseImageSpaceModifier'),
@@ -6114,12 +6143,21 @@ class MreWthr(MelRecord):
         MelModel(),
         MelBase('LNAM','unknown1'),
         MelStruct('ONAM','4B','cloudSpeed0','cloudSpeed1','cloudSpeed3','cloudSpeed4'),
-        MelBase('PNAM','_pnam'), #--RGB(3Bs) * 16?
-        MelStructA('NAM0','3Bs3Bs3Bs3Bs','colors',
+        MelPnamHandler('PNAM','3Bs3Bs3Bs3Bs3Bs3Bs','cloudColors',
                    'riseRed','riseGreen','riseBlue',('unused1',null1),
                    'dayRed','dayGreen','dayBlue',('unused2',null1),
                    'setRed','setGreen','setBlue',('unused3',null1),
                    'nightRed','nightGreen','nightBlue',('unused4',null1),
+                   'noonRed','noonGreen','noonBlue',('unused5',null1),
+                   'midnightRed','midnightGreen','midnightBlue',('unused6',null1),
+                   ),
+        MelNam0Handler('NAM0','3Bs3Bs3Bs3Bs3Bs3Bs','daytimeColors',
+                   'riseRed','riseGreen','riseBlue',('unused7',null1),
+                   'dayRed','dayGreen','dayBlue',('unused8',null1),
+                   'setRed','setGreen','setBlue',('unused9',null1),
+                   'nightRed','nightGreen','nightBlue',('unused10',null1),
+                   'noonRed','noonGreen','noonBlue',('unused11',null1),
+                   'midnightRed','midnightGreen','midnightBlue',('unused12',null1),
                    ),
         MelStruct('FNAM','6f','fogDayNear','fogDayFar','fogNightNear','fogNightFar','fogDayPower','fogNightPower'),
         MelBase('INAM','_inam'), #--Should be a struct. Maybe later.

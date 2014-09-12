@@ -10396,7 +10396,10 @@ class PatchFile(ModFile):
         self.compiledAllMods = []
         self.patcher_mod_skipcount = {}
         #--Config
-        self.bodyTags = 'ARGHTCCPBS' #--Default bodytags
+        if bush.game.fsName in (u'FalloutNV', u'Fallout3',):
+            self.bodyTags = 'HAGPBFE' #--Default bodytags
+        else:
+            self.bodyTags = 'ARGHTCCPBS' #--Default bodytags
         #--Mods
         loadMods = [name for name in modInfos.ordered if bush.fullLoadOrder[name] < bush.fullLoadOrder[PatchFile.patchName]]
         if not loadMods:

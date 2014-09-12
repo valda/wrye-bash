@@ -1397,6 +1397,52 @@ class MreLeveledList(MelRecord):
         self.setChanged(self.mergeOverLast)
 
 #------------------------------------------------------------------------------
+class MelMODS(MelBase):
+    """MODS/MO2S/etc/DMDS subrecord"""
+    def hasFids(self,formElements):
+        """Include self if has fids."""
+        formElements.add(self)
+
+    def setDefault(self,record):
+        """Sets default value for record instance."""
+        record.__setattr__(self.attr,None)
+
+    def loadData(self,record,ins,type,size,readId):
+        """Reads data from ins into record attribute."""
+        insUnpack = ins.unpack
+        insRead32 = ins.readString32
+        count, = insUnpack('I',4,readId)
+        data = []
+        dataAppend = data.append
+        for x in xrange(count):
+            string = ins.readString32(size,readId)
+            fid = ins.unpackRef(readId)
+            unk, = ins.unpack('I',4,readId)
+            dataAppend((string,fid,unk))
+        record.__setattr__(self.attr,data)
+
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+        data = record.__getattribute__(self.attr)
+        if data is not None:
+            structPack = struct.pack
+            data = record.__getattribute__(self.attr)
+            outData = structPack('I',len(data))
+            for (string,fid,unk) in data:
+                outData += structPack('I',len(string))
+                outData += _encode(string)
+                outData += structPack('=2I',fid,unk)
+            out.packSub(self.subType,outData)
+
+    def mapFids(self,record,function,save=False):
+        """Applies function to fids.  If save is true, then fid is set
+           to result of function."""
+        attr = self.attr
+        data = record.__getattribute__(attr)
+        if data is not None:
+            data = [(string,function(fid),unk) for (string,fid,unk) in record.__getattribute__(attr)]
+            if save: record.__setattr__(attr,data)
+
 class MelOwnership(MelGroup):
     """Handles XOWN, XRNK, and XGLB for cells and cell children."""
 

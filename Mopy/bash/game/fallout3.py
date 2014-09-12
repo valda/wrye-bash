@@ -909,38 +909,40 @@ class esp:
     ## These are the valid 'version' numbers for the game file headers
     validHeaderVersions = (0.85,0.94)
 
+    #--Strings Files, Skyrim only
     stringsFiles = []
 
     #--Class to use to read the TES4 record
     ## This is the class name in bosh.py to use for the TES4 record when reading
     ## Example: 'MreTes4'
-    tes4ClassName = ''
+    # tes4ClassName = ''
 
     #--Information about the basic record header
-    class header:
-        format = ''         # Format passed to struct.unpack to unpack the header
-        size = 0            # Size of the record header
-        attrs = tuple()     # List of attributes to set = the return of struct.unpack
-        defaults = tuple()  # Default values for each of the above attributes
+    # class header:
+    #     format = ''         # Format passed to struct.unpack to unpack the header
+    #     size = 0            # Size of the record header
+    #     attrs = tuple()     # List of attributes to set = the return of struct.unpack
+    #     defaults = tuple()  # Default values for each of the above attributes
 
     #--Top types in Fallout3 order.
     topTypes = ['GMST', 'TXST', 'MICN', 'GLOB', 'CLAS', 'FACT', 'HDPT', 'HAIR', 'EYES',
         'RACE', 'SOUN', 'ASPC', 'MGEF', 'SCPT', 'LTEX', 'ENCH', 'SPEL', 'ACTI', 'TACT',
         'TERM', 'ARMO', 'BOOK', 'CONT', 'DOOR', 'INGR', 'LIGH', 'MISC', 'STAT', 'SCOL',
         'MSTT', 'PWAT', 'GRAS', 'TREE', 'FURN', 'WEAP', 'AMMO', 'NPC_', 'CREA', 'LVLC',
-        'LVLN', 'KEYM', 'ALCH', 'IDLM', 'NOTE', 'COBJ', 'PROJ', 'LVLI', 'WTHR', 'CLMT',
+        'LVLN', 'KEYM', 'ALCH', 'IDLM', 'NOTE', 'PROJ', 'LVLI', 'WTHR', 'CLMT', 'COBJ',
         'REGN', 'NAVI', 'CELL', 'WRLD', 'DIAL', 'QUST', 'IDLE', 'PACK', 'CSTY', 'LSCR',
         'ANIO', 'WATR', 'EFSH', 'EXPL', 'DEBR', 'IMGS', 'IMAD', 'FLST', 'PERK', 'BPTD',
         'ADDN', 'AVIF', 'RADS', 'CAMS', 'CPTH', 'VTYP', 'IPCT', 'IPDS', 'ARMA', 'ECZN',
         'MESG', 'RGDL', 'DOBJ', 'LGTM', 'MUSC',
         # Unused types in fallout3. (dummy)
+        # These need to be removed
         'SLGM', 'BSGN', 'FLOR', 'SGST', 'CLOT', 'SBSP', 'SKIL', 'LVSP', 'APPA',
         ]
 
     #--Dict mapping 'ignored' top types to un-ignored top types
-    topIgTopTYpes = dict()
+    topIgTypes = dict()
 
-    recordTypes = set(topTypes + 'GRUP,TES4,ROAD,REFR,ACHR,ACRE,PGRD,LAND,INFO,PGRE,NAVM'.split(','))
+    recordTypes = set(topTypes + 'GRUP,TES4,ACHR,ACRE,INFO,LAND,NAVM,PGRE,PMIS,REFR'.split(','))
 
 class RecordHeader(brec.BaseRecordHeader):
     size = 24 # Size in bytes of a record header

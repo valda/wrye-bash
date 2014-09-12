@@ -673,20 +673,25 @@ patchers = (
 #--CBash patchers available when building a Bashed Patch
 CBash_patchers = (
 )
+
 #--For ListMerger patcher (leveled list patcher)
 listTypes = ('LVLC','LVLI','LVLN')
 # Needs longs in SoundPatcher
 soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP'))
 namesTypes = set((
-        'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR',
-        'EYES', 'FACT', 'FLOR', 'HAIR', 'INGR', 'KEYM', 'LIGH', 'MISC', 'NOTE', 'NPC_',
-        'RACE', 'SPEL', 'TERM', 'WEAP', 'ACTI', 'TACT'))
-pricesTypes = {}
+    'ACTI', 'ALCH', 'AMMO', 'ARMO', 'BOOK', 'CLAS', 'CONT', 'CREA', 'DOOR', 'EYES',
+    'FACT', 'HAIR', 'INGR', 'KEYM', 'LIGH', 'MISC', 'NOTE', 'NPC_', 'RACE', 'SPEL',
+    'TACT' 'TERM', 'WEAP',
+        ))
+pricesTypes = {'ALCH':{},'AMMO':{},'ARMO':{},'ARMA':{},'BOOK':{},'INGR':{},'KEYM':{},'LIGH':{},'MISC':{},'WEAP':{}}
+
+#-------------------------------------------------------------------------------
+# StatsImporter
 statsTypes = {
         'ALCH':('eid', 'weight', 'value'),
-        'AMMO':('eid', 'speed',  'value', 'clipRounds'),
-        'ARMO':('eid', 'weight', 'value', 'health', 'ar'),
+        'AMMO':('eid', 'value', 'speed', 'clipRounds'),
         'ARMA':('eid', 'weight', 'value', 'health', 'ar'),
+        'ARMO':('eid', 'weight', 'value', 'health', 'ar'),
         'BOOK':('eid', 'weight', 'value'),
         'INGR':('eid', 'weight', 'value'),
         'KEYM':('eid', 'weight', 'value'),
@@ -697,55 +702,61 @@ statsTypes = {
                 'minRange','maxRange','animationAttackMultiplier','fireRate','overrideActionPoint','rumbleLeftMotorStrength',
                 'rumbleRightMotorStrength','rumbleDuration','overrideDamageToWeaponMult','attackShotsPerSec',
                 'reloadTime','jamTime','aimArc','rambleWavelangth','limbDmgMult','sightUsage',
-                'semiAutomaticFireDelayMin','semiAutomaticFireDelayMax','criticalDamage','criticalMultiplier'),
+                'semiAutomaticFireDelayMin','semiAutomaticFireDelayMax',
+                'criticalDamage','criticalMultiplier'),
         }
 statsHeaders = (
         #--Alch
-        ('ALCH',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'ALCH',
+            (u'"' + '","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #Ammo
-        ('AMMO',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Speed'),_('Value'),_('Clip Rounds'))) + '"\n')),
+        (u'AMMO',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Speed'),_(u'Clip Rounds'),_(u'Proj/Shot'))) + u'"\n')),
         #--Armor
-        ('ARMO',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('AR'))) + '"\n')),
+        (u'ARMO',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Health'),_(u'AR'),_(u'DT'))) + u'"\n')),
         #--Armor Addon
-        ('ARMA',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('AR'))) + '"\n')),
+        (u'ARMA',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Health'),_(u'AR'))) + '"\n')),
         #Books
-        ('BOOK',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'BOOK',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #Ingredients
-        ('INGR',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'INGR',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+           _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #--Keys
-        ('KEYM',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'KEYM',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #Lights
-        ('LIGH',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Duration'))) + '"\n')),
+        (u'LIGH',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Duration'))) + u'"\n')),
         #--Misc
-        ('MISC',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'))) + '"\n')),
+        (u'MISC',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
         #--Weapons
-        ('WEAP',
-            ('"' + '","'.join((_('Type'),_('Mod Name'),_('ObjectIndex'),
-            _('Editor Id'),_('Weight'),_('Value'),_('Health'),_('Damage'),_('Clip Size'),
-            _('Animation Multiplier'), _('Reach'), _('Ammo Use'), _('Min Spread'), _('Spread'), _('Sight Fov'), _('Base VATS To-Hit Chance'), _('Projectile Count'),
-            _('Min Range'), _('Max Range'), _('Animation Attack Multiplier'), _('Fire Rate'), _('Override - Action Point'), _('Rumble - Left Motor Strength'),
-            _('rRmble - Right Motor Strength'), _('Rumble - Duration'), _('Override - Damage To Weapon Mult'), _('Attack Shots/Sec'),
-            _('Reload Time'), _('Jam Time'), _('Aim Arc'), _('Ramble - Wavelangth'), _('Limb Dmg Mult'), _('Sight Usage'),
-            _('Semi-Automatic Fire Delay Min'), _('Semi-Automatic Fire Delay Max'),
-            _('Critical Damage'), _('Crit % Mult'))) + '"\n')),
+        (u'WEAP',
+            (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+            _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Health'),_(u'Damage'),
+            _(u'Clip Size'),_(u'Animation Multiplier'), _(u'Reach'), _(u'Ammo Use'),
+            _(u'Min Spread'), _(u'Spread'), _(u'Sight Fov'),
+            _(u'Base VATS To-Hit Chance'), _(u'Projectile Count'),_(u'Min Range'),
+            _(u'Max Range'), _(u'Animation Attack Multiplier'), _(u'Fire Rate'),
+            _(u'Override - Action Point'), _(u'Rumble - Left Motor Strength'),
+            _(u'rRmble - Right Motor Strength'), _(u'Rumble - Duration'),
+            _(u'Override - Damage To Weapon Mult'), _(u'Attack Shots/Sec'),
+            _(u'Reload Time'), _(u'Jam Time'), _(u'Aim Arc'), _(u'Ramble - Wavelangth'),
+            _(u'Limb Dmg Mult'), _(u'Sight Usage'),_(u'Semi-Automatic Fire Delay Min'),
+            _(u'Semi-Automatic Fire Delay Max'),_(u'Critical Damage'),
+            _(u'Crit % Mult'))) + '"\n')),
         )
 
 #-------------------------------------------------------------------------------

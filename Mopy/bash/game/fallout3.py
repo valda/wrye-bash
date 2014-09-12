@@ -1667,22 +1667,24 @@ class MreAddn(MelRecord):
 class MreAlch(MelRecord,MreHasEffects):
     """ALCH (potion) record."""
     classType = 'ALCH'
-    _flags = Flags(0L,Flags.getNames('autoCalc','isFood'))
+    _flags = Flags(0L,Flags.getNames('autoCalc','isFood','medicine',))
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
+                  'boundX1','boundY1','boundZ1',
+                  'boundX2','boundY2','boundZ2'),
         MelFull0(),
         MelModel(),
-        MelString('ICON','largeIconPath'),
+        MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
         MelFid('SCRI','script'),
         MelDestructible(),
-        MelFid('YNAM','soundPickUp'),
-        MelFid('ZNAM','soundDrop'),
-        #--10:chems,11:stimpack,12:food,13:alcohol
-        MelStruct('ETYP','I','etype'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
+        #-1:None,0:Big Guns,1:Energy Weapons,2:Small Guns,3:Melee Weapons,
+        #4:Unarmed Weapon,5:Thrown Weapons,6:Mine,7:Body Wear,8:Head Wear,
+        #9:Hand Wear,10:Chems,11:Stimpack,12:Food,13:Alcohol
+        MelStruct('ETYP','i',('etype',-1)),
         MelStruct('DATA','f','weight'),
         MelStruct('ENIT','iB3sIfI','value',(_flags,'flags',0L),('unused1',null3),
                   (FID,'withdrawalEffect',None),'addictionChance',(FID,'soundConsume',None)),

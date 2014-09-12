@@ -2337,7 +2337,8 @@ class MreClmt(MelRecord):
         MelString('FNAM','sunPath'),
         MelString('GNAM','glarePath'),
         MelModel(),
-        MelStruct('TNAM','6B','riseBegin','riseEnd','setBegin','setEnd','volatility','phaseLength'),
+        MelStruct('TNAM','6B','riseBegin','riseEnd','setBegin','setEnd',
+                  'volatility','phaseLength',),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

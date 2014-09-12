@@ -4712,12 +4712,6 @@ class MreRefr(MelRecord):
 class MreRegn(MelRecord):
     """Region record."""
     classType = 'REGN'
-    _flags = Flags(0L,Flags.getNames(
-        ( 2,'objects'),
-        ( 3,'weather'),
-        ( 4,'map'),
-        ( 6,'grass'),
-        ( 7,'sound'),))
     obflags = Flags(0L,Flags.getNames(
         ( 0,'conform'),
         ( 1,'paintVertices'),
@@ -4732,6 +4726,8 @@ class MreRegn(MelRecord):
         ( 1,'cloudy'),
         ( 2,'rainy'),
         ( 3,'snowy'),))
+    rdatFlags = Flags(0L,Flags.getNames(
+        ( 0,'Override'),))
 
     ####Lazy hacks to correctly read/write regn data
     class MelRegnStructA(MelStructA):
@@ -4785,7 +4781,7 @@ class MreRegn(MelRecord):
 
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelString('ICON','largeIconPath'),
+        MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
         MelStruct('RCLR','3Bs','mapRed','mapBlue','mapGreen',('unused1',null1)),
         MelFid('WNAM','worldspace'),
@@ -4793,19 +4789,21 @@ class MreRegn(MelRecord):
             MelStruct('RPLI','I','edgeFalloff'),
             MelStructA('RPLD','2f','points','posX','posY')),
         MelGroups('entries',
-            MelStruct('RDAT', 'I2B2s','entryType', (_flags,'flags'), 'priority', ('unused1',null2)), ####flags actually an enum...
+            #2:Objects,3:Weather,4:Map,5:Land,6:Grass,7:Sound
+            MelStruct('RDAT', 'I2B2s','entryType', (rdatFlags,'flags'), 'priority', ('unused1',null2)),
             MelRegnStructA('RDOT', 'IH2sf4B2H4s4f3H2s4s', 'objects', (FID,'objectId'), 'parentIndex',
-            ('unused1',null2), 'density', 'clustering', 'minSlope', 'maxSlope',
-            (obflags, 'flags'), 'radiusWRTParent', 'radius', ('unk1',null4),
-            'maxHeight', 'sink', 'sinkVar', 'sizeVar', 'angleVarX',
-            'angleVarY',  'angleVarZ', ('unused2',null2), ('unk2',null4)),
+                ('unused1',null2), 'density', 'clustering', 'minSlope', 'maxSlope',
+                (obflags, 'flags'), 'radiusWRTParent', 'radius', ('unk1',null4),
+                'maxHeight', 'sink', 'sinkVar', 'sizeVar', 'angleVarX',
+                'angleVarY',  'angleVarZ', ('unused2',null2), ('unk2',null4)),
             MelRegnString('RDMP', 'mapName'),
-            #MelRegnString('ICON', 'iconPath'),  ####Obsolete? Only one record in Fallout3.esm
-            MelRegnStructA('RDGS', 'I4s', 'grasses', (FID,'grass'), ('unk1',null4)),
-            MelRegnOptStruct('RDMD', 'I', ('musicType',None)),
+            MelRegnStructA('RDGS', 'I4s', 'grass', ('unknown',null4)),
+            MelRegnOptStruct('RDMD', 'I', 'musicType'),
+            MelFid('RDMO','music'),
             MelRegnStructA('RDSD', '3I', 'sounds', (FID, 'sound'), (sdflags, 'flags'), 'chance'),
-            MelRegnStructA('RDWT', '3I', 'weather', (FID, 'weather', None), 'chance', (FID, 'global', None))),
-    )
+            MelRegnStructA('RDWT', '3I', 'weather', (FID, 'weather', None), 'chance', (FID, 'global', None)),
+            ),
+        )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------

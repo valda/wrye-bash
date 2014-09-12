@@ -1258,7 +1258,7 @@ class MelSet:
                 print error
                 eid = getattr(record,'eid',u'<<NO EID>>')
                 if not eid: eid = u'<<NO EID>>'
-                print u'Error loading %s record and/or subrecord: %08X\n  eid = %s\n  subrecord = %s\n  subrecord size = %d\n  file pos = %d' % (repr(record.recType),record.fid,repr(eid),repr(Type),size,ins.tell())
+                print u'Error loading %s record and/or subrecord: %08X\n  eid = %s\n  subrecord = %s\n  subrecord size = %d\n  size found = %d\n  file pos = %d' % (repr(record.recType),record.fid,repr(eid),repr(Type),size,ModReader.recHeader.size,ins.tell())
                 raise
         if _debug: print u'<<<<',getattr(record,'eid',u'[NO EID]')
 

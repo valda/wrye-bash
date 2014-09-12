@@ -1788,9 +1788,9 @@ class MreAmef(MelRecord):
 class MreAmmo(MelRecord):
     """Ammo (arrow) record."""
     classType = 'AMMO'
-    _flags = Flags(0L,Flags.getNames('notNormalWeapon'))
+    _flags = Flags(0L,Flags.getNames('notNormalWeapon','nonPlayable'))
     class MelAmmoDat2(MelStruct):
-        """Handle older trucated DAT2 for AMMO subrecord."""
+        """Handle older truncated DAT2 for AMMO subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 20:
                 MelStruct.loadData(self,record,ins,type,size,readId)
@@ -1808,16 +1808,16 @@ class MreAmmo(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
+                  'boundX1','boundY1','boundZ1',
+                  'boundX2','boundY2','boundZ2'),
         MelString('FULL','full'),
         MelModel(),
-        MelString('ICON','largeIconPath'),
+        MelString('ICON','iconPath'),
         MelString('MICO','smallIconPath'),
         MelFid('SCRI','script'),
         MelDestructible(),
-        MelFid('YNAM','soundPickup'),
-        MelFid('ZNAM','soundDrop'),
+        MelFid('YNAM','pickupSound'),
+        MelFid('ZNAM','dropSound'),
         MelStruct('DATA','fB3sIB','speed',(_flags,'flags',0L),('unused1',null3),'value','clipRounds'),
         MelAmmoDat2('DAT2','IIfIf','projPerShot',(FID,'projectile',0L),'weight',(FID,'consumedAmmo'),'consumedPercentage'),
         MelString('ONAM','shortName'),

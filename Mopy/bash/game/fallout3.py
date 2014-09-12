@@ -2789,49 +2789,10 @@ class MreFurn(MelRecord):
 # GLOB ------------------------------------------------------------------------
 # Defined in brec.py as class MreGlob(MelRecord) ------------------------------
 #------------------------------------------------------------------------------
-class MreGmst(MelRecord):
-    """Gmst record"""
-    falloutIds = None
-    classType = 'GMST'
-    class MelGmstValue(MelBase):
-        def loadData(self,record,ins,type,size,readId):
-            format = record.eid[0] #-- s|i|f
-            if format == 's':
-                record.value = ins.readString(size,readId)
-            else:
-                record.value, = ins.unpack(format,size,readId)
-        def dumpData(self,record,out):
-            format = record.eid[0] #-- s|i|f
-            if format == 's':
-                out.packSub0(self.subType,record.value)
-            else:
-                out.packSub(self.subType,format,record.value)
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelGmstValue('DATA','value'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-    def getGMSTFid(self):
-        """Returns Fallout3.esm fid in long format for specified eid."""
-        myClass = self.__class__
-        if not myClass.falloutIds:
-            try:
-                myClass.falloutIds = cPickle.load(dirs['db'].join('Fallout3_ids.pkl').open())['GMST']
-            except:
-                old = bolt.deprintOn
-                bolt.deprintOn = True
-                print
-                print 'Error loading Fallout3_ids.pkl:'
-                deprint(' ',traceback=True)
-                bolt.deprintOn = old
-                print
-                print 'Manually testing if file exists:', dirs['db'].join('Fallout3_ids.pkl').exists()
-                print 'Current working directory:', os.getcwd()
-                print "dirs['db']:", dirs['db']
-                print
-                raise
-        return (modInfos.masterName, myClass.falloutIds[self.eid])
+class MreGmst(MreGmstBase):
+    """Fallout 3 GMST record"""
+    Master = u'Fallout3'
+    isKeyedByEid = True # NULL fids are acceptable.
 
 #------------------------------------------------------------------------------
 class MreGras(MelRecord):

@@ -8303,10 +8303,21 @@ class MreWthr(MelRecord):
 #       MreAchr, MreDial, MreLctn, MreInfo, MreFact, MrePerk,
 #------------------------------------------------------------------------------
 #--Mergeable record types
+
 mergeClasses = (
-        MreAact, MreActi, MreAddn, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo,
-        MreArto, MreAspc, MreAstp, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
-        MreLvsp, MreMisc,
+        # MreAchr, MreDial, MreInfo,
+        # MreAvif,
+        MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
+        MreAspc, MreAstp, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
+        MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual,
+        MreEczn, MreEfsh, MreEnch, MreEqup, MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFstp,
+        MreFsts, MreFurn, MreGlob, MreGmst, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm, MreImad,
+        MreImgs, MreIngr, MreIpct, MreIpds, MreKeym, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLigh,
+        MreLscr, MreLtex, MreLvli, MreLvln, MreLvsp, MreMato, MreMatt, MreMesg, MreMgef, MreMisc,
+        MreMovt, MreMstt, MreMusc, MreMust, MreNpc, MreOtft, MreProj, MreRela, MreRevb, MreRfct,
+        MreScrl, MreShou, MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun,
+        MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWoop,
+        MreWthr,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers
@@ -8324,12 +8335,25 @@ def init():
 
     #--Record Types
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
-        MreAact, MreActi, MreAddn, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo,
-        MreArto, MreAspc, MreAstp, MreCobj, MreGlob, MreGmst, MreLvli, MreLvln,
-        MreLvsp, MreMisc,
+        MreAchr, MreDial, MreInfo,
+        # MreAvif,
+        MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
+        MreAspc, MreAstp, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
+        MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual,
+        MreEczn, MreEfsh, MreEnch, MreEqup, MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFstp,
+        MreFsts, MreFurn, MreGlob, MreGmst, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm, MreImad,
+        MreImgs, MreIngr, MreIpct, MreIpds, MreKeym, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLigh,
+        MreLscr, MreLtex, MreLvli, MreLvln, MreLvsp, MreMato, MreMatt, MreMesg, MreMgef, MreMisc,
+        MreMovt, MreMstt, MreMusc, MreMust, MreNpc, MreOtft, MreProj, MreRela, MreRevb, MreRfct,
+        MreScrl, MreShou, MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun,
+        MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWoop,
+        MreWthr,
+        MreCell, MreWrld, # MreNavm, MreNavi
         MreHeader,
         ))
 
     #--Simple records
     brec.MreRecord.simpleTypes = (set(brec.MreRecord.type_class) -
-        set(('TES4')))
+        set((
+        'TES4','ACHR','CELL','DIAL','INFO','WRLD'
+        )))

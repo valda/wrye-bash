@@ -281,6 +281,10 @@ iniFiles = [
 ## (section,key)
 saveProfilesKey = (u'General',u'SLocalSavePath')
 
+# Main master file, does not include Update.esm or DLC
+mainGameMaster = u'FalloutNV.esm'
+mainGameMasterLower = u'falloutnv.esm'
+
 #--The main plugin Wrye Bash should look for
 masterFiles = [
     u'FalloutNV.esm',

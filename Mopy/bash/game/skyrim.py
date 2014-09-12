@@ -262,6 +262,10 @@ iniFiles = [
 #--INI setting to setup Save Profiles
 saveProfilesKey = (u'General',u'SLocalSavePath')
 
+# Main master file, does not include Update.esm or DLC
+mainGameMaster = u'Skyrim.esm'
+mainGameMasterLower = u'skyrim.esm'
+
 #--The main plugin file Wrye Bash should look for
 masterFiles = [
     u'Skyrim.esm',

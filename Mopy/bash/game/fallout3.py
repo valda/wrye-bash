@@ -2481,12 +2481,17 @@ class MreDobj(MelRecord):
 class MreDoor(MelRecord):
     """Container record."""
     classType = 'DOOR'
-    _flags = Flags(0,Flags.getNames('oblivionGate','automatic','hidden','minimalUse'))
+    _flags = Flags(0,Flags.getNames(
+        ( 1,'automatic'),
+        ( 2,'hidden'),
+        ( 3,'minimalUse'),
+        ( 4,'slidingDoor',),
+    ))
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
+                  'boundX1','boundY1','boundZ1',
+                  'boundX2','boundY2','boundZ2'),
         MelString('FULL','full'),
         MelModel(),
         MelFid('SCRI','script'),

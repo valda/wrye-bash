@@ -2147,12 +2147,12 @@ class MreCobj(MelRecord):
 class MreCont(MelRecord):
     """Container record."""
     classType = 'CONT'
-    _flags = bolt.Flags(0,bolt.Flags.getNames(None,'respawns'))
+    _flags = Flags(0,Flags.getNames(None,'respawns'))
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
+                  'boundX1','boundY1','boundZ1',
+                  'boundX2','boundY2','boundZ2'),
         MelString('FULL','full'),
         MelModel(),
         MelFid('SCRI','script'),

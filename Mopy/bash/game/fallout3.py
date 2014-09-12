@@ -5178,20 +5178,33 @@ class MreTree(MelRecord):
 class MreTxst(MelRecord):
     """Texture set record."""
     classType = 'TXST'
+    TxstTypeFlags = Flags(0L,Flags.getNames(
+        (0, 'noSpecularMap'),
+    ))
+
+    DecalDataFlags = Flags(0L,Flags.getNames(
+            (0, 'parallax'),
+            (0, 'alphaBlending'),
+            (0, 'alphaTesting'),
+            (0, 'noSubtextures'),
+        ))
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
+                  'boundX1','boundY1','boundZ1',
+                  'boundX2','boundY2','boundZ2'),
         MelString('TX00','baseImage'),
         MelString('TX01','normalMap'),
         MelString('TX02','environmentMapMask'),
         MelString('TX03','growMap'),
         MelString('TX04','parallaxMap'),
         MelString('TX05','environmentMap'),
-        MelOptStruct('DODT','7fBB2s3Bs','minWidth','maxWidth','minHeight','maxHeight','depth','shininess',
-                     'parallaxScale','parallaxPasses','decalFlags',('unused1',null2),'red','green','blue',('unused2',null1)),
-        MelStruct('DNAM','H','flags'),
+        MelOptStruct('DODT','7fBB2s3Bs','minWidth','maxWidth','minHeight',
+                     'maxHeight','depth','shininess','parallaxScale',
+                     'parallaxPasses',(DecalDataFlags,'flags',0L),
+                     ('unused1',null2),'red','green','blue',('unused2',null1)),
+        MelStruct('DNAM','H',(TxstTypeFlags,'flags',0L),),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

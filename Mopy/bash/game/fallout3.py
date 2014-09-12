@@ -3237,37 +3237,21 @@ class MreLgtm(MelRecord):
 class MreLigh(MelRecord):
     """Light source record."""
     classType = 'LIGH'
-    _flags = bolt.Flags(0L,bolt.Flags.getNames('dynamic','canTake','negative','flickers',
+    _flags = Flags(0L,Flags.getNames('dynamic','canTake','negative','flickers',
         'unk1','offByDefault','flickerSlow','pulse','pulseSlow','spotLight','spotShadow'))
-    #--Mel NPC DATA
-    class MelLighData(MelStruct):
-        """Handle older trucated DATA for LIGH subrecord."""
-        def loadData(self,record,ins,type,size,readId):
-            if size == 32:
-                MelStruct.loadData(self,record,ins,type,size,readId)
-                return
-            elif size == 24:
-                #--Else 24 byte record (skips value and weight...
-                unpacked = ins.unpack('iI3BsIff',size,readId)
-            else:
-                raise ModError(ins.inName,_('Unexpected size encountered for LIGH:DATA subrecord: ')+str(size))
-            unpacked += self.defaults[len(unpacked):]
-            setter = record.__setattr__
-            for attr,value,action in zip(self.attrs,unpacked,self.actions):
-                if callable(action): value = action(value)
-                setter(attr,value)
-            if self._debug: print unpacked, record.flags.getTrueAttrs()
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('OBND','=6h',
-                  'corner0X','corner0Y','corner0Z',
-                  'corner1X','corner1Y','corner1Z'),
+                  'boundX1','boundY1','boundZ1',
+                  'boundX2','boundY2','boundZ2'),
         MelModel(),
         MelFid('SCRI','script'),
+        MelDestructible(),
         MelString('FULL','full'),
         MelString('ICON','iconPath'),
-        MelLighData('DATA','iI3BsIffIf','duration','radius','red','green','blue',('unused1',null1),
-            (_flags,'flags',0L),'falloff','fov','value','weight'),
+        MelStruct('DATA','iI3BsI2fIf','duration','radius','red','green','blue',
+                  ('unused1',null1),(_flags,'flags',0L),'falloff','fov','value',
+                  'weight'),
         MelOptStruct('FNAM','f',('fade',None)),
         MelFid('SNAM','sound'),
         )

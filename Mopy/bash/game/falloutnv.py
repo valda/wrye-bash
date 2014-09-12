@@ -5006,6 +5006,16 @@ class MreRace(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MreRads(MelRecord):
+    """Radiation Stage record."""
+    classType = 'RADS'
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('DATA','2I','trigerThreshold',(FID,'actorEffect')),
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+#------------------------------------------------------------------------------
 class MreRcct(MelRecord):
     """Recipe Category."""
     classType = 'RCCT'

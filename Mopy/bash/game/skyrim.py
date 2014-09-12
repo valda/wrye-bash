@@ -1738,36 +1738,84 @@ CBash_patchers = tuple()
 listTypes = ('LVLI','LVLN','LVSP',)
 # Needs longs in SoundPatcher
 soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP'))
-namesTypes = set(('ACTI', 'AMMO', 'ARMO', 'APPA', 'MISC',))
-pricesTypes = {'AMMO':{},'ARMO':{},'APPA':{},'MISC':{}}
+
+# remaining to add: 'PERK', 'RACE', 'AVIF',
+namesTypes = set((
+    'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLFM',
+    'CONT', 'DIAL', 'DOOR', 'ENCH', 'EXPL', 'EYES', 'FACT', 'FLOR', 'FURN', 'HAZD',
+    'HDPT', 'INGR', 'KEYM', 'LCTN', 'LIGH', 'MESG', 'MGEF', 'MISC', 'MSTT', 'NPC_',
+    'PROJ', 'SCRL', 'SHOU', 'SLGM', 'SNCT', 'SPEL', 'TACT', 'TREE', 'WATR', 'WEAP',
+    'WOOP'
+    ))
+pricesTypes = {'ALCH':{},'AMMO':{},'APPA':{},'ARMO':{},'BOOK':{},'INGR':{},'KEYM':{},'LIGH':{},'MISC':{},'SLGM':{},'WEAP':{}}
+
 #-------------------------------------------------------------------------------
 # StatsImporter
 #-------------------------------------------------------------------------------
 statsTypes = {
-            'AMMO':('eid', 'value', 'damage'),
-            'ARMO':('eid', 'weight', 'value', 'armorRating'),
-            'APPA':('eid', 'weight', 'value'),
-            'MISC':('eid', 'weight', 'value'),
-            }
+        'ALCH':('eid', 'weight', 'value'),
+        'AMMO':('eid', 'value', 'damage'),
+        'APPA':('eid', 'weight', 'value'),
+        'ARMO':('eid', 'weight', 'value', 'armorRating'),
+        'BOOK':('eid', 'weight', 'value'),
+        'INGR':('eid', 'weight', 'value'),
+        'KEYM':('eid', 'weight', 'value'),
+        'LIGH':('eid', 'weight', 'value', 'duration'),
+        'MISC':('eid', 'weight', 'value'),
+        'SLGM':('eid', 'weight', 'value'),
+        'WEAP':('eid', 'weight', 'value', 'damage', 'speed', 'reach', 'enchantPoints'),
+    }
 statsHeaders = (
+                #--Alch
+                (u'ALCH',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
                 #--Ammo
                 (u'AMMO',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+                #--Apparatus
+                (u'APPA',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
                     _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
                 #--Armo
                 (u'ARMO',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
                     _(u'Editor Id'),_(u'Weight'),_(u'Value'),_('armorRating'))) + u'"\n')),
-                (u'APPA',
+                #Books
+                (u'BOOK',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
                     _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+                    #Ingredients
+                (u'INGR',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+                #--Keys
+                (u'KEYM',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+                #Lights
+                (u'LIGH',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Duration'))) + u'"\n')),
+                #--Misc
                 (u'MISC',
                     (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
                     _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+                #Soulgems
+                (u'SLGM',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'))) + u'"\n')),
+                #--Weapons
+                (u'WEAP',
+                    (u'"' + u'","'.join((_(u'Type'),_(u'Mod Name'),_(u'ObjectIndex'),
+                    _(u'Editor Id'),_(u'Weight'),_(u'Value'),_(u'Damage'),
+                    _(u'Speed'),_(u'Reach'),_(u'EPoints'))) + u'"\n')),
                 )
 
 #-------------------------------------------------------------------------------
 # CellImporter
+#-------------------------------------------------------------------------------
 cellAutoKeys = (
     u'C.Climate',u'C.Light',u'C.Water',u'C.Owner',u'C.Name',u'C.RecordFlags',u'C.Music')#,u'C.Maps')
 cellRecAttrs = {
@@ -1871,7 +1919,7 @@ class esp:
     #--Valid ESM/ESP header versions
     validHeaderVersions = (0.94, 1.70,)
 
-    #--Strings Files
+    #--Strings Files, Skyrim only
     stringsFiles = [
         ('mods',(u'Strings',),u'%(body)s_%(language)s.STRINGS'),
         ('mods',(u'Strings',),u'%(body)s_%(language)s.DLSTRINGS'),

@@ -1508,6 +1508,8 @@ CBash_patchers = (
 
 # For ListsMerger
 listTypes = ('LVLC','LVLI','LVSP',)
+# Needs longs in SoundPatcher
+soundsLongsTypes = set(('MGEF','ACTI','LIGH','WTHR','CONT','DOOR'))
 
 namesTypes = set((
         'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'BSGN', 'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR',

@@ -1724,7 +1724,8 @@ CBash_patchers = tuple()
 
 # For ListsMerger
 listTypes = ('LVLI','LVLN','LVSP',)
-
+# Needs longs in SoundPatcher
+soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP'))
 namesTypes = set(('ACTI', 'AMMO', 'ARMO', 'APPA', 'MISC',))
 pricesTypes = {'AMMO':{},'ARMO':{},'APPA':{},'MISC':{}}
 #-------------------------------------------------------------------------------

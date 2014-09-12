@@ -824,7 +824,8 @@ CBash_patchers = (
 )
 #--For ListMerger patcher (leveled list patcher)
 listTypes = ()
-
+# Needs longs in SoundPatcher
+soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP'))
 namesTypes = set((
         'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLOT', 'CONT', 'CREA', 'DOOR',
         'EYES', 'FACT', 'FLOR', 'HAIR', 'INGR', 'KEYM', 'LIGH', 'MISC', 'NOTE', 'NPC_',

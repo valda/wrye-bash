@@ -1443,6 +1443,31 @@ class MelMODS(MelBase):
             data = [(string,function(fid),unk) for (string,fid,unk) in record.__getattribute__(attr)]
             if save: record.__setattr__(attr,data)
 
+#------------------------------------------------------------------------------
+class MelModel(MelGroup):
+    """Represents a model record."""
+    typeSets = (
+        ('MODL','MODB','MODT','MODS','MODD'),
+        ('MOD2','MO2B','MO2T','MO2S','MO2D'),
+        ('MOD3','MO3B','MO3T','MO3S','MOSD'),
+        ('MOD4','MO4B','MO4T','MO4S','MO4D'),)
+
+    def __init__(self,attr='model',index=0):
+        """Initialize. Index is 0,2,3,4 for corresponding type id."""
+        types = MelModel.typeSets[(0,index-1)[index>0]]
+        MelGroup.__init__(self,attr,
+            MelString(types[0],'modPath'),
+            MelBase(types[1],'modb_p'), ### Bound Radius, Float
+            MelBase(types[2],'modt_p'), ###Texture Files Hashes, Byte Array
+            MelMODS(types[3],'mod_s'),
+            MelBase(types[4],'modd_p'),)
+
+    def debug(self,on=True):
+        """Sets debug flag on self."""
+        for element in self.elements[:2]: element.debug(on)
+        return self
+
+#------------------------------------------------------------------------------
 class MelOwnership(MelGroup):
     """Handles XOWN, XRNK, and XGLB for cells and cell children."""
 

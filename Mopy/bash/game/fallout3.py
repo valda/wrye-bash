@@ -309,19 +309,19 @@ pklfile = ur'bash\db\Fallout3_ids.pkl'
 #--BAIN:
 ## These are the allowed default data directories that BAIN can install to
 dataDirs = set((
-    'bash patches',
-    'distantlod',
-    'docs',
-    'facegen',
-    'fonts',
-    'menus',
-    'meshes',
-    'music',
-    'shaders',
-    'sound',
-    'textures',
-    'trees',
-    'video'
+    u'bash patches',
+    u'distantlod',
+    u'docs',
+    u'facegen',
+    u'fonts',
+    u'menus',
+    u'meshes',
+    u'music',
+    u'shaders',
+    u'sound',
+    u'textures',
+    u'trees',
+    u'video'
     ))
 ## These are additional special directories that BAIN can install to
 dataDirsPlus = set((

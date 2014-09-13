@@ -12278,7 +12278,7 @@ class GraphicsPatcher(ImportPatcher):
         # no 'model' attr: 'EYES', 'AVIF', 'MICN',
         # Would anyone ever change these: 'PERK', 'QUST', 'SKIL', 'REPU'
         if bush.game.fsName == u'Skyrim':
-            for recClass in (MreRecord.type_class[x] for x in ('BSGN','LSCR','CLAS','LTEX',)):
+            for recClass in (MreRecord.type_class[x] for x in ('LSCR','CLAS','LTEX',)):
                 recAttrs_class[recClass] = ('iconPath','iconPath2',)
         else:
             for recClass in (MreRecord.type_class[x] for x in ('BSGN','LSCR','CLAS','LTEX','REGN')):
@@ -12288,12 +12288,21 @@ class GraphicsPatcher(ImportPatcher):
             recAttrs_class[recClass] = ('model',)
         # no'model' and 'iconpath' attr: 'COBJ', 'HAIR', 'NOTE', 'CCRD', 'CHIP', 'CMNY', 'IMOD',
         # Is 'RACE' included in race patcher?
-        for recClass in (MreRecord.type_class[x] for x in ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SGST','SLGM','WEAP','TREE')):
-            recAttrs_class[recClass] = ('iconPath','model')
-        for recClass in (MreRecord.type_class[x] for x in ('ARMO','CLOT')):
-            recAttrs_class[recClass] = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath','flags')
-        for recClass in (MreRecord.type_class[x] for x in ('CREA',)):
-            recAttrs_class[recClass] = ('bodyParts','nift_p')
+        if bush.game.fsName == u'Skyrim':
+            for recClass in (MreRecord.type_class[x] for x in ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM','WEAP','TREE')):
+                recAttrs_class[recClass] = ('iconsIaM.iconPath','model')
+        else:
+            for recClass in (MreRecord.type_class[x] for x in ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SGST','SLGM','WEAP','TREE')):
+                recAttrs_class[recClass] = ('iconPath','model')
+        if bush.game.fsName == u'Skyrim':
+            for recClass in (MreRecord.type_class[x] for x in ('ARMO',)):
+                recAttrs_class[recClass] = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath','flags')
+        else:
+            for recClass in (MreRecord.type_class[x] for x in ('ARMO','CLOT')):
+                recAttrs_class[recClass] = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath','flags')
+        if bush.game.fsName in (u'Oblivion', u'FalloutNV', u'Fallout3',):
+            for recClass in (MreRecord.type_class[x] for x in ('CREA',)):
+                recAttrs_class[recClass] = ('bodyParts','nift_p')
         # Why does Graphics have a seperate entry for Fids when SoundPatcher does not?
         for recClass in (MreRecord.type_class[x] for x in ('MGEF',)):
             recAttrs_class[recClass] = ('iconPath','model')

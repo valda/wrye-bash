@@ -681,7 +681,7 @@ soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF',
 namesTypes = set((
     'ACTI', 'ALCH', 'AMMO', 'ARMO', 'BOOK', 'CLAS', 'CONT', 'CREA', 'DOOR', 'EYES',
     'FACT', 'HAIR', 'INGR', 'KEYM', 'LIGH', 'MISC', 'NOTE', 'NPC_', 'RACE', 'SPEL',
-    'TACT' 'TERM', 'WEAP',
+    'TACT', 'TERM', 'WEAP',
         ))
 pricesTypes = {'ALCH':{},'AMMO':{},'ARMO':{},'ARMA':{},'BOOK':{},'INGR':{},'KEYM':{},'LIGH':{},'MISC':{},'WEAP':{}}
 

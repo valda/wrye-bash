@@ -1721,14 +1721,15 @@ GmstTweaks = [
 #--Tags supported by this game
 allTags = sorted((
     u'C.Climate', u'C.Light', u'C.Music', u'C.Name', u'C.Owner', u'C.RecordFlags',
-    u'C.Water', u'Deactivate', u'Delev', u'Filter', u'Names', u'NoMerge', u'Relev',
-    u'Sound', u'Stats',
+    u'C.Water', u'Deactivate', u'Delev', u'Filter', u'Graphics', u'Names', u'NoMerge',
+    u'Relev', u'Sound', u'Stats',
     ))
 
 #--Patchers available when building a Bashed Patch
 patchers = (
-    u'AliasesPatcher', u'CellImporter', u'GmstTweaker', u'ListsMerger',
-    u'NamesPatcher', u'PatchMerger', u'SoundPatcher', u'StatsPatcher',
+    u'AliasesPatcher', u'CellImporter', u'GmstTweaker', u'GraphicsPatcher',
+    u'ListsMerger', u'NamesPatcher', u'PatchMerger', u'SoundPatcher',
+    u'StatsPatcher',
     )
 
 #--CBash patchers available when building a Bashed Patch

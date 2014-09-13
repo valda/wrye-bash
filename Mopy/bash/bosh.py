@@ -12273,16 +12273,28 @@ class GraphicsPatcher(ImportPatcher):
         #--Type Fields
         recAttrs_class = self.recAttrs_class = {}
         recFidAttrs_class = self.recFidAttrs_class = {}
-        for recClass in (MreRecord.type_class[x] for x in ('BSGN','LSCR','CLAS','LTEX','REGN')):
-            recAttrs_class[recClass] = ('iconPath',)
+        # Not available in Skyrim yet AVIF, LAND, PERK, PACK, QUST, RACE, SCEN, REFR, REGN
+        # Look into why these records are not included, are they part of other patchers?
+        # no 'model' attr: 'EYES', 'AVIF', 'MICN',
+        # Would anyone ever change these: 'PERK', 'QUST', 'SKIL', 'REPU'
+        if bush.game.fsName == u'Skyrim':
+            for recClass in (MreRecord.type_class[x] for x in ('BSGN','LSCR','CLAS','LTEX',)):
+                recAttrs_class[recClass] = ('iconPath','iconPath2',)
+        else:
+            for recClass in (MreRecord.type_class[x] for x in ('BSGN','LSCR','CLAS','LTEX','REGN')):
+                recAttrs_class[recClass] = ('iconPath','iconPath2',)
+        # no 'iconPath' attr:
         for recClass in (MreRecord.type_class[x] for x in ('ACTI','DOOR','FLOR','FURN','GRAS','STAT')):
             recAttrs_class[recClass] = ('model',)
+        # no'model' and 'iconpath' attr: 'COBJ', 'HAIR', 'NOTE', 'CCRD', 'CHIP', 'CMNY', 'IMOD',
+        # Is 'RACE' included in race patcher?
         for recClass in (MreRecord.type_class[x] for x in ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SGST','SLGM','WEAP','TREE')):
             recAttrs_class[recClass] = ('iconPath','model')
         for recClass in (MreRecord.type_class[x] for x in ('ARMO','CLOT')):
             recAttrs_class[recClass] = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath','flags')
         for recClass in (MreRecord.type_class[x] for x in ('CREA',)):
             recAttrs_class[recClass] = ('bodyParts','nift_p')
+        # Why does Graphics have a seperate entry for Fids when SoundPatcher does not?
         for recClass in (MreRecord.type_class[x] for x in ('MGEF',)):
             recAttrs_class[recClass] = ('iconPath','model')
             recFidAttrs_class[recClass] = ('effectShader','enchantEffect','light')

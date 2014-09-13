@@ -4648,7 +4648,7 @@ class MreEyes(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelLString('FULL','full'),
-        MelString('ICON','iconPath'),
+        MelIcons(),
         MelStruct('DATA','B',(EyesTypeFlags,'flags',0L)),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

@@ -1832,7 +1832,7 @@ cellRecAttrs = {
             u'C.RecordFlags': ('flags1',), # Yes seems funky but thats the way it is
             }
 cellRecFlags = {
-            u'C.Climate': ('behaveLikeExterior','useSkyLighting'),
+            u'C.Climate': 'behaveLikeExterior',
             u'C.Music': '',
             u'C.Name': '',
             u'C.Owner': 'publicPlace',

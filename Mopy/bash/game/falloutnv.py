@@ -6127,7 +6127,7 @@ class MelPnamHandler(MelStructA):
 
     def dumpData(self,record,out):
         """Dumps data from record to outstream."""
-            out.packSub('PNAM',unpacked)
+        out.packSub('PNAM',unpacked)
 
 class MelNam0Handler(MelStructA):
     """Handle older truncated ONAM for WTHR subrecord."""
@@ -6160,12 +6160,11 @@ class MelNam0Handler(MelStructA):
 
     def dumpData(self,record,out):
         """Dumps data from record to outstream."""
-            out.packSub('ONAM',unpacked)
+        out.packSub('ONAM',unpacked)
 
 class MreWthr(MelRecord):
     """Weather record."""
     classType = 'WTHR'
-
 
     melSet = MelSet(
         MelString('EDID','eid'),

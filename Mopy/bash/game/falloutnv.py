@@ -699,15 +699,15 @@ GmstTweaks = [
 allTags = sorted((
     u'C.Climate', u'C.Light', u'C.Music', u'C.Name', u'C.Owner', u'C.RecordFlags',
     u'C.Water', u'Deactivate', u'Deflst', u'Delev', u'Destructible', u'Factions',
-    u'Filter', u'Names', u'NoMerge', u'Relations', u'Relev', u'Sound', u'Stats',
-    u'WeaponMods',
+    u'Filter', u'Graphics', u'Names', u'NoMerge', u'Relations', u'Relev', u'Sound',
+    u'Stats', u'WeaponMods',
     ))
 
 #--Patcher available when building a Bashed Patch (referenced by class name)
 patchers = (
     u'AliasesPatcher', u'CellImporter', u'DestructiblePatcher', u'FidListsMerger',
-    u'GmstTweaker', u'ImportFactions', u'ImportRelations', u'ListsMerger',
-    u'NamesPatcher', u'PatchMerger', 'SoundPatcher', u'StatsPatcher',
+    u'GmstTweaker', u'GraphicsPatcher', u'ImportFactions', u'ImportRelations',
+    u'ListsMerger', u'NamesPatcher', u'PatchMerger', 'SoundPatcher', u'StatsPatcher',
     u'WeaponModsPatcher',
     )
 

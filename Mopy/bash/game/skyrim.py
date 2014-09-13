@@ -8145,6 +8145,25 @@ class MreWrld(MelRecord):
             (6, 'useSkyCell'),
         ))
 
+    class MelWrldMnam(MelStruct):
+        """Handle older truncated MNAM for WRLD subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 28:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 24:
+                unpacked = ins.unpack('2i4h2f',size,readId)
+            elif size == 16:
+                unpacked = ins.unpack('2i4h',size,readId)
+            else:
+                raise ModSizeError(record.inName,record.recType+'.'+type,size,ModReader.recHeader.size,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked, record.flags.getTrueAttrs()
+
     melSet = MelSet(
         MelString('EDID','eid'),
         # {>>> BEGIN leftover from earlier CK versions <<<}
@@ -8170,7 +8189,7 @@ class MreWrld(MelRecord):
         MelStruct('DNAM','2f','defaultLandHeight','defaultWaterHeight',),
         MelString('ICON','mapImage'),
         MelModel('cloudModel','MODL',),
-        MelStruct('MNAM','2i4h3f','usableDimensionsX','usableDimensionsY',
+        MelWrldMnam('MNAM','2i4h3f','usableDimensionsX','usableDimensionsY',
                   'cellCoordinatesX','cellCoordinatesY','seCellX','seCellY',
                   'cameraDataMinHeight','cameraDataMaxHeight',
                   'cameraDataInitialPitch',),

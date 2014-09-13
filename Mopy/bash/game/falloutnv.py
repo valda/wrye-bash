@@ -6109,7 +6109,7 @@ class MelPnamHandler(MelStructA):
             )
 
     def loadData(self,record,ins,type,size,readId):
-        """Handle older truncated ONAM for WTHR subrecord."""
+        """Handle older truncated PNAM for WTHR subrecord."""
         if size == 96:
             MelStructA.loadData(self,record,ins,type,size,readId)
             return
@@ -6124,6 +6124,10 @@ class MelPnamHandler(MelStructA):
             size = len(unpacked)
         else:
             raise ModSizeError(record.inName,record.recType+'.'+type,96,size,True)
+
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+            out.packSub('PNAM',unpacked)
 
 class MelNam0Handler(MelStructA):
     """Handle older truncated ONAM for WTHR subrecord."""
@@ -6153,6 +6157,10 @@ class MelNam0Handler(MelStructA):
             size = len(unpacked)
         else:
             raise ModSizeError(record.inName,record.recType+'.'+type,240,size,True)
+
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+            out.packSub('ONAM',unpacked)
 
 class MreWthr(MelRecord):
     """Weather record."""

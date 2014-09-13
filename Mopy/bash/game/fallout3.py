@@ -681,7 +681,7 @@ soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF',
 namesTypes = set((
     'ACTI', 'ALCH', 'AMMO', 'ARMO', 'BOOK', 'CLAS', 'CONT', 'CREA', 'DOOR', 'EYES',
     'FACT', 'HAIR', 'INGR', 'KEYM', 'LIGH', 'MISC', 'NOTE', 'NPC_', 'RACE', 'SPEL',
-    'TACT' 'TERM', 'WEAP',
+    'TACT', 'TERM', 'WEAP',
         ))
 pricesTypes = {'ALCH':{},'AMMO':{},'ARMO':{},'ARMA':{},'BOOK':{},'INGR':{},'KEYM':{},'LIGH':{},'MISC':{},'WEAP':{}}
 
@@ -5469,18 +5469,8 @@ class MreWthr(MelRecord):
         MelModel(),
         MelBase('LNAM','unknown1'),
         MelStruct('ONAM','4B','cloudSpeed0','cloudSpeed1','cloudSpeed3','cloudSpeed4'),
-        MelStructA('PNAM','3Bs3Bs3Bs3Bs','colors',
-                   'riseRed','riseGreen','riseBlue',('unused1',null1),
-                   'dayRed','dayGreen','dayBlue',('unused2',null1),
-                   'setRed','setGreen','setBlue',('unused3',null1),
-                   'nightRed','nightGreen','nightBlue',('unused4',null1),
-                   ),
-        MelStructA('NAM0','3Bs3Bs3Bs3Bs','colors',
-                   'riseRed','riseGreen','riseBlue',('unused5',null1),
-                   'dayRed','dayGreen','dayBlue',('unused6',null1),
-                   'setRed','setGreen','setBlue',('unused7',null1),
-                   'nightRed','nightGreen','nightBlue',('unused8',null1),
-                   ),
+        MelBase('PNAM','cloudColors'),
+        MelBase('NAM0','daytimeColors'),
         MelStruct('FNAM','6f','fogDayNear','fogDayFar','fogNightNear','fogNightFar','fogDayPower','fogNightPower'),
         MelBase('INAM','_inam'), #--Should be a struct. Maybe later.
         MelStruct('DATA','15B',

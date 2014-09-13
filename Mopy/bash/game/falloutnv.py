@@ -6096,37 +6096,75 @@ class MreWrld(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MelPnamHandler(MelStructA):
+    """Handle older truncated PNAM for WTHR subrecord."""
+    def __init__(self):
+        MelStructA.__init__(self,'PNAM','3Bs3Bs3Bs3Bs3Bs3Bs','cloudColors',
+            'riseRed','riseGreen','riseBlue',('unused1',null1),
+            'dayRed','dayGreen','dayBlue',('unused2',null1),
+            'setRed','setGreen','setBlue',('unused3',null1),
+            'nightRed','nightGreen','nightBlue',('unused4',null1),
+            'noonRed','noonGreen','noonBlue',('unused5',null1),
+            'midnightRed','midnightGreen','midnightBlue',('unused6',null1),
+            )
+
+    def loadData(self,record,ins,type,size,readId):
+        """Handle older truncated PNAM for WTHR subrecord."""
+        if size == 96:
+            MelStructA.loadData(self,record,ins,type,size,readId)
+            return
+        elif size == 64:
+            valueList = ['0'] * 32
+            oldFormat = '3Bs' * 16
+            addToFormat = '3Bs' * 8
+            unpacked = ins.unpack(oldFormat,size,readId)
+            unpackedList = list(unpacked)
+            unpackedList.extend(valueList)
+            unpacked = tuple(unpackedList)
+            size = len(unpacked)
+        else:
+            raise ModSizeError(record.inName,record.recType+'.'+type,96,size,True)
+
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+        out.packSub('PNAM',unpacked)
+
+class MelNam0Handler(MelStructA):
+    """Handle older truncated ONAM for WTHR subrecord."""
+    def __init__(self):
+        MelStructA.__init__(self,'NAM0','3Bs3Bs3Bs3Bs3Bs3Bs','daytimeColors'
+            'riseRed','riseGreen','riseBlue',('unused7',null1),
+            'dayRed','dayGreen','dayBlue',('unused8',null1),
+            'setRed','setGreen','setBlue',('unused9',null1),
+            'nightRed','nightGreen','nightBlue',('unused10',null1),
+            'noonRed','noonGreen','noonBlue',('unused11',null1),
+            'midnightRed','midnightGreen','midnightBlue',('unused12',null1),
+            )
+
+    def loadData(self,record,ins,type,size,readId):
+        """Handle older truncated ONAM for WTHR subrecord."""
+        if size == 240:
+            MelStructA.loadData(self,record,ins,type,size,readId)
+            return
+        elif size == 160:
+            valueList = ['0'] * 80
+            oldFormat = '3Bs' * 40
+            addToFormat = '3Bs' * 20
+            unpacked = ins.unpack(oldFormat,size,readId)
+            unpackedList = list(unpacked)
+            unpackedList.extend(valueList)
+            unpacked = tuple(unpackedList)
+            size = len(unpacked)
+        else:
+            raise ModSizeError(record.inName,record.recType+'.'+type,240,size,True)
+
+    def dumpData(self,record,out):
+        """Dumps data from record to outstream."""
+        out.packSub('ONAM',unpacked)
+
 class MreWthr(MelRecord):
     """Weather record."""
     classType = 'WTHR'
-
-    class MelPnamHandler(MelStructA):
-        """Handle older truncated ONAM for WTHR subrecord."""
-        def loadData(self,record,ins,type,size,readId):
-            if size == 96:
-                MelStructA.loadData(self,record,ins,type,size,readId)
-                return
-            elif size == 64:
-                valueList = ['0'] * 32
-                oldFormat = '3Bs' * 16
-                addToFormat = '3Bs' * 8
-                unpacked = ins.unpack(oldFormat,size,readId)
-                unpackedList = list(unpacked)
-                unpackedList.extend(valueList)
-                lenUnpacked = len(unpackedList)
-                raise ModSizeError(record.inName,record.recType+'.'+type,size,ModReader.recHeader.size,True)
-            else:
-                raise ModSizeError(record.inName,record.recType+'.'+type,size,ModReader.recHeader.size,True)
-
-    class MelNam0Handler(MelStructA):
-        """Handle older truncated NAM0 for WTHR subrecord."""
-        def loadData(self,record,ins,type,size,readId):
-            if size == 240:
-                MelStructA.loadData(self,record,ins,type,size,readId)
-                return
-            else:
-            # Smaller size is 160
-                raise ModSizeError(record.inName,record.recType+'.'+type,size,ModReader.recHeader.size,True)
 
     melSet = MelSet(
         MelString('EDID','eid'),
@@ -6143,22 +6181,8 @@ class MreWthr(MelRecord):
         MelModel(),
         MelBase('LNAM','unknown1'),
         MelStruct('ONAM','4B','cloudSpeed0','cloudSpeed1','cloudSpeed3','cloudSpeed4'),
-        MelPnamHandler('PNAM','3Bs3Bs3Bs3Bs3Bs3Bs','cloudColors',
-                   'riseRed','riseGreen','riseBlue',('unused1',null1),
-                   'dayRed','dayGreen','dayBlue',('unused2',null1),
-                   'setRed','setGreen','setBlue',('unused3',null1),
-                   'nightRed','nightGreen','nightBlue',('unused4',null1),
-                   'noonRed','noonGreen','noonBlue',('unused5',null1),
-                   'midnightRed','midnightGreen','midnightBlue',('unused6',null1),
-                   ),
-        MelNam0Handler('NAM0','3Bs3Bs3Bs3Bs3Bs3Bs','daytimeColors',
-                   'riseRed','riseGreen','riseBlue',('unused7',null1),
-                   'dayRed','dayGreen','dayBlue',('unused8',null1),
-                   'setRed','setGreen','setBlue',('unused9',null1),
-                   'nightRed','nightGreen','nightBlue',('unused10',null1),
-                   'noonRed','noonGreen','noonBlue',('unused11',null1),
-                   'midnightRed','midnightGreen','midnightBlue',('unused12',null1),
-                   ),
+        MelBase('PNAM','cloudColors'),
+        MelBase('NAM0','daytimeColors'),
         MelStruct('FNAM','6f','fogDayNear','fogDayFar','fogNightNear','fogNightFar','fogDayPower','fogNightPower'),
         MelBase('INAM','_inam'), #--Should be a struct. Maybe later.
         MelStruct('DATA','15B',

@@ -1832,7 +1832,7 @@ cellRecAttrs = {
             u'C.RecordFlags': ('flags1',), # Yes seems funky but thats the way it is
             }
 cellRecFlags = {
-            u'C.Climate': ('behaveLikeExterior','useSkyLighting'),
+            u'C.Climate': 'behaveLikeExterior',
             u'C.Music': '',
             u'C.Name': '',
             u'C.Owner': 'publicPlace',
@@ -3787,8 +3787,8 @@ class MreCell(MelRecord):
     # {0x0040} 'Hand Changed',
     # {0x0080} 'Show Sky',
     # {0x0100} 'Use Sky Lighting'
-    CellDataFlags = bolt.Flags(0L,bolt.Flags.getNames(
-        (0,'isInteriorCell'),
+    CellDataFlags1 = bolt.Flags(0L,bolt.Flags.getNames(
+        (0,'isInterior'), # isInteriorCell
         (1,'hasWater'),
         (2,'cantFastTravel'),
         (3,'noLODWater'),
@@ -3796,8 +3796,11 @@ class MreCell(MelRecord):
         (6,'handChanged'),
         # showSky
         (7,'behaveLikeExterior'),
+        ))
+
+    CellDataFlags2 = bolt.Flags(0L,bolt.Flags.getNames(
         # useSkyLighting
-        (8,'useSkyLighting'),
+        (0,'useSkyLighting'),
         ))
 
     # {0x00000001}'Ambient Color',
@@ -3832,6 +3835,46 @@ class MreCell(MelRecord):
             (3, 'quad4'),
         ))
 
+    class MelCellXcll(MelStruct):
+        """Handle older truncated XCLL for CELL subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 92:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 64:
+                unpacked = ins.unpack('BBBsBBBsBBBsffiifffBBBsBBBsBBBsBBBsBBBsBBBs',size,readId)
+            elif size == 24:
+                unpacked = ins.unpack('BBBsBBBsBBBsffi',size,readId)
+            else:
+                raise ModSizeError(record.inName,record.recType+'.'+type,size,ModReader.recHeader.size,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked, record.flags.getTrueAttrs()
+
+    class MelCellData(MelStruct):
+        """Handle older truncated DATA for CELL subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 2:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 1:
+                unpacked = ins.unpack('B',size,readId)
+            else:
+                raise ModSizeError(record.inName,record.recType+'.'+type,size,ModReader.recHeader.size,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked, record.flags.getTrueAttrs()
+
+    # class MelCoordinates(MelOptStruct):
+    #     def dumpData(self,record,out):
+    #         if not record.flags.isInterior:
+    #             MelOptStruct.dumpData(self,record,out)
 
 # Flags can be itU8, but CELL\DATA has a critical role in various wbImplementation.pas routines
 # and replacing it with wbUnion generates error when setting for example persistent flag in REFR.
@@ -3839,22 +3882,24 @@ class MreCell(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelLString('FULL','full'),
-        MelStruct('DATA','H',(CellDataFlags,'flags',0L),),
-        MelStruct('XCLC','2iI','pos_x','pos_y',(CellGridFlags,'gridFlags',0L),),
-        MelStruct('XCLL','3Bs3Bs3Bs2f2i3f4B4B4B4B4B4B4BfBBBsfffI',
+        MelCellData('DATA','BB',(CellDataFlags1,'flags',0L),(CellDataFlags2,'skyFlags',0L),),
+        MelStruct('XCLC','2iI','posX','posY',(CellGridFlags,'gridFlags',0L),),
+        MelCellXcll('XCLL','BBBsBBBsBBBsffiifffBBBsBBBsBBBsBBBsBBBsBBBsBBBsfBBBsfffI',
                  'ambientRed','ambientGreen','ambientBlue',('unused1',null1),
                  'directionalRed','directionalGreen','directionalBlue',('unused2',null1),
                  'fogRed','fogGreen','fogBlue',('unused3',null1),
                  'fogNear','fogFar','directionalXY','directionalZ',
                  'directionalFade','fogClip','fogPower',
-                 'redXplus','greenXplus','blueXplus','unknownXplus', # 'X+'
-                 'redXminus','greenXminus','blueXminus','unknownXminus', # 'X-'
-                 'redYplus','greenYplus','blueYplus','unknownYplus', # 'Y+'
-                 'redYminus','greenYminus','blueYminus','unknownYminus', # 'Y-'
-                 'redZplus','greenZplus','blueZplus','unknownZplus', # 'Z+'
-                 'redZminus','greenZminus','blueZminus','unknownZminus', # 'Z-'
-                 'redSpec','greenSpec','blueSpec','unknownSpec', # Specular Color Values
-                 'fresnelPower' # Fresnel Power
+                 'redXplus','greenXplus','blueXplus',('unknownXplus',null1), # 'X+'
+                 'redXminus','greenXminus','blueXminus',('unknownXminus',null1), # 'X-'
+                 'redYplus','greenYplus','blueYplus',('unknownYplus',null1), # 'Y+'
+                 'redYminus','greenYminus','blueYminus',('unknownYminus',null1), # 'Y-'
+                 'redZplus','greenZplus','blueZplus',('unknownZplus',null1), # 'Z+'
+                 'redZminus','greenZminus','blueZminus',('unknownZminus',null1), # 'Z-'
+                 'redSpec','greenSpec','blueSpec',('unknownSpec',null1), # Specular Color Values
+                 'fresnelPower', # Fresnel Power
+                 'fogColorFarRed','fogColorFarGreen','fogColorFarBlue',('unused4',null1),
+                 'fogMax','lightFadeBegin','lightFadeEnd',(CellInheritedFlags,'inherits',0L),
              ),
         MelBase('TVDT','unknown_TVDT'),
         MelBase('MHDT','unknown_MHDT'),
@@ -8100,6 +8145,25 @@ class MreWrld(MelRecord):
             (6, 'useSkyCell'),
         ))
 
+    class MelWrldMnam(MelStruct):
+        """Handle older truncated MNAM for WRLD subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 28:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 24:
+                unpacked = ins.unpack('2i4h2f',size,readId)
+            elif size == 16:
+                unpacked = ins.unpack('2i4h',size,readId)
+            else:
+                raise ModSizeError(record.inName,record.recType+'.'+type,size,ModReader.recHeader.size,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked, record.flags.getTrueAttrs()
+
     melSet = MelSet(
         MelString('EDID','eid'),
         # {>>> BEGIN leftover from earlier CK versions <<<}
@@ -8125,7 +8189,7 @@ class MreWrld(MelRecord):
         MelStruct('DNAM','2f','defaultLandHeight','defaultWaterHeight',),
         MelString('ICON','mapImage'),
         MelModel('cloudModel','MODL',),
-        MelStruct('MNAM','2i4h3f','usableDimensionsX','usableDimensionsY',
+        MelWrldMnam('MNAM','2i4h3f','usableDimensionsX','usableDimensionsY',
                   'cellCoordinatesX','cellCoordinatesY','seCellX','seCellY',
                   'cameraDataMinHeight','cameraDataMaxHeight',
                   'cameraDataInitialPitch',),

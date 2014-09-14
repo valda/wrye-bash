@@ -15164,28 +15164,25 @@ class SoundPatcher(ImportPatcher):
         #--Type Fields
         recAttrs_class = self.recAttrs_class = {}
         for recClass in (MreRecord.type_class[x] for x in ('ACTI',)):
-            recAttrs_class[recClass] = ('dropSound','pickupSound','soundLooping','sound')
+            recAttrs_class[recClass] = bush.game.soundsActiAttrs
         for recClass in (MreRecord.type_class[x] for x in ('ADDN',)):
-            recAttrs_class[recClass] = ('ambientSound')
+            recAttrs_class[recClass] = bush.game.soundsAddnAttrs
         for recClass in (MreRecord.type_class[x] for x in ('ALCH',)):
-            recAttrs_class[recClass] = ('dropSound','pickupSound','soundConsume')
+            recAttrs_class[recClass] = bush.game.soundsAlchAttrs
         for recClass in (MreRecord.type_class[x] for x in ('ASPC',)):
-            recAttrs_class[recClass] = ('soundLooping','useSoundFromRegion','ambientSound')
+            recAttrs_class[recClass] = bush.game.soundsAspcAttrs
         for recClass in (MreRecord.type_class[x] for x in ('CONT',)):
-            recAttrs_class[recClass] = ('soundOpen','soundClose','soundRandomLooping')
+            recAttrs_class[recClass] = bush.game.soundsContAttrs
         for recClass in (MreRecord.type_class[x] for x in ('DOOR',)):
-            recAttrs_class[recClass] = ('soundOpen','soundClose','soundLoop')
+            recAttrs_class[recClass] = bush.game.soundsDoorAttrs
         for recClass in (MreRecord.type_class[x] for x in ('LIGH',)):
-            recAttrs_class[recClass] = ('sound')
+            recAttrs_class[recClass] = bush.game.soundsLighAttrs
         for recClass in (MreRecord.type_class[x] for x in ('MGEF',)):
-            recAttrs_class[recClass] = ('areaSound', 'boltSound', 'castingSound', 'hitSound', 'sounds')
+            recAttrs_class[recClass] = bush.game.soundsMgefAttrs
         for recClass in (MreRecord.type_class[x] for x in ('WTHR',)):
-            recAttrs_class[recClass] = ('sounds')
+            recAttrs_class[recClass] = bush.game.soundsWthrAttrs
         for recClass in (MreRecord.type_class[x] for x in ('WEAP',)):
-            recAttrs_class[recClass] = ('attackSound','attackSound2D','attackLoopSound',
-                'attackFailSound','idleSound','equipSound','unequipSound','soundGunShot2D',
-                'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo','soundBlock',
-                'soundMod1Shoot3Ds','soundMod1Shoot2D')
+            recAttrs_class[recClass] = bush.game.soundsWeapAttrs
         #--Needs Longs
         self.longTypes = bush.game.soundsLongsTypes
 

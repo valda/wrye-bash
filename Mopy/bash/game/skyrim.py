@@ -1855,7 +1855,7 @@ soundsWeapAttrs = ('attackSound','attackSound2D','attackLoopSound',
 # CellImporter
 #-------------------------------------------------------------------------------
 cellAutoKeys = (
-    u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music' u'C.Name', u'C.Owner',
+    u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music', u'C.Name', u'C.Owner',
     u'C.RecordFlags', u'C.Water',)#,u'C.Maps')
 
 cellRecAttrs = {
@@ -1875,7 +1875,7 @@ cellRecAttrs = {
                  'redSpec','greenSpec','blueSpec','unknownSpec', # Specular Color Values
                  'fresnelPower', # Fresnel Power
                  'fogColorFarRed','fogColorFarGreen','fogColorFarBlue','unused4',
-                 'fogMax','lightFadeBegin','lightFadeEnd',),
+                 'fogMax','lightFadeBegin','lightFadeEnd','inherits',),
             u'C.Location': ('location',),
             u'C.Music': ('music',),
             u'C.Name': ('full',),
@@ -3937,7 +3937,7 @@ class MreCell(MelRecord):
         MelString('EDID','eid'),
         MelLString('FULL','full'),
         MelCellData('DATA','BB',(CellDataFlags1,'flags',0L),(CellDataFlags2,'skyFlags',0L),),
-        MelStruct('XCLC','2iI','posX','posY',(CellGridFlags,'gridFlags',0L),),
+        MelOptStruct('XCLC','2iI','posX','posY',(CellGridFlags,'gridFlags',0L),),
         MelCellXcll('XCLL','BBBsBBBsBBBsffiifffBBBsBBBsBBBsBBBsBBBsBBBsBBBsfBBBsfffI',
                  'ambientRed','ambientGreen','ambientBlue',('unused1',null1),
                  'directionalRed','directionalGreen','directionalBlue',('unused2',null1),
@@ -3967,7 +3967,7 @@ class MreCell(MelRecord):
         MelFid('XLCN','location',),
         MelBase('XWCN','unknown_XWCN'),
         MelBase('XWCS','unknown_XWCS'),
-        MelStruct('XWCU','3f4s3f','xOffset','yOffset','zOffset','unknown','xAngle',
+        MelOptStruct('XWCU','3f4s3f','xOffset','yOffset','zOffset','unknown','xAngle',
                   'yAngle','zAngle',dumpExtra='unknown',),
         MelFid('XCWT','water'),
 

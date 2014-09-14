@@ -1020,12 +1020,7 @@ class esp:
         'RADS', 'CAMS', 'CPTH', 'VTYP', 'IPCT', 'IPDS', 'ARMA', 'ECZN', 'MESG', 'RGDL',
         'DOBJ', 'LGTM', 'MUSC', 'IMOD', 'REPU', 'RCPE', 'RCCT', 'CHIP', 'CSNO', 'LSCT',
         'MSET', 'ALOC', 'CHAL', 'AMEF', 'CCRD', 'CMNY', 'CDCK', 'DEHY', 'HUNG', 'SLPD',
-        'CELL', 'WRLD',
-        # Unused types in falloutNV. (dummy)
-        # These need to be removed
-        'SLGM', 'BSGN', 'FLOR', 'SGST', 'CLOT', 'SBSP', 'SKIL', 'LVSP', 'APPA',
-        ]
-
+        'CELL', 'WRLD',]
     #--Dict mapping 'ignored' top types to un-ignored top types
     topIgTypes = dict()
 
@@ -1875,21 +1870,6 @@ class MreAnio(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
-class MreAppa(MelRecord):
-    """Alchemical apparatus record."""
-    classType = 'APPA'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelString('FULL','full'),
-        MelModel(),
-        MelString('ICON','iconPath'),
-        MelFid('SCRI','script'),
-        MelStruct('DATA','=BIff',('apparatus',0),('value',25),('weight',1),('quality',10)),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Needs removed, not used in Fallout New Vegas
-#------------------------------------------------------------------------------
 class MreArma(MelRecord):
     """Armor addon record."""
     classType = 'ARMA'
@@ -2154,20 +2134,6 @@ class MreCams(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
-class MreBsgn(MelRecord):
-    """Birthsign record."""
-    classType = 'BSGN'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelString('FULL','full'),
-        MelString('ICON','iconPath'),
-        MelString('DESC','text'),
-        MelFids('SPLO','spells'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Needs removed, not used in Fallout New Vegas
-#------------------------------------------------------------------------------
 class MreCcrd(MelRecord):
     """Caravan Card."""
     classType = 'CCRD'
@@ -2379,29 +2345,6 @@ class MreClmt(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-#------------------------------------------------------------------------------
-class MreClot(MelRecord):
-    """Clothing record."""
-    classType = 'CLOT'
-    _flags = MelBipedFlags(0L,Flags.getNames((16,'hideRings'),(17,'hideAmulet'),(22,'notPlayable')))
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelString('FULL','full'),
-        MelFid('SCRI','script'),
-        MelFid('ENAM','enchantment'),
-        MelOptStruct('ANAM','H','enchantPoints'),
-        MelStruct('BMDT','I',(_flags,'flags',0L)),
-        MelModel('maleBody',0),
-        MelModel('maleWorld',2),
-        MelString('ICON','maleIconPath'),
-        MelModel('femaleBody',3),
-        MelModel('femaleWorld',4),
-        MelString('ICO2','femaleIconPath'),
-        MelStruct('DATA','If','value','weight'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreCmny(MelRecord):
     """Caravan Money."""
@@ -3067,21 +3010,6 @@ class MreFact(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
-class MreFlor(MelRecord):
-    """Flora (plant) record."""
-    classType = 'FLOR'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelString('FULL','full'),
-        MelModel(),
-        MelFid('SCRI','script'),
-        MelFid('PFIG','ingredient'),
-        MelStruct('PFPC','4B','spring','summer','fall','winter'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Needs removed, not used in Fallout New Vegas
-#------------------------------------------------------------------------------
 class MreFlst(MelRecord):
     """FormID list record."""
     classType = 'FLST'
@@ -3726,13 +3654,6 @@ class MreLvli(MreLeveledList):
     classType = 'LVLI'
     __slots__ = MreLeveledList.__slots__
 
-#------------------------------------------------------------------------------
-class MreLvsp(MreLeveledList):
-    """LVSP record. Leveled list for items."""
-    classType = 'LVSP'
-    __slots__ = MreLeveledList.__slots__
-
-# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreLvln(MreLeveledList):
     """LVLN record. Leveled list for NPC."""
@@ -5414,20 +5335,6 @@ class MreRgdl(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
-# class MreRoad(MelRecord):
-# Needs removed, not used in Fallout New Vegas
-#------------------------------------------------------------------------------
-class MreSbsp(MelRecord):
-    """Subspace record."""
-    classType = 'SBSP'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelStruct('DNAM','3f','sizeX','sizeY','sizeZ'),
-    )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Needs removed, not used in Fallout New Vegas
-#------------------------------------------------------------------------------
 class MreScpt(MelRecord):
     """Script record."""
     classType = 'SCPT'
@@ -5464,57 +5371,6 @@ class MreScol(MelRecord):
     )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-#------------------------------------------------------------------------------
-class MreSgst(MelRecord,MreHasEffects):
-    """Sigil stone record."""
-    classType = 'SGST'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelFull0(),
-        MelModel(),
-        MelString('ICON','iconPath'),
-        MelFid('SCRI','script'),
-        MelEffects(),
-        MelStruct('DATA','=BIf','uses','value','weight'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Needs removed, not used in Fallout New Vegas
-#------------------------------------------------------------------------------
-class MreSkil(MelRecord):
-    """Skill record."""
-    classType = 'SKIL'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelStruct('INDX','i','skill'),
-        MelString('DESC','description'),
-        MelString('ICON','iconPath'),
-        MelStruct('DATA','2iI2f','action','attribute','specialization',('use0',1.0),'use1'),
-        MelString('ANAM','apprentice'),
-        MelString('JNAM','journeyman'),
-        MelString('ENAM','expert'),
-        MelString('MNAM','master'),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Needs removed, not used in Fallout New Vegas
-#------------------------------------------------------------------------------
-class MreSlgm(MelRecord):
-    """Soul gem record."""
-    classType = 'SLGM'
-    melSet = MelSet(
-        MelString('EDID','eid'),
-        MelString('FULL','full'),
-        MelModel(),
-        MelString('ICON','iconPath'),
-        MelFid('SCRI','script'),
-        MelStruct('DATA','If','value','weight'),
-        MelStruct('SOUL','B',('soul',0)),
-        MelStruct('SLCP','B',('capacity',1)),
-        )
-    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
-
-# Needs removed, not used in Fallout New Vegas
 #------------------------------------------------------------------------------
 class MreSlpd(MelRecord):
     """Sleep deprivation stage record."""

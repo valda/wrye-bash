@@ -1861,6 +1861,7 @@ cellAutoKeys = (
 cellRecAttrs = {
             u'C.Acoustic': ('acousticSpace',),
             u'C.Climate': ('climate',),
+            u'C.ImageSpace': ('imageSpace',),
             u'C.Light': ('ambientRed','ambientGreen','ambientBlue','unused1',
                  'directionalRed','directionalGreen','directionalBlue','unused2',
                  'fogRed','fogGreen','fogBlue','unused3',
@@ -1886,6 +1887,7 @@ cellRecAttrs = {
 cellRecFlags = {
             u'C.Acoustic': '',
             u'C.Climate': 'behaveLikeExterior',
+            u'C.ImageSpace': '',
             u'C.Light': '',
             u'C.Location': '',
             u'C.Music': '',

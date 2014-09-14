@@ -1720,7 +1720,7 @@ GmstTweaks = [
 
 #--Tags supported by this game
 allTags = sorted((
-    u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music' u'C.Name',
+    u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music', u'C.Name',
     u'C.Owner', u'C.RecordFlags', u'C.Water', u'Deactivate', u'Delev', u'Filter',
     u'NoMerge', u'Relev', u'Stats',
     ))

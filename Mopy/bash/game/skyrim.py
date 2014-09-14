@@ -3872,10 +3872,10 @@ class MreCell(MelRecord):
                 setter(attr,value)
             if self._debug: print unpacked, record.flags.getTrueAttrs()
 
-    # class MelCoordinates(MelOptStruct):
-    #     def dumpData(self,record,out):
-    #         if not record.flags.isInterior:
-    #             MelOptStruct.dumpData(self,record,out)
+    class MelWaterHeight(MelOptStruct):
+        def dumpData(self,record,out):
+            if not record.flags.isInterior:
+                MelOptStruct.dumpData(self,record,out)
 
 # Flags can be itU8, but CELL\DATA has a critical role in various wbImplementation.pas routines
 # and replacing it with wbUnion generates error when setting for example persistent flag in REFR.
@@ -3908,7 +3908,7 @@ class MreCell(MelRecord):
         # leftover flags, they are now in XCLC
         MelBase('LNAM','unknown_LNAM'),
         # XCLW sometimes has $FF7FFFFF and causes invalid floatation point
-        MelOptStruct('XCLW','f',('waterHeight',-2147483649)),
+        MelWaterHeight('XCLW','f',('waterHeight',-2147483649)),
         MelString('XNAM','waterNoiseTexture'),
         MelFidList('XCLR','regions'),
         MelFid('XLCN','location',),

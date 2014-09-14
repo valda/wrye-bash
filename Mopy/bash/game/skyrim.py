@@ -1815,6 +1815,36 @@ statsHeaders = (
                 )
 
 #-------------------------------------------------------------------------------
+# SoundPatcher
+#-------------------------------------------------------------------------------
+# Needs longs in SoundPatcher
+#soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH', 'MGEF', 'WEAP', 'WTHR'))
+# When I have the following line for soundsLongsTypesm I get the Trackeback in the comments
+# (('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR',))
+# Traceback (most recent call last):
+#   File "bash\basher.py", line 7048, in Execute
+#     patchFile.initData(SubProgress(progress,0,0.1)) #try to speed this up!
+#   File "bash\bosh.py", line 10459, in initData
+#     patcher.initData(SubProgress(progress,index))
+#   File "bash\bosh.py", line 15195, in initData
+#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
+#   File "bash\bosh.py", line 15195, in <genexpr>
+#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
+# AttributeError: 'MreWthr' object has no attribute 's'
+#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR'))
+#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF',))
+soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP',))
+soundsActiAttrs = ('dropSound','pickupSound','sound')
+soundsAddnAttrs = ('ambientSound')
+soundsAlchAttrs = ('dropSound','pickupSound','soundConsume')
+soundsAspcAttrs = ('ambientSound',)
+soundsContAttrs = ('soundOpen','soundClose')
+soundsDoorAttrs = ('soundOpen','soundClose','soundLoop')
+soundsLighAttrs = ('sound')
+soundsMgefAttrs = ('sounds',)
+soundsWthrAttrs = ('sounds')
+soundsWeapAttrs = ('attackSound','attackSound2D','attackLoopSound',
+                   'attackFailSound','idleSound','equipSound','unequipSound',)
 
 #-------------------------------------------------------------------------------
 # CellImporter

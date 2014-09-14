@@ -767,7 +767,41 @@ statsHeaders = (
         )
 
 #-------------------------------------------------------------------------------
+# SoundPatcher
+#-------------------------------------------------------------------------------
+# Needs longs in SoundPatcher
+#soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH', 'MGEF', 'WEAP', 'WTHR'))
+# When I have the following line for soundsLongsTypesm I get the Trackeback in the comments
+# (('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR',))
+# Traceback (most recent call last):
+#   File "bash\basher.py", line 7048, in Execute
+#     patchFile.initData(SubProgress(progress,0,0.1)) #try to speed this up!
+#   File "bash\bosh.py", line 10459, in initData
+#     patcher.initData(SubProgress(progress,index))
+#   File "bash\bosh.py", line 15195, in initData
+#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
+#   File "bash\bosh.py", line 15195, in <genexpr>
+#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
+# AttributeError: 'MreWthr' object has no attribute 's'
+#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR'))
+#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF',))
+soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP',))
+soundsActiAttrs = ('dropSound','pickupSound','soundLooping','sound')
+soundsAddnAttrs = ('ambientSound')
+soundsAlchAttrs = ('dropSound','pickupSound','soundConsume')
+soundsAspcAttrs = ('soundLooping','useSoundFromRegion')
+soundsContAttrs = ('soundOpen','soundClose',)
+soundsDoorAttrs = ('soundOpen','soundClose','soundLoop')
+soundsLighAttrs = ('sound')
+soundsMgefAttrs = ('castingSound','boltSound','hitSound','areaSound')
+soundsWthrAttrs = ('sounds')
+soundsWeapAttrs = ('idleSound','equipSound','unequipSound','soundGunShot2D',
+                   'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo',
+                   'soundBlock',)
+
+#-------------------------------------------------------------------------------
 # CellImporter
+#-------------------------------------------------------------------------------
 cellAutoKeys = (
     u'C.Climate',u'C.Light',u'C.Water',u'C.Owner',u'C.Name',u'C.RecordFlags',u'C.Music')#,u'C.Maps')
 cellRecAttrs = {

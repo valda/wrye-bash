@@ -1720,25 +1720,28 @@ GmstTweaks = [
 
 #--Tags supported by this game
 allTags = sorted((
-    u'C.Climate', u'C.Light', u'C.Music' u'C.Name', u'C.Owner', u'C.RecordFlags',
-    u'C.Water', u'Deactivate', u'Delev', u'Filter', u'Names', u'NoMerge', u'Relev',
-    u'Sound', u'Stats',
+    u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music' u'C.Name',
+    u'C.Owner', u'C.RecordFlags', u'C.Water', u'Deactivate', u'Delev', u'Filter',
+    u'NoMerge', u'Relev', u'Stats',
     ))
 
 #--Patchers available when building a Bashed Patch
 patchers = (
-    u'AliasesPatcher', u'CellImporter', u'GmstTweaker', u'ListsMerger',
-    u'NamesPatcher', u'PatchMerger', u'SoundPatcher', u'StatsPatcher',
+    u'AliasesPatcher', u'CellImporter', u'GmstTweaker',
+    u'ListsMerger', u'PatchMerger',
+    u'StatsPatcher',
     )
 
 #--CBash patchers available when building a Bashed Patch
 CBash_patchers = tuple()
 
-# For ListsMerger
+#-------------------------------------------------------------------------------
+# ListsMerger
+#-------------------------------------------------------------------------------
 listTypes = ('LVLI','LVLN','LVSP',)
-# Needs longs in SoundPatcher
-soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP'))
-
+#-------------------------------------------------------------------------------
+# NamesPatcher
+#-------------------------------------------------------------------------------
 # remaining to add: 'PERK', 'RACE', 'AVIF',
 namesTypes = set((
     'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLFM',
@@ -1747,6 +1750,9 @@ namesTypes = set((
     'PROJ', 'SCRL', 'SHOU', 'SLGM', 'SNCT', 'SPEL', 'TACT', 'TREE', 'WATR', 'WEAP',
     'WOOP'
     ))
+#-------------------------------------------------------------------------------
+# ItemPrices Patcher
+#-------------------------------------------------------------------------------
 pricesTypes = {'ALCH':{},'AMMO':{},'APPA':{},'ARMO':{},'BOOK':{},'INGR':{},'KEYM':{},'LIGH':{},'MISC':{},'SLGM':{},'WEAP':{}}
 
 #-------------------------------------------------------------------------------
@@ -1814,31 +1820,79 @@ statsHeaders = (
                 )
 
 #-------------------------------------------------------------------------------
+# SoundPatcher
+#-------------------------------------------------------------------------------
+# Needs longs in SoundPatcher
+#soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH', 'MGEF', 'WEAP', 'WTHR'))
+# When I have the following line for soundsLongsTypesm I get the Trackeback in the comments
+# (('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR',))
+# Traceback (most recent call last):
+#   File "bash\basher.py", line 7048, in Execute
+#     patchFile.initData(SubProgress(progress,0,0.1)) #try to speed this up!
+#   File "bash\bosh.py", line 10459, in initData
+#     patcher.initData(SubProgress(progress,index))
+#   File "bash\bosh.py", line 15195, in initData
+#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
+#   File "bash\bosh.py", line 15195, in <genexpr>
+#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
+# AttributeError: 'MreWthr' object has no attribute 's'
+#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR'))
+#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF',))
+soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP',))
+soundsActiAttrs = ('dropSound','pickupSound','sound')
+soundsAddnAttrs = ('ambientSound')
+soundsAlchAttrs = ('dropSound','pickupSound','soundConsume')
+soundsAspcAttrs = ('ambientSound',)
+soundsContAttrs = ('soundOpen','soundClose')
+soundsDoorAttrs = ('soundOpen','soundClose','soundLoop')
+soundsLighAttrs = ('sound')
+soundsMgefAttrs = ('sounds',)
+soundsWthrAttrs = ('sounds')
+soundsWeapAttrs = ('attackSound','attackSound2D','attackLoopSound',
+                   'attackFailSound','idleSound','equipSound','unequipSound',)
+
+#-------------------------------------------------------------------------------
 # CellImporter
 #-------------------------------------------------------------------------------
 cellAutoKeys = (
-    u'C.Climate',u'C.Light',u'C.Water',u'C.Owner',u'C.Name',u'C.RecordFlags',u'C.Music')#,u'C.Maps')
+    u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music' u'C.Name', u'C.Owner',
+    u'C.RecordFlags', u'C.Water',)#,u'C.Maps')
+
 cellRecAttrs = {
+            u'C.Acoustic': ('acousticSpace',),
             u'C.Climate': ('climate',),
+            u'C.Light': ('ambientRed','ambientGreen','ambientBlue','unused1',
+                 'directionalRed','directionalGreen','directionalBlue','unused2',
+                 'fogRed','fogGreen','fogBlue','unused3',
+                 'fogNear','fogFar','directionalXY','directionalZ',
+                 'directionalFade','fogClip','fogPower',
+                 'redXplus','greenXplus','blueXplus','unknownXplus', # 'X+'
+                 'redXminus','greenXminus','blueXminus','unknownXminus', # 'X-'
+                 'redYplus','greenYplus','blueYplus','unknownYplus', # 'Y+'
+                 'redYminus','greenYminus','blueYminus','unknownYminus', # 'Y-'
+                 'redZplus','greenZplus','blueZplus','unknownZplus', # 'Z+'
+                 'redZminus','greenZminus','blueZminus','unknownZminus', # 'Z-'
+                 'redSpec','greenSpec','blueSpec','unknownSpec', # Specular Color Values
+                 'fresnelPower', # Fresnel Power
+                 'fogColorFarRed','fogColorFarGreen','fogColorFarBlue','unused4',
+                 'fogMax','lightFadeBegin','lightFadeEnd',),
+            u'C.Location': ('location',),
             u'C.Music': ('music',),
             u'C.Name': ('full',),
             u'C.Owner': ('ownership',),
-            u'C.Water': ('water','waterHeight'),
-            u'C.Light': ('ambientRed','ambientGreen','ambientBlue','unused1',
-                        'directionalRed','directionalGreen','directionalBlue','unused2',
-                        'fogRed','fogGreen','fogBlue','unused3',
-                        'fogNear','fogFar','directionalXY','directionalZ',
-                        'directionalFade','fogClip'),
             u'C.RecordFlags': ('flags1',), # Yes seems funky but thats the way it is
+            u'C.Water': ('water','waterHeight'),
             }
 cellRecFlags = {
+            u'C.Acoustic': '',
             u'C.Climate': 'behaveLikeExterior',
+            u'C.Light': '',
+            u'C.Location': '',
             u'C.Music': '',
             u'C.Name': '',
+            u'C.RecordFlags': '',
             u'C.Owner': 'publicPlace',
             u'C.Water': 'hasWater',
-            u'C.Light': '',
-            u'C.RecordFlags': '',
             }
 
 # Mod Record Elements ----------------------------------------------------------
@@ -3871,10 +3925,10 @@ class MreCell(MelRecord):
                 setter(attr,value)
             if self._debug: print unpacked, record.flags.getTrueAttrs()
 
-    # class MelCoordinates(MelOptStruct):
-    #     def dumpData(self,record,out):
-    #         if not record.flags.isInterior:
-    #             MelOptStruct.dumpData(self,record,out)
+    class MelWaterHeight(MelOptStruct):
+        def dumpData(self,record,out):
+            if not record.flags.isInterior:
+                MelOptStruct.dumpData(self,record,out)
 
 # Flags can be itU8, but CELL\DATA has a critical role in various wbImplementation.pas routines
 # and replacing it with wbUnion generates error when setting for example persistent flag in REFR.
@@ -3907,7 +3961,7 @@ class MreCell(MelRecord):
         # leftover flags, they are now in XCLC
         MelBase('LNAM','unknown_LNAM'),
         # XCLW sometimes has $FF7FFFFF and causes invalid floatation point
-        MelOptStruct('XCLW','f',('waterHeight',-2147483649)),
+        MelWaterHeight('XCLW','f',('waterHeight',-2147483649)),
         MelString('XNAM','waterNoiseTexture'),
         MelFidList('XCLR','regions'),
         MelFid('XLCN','location',),
@@ -4648,7 +4702,7 @@ class MreEyes(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelLString('FULL','full'),
-        MelString('ICON','iconPath'),
+        MelIcons(),
         MelStruct('DATA','B',(EyesTypeFlags,'flags',0L)),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -8320,9 +8374,7 @@ class MreWthr(MelRecord):
                   'visualEffectBegin','visualEffectEnd',
                   'windDirection','windDirectionRange',),
         MelStruct('NAM1','I',(WthrFlags2,'wthrFlags2',0L),),
-        MelGroups('sounds',
-            MelOptStruct('SNAM','2I',(FID,'weatherSound'),'weatherType'),
-            ),
+        MelStructs('SNAM','2I','sounds',(FID,'sound'),'type'),
         MelFids('TNAM','skyStatics',),
         MelStruct('IMSP','4I',(FID,'imageSpacesSunrise'),(FID,'imageSpacesDay'),
                   (FID,'imageSpacesSunset'),(FID,'imageSpacesNight'),),

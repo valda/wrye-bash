@@ -12273,16 +12273,37 @@ class GraphicsPatcher(ImportPatcher):
         #--Type Fields
         recAttrs_class = self.recAttrs_class = {}
         recFidAttrs_class = self.recFidAttrs_class = {}
-        for recClass in (MreRecord.type_class[x] for x in ('BSGN','LSCR','CLAS','LTEX','REGN')):
-            recAttrs_class[recClass] = ('iconPath',)
+        # Not available in Skyrim yet AVIF, LAND, PERK, PACK, QUST, RACE, SCEN, REFR, REGN
+        # Look into why these records are not included, are they part of other patchers?
+        # no 'model' attr: 'EYES', 'AVIF', 'MICN',
+        # Would anyone ever change these: 'PERK', 'QUST', 'SKIL', 'REPU'
+        if bush.game.fsName == u'Skyrim':
+            for recClass in (MreRecord.type_class[x] for x in ('LSCR','CLAS','LTEX',)):
+                recAttrs_class[recClass] = ('iconPath','iconPath2',)
+        else:
+            for recClass in (MreRecord.type_class[x] for x in ('BSGN','LSCR','CLAS','LTEX','REGN')):
+                recAttrs_class[recClass] = ('iconPath','iconPath2',)
+        # no 'iconPath' attr:
         for recClass in (MreRecord.type_class[x] for x in ('ACTI','DOOR','FLOR','FURN','GRAS','STAT')):
             recAttrs_class[recClass] = ('model',)
-        for recClass in (MreRecord.type_class[x] for x in ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SGST','SLGM','WEAP','TREE')):
-            recAttrs_class[recClass] = ('iconPath','model')
-        for recClass in (MreRecord.type_class[x] for x in ('ARMO','CLOT')):
-            recAttrs_class[recClass] = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath','flags')
-        for recClass in (MreRecord.type_class[x] for x in ('CREA',)):
-            recAttrs_class[recClass] = ('bodyParts','nift_p')
+        # no'model' and 'iconpath' attr: 'COBJ', 'HAIR', 'NOTE', 'CCRD', 'CHIP', 'CMNY', 'IMOD',
+        # Is 'RACE' included in race patcher?
+        if bush.game.fsName == u'Skyrim':
+            for recClass in (MreRecord.type_class[x] for x in ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM','WEAP','TREE')):
+                recAttrs_class[recClass] = ('iconsIaM.iconPath','model')
+        else:
+            for recClass in (MreRecord.type_class[x] for x in ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SGST','SLGM','WEAP','TREE')):
+                recAttrs_class[recClass] = ('iconPath','model')
+        if bush.game.fsName == u'Skyrim':
+            for recClass in (MreRecord.type_class[x] for x in ('ARMO',)):
+                recAttrs_class[recClass] = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath','flags')
+        else:
+            for recClass in (MreRecord.type_class[x] for x in ('ARMO','CLOT')):
+                recAttrs_class[recClass] = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath','flags')
+        if bush.game.fsName in (u'Oblivion', u'FalloutNV', u'Fallout3',):
+            for recClass in (MreRecord.type_class[x] for x in ('CREA',)):
+                recAttrs_class[recClass] = ('bodyParts','nift_p')
+        # Why does Graphics have a seperate entry for Fids when SoundPatcher does not?
         for recClass in (MreRecord.type_class[x] for x in ('MGEF',)):
             recAttrs_class[recClass] = ('iconPath','model')
             recFidAttrs_class[recClass] = ('effectShader','enchantEffect','light')
@@ -15143,28 +15164,25 @@ class SoundPatcher(ImportPatcher):
         #--Type Fields
         recAttrs_class = self.recAttrs_class = {}
         for recClass in (MreRecord.type_class[x] for x in ('ACTI',)):
-            recAttrs_class[recClass] = ('dropSound','pickupSound','soundLooping','sound')
+            recAttrs_class[recClass] = bush.game.soundsActiAttrs
         for recClass in (MreRecord.type_class[x] for x in ('ADDN',)):
-            recAttrs_class[recClass] = ('ambientSound')
+            recAttrs_class[recClass] = bush.game.soundsAddnAttrs
         for recClass in (MreRecord.type_class[x] for x in ('ALCH',)):
-            recAttrs_class[recClass] = ('dropSound','pickupSound','soundConsume')
+            recAttrs_class[recClass] = bush.game.soundsAlchAttrs
         for recClass in (MreRecord.type_class[x] for x in ('ASPC',)):
-            recAttrs_class[recClass] = ('soundLooping','useSoundFromRegion','ambientSound')
+            recAttrs_class[recClass] = bush.game.soundsAspcAttrs
         for recClass in (MreRecord.type_class[x] for x in ('CONT',)):
-            recAttrs_class[recClass] = ('soundOpen','soundClose','soundRandomLooping')
+            recAttrs_class[recClass] = bush.game.soundsContAttrs
         for recClass in (MreRecord.type_class[x] for x in ('DOOR',)):
-            recAttrs_class[recClass] = ('soundOpen','soundClose','soundLoop')
+            recAttrs_class[recClass] = bush.game.soundsDoorAttrs
         for recClass in (MreRecord.type_class[x] for x in ('LIGH',)):
-            recAttrs_class[recClass] = ('sound')
+            recAttrs_class[recClass] = bush.game.soundsLighAttrs
         for recClass in (MreRecord.type_class[x] for x in ('MGEF',)):
-            recAttrs_class[recClass] = ('areaSound', 'boltSound', 'castingSound', 'hitSound', 'sounds')
+            recAttrs_class[recClass] = bush.game.soundsMgefAttrs
         for recClass in (MreRecord.type_class[x] for x in ('WTHR',)):
-            recAttrs_class[recClass] = ('sounds')
+            recAttrs_class[recClass] = bush.game.soundsWthrAttrs
         for recClass in (MreRecord.type_class[x] for x in ('WEAP',)):
-            recAttrs_class[recClass] = ('attackSound','attackSound2D','attackLoopSound',
-                'attackFailSound','idleSound','equipSound','unequipSound','soundGunShot2D',
-                'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo','soundBlock',
-                'soundMod1Shoot3Ds','soundMod1Shoot2D')
+            recAttrs_class[recClass] = bush.game.soundsWeapAttrs
         #--Needs Longs
         self.longTypes = bush.game.soundsLongsTypes
 

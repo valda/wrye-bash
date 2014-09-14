@@ -660,34 +660,40 @@ GmstTweaks = [
 allTags = sorted((
     u'C.Climate', u'C.Light', u'C.Music', u'C.Name', u'C.Owner', u'C.RecordFlags',
     u'C.Water', u'Deactivate', u'Deflst', u'Delev', u'Destructible', u'Factions',
-    u'Filter', u'Graphics', u'Names', u'NoMerge', u'Relations', u'Relev', u'Sound',
+    u'Filter', u'Names', u'NoMerge', u'Relations', u'Relev', u'Sound',
     u'Stats',
     ))
 
 #--Patcher available when building a Bashed Patch (referenced by class name)
 patchers = (
     u'AliasesPatcher', u'CellImporter', u'DestructiblePatcher', u'FidListsMerger',
-    u'GmstTweaker', u'GraphicsPatcher', u'ImportFactions', u'ImportRelations',
+    u'GmstTweaker', u'ImportFactions', u'ImportRelations',
     u'ListsMerger', u'NamesPatcher', u'PatchMerger', 'SoundPatcher', u'StatsPatcher',
     )
 
 #--CBash patchers available when building a Bashed Patch
 CBash_patchers = (
 )
-
-#--For ListMerger patcher (leveled list patcher)
+#-------------------------------------------------------------------------------
+# ListsMerger
+#-------------------------------------------------------------------------------
 listTypes = ('LVLC','LVLI','LVLN')
-# Needs longs in SoundPatcher
-soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP'))
+#-------------------------------------------------------------------------------
+# NamesPatcher
+#-------------------------------------------------------------------------------
 namesTypes = set((
     'ACTI', 'ALCH', 'AMMO', 'ARMO', 'BOOK', 'CLAS', 'CONT', 'CREA', 'DOOR', 'EYES',
     'FACT', 'HAIR', 'INGR', 'KEYM', 'LIGH', 'MISC', 'NOTE', 'NPC_', 'RACE', 'SPEL',
     'TACT', 'TERM', 'WEAP',
         ))
+#-------------------------------------------------------------------------------
+# ItemPrices Patcher
+#-------------------------------------------------------------------------------
 pricesTypes = {'ALCH':{},'AMMO':{},'ARMO':{},'ARMA':{},'BOOK':{},'INGR':{},'KEYM':{},'LIGH':{},'MISC':{},'WEAP':{}}
 
 #-------------------------------------------------------------------------------
 # StatsImporter
+#-------------------------------------------------------------------------------
 statsTypes = {
         'ALCH':('eid', 'weight', 'value'),
         'AMMO':('eid', 'value', 'speed', 'clipRounds'),

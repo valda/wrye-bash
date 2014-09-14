@@ -1720,26 +1720,28 @@ GmstTweaks = [
 
 #--Tags supported by this game
 allTags = sorted((
-    u'C.Climate', u'C.Light', u'C.Music', u'C.Name', u'C.Owner', u'C.RecordFlags',
-    u'C.Water', u'Deactivate', u'Delev', u'Filter', u'Names', u'NoMerge',
-    u'Relev', u'Sound', u'Stats',
+    u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music' u'C.Name',
+    u'C.Owner', u'C.RecordFlags', u'C.Water', u'Deactivate', u'Delev', u'Filter',
+    u'NoMerge', u'Relev', u'Stats',
     ))
 
 #--Patchers available when building a Bashed Patch
 patchers = (
     u'AliasesPatcher', u'CellImporter', u'GmstTweaker',
-    u'ListsMerger', u'NamesPatcher', u'PatchMerger', u'SoundPatcher',
+    u'ListsMerger', u'PatchMerger',
     u'StatsPatcher',
     )
 
 #--CBash patchers available when building a Bashed Patch
 CBash_patchers = tuple()
 
-# For ListsMerger
+#-------------------------------------------------------------------------------
+# ListsMerger
+#-------------------------------------------------------------------------------
 listTypes = ('LVLI','LVLN','LVSP',)
-# Needs longs in SoundPatcher
-soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP'))
-
+#-------------------------------------------------------------------------------
+# NamesPatcher
+#-------------------------------------------------------------------------------
 # remaining to add: 'PERK', 'RACE', 'AVIF',
 namesTypes = set((
     'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLFM',
@@ -1748,6 +1750,9 @@ namesTypes = set((
     'PROJ', 'SCRL', 'SHOU', 'SLGM', 'SNCT', 'SPEL', 'TACT', 'TREE', 'WATR', 'WEAP',
     'WOOP'
     ))
+#-------------------------------------------------------------------------------
+# ItemPrices Patcher
+#-------------------------------------------------------------------------------
 pricesTypes = {'ALCH':{},'AMMO':{},'APPA':{},'ARMO':{},'BOOK':{},'INGR':{},'KEYM':{},'LIGH':{},'MISC':{},'SLGM':{},'WEAP':{}}
 
 #-------------------------------------------------------------------------------

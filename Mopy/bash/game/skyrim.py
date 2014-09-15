@@ -8215,7 +8215,7 @@ class MreWrld(MelRecord):
     # {0x80} 'No Grass'
     WrldFlags2 = bolt.Flags(0L,bolt.Flags.getNames(
             (0, 'smallWorld'),
-            (1, 'can'),
+            (1, 'noFastTravel'),
             (2, 'unknown3'),
             (3, 'noLODWater'),
             (4, 'noLandscape'),
@@ -8241,7 +8241,7 @@ class MreWrld(MelRecord):
             (6, 'useSkyCell'),
         ))
 
-    class MelWrldMnam(MelStruct):
+    class MelWrldMnam(MelOptStruct):
         """Handle older truncated MNAM for WRLD subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 28:
@@ -8270,7 +8270,7 @@ class MreWrld(MelRecord):
         MelBase('MHDT','maxHeightData'),
         MelLString('FULL','full'),
         # Fixed Dimensions Center Cell
-        MelStruct('WCTR','2h','fixedX','fixedY',),
+        MelOptStruct('WCTR','2h','fixedX','fixedY',),
         MelFid('LTMP','interiorLighting',),
         MelFid('XEZN','encounterZone',),
         MelFid('XLCN','location',),
@@ -8281,8 +8281,8 @@ class MreWrld(MelRecord):
         MelFid('CNAM','climate',),
         MelFid('NAM2','water',),
         MelFid('NAM3','lODWaterType',),
-        MelStruct('NAM4','f','lODWaterHeight',),
-        MelStruct('DNAM','2f','defaultLandHeight','defaultWaterHeight',),
+        MelOptStruct('NAM4','f','lODWaterHeight',),
+        MelOptStruct('DNAM','2f','defaultLandHeight','defaultWaterHeight',),
         MelString('ICON','mapImage'),
         MelModel('cloudModel','MODL',),
         MelWrldMnam('MNAM','2i4h3f','usableDimensionsX','usableDimensionsY',

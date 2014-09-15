@@ -3642,17 +3642,6 @@ class MreAvif(MelRecord):
             self.cnam = self.type_cnam.get(key, self.cnam)
             return self.data[key]
 
-    # unpack requires a string argument of length 16
-    # Error loading 'AVIF' record and/or subrecord: 00000450
-    # eid = u'AVSmithing'
-    # subrecord = 'CNAM'
-    # subrecord size = 4
-    # file pos = 1437112
-    # Error in Update.esm
-
-    # TypeError: __init__() takes exactly 4 arguments (5 given)
-
-
     melSet = MelSet(
         MelString('EDID','eid'),
         MelLString('FULL','full'),

@@ -3581,7 +3581,7 @@ class MreAvif(MelRecord):
         element is determined by which other subrecords have been encountered."""
         def __init__(self,loaders,actorinfo,perks):
             self.data = loaders
-            self.type_cnam = {'EDID':actorinfo, 'SNAM':perks}
+            self.type_cnam = {'EDID':actorinfo, 'PNAM':perks}
             self.cnam = actorinfo #--Which cnam element loader to use next.
         def __getitem__(self,key):
             if key == 'CNAM': return self.cnam
@@ -3598,22 +3598,6 @@ class MreAvif(MelRecord):
 
     # TypeError: __init__() takes exactly 4 arguments (5 given)
 
-    class MelAvifCnam(MelStructs):
-        """Handle older truncated CNAM for AVIF subrecord."""
-        def loadData(self,record,ins,type,size,readId):
-            if size == 16:
-                MelStruct.loadData(self,record,ins,type,size,readId)
-                return
-            elif size == 4:
-                unpacked = ins.unpack('I',size,readId)
-            else:
-                raise ModSizeError(self.inName,recType+'.'+type,size,expSize,True)
-            unpacked += self.defaults[len(unpacked):]
-            setter = record.__setattr__
-            for attr,value,action in zip(self.attrs,unpacked,self.actions):
-                if callable(action): value = action(value)
-                setter(attr,value)
-            if self._debug: print unpacked
 
     melSet = MelSet(
         MelString('EDID','eid'),
@@ -3621,8 +3605,8 @@ class MreAvif(MelRecord):
         MelLString('DESC','description'),
         MelString('ANAM','abbreviation'),
         MelBase('CNAM','cnam_p'),
-        MelStruct('AVSK','4f','skillUseMult','skillOffsetMult','skillImproveMult',
-                  'skillImproveOffset',),
+        MelOptStruct('AVSK','4f','skillUseMult','skillOffsetMult','skillImproveMult',
+                     'skillImproveOffset',),
         MelGroups('perkTree',
             MelFid('PNAM', 'perk',),
             MelBase('FNAM','fnam_p'),
@@ -3631,18 +3615,13 @@ class MreAvif(MelRecord):
             MelStruct('HNAM','f','horizontalPosition'),
             MelStruct('VNAM','f','verticalPosition'),
             MelFid('SNAM','associatedSkill',),
-            MelAvifCnam('CNAM','I','connections',
-                       'lineToIndex',),
+            MelStructs('CNAM','I','connections','lineToIndex',),
             MelStruct('INAM','I','index',),
         ),
     )
-    # melSet.loaders = MelCnamLoaders(melSet.loaders,*melSet.elements[4:7])
+    melSet.loaders = MelCnamLoaders(melSet.loaders,melSet.elements[4],melSet.elements[6])
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-    def dumpData(self,record,out):
-        """Dumps data from record to outstream."""
-        if record.iconsIaM and record.cnam_p:
-            MelGroup.dumpData(self,record,out)
 
 # Verified for 305
 #------------------------------------------------------------------------------
@@ -8454,9 +8433,8 @@ def init():
     #--Record Types
     brec.MreRecord.type_class = dict((x.classType,x) for x in (
         MreAchr, MreDial, MreInfo,
-        # MreAvif,
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
-        MreAspc, MreAstp, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
+        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual,
         MreEczn, MreEfsh, MreEnch, MreEqup, MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFstp,
         MreFsts, MreFurn, MreGlob, MreGmst, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm, MreImad,

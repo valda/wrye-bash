@@ -1861,6 +1861,7 @@ cellAutoKeys = (
 cellRecAttrs = {
             u'C.Acoustic': ('acousticSpace',),
             u'C.Climate': ('climate',),
+            u'C.Encounter': ('encounterZone',),
             u'C.ImageSpace': ('imageSpace',),
             u'C.Light': ('ambientRed','ambientGreen','ambientBlue','unused1',
                  'directionalRed','directionalGreen','directionalBlue','unused2',
@@ -1878,6 +1879,7 @@ cellRecAttrs = {
                  'fogColorFarRed','fogColorFarGreen','fogColorFarBlue','unused4',
                  'fogMax','lightFadeBegin','lightFadeEnd','inherits',),
             u'C.Location': ('location',),
+            u'C.LTemplate': ('lightTemplate',),
             u'C.Music': ('music',),
             u'C.Name': ('full',),
             u'C.Owner': ('ownership',),
@@ -1887,9 +1889,11 @@ cellRecAttrs = {
 cellRecFlags = {
             u'C.Acoustic': '',
             u'C.Climate': 'behaveLikeExterior',
+            u'C.Encounter': '',
             u'C.ImageSpace': '',
             u'C.Light': '',
             u'C.Location': '',
+            u'C.LTemplate': '',
             u'C.Music': '',
             u'C.Name': '',
             u'C.RecordFlags': '',
@@ -1897,6 +1901,7 @@ cellRecFlags = {
             u'C.Water': 'hasWater',
             }
 
+#-------------------------------------------------------------------------------
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
 # Constants

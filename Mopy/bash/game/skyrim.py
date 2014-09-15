@@ -1900,7 +1900,56 @@ cellRecFlags = {
             u'C.Owner': 'publicPlace',
             u'C.Water': 'hasWater',
             }
-
+#-------------------------------------------------------------------------------
+# GraphicsPatcher
+#-------------------------------------------------------------------------------
+graphicsLongsTypes = set(('LSCR','CLAS','LTEX','REGN','ACTI','DOOR',
+    'FLOR','FURN','GRAS','STAT','ALCH','AMMO','APPA','BOOK','INGR','KEYM',
+    'LIGH','MISC','SLGM','WEAP','TREE','ARMO','MGEF','EFSH',))
+graphicsEfshAttrs = (
+    'unused1','memSBlend','memBlendOp','memZFunc','fillRed',
+    'fillGreen','fillBlue','unused2','fillAlphaIn','fillFullAlpha',
+    'fillAlphaOut','fillAlphaRatio','fillAlphaAmp','fillAlphaPulse',
+    'fillAnimSpeedU','fillAnimSpeedV','edgeEffectOff','edgeRed',
+    'edgeGreen','edgeBlue','unused3','edgeAlphaIn','edgeFullAlpha',
+    'edgeAlphaOut','edgeAlphaRatio','edgeAlphaAmp','edgeAlphaPulse',
+    'fillFullAlphaRatio','edgeFullAlphaRatio','memDestBlend',
+    'partSourceBlend','partBlendOp','partZTestFunc','partDestBlend',
+    'partBSRampUp','partBSFull','partBSRampDown','partBSRatio',
+    'partBSPartCount','partBSLifetime','partBSLifetimeDelta',
+    'partSSpeedNorm','partSAccNorm','partSVel1','partSVel2',
+    'partSVel3','partSAccel1','partSAccel2','partSAccel3',
+    'partSKey1','partSKey2','partSKey1Time','partSKey2Time',
+    'key1Red','key1Green','key1Blue','unused4','key2Red',
+    'key2Green','key2Blue','unused5','key3Red','key3Green',
+    'key3Blue','unused6','colorKey1Alpha','colorKey2Alpha',
+    'colorKey3Alpha','colorKey1KeyTime','colorKey2KeyTime',
+    'colorKey3KeyTime','partSSpeedNormDelta','partSSpeedRotDeg',
+    'partSSpeedRotDegDelta','partSRotDeg','partSRotDegDelta',
+    'addonModels','holesStart','holesEnd','holesStartVal',
+    'holesEndVal','edgeWidthAlphaUnit','edgeAlphRed',
+    'edgeAlphGreen','edgeAlphBlue','unused7','expWindSpeed',
+    'textCountU','textCountV','addonModelIn','addonModelOut',
+    'addonScaleStart','addonScaleEnd','addonScaleIn','addonScaleOut',
+    'ambientSound','key2FillRed','key2FillGreen',
+    'key2FillBlue','unused8','key3FillRed','key3FillGreen',
+    'key3FillBlue','unused9','key1ScaleFill','key2ScaleFill',
+    'key3ScaleFill','key1FillTime','key2FillTime','key3FillTime',
+    'colorScale','birthPosOffset','birthPosOffsetRange','startFrame',
+    'startFrameVariation','endFrame','loopStartFrame',
+    'loopStartVariation','frameCount','frameCountVariation',
+    'flags','fillTextScaleU',
+    'fillTextScaleV','sceneGraphDepthLimit',
+)
+graphicsArmoAttrs = ('model2','maleIconPath','model4','femaleIconPath',)
+graphicsArmoClotAttrs = ()
+graphicsMgefAttrs = ()
+graphicsMgefFidAttrs = ('castingLight','hitShader','enchantShader',)
+graphicsCreaAttrs = ()
+graphicsDualModelRecs = ('WEAP',)
+graphicsIconOnlyRecs = ('LSCR','CLAS',)
+graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT',)
+graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM','WEAP',)
 #-------------------------------------------------------------------------------
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------

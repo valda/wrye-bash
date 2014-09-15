@@ -3930,7 +3930,7 @@ class MreCell(MelRecord):
             (3, 'quad4'),
         ))
 
-    class MelCellXcll(MelStruct):
+    class MelCellXcll(MelOptStruct):
         """Handle older truncated XCLL for CELL subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 92:
@@ -4008,8 +4008,8 @@ class MreCell(MelRecord):
         MelFid('XLCN','location',),
         MelBase('XWCN','unknown_XWCN'),
         MelBase('XWCS','unknown_XWCS'),
-        MelOptStruct('XWCU','3f4s3f','xOffset','yOffset','zOffset','unknown','xAngle',
-                  'yAngle','zAngle',dumpExtra='unknown',),
+        MelOptStruct('XWCU','3f4s3f','xOffset','yOffset','zOffset','unk1XWCU','xAngle',
+                  'yAngle','zAngle',dumpExtra='unk2XWCU',),
         MelFid('XCWT','water'),
 
         # {--- Ownership ---}

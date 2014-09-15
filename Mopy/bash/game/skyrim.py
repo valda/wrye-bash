@@ -8464,11 +8464,11 @@ class MreWthr(MelRecord):
 
 mergeClasses = (
         # MreAchr, MreDial, MreInfo,
-        # MreAvif,
+        # MreFact,
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
-        MreAspc, MreAstp, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
+        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual,
-        MreEczn, MreEfsh, MreEnch, MreEqup, MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFstp,
+        MreEczn, MreEfsh, MreEnch, MreEqup, MreExpl, MreEyes, MreFlor, MreFlst, MreFstp,
         MreFsts, MreFurn, MreGlob, MreGmst, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm, MreImad,
         MreImgs, MreIngr, MreIpct, MreIpds, MreKeym, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLigh,
         MreLscr, MreLtex, MreLvli, MreLvln, MreLvsp, MreMato, MreMatt, MreMesg, MreMgef, MreMisc,

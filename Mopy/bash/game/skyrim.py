@@ -1742,9 +1742,9 @@ listTypes = ('LVLI','LVLN','LVSP',)
 #-------------------------------------------------------------------------------
 # NamesPatcher
 #-------------------------------------------------------------------------------
-# remaining to add: 'PERK', 'RACE', 'AVIF',
+# remaining to add: 'PERK', 'RACE',
 namesTypes = set((
-    'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'CLFM',
+    'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'AVIF', 'BOOK', 'CLAS', 'CLFM',
     'CONT', 'DIAL', 'DOOR', 'ENCH', 'EXPL', 'EYES', 'FACT', 'FLOR', 'FURN', 'HAZD',
     'HDPT', 'INGR', 'KEYM', 'LCTN', 'LIGH', 'MESG', 'MGEF', 'MISC', 'MSTT', 'NPC_',
     'PROJ', 'SCRL', 'SHOU', 'SLGM', 'SNCT', 'SPEL', 'TACT', 'TREE', 'WATR', 'WEAP',

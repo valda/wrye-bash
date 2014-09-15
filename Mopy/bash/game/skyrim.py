@@ -3839,10 +3839,27 @@ class MreCams(MelRecord):
             (5, 'startAtTimeZero'),
         ))
 
+    class MelCamsData(MelStruct):
+        """Handle older truncated DATA for CAMS subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 44:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 40:
+                unpacked = ins.unpack('4I6f',size,readId)
+            else:
+                raise ModSizeError(self.inName,recType+'.'+type,size,expSize,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelModel(),
-        MelStruct('SNAM','4I7f','action','location','target',
+        MelCamsData('DATA','4I7f','action','location','target',
                   (CamsFlagsFlags,'flags',0L),'timeMultPlayer',
                   'timeMultTarget','timeMultGlobal','maxTime','minTime',
                   'targetPctBetweenActors','nearTargetDistance',),

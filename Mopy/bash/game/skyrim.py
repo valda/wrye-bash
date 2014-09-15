@@ -4536,6 +4536,29 @@ class MreEfsh(MelRecord):
         (24, 'useBloodGeometry'),
     ))
 
+    class MelEfshData(MelStruct):
+        """Handle older truncated DATA for EFSH subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 400:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 396:
+                unpacked = ins.unpack('4s3I3Bs9f3Bs8f5I19f3Bs3Bs3Bs11fI5f3Bsf2I6fI3Bs3Bs9f8I2f',size,readId)
+            elif size == 344:
+                unpacked = ins.unpack('4s3I3Bs9f3Bs8f5I19f3Bs3Bs3Bs11fI5f3Bsf2I6fI3Bs3Bs6f',size,readId)
+            elif size == 312:
+                unpacked = ins.unpack('4s3I3Bs9f3Bs8f5I19f3Bs3Bs3Bs11fI5f3Bsf2I6fI',size,readId)
+            elif size == 308:
+                unpacked = ins.unpack('4s3I3Bs9f3Bs8f5I19f3Bs3Bs3Bs11fI5f3Bsf2I6f',size,readId)
+            else:
+                raise ModSizeError(self.inName,recType+'.'+type,size,expSize,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelString('ICON','fillTexture'),
@@ -4543,62 +4566,40 @@ class MreEfsh(MelRecord):
         MelString('NAM7','holesTexture'),
         MelString('NAM8','membranePaletteTexture'),
         MelString('NAM9','particlePaletteTexture'),
-        MelStruct('DATA','4s3I3Bs9f3Bs8f5I19f3Bs3Bs3Bs11fI5f3Bsf2I6fI3Bs3Bs9f8I2fI',
-                  'unknown','membraneShaderSourceBlendMode',
-                  'membraneShaderBlendOperation','membraneShaderZTestFunction',
-                  'red','green','blue','unknown',
-                  'fillTextureEffectAlphaFadeInTime','fillTextureEffectFullAlphaTime',
-                  'fillTextureEffectAlphaFadeOutTime','fillTextureEffectPresistentAlphaRatio',
-                  'fillTextureEffectAlphaPulseAmplitude','fillTextureEffectAlphaPulseFrequency',
-                  'fillTextureEffectTextureAnimationSpeedU','fillTextureEffectTextureAnimationSpeedV',
-                  'edgeEffectFallOff',
-                  'red','green','blue','unknown',
-                  'edgeEffectAlphaFadeInTime','edgeEffectFullAlphaTime',
-                  'edgeEffectAlphaFadeOutTime','edgeEffectPersistentAlphaRatio',
-                  'edgeEffectAlphaPulseAmplitude','edgeEffectAlphaPulseFrequency',
-                  'fillTextureEffectFullAlphaRatio','edgeEffectFullAlphaRatio',
-                  'membraneShaderDestBlendMode','particleShaderSourceBlendMode',
-                  'particleShaderBlendOperation','particleShaderZTestFunction',
-                  'particleShaderDestBlendMode','particleShaderParticleBirthRampUpTime',
-                  'particleShaderFullParticleBirthTime','particleShaderParticleBirthRampDownTime',
-                  'particleShaderFullParticleBirthRatio','particleShaderPersistantParticleCount',
-                  'particleShaderParticleLifetime','particleShaderParticleLifetime',
-                  'particleShaderInitialSpeedAlongNormal','particleShaderAccelerationAlongNormal',
-                  'particleShaderInitialVelocity1','particleShaderInitialVelocity2',
-                  'particleShaderInitialVelocity3','particleShaderAcceleration1',
-                  'particleShaderAcceleration2','particleShaderAcceleration3',
-                  'particleShaderScaleKey1','particleShaderScaleKey2',
-                  'particleShaderScaleKey1Time','particleShaderScaleKey2Time',
-                  'red','green','blue','unknown',
-                  'red','green','blue','unknown',
-                  'red','green','blue','unknown',
-                  'colorKey1ColorAlpha','colorKey2ColorAlpha',
-                  'colorKey3ColorAlpha','colorKey1ColorKeyTime',
-                  'colorKey2ColorKeyTime','colorKey3ColorKeyTime',
-                  'particleShaderInitialSpeedAlongNormal','particleShaderInitialRotationdeg',
-                  'particleShaderInitialRotationdeg','particleShaderRotationSpeeddegsec',
-                  'particleShaderRotationSpeeddegsec',(FID,'addonModels'),
-                  'holesStartTime','holesEndTime','holesStartVal','holesEndVal',
-                  'edgeWidthalphaunits',
-                  'red','green','blue','unknown',
-                  'explosionWindSpeed','textureCountU','textureCountV',
-                  'addonModelsFadeInTime','addonModelsFadeOutTime',
-                  'addonModelsScaleStart','addonModelsScaleEnd',
-                  'addonModelsScaleInTime','addonModelsScaleOutTime',
-                  (FID,'ambientSound'),
-                  'red','green','blue','unknown',
-                  'red','green','blue','unknown',
-                  'fillTextureEffectColorKeyScaleTimecolorKey1Scale',
-                  'fillTextureEffectColorKeyScaleTimecolorKey2Scale',
-                  'fillTextureEffectColorKeyScaleTimecolorKey3Scale',
-                  'fillTextureEffectColorKeyScaleTimecolorKey1Time',
-                  'fillTextureEffectColorKeyScaleTimecolorKey2Time',
-                  'fillTextureEffectColorKeyScaleTimecolorKey3Time',
-                  'colorScale','birthPositionOffset','birthPositionOffsetRange',
-                  'startFrame','startFrameVariation','endFrame','loopStartFrame',
+        MelEfshData('DATA','4s3I3Bs9f3Bs8f5I19f3Bs3Bs3Bs11fI5f3Bsf2I6fI3Bs3Bs9f8I2fI',
+                  'unused1','memSBlend','memBlendOp','memZFunc','fillRed',
+                  'fillGreen','fillBlue','unused2','fillAlphaIn','fillFullAlpha',
+                  'fillAlphaOut','fillAlphaRatio','fillAlphaAmp','fillAlphaPulse',
+                  'fillAnimSpeedU','fillAnimSpeedV','edgeEffectOff','edgeRed',
+                  'edgeGreen','edgeBlue','unused3','edgeAlphaIn','edgeFullAlpha',
+                  'edgeAlphaOut','edgeAlphaRatio','edgeAlphaAmp','edgeAlphaPulse',
+                  'fillFullAlphaRatio','edgeFullAlphaRatio','memDestBlend',
+                  'partSourceBlend','partBlendOp','partZTestFunc','partDestBlend',
+                  'partBSRampUp','partBSFull','partBSRampDown','partBSRatio',
+                  'partBSPartCount','partBSLifetime','partBSLifetimeDelta',
+                  'partSSpeedNorm','partSAccNorm','partSVel1','partSVel2',
+                  'partSVel3','partSAccel1','partSAccel2','partSAccel3',
+                  'partSKey1','partSKey2','partSKey1Time','partSKey2Time',
+                  'key1Red','key1Green','key1Blue','unused4','key2Red',
+                  'key2Green','key2Blue','unused5','key3Red','key3Green',
+                  'key3Blue','unused6','colorKey1Alpha','colorKey2Alpha',
+                  'colorKey3Alpha','colorKey1KeyTime','colorKey2KeyTime',
+                  'colorKey3KeyTime','partSSpeedNormDelta','partSSpeedRotDeg',
+                  'partSSpeedRotDegDelta','partSRotDeg','partSRotDegDelta',
+                  (FID,'addonModels'),'holesStart','holesEnd','holesStartVal',
+                  'holesEndVal','edgeWidthAlphaUnit','edgeAlphRed',
+                  'edgeAlphGreen','edgeAlphBlue','unused7','expWindSpeed',
+                  'textCountU','textCountV','addonModelIn','addonModelOut',
+                  'addonScaleStart','addonScaleEnd','addonScaleIn','addonScaleOut',
+                  (FID,'ambientSound'),'key2FillRed','key2FillGreen',
+                  'key2FillBlue','unused8','key3FillRed','key3FillGreen',
+                  'key3FillBlue','unused9','key1ScaleFill','key2ScaleFill',
+                  'key3ScaleFill','key1FillTime','key2FillTime','key3FillTime',
+                  'colorScale','birthPosOffset','birthPosOffsetRange','startFrame',
+                  'startFrameVariation','endFrame','loopStartFrame',
                   'loopStartVariation','frameCount','frameCountVariation',
-                  (EfshGeneralFlags,'flags',0L),'fillTextureEffectTextureScaleU',
-                  'fillTextureEffectTextureScaleV','sceneGraphEmitDepthLimitunused',
+                  (EfshGeneralFlags,'flags',0L),'fillTextScaleU',
+                  'fillTextScaleV','sceneGraphDepthLimit',
                   ),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

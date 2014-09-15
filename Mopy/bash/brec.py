@@ -1240,7 +1240,7 @@ class MelSet:
         if _debug: print u'\n>>>> %08X' % record.fid
         insAtEnd = ins.atEnd
         insSubHeader = ins.unpackSubHeader
-##        fullLoad = self.full0.loadData
+        ## fullLoad = self.full0.loadData
         while not insAtEnd(endPos,recType):
             (Type,size) = insSubHeader(recType)
             if _debug: print type,size
@@ -1258,7 +1258,7 @@ class MelSet:
                 print error
                 eid = getattr(record,'eid',u'<<NO EID>>')
                 if not eid: eid = u'<<NO EID>>'
-                print u'Error loading %s record and/or subrecord: %08X\n  eid = %s\n  subrecord = %s\n  subrecord size = %d\n  size found = %d\n  file pos = %d' % (repr(record.recType),record.fid,repr(eid),repr(Type),size,ModReader.recHeader.size,ins.tell())
+                print u'Error loading %s record and/or subrecord: %08X\n  eid = %s\n  subrecord = %s\n  subrecord size = %d\n  file pos = %d' % (repr(record.recType),record.fid,repr(eid),repr(Type),size,ins.tell())
                 raise
         if _debug: print u'<<<<',getattr(record,'eid',u'[NO EID]')
 

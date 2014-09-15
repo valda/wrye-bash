@@ -830,18 +830,18 @@ statsHeaders = (
 #soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR'))
 #soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF',))
 soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP',))
-soundsActiAttrs = ('dropSound','pickupSound','soundLooping','sound')
-soundsAddnAttrs = ('ambientSound')
-soundsAlchAttrs = ('dropSound','pickupSound','soundConsume')
-soundsAspcAttrs = ('soundLooping','useSoundFromRegion')
-soundsContAttrs = ('soundOpen','soundClose','soundRandomLooping')
-soundsDoorAttrs = ('soundOpen','soundClose','soundLoop')
-soundsLighAttrs = ('sound')
-soundsMgefAttrs = ('castingSound','boltSound','hitSound','areaSound')
-soundsWthrAttrs = ('sounds')
+soundsActiAttrs = ('dropSound','pickupSound','soundLooping','sound',)
+soundsAddnAttrs = ('ambientSound',)
+soundsAlchAttrs = ('dropSound','pickupSound','soundConsume',)
+soundsAspcAttrs = ('soundLooping','useSoundFromRegion',)
+soundsContAttrs = ('soundOpen','soundClose','soundRandomLooping',)
+soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
+soundsLighAttrs = ('sound',)
+soundsMgefAttrs = ('castingSound','boltSound','hitSound','areaSound',)
+soundsWthrAttrs = ('sounds',)
 soundsWeapAttrs = ('idleSound','equipSound','unequipSound','soundGunShot2D',
                    'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo',
-                   'soundBlock','soundMod1Shoot3Ds','soundMod1Shoot2D')
+                   'soundBlock','soundMod1Shoot3Ds','soundMod1Shoot2D',)
 
 #-------------------------------------------------------------------------------
 # CellImporter
@@ -870,9 +870,55 @@ cellRecFlags = {
             u'C.Light': '',
             u'C.RecordFlags': '',
             }
-
-
-# FormID
+#-------------------------------------------------------------------------------
+# GraphicsPatcher
+#-------------------------------------------------------------------------------
+graphicsLongsTypes = set(('BSGN','LSCR','CLAS','LTEX','REGN','ACTI','DOOR',
+    'FLOR','FURN','GRAS','STAT','ALCH','AMMO','APPA','BOOK','INGR','KEYM',
+    'LIGH','MISC','SGST','SLGM','WEAP','TREE','ARMO','CLOT','CREA','MGEF','EFSH',))
+graphicsEfshAttrs = (
+    'flags','unused1','memSBlend',
+    'memBlendOp','memZFunc','fillRed','fillGreen','fillBlue',
+    'unused2','fillAIn','fillAFull','fillAOut','fillAPRatio',
+    'fillAAmp','fillAFreq','fillAnimSpdU','fillAnimSpdV','edgeOff',
+    'edgeRed','edgeGreen','edgeBlue','unused3','edgeAIn',
+    'edgeAFull','edgeAOut','edgeAPRatio','edgeAAmp','edgeAFreq',
+    'fillAFRatio','edgeAFRatio','memDBlend','partSBlend',
+    'partBlendOp','partZFunc','partDBlend','partBUp',
+    'partBFull','partBDown','partBFRatio',
+    'partBPRatio','partLTime','partLDelta',
+    'partNSpd','partNAcc','partVel1','partVel2',
+    'partVel3','partAcc1','partAcc2','partAcc3',
+    'partKey1','partKey2','partKey1Time',
+    'partKey2Time','key1Red','key1Green',
+    'key1Blue','unused4','key2Red','key2Green',
+    'key2Blue','unused5','key3Red','key3Green',
+    'key3Blue','unused6','key1A','key2A',
+    'key3A','key1Time','key2Time','key3Time',
+    'partNSpdDelta','partRot',
+    'partRotDelta','partRotSpeed',
+    'partRotSpeedDelta',FID,'addonModels',
+    'holesStartTime','holesEndTime',
+    'holesStartVal','holesEndVal',
+    'edgeWidth','edgeRed','edgeGreen',
+    'edgeBlue','unused7','explosionWindSpeed',
+    'textureCountU','textureCountV',
+    'addonModelsFadeInTime','addonModelsFadeOutTime',
+    'addonModelsScaleStart','addonModelsScaleEnd',
+    'addonModelsScaleInTime','addonModelsScaleOutTime',
+)
+graphicsArmoAttrs = ('model2','maleIconPath','model4','femaleIconPath',)
+graphicsArmoClotAttrs = ()
+graphicsMgefAttrs = ()
+graphicsMgefFidAttrs = ('castingLight','hitShader','enchantShader',)
+graphicsCreaAttrs = ()
+graphicsDualModelRecs = ()
+graphicsIconOnlyRecs = ('LSCR','CLAS',)
+graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT',)
+graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM','WEAP',)
+#-------------------------------------------------------------------------------
+# Mod Record Elements ----------------------------------------------------------
+#-------------------------------------------------------------------------------
 FID = 'FID' #--Used by MelStruct classes to indicate fid elements.
 
 # Magic Info ------------------------------------------------------------------
@@ -5989,10 +6035,10 @@ class MreWrld(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
-class MelPnamHandler(MelStructA):
+class MelPnamNam0Handler(MelStructA):
     """Handle older truncated PNAM for WTHR subrecord."""
-    def __init__(self):
-        MelStructA.__init__(self,'PNAM','3Bs3Bs3Bs3Bs3Bs3Bs','cloudColors',
+    def __init__(self,type,attr):
+        MelStructA.__init__(self,type,'3Bs3Bs3Bs3Bs3Bs3Bs',attr,
             'riseRed','riseGreen','riseBlue',('unused1',null1),
             'dayRed','dayGreen','dayBlue',('unused2',null1),
             'setRed','setGreen','setBlue',('unused3',null1),
@@ -6003,57 +6049,32 @@ class MelPnamHandler(MelStructA):
 
     def loadData(self,record,ins,type,size,readId):
         """Handle older truncated PNAM for WTHR subrecord."""
-        if size == 96:
+        if (type == 'PNAM' and size == 96) or (type == 'NAM0' and size == 240):
             MelStructA.loadData(self,record,ins,type,size,readId)
             return
-        elif size == 64:
-            valueList = ['0'] * 32
-            oldFormat = '3Bs' * 16
-            addToFormat = '3Bs' * 8
-            unpacked = ins.unpack(oldFormat,size,readId)
-            unpackedList = list(unpacked)
-            unpackedList.extend(valueList)
-            unpacked = tuple(unpackedList)
-            size = len(unpacked)
+        elif (type == 'PNAM' and size == 64) or (type == 'NAM0' and size == 160):
+            oldFormat = '3Bs3Bs3Bs3Bs'
+            ## Following code works completely, but it's depend on the implementation of MelStructA.loadData and MelStruct.loadData.
+            # newFormat = self.format
+            # self.format = oldFormat # temporarily set to older format
+            # MelStructA.loadData(self,record,ins,type,size,readId)
+            # self.format = newFormat
+            ## Following code is redundant but independent and robust.
+            selfDefault = self.getDefaults
+            recordAppend = record.__getattribute__(self.attr).append
+            selfAttrs = self.attrs
+            itemSize = struct.calcsize(oldFormat)
+            for x in xrange(size/itemSize):
+                target = selfDefault()
+                recordAppend(target)
+                target.__slots__ = selfAttrs
+                unpacked = ins.unpack(oldFormat,itemSize,readId)
+                setter = target.__setattr__
+                for attr,value,action in zip(selfAttrs,unpacked,self.actions):
+                    if action: value = action(value)
+                    setter(attr,value)
         else:
-            raise ModSizeError(record.inName,record.recType+'.'+type,96,size,True)
-
-    def dumpData(self,record,out):
-        """Dumps data from record to outstream."""
-        out.packSub('PNAM',unpacked)
-
-class MelNam0Handler(MelStructA):
-    """Handle older truncated ONAM for WTHR subrecord."""
-    def __init__(self):
-        MelStructA.__init__(self,'NAM0','3Bs3Bs3Bs3Bs3Bs3Bs','daytimeColors'
-            'riseRed','riseGreen','riseBlue',('unused7',null1),
-            'dayRed','dayGreen','dayBlue',('unused8',null1),
-            'setRed','setGreen','setBlue',('unused9',null1),
-            'nightRed','nightGreen','nightBlue',('unused10',null1),
-            'noonRed','noonGreen','noonBlue',('unused11',null1),
-            'midnightRed','midnightGreen','midnightBlue',('unused12',null1),
-            )
-
-    def loadData(self,record,ins,type,size,readId):
-        """Handle older truncated ONAM for WTHR subrecord."""
-        if size == 240:
-            MelStructA.loadData(self,record,ins,type,size,readId)
-            return
-        elif size == 160:
-            valueList = ['0'] * 80
-            oldFormat = '3Bs' * 40
-            addToFormat = '3Bs' * 20
-            unpacked = ins.unpack(oldFormat,size,readId)
-            unpackedList = list(unpacked)
-            unpackedList.extend(valueList)
-            unpacked = tuple(unpackedList)
-            size = len(unpacked)
-        else:
-            raise ModSizeError(record.inName,record.recType+'.'+type,240,size,True)
-
-    def dumpData(self,record,out):
-        """Dumps data from record to outstream."""
-        out.packSub('ONAM',unpacked)
+            raise ModSizeError(record.inName,record.recType+'.'+type,(96 if type == 'PNAM' else 240),size,True)
 
 class MreWthr(MelRecord):
     """Weather record."""
@@ -6074,8 +6095,8 @@ class MreWthr(MelRecord):
         MelModel(),
         MelBase('LNAM','unknown1'),
         MelStruct('ONAM','4B','cloudSpeed0','cloudSpeed1','cloudSpeed3','cloudSpeed4'),
-        MelBase('PNAM','cloudColors'),
-        MelBase('NAM0','daytimeColors'),
+        MelPnamNam0Handler('PNAM','cloudColors'),
+        MelPnamNam0Handler('NAM0','daytimeColors'),
         MelStruct('FNAM','6f','fogDayNear','fogDayFar','fogNightNear','fogNightFar','fogDayPower','fogNightPower'),
         MelBase('INAM','_inam'), #--Should be a struct. Maybe later.
         MelStruct('DATA','15B',

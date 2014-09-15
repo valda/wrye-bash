@@ -1839,15 +1839,15 @@ statsHeaders = (
 #soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR'))
 #soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF',))
 soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP',))
-soundsActiAttrs = ('dropSound','pickupSound','sound')
-soundsAddnAttrs = ('ambientSound')
-soundsAlchAttrs = ('dropSound','pickupSound','soundConsume')
+soundsActiAttrs = ('dropSound','pickupSound','sound',)
+soundsAddnAttrs = ('ambientSound',)
+soundsAlchAttrs = ('dropSound','pickupSound','soundConsume',)
 soundsAspcAttrs = ('ambientSound',)
-soundsContAttrs = ('soundOpen','soundClose')
-soundsDoorAttrs = ('soundOpen','soundClose','soundLoop')
-soundsLighAttrs = ('sound')
+soundsContAttrs = ('soundOpen','soundClose',)
+soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
+soundsLighAttrs = ('sound',)
 soundsMgefAttrs = ('sounds',)
-soundsWthrAttrs = ('sounds')
+soundsWthrAttrs = ('sounds',)
 soundsWeapAttrs = ('attackSound','attackSound2D','attackLoopSound',
                    'attackFailSound','idleSound','equipSound','unequipSound',)
 
@@ -1861,6 +1861,7 @@ cellAutoKeys = (
 cellRecAttrs = {
             u'C.Acoustic': ('acousticSpace',),
             u'C.Climate': ('climate',),
+            u'C.Encounter': ('encounterZone',),
             u'C.ImageSpace': ('imageSpace',),
             u'C.Light': ('ambientRed','ambientGreen','ambientBlue','unused1',
                  'directionalRed','directionalGreen','directionalBlue','unused2',
@@ -1878,6 +1879,7 @@ cellRecAttrs = {
                  'fogColorFarRed','fogColorFarGreen','fogColorFarBlue','unused4',
                  'fogMax','lightFadeBegin','lightFadeEnd','inherits',),
             u'C.Location': ('location',),
+            u'C.LTemplate': ('lightTemplate',),
             u'C.Music': ('music',),
             u'C.Name': ('full',),
             u'C.Owner': ('ownership',),
@@ -1887,16 +1889,68 @@ cellRecAttrs = {
 cellRecFlags = {
             u'C.Acoustic': '',
             u'C.Climate': 'behaveLikeExterior',
+            u'C.Encounter': '',
             u'C.ImageSpace': '',
             u'C.Light': '',
             u'C.Location': '',
+            u'C.LTemplate': '',
             u'C.Music': '',
             u'C.Name': '',
             u'C.RecordFlags': '',
             u'C.Owner': 'publicPlace',
             u'C.Water': 'hasWater',
             }
-
+#-------------------------------------------------------------------------------
+# GraphicsPatcher
+#-------------------------------------------------------------------------------
+graphicsLongsTypes = set(('LSCR','CLAS','LTEX','REGN','ACTI','DOOR',
+    'FLOR','FURN','GRAS','STAT','ALCH','AMMO','APPA','BOOK','INGR','KEYM',
+    'LIGH','MISC','SLGM','WEAP','TREE','ARMO','MGEF','EFSH',))
+graphicsEfshAttrs = (
+    'unused1','memSBlend','memBlendOp','memZFunc','fillRed',
+    'fillGreen','fillBlue','unused2','fillAlphaIn','fillFullAlpha',
+    'fillAlphaOut','fillAlphaRatio','fillAlphaAmp','fillAlphaPulse',
+    'fillAnimSpeedU','fillAnimSpeedV','edgeEffectOff','edgeRed',
+    'edgeGreen','edgeBlue','unused3','edgeAlphaIn','edgeFullAlpha',
+    'edgeAlphaOut','edgeAlphaRatio','edgeAlphaAmp','edgeAlphaPulse',
+    'fillFullAlphaRatio','edgeFullAlphaRatio','memDestBlend',
+    'partSourceBlend','partBlendOp','partZTestFunc','partDestBlend',
+    'partBSRampUp','partBSFull','partBSRampDown','partBSRatio',
+    'partBSPartCount','partBSLifetime','partBSLifetimeDelta',
+    'partSSpeedNorm','partSAccNorm','partSVel1','partSVel2',
+    'partSVel3','partSAccel1','partSAccel2','partSAccel3',
+    'partSKey1','partSKey2','partSKey1Time','partSKey2Time',
+    'key1Red','key1Green','key1Blue','unused4','key2Red',
+    'key2Green','key2Blue','unused5','key3Red','key3Green',
+    'key3Blue','unused6','colorKey1Alpha','colorKey2Alpha',
+    'colorKey3Alpha','colorKey1KeyTime','colorKey2KeyTime',
+    'colorKey3KeyTime','partSSpeedNormDelta','partSSpeedRotDeg',
+    'partSSpeedRotDegDelta','partSRotDeg','partSRotDegDelta',
+    'addonModels','holesStart','holesEnd','holesStartVal',
+    'holesEndVal','edgeWidthAlphaUnit','edgeAlphRed',
+    'edgeAlphGreen','edgeAlphBlue','unused7','expWindSpeed',
+    'textCountU','textCountV','addonModelIn','addonModelOut',
+    'addonScaleStart','addonScaleEnd','addonScaleIn','addonScaleOut',
+    'ambientSound','key2FillRed','key2FillGreen',
+    'key2FillBlue','unused8','key3FillRed','key3FillGreen',
+    'key3FillBlue','unused9','key1ScaleFill','key2ScaleFill',
+    'key3ScaleFill','key1FillTime','key2FillTime','key3FillTime',
+    'colorScale','birthPosOffset','birthPosOffsetRange','startFrame',
+    'startFrameVariation','endFrame','loopStartFrame',
+    'loopStartVariation','frameCount','frameCountVariation',
+    'flags','fillTextScaleU',
+    'fillTextScaleV','sceneGraphDepthLimit',
+)
+graphicsArmoAttrs = ('model2','maleIconPath','model4','femaleIconPath',)
+graphicsArmoClotAttrs = ()
+graphicsMgefAttrs = ()
+graphicsMgefFidAttrs = ('castingLight','hitShader','enchantShader',)
+graphicsCreaAttrs = ()
+graphicsDualModelRecs = ('WEAP',)
+graphicsIconOnlyRecs = ('LSCR','CLAS',)
+graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT',)
+graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM','WEAP',)
+#-------------------------------------------------------------------------------
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
 # Constants
@@ -3298,7 +3352,7 @@ class MreActi(MelRecord):
         MelOptStruct('VNAM','I',(FID,'pickupSound')),
         MelOptStruct('WNAM','I',(FID,'water')),
         MelLString('RNAM','rnam_p'),
-        MelStruct('FNAM','H',(ActivatorFlags,'flags',0L),),
+        MelOptStruct('FNAM','H',(ActivatorFlags,'flags',0L),),
         MelOptStruct('KNAM','I',(FID,'keyword')),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -3458,7 +3512,7 @@ class MreArma(MelRecord):
         MelStruct('DNAM','4B2sBsf','malePriority','femalePriority',
                   (WeightSliderFlags,'maleFlags',0L),
                   (WeightSliderFlags,'femaleFlags',0L),
-                  'unknown','detectionSoundValue','unknown','weaponAdjust',),
+                  'unknown','detectionSoundValue','unknown1','weaponAdjust',),
         MelModel('male_model','MOD2'),
         MelModel('female_model','MOD3'),
         MelModel('male_model_1st','MOD4'),
@@ -3587,17 +3641,6 @@ class MreAvif(MelRecord):
             if key == 'CNAM': return self.cnam
             self.cnam = self.type_cnam.get(key, self.cnam)
             return self.data[key]
-
-    # unpack requires a string argument of length 16
-    # Error loading 'AVIF' record and/or subrecord: 00000450
-    # eid = u'AVSmithing'
-    # subrecord = 'CNAM'
-    # subrecord size = 4
-    # file pos = 1437112
-    # Error in Update.esm
-
-    # TypeError: __init__() takes exactly 4 arguments (5 given)
-
 
     melSet = MelSet(
         MelString('EDID','eid'),
@@ -3796,10 +3839,27 @@ class MreCams(MelRecord):
             (5, 'startAtTimeZero'),
         ))
 
+    class MelCamsData(MelStruct):
+        """Handle older truncated DATA for CAMS subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 44:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 40:
+                unpacked = ins.unpack('4I6f',size,readId)
+            else:
+                raise ModSizeError(self.inName,recType+'.'+type,size,expSize,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelModel(),
-        MelStruct('SNAM','4I7f','action','location','target',
+        MelCamsData('DATA','4I7f','action','location','target',
                   (CamsFlagsFlags,'flags',0L),'timeMultPlayer',
                   'timeMultTarget','timeMultGlobal','maxTime','minTime',
                   'targetPctBetweenActors','nearTargetDistance',),
@@ -3870,7 +3930,7 @@ class MreCell(MelRecord):
             (3, 'quad4'),
         ))
 
-    class MelCellXcll(MelStruct):
+    class MelCellXcll(MelOptStruct):
         """Handle older truncated XCLL for CELL subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 92:
@@ -3948,8 +4008,8 @@ class MreCell(MelRecord):
         MelFid('XLCN','location',),
         MelBase('XWCN','unknown_XWCN'),
         MelBase('XWCS','unknown_XWCS'),
-        MelOptStruct('XWCU','3f4s3f','xOffset','yOffset','zOffset','unknown','xAngle',
-                  'yAngle','zAngle',dumpExtra='unknown',),
+        MelOptStruct('XWCU','3f4s3f','xOffset','yOffset','zOffset','unk1XWCU','xAngle',
+                  'yAngle','zAngle',dumpExtra='unk2XWCU',),
         MelFid('XCWT','water'),
 
         # {--- Ownership ---}
@@ -4476,6 +4536,29 @@ class MreEfsh(MelRecord):
         (24, 'useBloodGeometry'),
     ))
 
+    class MelEfshData(MelStruct):
+        """Handle older truncated DATA for EFSH subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 400:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 396:
+                unpacked = ins.unpack('4s3I3Bs9f3Bs8f5I19f3Bs3Bs3Bs11fI5f3Bsf2I6fI3Bs3Bs9f8I2f',size,readId)
+            elif size == 344:
+                unpacked = ins.unpack('4s3I3Bs9f3Bs8f5I19f3Bs3Bs3Bs11fI5f3Bsf2I6fI3Bs3Bs6f',size,readId)
+            elif size == 312:
+                unpacked = ins.unpack('4s3I3Bs9f3Bs8f5I19f3Bs3Bs3Bs11fI5f3Bsf2I6fI',size,readId)
+            elif size == 308:
+                unpacked = ins.unpack('4s3I3Bs9f3Bs8f5I19f3Bs3Bs3Bs11fI5f3Bsf2I6f',size,readId)
+            else:
+                raise ModSizeError(self.inName,recType+'.'+type,size,expSize,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelString('ICON','fillTexture'),
@@ -4483,62 +4566,40 @@ class MreEfsh(MelRecord):
         MelString('NAM7','holesTexture'),
         MelString('NAM8','membranePaletteTexture'),
         MelString('NAM9','particlePaletteTexture'),
-        MelStruct('DATA','4s3I3Bs9f3Bs8f5I19f3Bs3Bs3Bs11fI5f3Bsf2I6fI3Bs3Bs9f8I2fI',
-                  'unknown','membraneShaderSourceBlendMode',
-                  'membraneShaderBlendOperation','membraneShaderZTestFunction',
-                  'red','green','blue','unknown',
-                  'fillTextureEffectAlphaFadeInTime','fillTextureEffectFullAlphaTime',
-                  'fillTextureEffectAlphaFadeOutTime','fillTextureEffectPresistentAlphaRatio',
-                  'fillTextureEffectAlphaPulseAmplitude','fillTextureEffectAlphaPulseFrequency',
-                  'fillTextureEffectTextureAnimationSpeedU','fillTextureEffectTextureAnimationSpeedV',
-                  'edgeEffectFallOff',
-                  'red','green','blue','unknown',
-                  'edgeEffectAlphaFadeInTime','edgeEffectFullAlphaTime',
-                  'edgeEffectAlphaFadeOutTime','edgeEffectPersistentAlphaRatio',
-                  'edgeEffectAlphaPulseAmplitude','edgeEffectAlphaPulseFrequency',
-                  'fillTextureEffectFullAlphaRatio','edgeEffectFullAlphaRatio',
-                  'membraneShaderDestBlendMode','particleShaderSourceBlendMode',
-                  'particleShaderBlendOperation','particleShaderZTestFunction',
-                  'particleShaderDestBlendMode','particleShaderParticleBirthRampUpTime',
-                  'particleShaderFullParticleBirthTime','particleShaderParticleBirthRampDownTime',
-                  'particleShaderFullParticleBirthRatio','particleShaderPersistantParticleCount',
-                  'particleShaderParticleLifetime','particleShaderParticleLifetime',
-                  'particleShaderInitialSpeedAlongNormal','particleShaderAccelerationAlongNormal',
-                  'particleShaderInitialVelocity1','particleShaderInitialVelocity2',
-                  'particleShaderInitialVelocity3','particleShaderAcceleration1',
-                  'particleShaderAcceleration2','particleShaderAcceleration3',
-                  'particleShaderScaleKey1','particleShaderScaleKey2',
-                  'particleShaderScaleKey1Time','particleShaderScaleKey2Time',
-                  'red','green','blue','unknown',
-                  'red','green','blue','unknown',
-                  'red','green','blue','unknown',
-                  'colorKey1ColorAlpha','colorKey2ColorAlpha',
-                  'colorKey3ColorAlpha','colorKey1ColorKeyTime',
-                  'colorKey2ColorKeyTime','colorKey3ColorKeyTime',
-                  'particleShaderInitialSpeedAlongNormal','particleShaderInitialRotationdeg',
-                  'particleShaderInitialRotationdeg','particleShaderRotationSpeeddegsec',
-                  'particleShaderRotationSpeeddegsec',(FID,'addonModels'),
-                  'holesStartTime','holesEndTime','holesStartVal','holesEndVal',
-                  'edgeWidthalphaunits',
-                  'red','green','blue','unknown',
-                  'explosionWindSpeed','textureCountU','textureCountV',
-                  'addonModelsFadeInTime','addonModelsFadeOutTime',
-                  'addonModelsScaleStart','addonModelsScaleEnd',
-                  'addonModelsScaleInTime','addonModelsScaleOutTime',
-                  (FID,'ambientSound'),
-                  'red','green','blue','unknown',
-                  'red','green','blue','unknown',
-                  'fillTextureEffectColorKeyScaleTimecolorKey1Scale',
-                  'fillTextureEffectColorKeyScaleTimecolorKey2Scale',
-                  'fillTextureEffectColorKeyScaleTimecolorKey3Scale',
-                  'fillTextureEffectColorKeyScaleTimecolorKey1Time',
-                  'fillTextureEffectColorKeyScaleTimecolorKey2Time',
-                  'fillTextureEffectColorKeyScaleTimecolorKey3Time',
-                  'colorScale','birthPositionOffset','birthPositionOffsetRange',
-                  'startFrame','startFrameVariation','endFrame','loopStartFrame',
+        MelEfshData('DATA','4s3I3Bs9f3Bs8f5I19f3Bs3Bs3Bs11fI5f3Bsf2I6fI3Bs3Bs9f8I2fI',
+                  'unused1','memSBlend','memBlendOp','memZFunc','fillRed',
+                  'fillGreen','fillBlue','unused2','fillAlphaIn','fillFullAlpha',
+                  'fillAlphaOut','fillAlphaRatio','fillAlphaAmp','fillAlphaPulse',
+                  'fillAnimSpeedU','fillAnimSpeedV','edgeEffectOff','edgeRed',
+                  'edgeGreen','edgeBlue','unused3','edgeAlphaIn','edgeFullAlpha',
+                  'edgeAlphaOut','edgeAlphaRatio','edgeAlphaAmp','edgeAlphaPulse',
+                  'fillFullAlphaRatio','edgeFullAlphaRatio','memDestBlend',
+                  'partSourceBlend','partBlendOp','partZTestFunc','partDestBlend',
+                  'partBSRampUp','partBSFull','partBSRampDown','partBSRatio',
+                  'partBSPartCount','partBSLifetime','partBSLifetimeDelta',
+                  'partSSpeedNorm','partSAccNorm','partSVel1','partSVel2',
+                  'partSVel3','partSAccel1','partSAccel2','partSAccel3',
+                  'partSKey1','partSKey2','partSKey1Time','partSKey2Time',
+                  'key1Red','key1Green','key1Blue','unused4','key2Red',
+                  'key2Green','key2Blue','unused5','key3Red','key3Green',
+                  'key3Blue','unused6','colorKey1Alpha','colorKey2Alpha',
+                  'colorKey3Alpha','colorKey1KeyTime','colorKey2KeyTime',
+                  'colorKey3KeyTime','partSSpeedNormDelta','partSSpeedRotDeg',
+                  'partSSpeedRotDegDelta','partSRotDeg','partSRotDegDelta',
+                  (FID,'addonModels'),'holesStart','holesEnd','holesStartVal',
+                  'holesEndVal','edgeWidthAlphaUnit','edgeAlphRed',
+                  'edgeAlphGreen','edgeAlphBlue','unused7','expWindSpeed',
+                  'textCountU','textCountV','addonModelIn','addonModelOut',
+                  'addonScaleStart','addonScaleEnd','addonScaleIn','addonScaleOut',
+                  (FID,'ambientSound'),'key2FillRed','key2FillGreen',
+                  'key2FillBlue','unused8','key3FillRed','key3FillGreen',
+                  'key3FillBlue','unused9','key1ScaleFill','key2ScaleFill',
+                  'key3ScaleFill','key1FillTime','key2FillTime','key3FillTime',
+                  'colorScale','birthPosOffset','birthPosOffsetRange','startFrame',
+                  'startFrameVariation','endFrame','loopStartFrame',
                   'loopStartVariation','frameCount','frameCountVariation',
-                  (EfshGeneralFlags,'flags',0L),'fillTextureEffectTextureScaleU',
-                  'fillTextureEffectTextureScaleV','sceneGraphEmitDepthLimitunused',
+                  (EfshGeneralFlags,'flags',0L),'fillTextScaleU',
+                  'fillTextScaleV','sceneGraphDepthLimit',
                   ),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -5409,52 +5470,52 @@ class MreImad(MelRecord):
 
     melSet = MelSet(
         MelString('EDID','eid'),
-        # 'unknown1' is 192 bytes in TES5Edit
-        # 'unknown2' is 4 bytes repeated 3 times for 12 bytes in TES5Edit
-        # MelStruct('DNAM','If192sI2f12sI',(ImadAnimatableFlags,'aniFlags',0L),'duration',
-        #           'unknown1',(ImadUseTargetFlags,'flags',0L),'radialBlurCenterX',
-        #           'radialBlurCenterY','unknown2',(ImadDoFFlags,'dofFlags',0L),),
-        MelBase('DNAM','data',),
+        # 'unknown' is 192 bytes in TES5Edit
+        # 'unknown1' is 4 bytes repeated 3 times for 12 bytes in TES5Edit
+        MelStruct('DNAM','If192sI2f12sI',(ImadAnimatableFlags,'aniFlags',0L),'duration',
+                  'unknown',(ImadUseTargetFlags,'flags',0L),'radialBlurCenterX',
+                  'radialBlurCenterY','unknown1',(ImadDoFFlags,'dofFlags',0L),
+                  dumpExtra='unknownExtra1',),
         # Blur
         MelStruct('BNAM','2f','blurUnknown','blurRadius',dumpExtra='unknownExtra2',),
         # Double Vision
         MelStruct('VNAM','2f','dvUnknown','dvStrength',dumpExtra='unknownExtra3',),
         # Cinematic Colors
-        MelStruct('TNAM','5f','unknown','tintRed','tintGreen','tintBlue',
+        MelStruct('TNAM','5f','unknown4','tintRed','tintGreen','tintBlue',
                   'tintAlpha',dumpExtra='unknownExtra4',),
-        MelStruct('NAM3','5f','unknown','fadeRed','fadeGreen','fadeBlue',
+        MelStruct('NAM3','5f','unknown5','fadeRed','fadeGreen','fadeBlue',
                   'fadeAlpha',dumpExtra='unknownExtra5',),
         # {<<<< Begin Radial Blur >>>>}
-        MelStruct('RNAM','2f','unknown','strength',dumpExtra='unknownExtra6',),
-        MelStruct('SNAM','2f','unknown','rampup',dumpExtra='unknownExtra7',),
-        MelStruct('UNAM','2f','unknown','start',dumpExtra='unknownExtra8',),
-        MelStruct('NAM1','2f','unknown','rampdown',dumpExtra='unknownExtra9',),
-        MelStruct('NAM2','2f','unknown','downstart',dumpExtra='unknownExtra10',),
+        MelStruct('RNAM','2f','unknown6','strength',dumpExtra='unknownExtra6',),
+        MelStruct('SNAM','2f','unknown7','rampup',dumpExtra='unknownExtra7',),
+        MelStruct('UNAM','2f','unknown8','start',dumpExtra='unknownExtra8',),
+        MelStruct('NAM1','2f','unknown9','rampdown',dumpExtra='unknownExtra9',),
+        MelStruct('NAM2','2f','unknown10','downstart',dumpExtra='unknownExtra10',),
         # {<<<< End Radial Blur >>>>}
         # {<<<< Begin Depth of Field >>>>}
-        MelStruct('WNAM','2f','unknown','strength',dumpExtra='unknownExtra11',),
-        MelStruct('XNAM','2f','unknown','distance',dumpExtra='unknownExtra12',),
-        MelStruct('YNAM','2f','unknown','range',dumpExtra='unknownExtra13',),
+        MelStruct('WNAM','2f','unknown11','strength',dumpExtra='unknownExtra11',),
+        MelStruct('XNAM','2f','unknown12','distance',dumpExtra='unknownExtra12',),
+        MelStruct('YNAM','2f','unknown13','range',dumpExtra='unknownExtra13',),
         # {<<<< FullScreen Motion Blur >>>>}
-        MelStruct('NAM4','2f','unknown','strength',dumpExtra='unknownExtra14',),
+        MelStruct('NAM4','2f','unknown14','strength',dumpExtra='unknownExtra14',),
         # {<<<< End Depth of Field >>>>}
         # {<<<< Begin HDR >>>>}
-        MelStruct('\x00IAD','2f','unknown','multiply',dumpExtra='unknownExtra15',),
-        MelStruct('\x40IAD','2f','unknown','add',dumpExtra='unknownExtra16',),
-        MelStruct('\x01IAD','2f','unknown','multiply',dumpExtra='unknownExtra17',),
-        MelStruct('\x41IAD','2f','unknown','add',dumpExtra='unknownExtra18',),
-        MelStruct('\x02IAD','2f','unknown','multiply',dumpExtra='unknownExtra19',),
-        MelStruct('\x42IAD','2f','unknown','add',dumpExtra='unknownExtra20',),
-        MelStruct('\x03IAD','2f','unknown','multiply',dumpExtra='unknownExtra21',),
-        MelStruct('\x43IAD','2f','unknown','add',dumpExtra='unknownExtra22',),
-        MelStruct('\x04IAD','2f','unknown','multiply',dumpExtra='unknownExtra23',),
-        MelStruct('\x44IAD','2f','unknown','add',dumpExtra='unknownExtra24',),
-        MelStruct('\x05IAD','2f','unknown','multiply',dumpExtra='unknownExtra25',),
-        MelStruct('\x45IAD','2f','unknown','add',dumpExtra='unknownExtra26',),
-        MelStruct('\x06IAD','2f','unknown','multiply',dumpExtra='unknownExtra27',),
-        MelStruct('\x46IAD','2f','unknown','add',dumpExtra='unknownExtra28',),
-        MelStruct('\x07IAD','2f','unknown','multiply',dumpExtra='unknownExtra29',),
-        MelStruct('\x47IAD','2f','unknown','add',dumpExtra='unknownExtra30',),
+        MelStruct('\x00IAD','2f','unknown15','multiply',dumpExtra='unknownExtra15',),
+        MelStruct('\x40IAD','2f','unknown16','add',dumpExtra='unknownExtra16',),
+        MelStruct('\x01IAD','2f','unknown17','multiply',dumpExtra='unknownExtra17',),
+        MelStruct('\x41IAD','2f','unknown18','add',dumpExtra='unknownExtra18',),
+        MelStruct('\x02IAD','2f','unknown19','multiply',dumpExtra='unknownExtra19',),
+        MelStruct('\x42IAD','2f','unknown20','add',dumpExtra='unknownExtra20',),
+        MelStruct('\x03IAD','2f','unknown21','multiply',dumpExtra='unknownExtra21',),
+        MelStruct('\x43IAD','2f','unknown22','add',dumpExtra='unknownExtra22',),
+        MelStruct('\x04IAD','2f','unknown23','multiply',dumpExtra='unknownExtra23',),
+        MelStruct('\x44IAD','2f','unknown24','add',dumpExtra='unknownExtra24',),
+        MelStruct('\x05IAD','2f','unknown25','multiply',dumpExtra='unknownExtra25',),
+        MelStruct('\x45IAD','2f','unknown26','add',dumpExtra='unknownExtra26',),
+        MelStruct('\x06IAD','2f','unknown27','multiply',dumpExtra='unknownExtra27',),
+        MelStruct('\x46IAD','2f','unknown28','add',dumpExtra='unknownExtra28',),
+        MelStruct('\x07IAD','2f','unknown29','multiply',dumpExtra='unknownExtra29',),
+        MelStruct('\x47IAD','2f','unknown30','add',dumpExtra='unknownExtra30',),
         # {<<<< End HDR >>>>}
         MelBase('\x08IAD','isd08IAD_p'),
         MelBase('\x48IAD','isd48IAD_p'),
@@ -5475,12 +5536,12 @@ class MreImad(MelRecord):
         MelBase('\x10IAD','isd10IAD_p'),
         MelBase('\x50IAD','isd50IAD_p'),
         # {<<<< Begin Cinematic >>>>}
-        MelStruct('\x11IAD','2f','unknown','multiply',dumpExtra='unknownExtra31',),
-        MelStruct('\x51IAD','2f','unknown','add',dumpExtra='unknownExtra32',),
-        MelStruct('\x12IAD','2f','unknown','multiply',dumpExtra='unknownExtra33',),
-        MelStruct('\x52IAD','2f','unknown','add',dumpExtra='unknownExtra34',),
-        MelStruct('\x13IAD','2f','unknown','multiply',dumpExtra='unknownExtra35',),
-        MelStruct('\x53IAD','2f','unknown','add',dumpExtra='unknownExtra36',),
+        MelStruct('\x11IAD','2f','unknown31','multiply',dumpExtra='unknownExtra31',),
+        MelStruct('\x51IAD','2f','unknown32','add',dumpExtra='unknownExtra32',),
+        MelStruct('\x12IAD','2f','unknown33','multiply',dumpExtra='unknownExtra33',),
+        MelStruct('\x52IAD','2f','unknown34','add',dumpExtra='unknownExtra34',),
+        MelStruct('\x13IAD','2f','unknown35','multiply',dumpExtra='unknownExtra35',),
+        MelStruct('\x53IAD','2f','unknown36','add',dumpExtra='unknownExtra36',),
         # {<<<< End Cinematic >>>>}
         MelBase('\x14IAD','isd14IAD_p'),
         MelBase('\x54IAD','isd54IAD_p'),
@@ -8154,7 +8215,7 @@ class MreWrld(MelRecord):
     # {0x80} 'No Grass'
     WrldFlags2 = bolt.Flags(0L,bolt.Flags.getNames(
             (0, 'smallWorld'),
-            (1, 'can'),
+            (1, 'noFastTravel'),
             (2, 'unknown3'),
             (3, 'noLODWater'),
             (4, 'noLandscape'),
@@ -8180,7 +8241,7 @@ class MreWrld(MelRecord):
             (6, 'useSkyCell'),
         ))
 
-    class MelWrldMnam(MelStruct):
+    class MelWrldMnam(MelOptStruct):
         """Handle older truncated MNAM for WRLD subrecord."""
         def loadData(self,record,ins,type,size,readId):
             if size == 28:
@@ -8209,7 +8270,7 @@ class MreWrld(MelRecord):
         MelBase('MHDT','maxHeightData'),
         MelLString('FULL','full'),
         # Fixed Dimensions Center Cell
-        MelStruct('WCTR','2h','fixedX','fixedY',),
+        MelOptStruct('WCTR','2h','fixedX','fixedY',),
         MelFid('LTMP','interiorLighting',),
         MelFid('XEZN','encounterZone',),
         MelFid('XLCN','location',),
@@ -8220,8 +8281,8 @@ class MreWrld(MelRecord):
         MelFid('CNAM','climate',),
         MelFid('NAM2','water',),
         MelFid('NAM3','lODWaterType',),
-        MelStruct('NAM4','f','lODWaterHeight',),
-        MelStruct('DNAM','2f','defaultLandHeight','defaultWaterHeight',),
+        MelOptStruct('NAM4','f','lODWaterHeight',),
+        MelOptStruct('DNAM','2f','defaultLandHeight','defaultWaterHeight',),
         MelString('ICON','mapImage'),
         MelModel('cloudModel','MODL',),
         MelWrldMnam('MNAM','2i4h3f','usableDimensionsX','usableDimensionsY',
@@ -8403,11 +8464,11 @@ class MreWthr(MelRecord):
 
 mergeClasses = (
         # MreAchr, MreDial, MreInfo,
-        # MreAvif,
+        # MreFact,
         MreAact, MreActi, MreAddn, MreAlch, MreAmmo, MreAnio, MreAppa, MreArma, MreArmo, MreArto,
-        MreAspc, MreAstp, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
+        MreAspc, MreAstp, MreAvif, MreBook, MreBptd, MreCams, MreClas, MreClfm, MreClmt, MreCobj,
         MreColl, MreCont, MreCpth, MreCsty, MreDebr, MreDlbr, MreDlvw, MreDobj, MreDoor, MreDual,
-        MreEczn, MreEfsh, MreEnch, MreEqup, MreExpl, MreEyes, MreFact, MreFlor, MreFlst, MreFstp,
+        MreEczn, MreEfsh, MreEnch, MreEqup, MreExpl, MreEyes, MreFlor, MreFlst, MreFstp,
         MreFsts, MreFurn, MreGlob, MreGmst, MreGras, MreHazd, MreHdpt, MreIdle, MreIdlm, MreImad,
         MreImgs, MreIngr, MreIpct, MreIpds, MreKeym, MreKywd, MreLcrt, MreLctn, MreLgtm, MreLigh,
         MreLscr, MreLtex, MreLvli, MreLvln, MreLvsp, MreMato, MreMatt, MreMesg, MreMgef, MreMisc,

@@ -3512,7 +3512,7 @@ class MreArma(MelRecord):
         MelStruct('DNAM','4B2sBsf','malePriority','femalePriority',
                   (WeightSliderFlags,'maleFlags',0L),
                   (WeightSliderFlags,'femaleFlags',0L),
-                  'unknown','detectionSoundValue','unknown','weaponAdjust',),
+                  'unknown','detectionSoundValue','unknown1','weaponAdjust',),
         MelModel('male_model','MOD2'),
         MelModel('female_model','MOD3'),
         MelModel('male_model_1st','MOD4'),

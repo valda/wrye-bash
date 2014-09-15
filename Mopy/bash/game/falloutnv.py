@@ -830,18 +830,18 @@ statsHeaders = (
 #soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR'))
 #soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF',))
 soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP',))
-soundsActiAttrs = ('dropSound','pickupSound','soundLooping','sound')
-soundsAddnAttrs = ('ambientSound')
-soundsAlchAttrs = ('dropSound','pickupSound','soundConsume')
-soundsAspcAttrs = ('soundLooping','useSoundFromRegion')
-soundsContAttrs = ('soundOpen','soundClose','soundRandomLooping')
-soundsDoorAttrs = ('soundOpen','soundClose','soundLoop')
-soundsLighAttrs = ('sound')
-soundsMgefAttrs = ('castingSound','boltSound','hitSound','areaSound')
-soundsWthrAttrs = ('sounds')
+soundsActiAttrs = ('dropSound','pickupSound','soundLooping','sound',)
+soundsAddnAttrs = ('ambientSound',)
+soundsAlchAttrs = ('dropSound','pickupSound','soundConsume',)
+soundsAspcAttrs = ('soundLooping','useSoundFromRegion',)
+soundsContAttrs = ('soundOpen','soundClose','soundRandomLooping',)
+soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
+soundsLighAttrs = ('sound',)
+soundsMgefAttrs = ('castingSound','boltSound','hitSound','areaSound',)
+soundsWthrAttrs = ('sounds',)
 soundsWeapAttrs = ('idleSound','equipSound','unequipSound','soundGunShot2D',
                    'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo',
-                   'soundBlock','soundMod1Shoot3Ds','soundMod1Shoot2D')
+                   'soundBlock','soundMod1Shoot3Ds','soundMod1Shoot2D',)
 
 #-------------------------------------------------------------------------------
 # CellImporter
@@ -870,9 +870,55 @@ cellRecFlags = {
             u'C.Light': '',
             u'C.RecordFlags': '',
             }
-
-
-# FormID
+#-------------------------------------------------------------------------------
+# GraphicsPatcher
+#-------------------------------------------------------------------------------
+graphicsLongsTypes = set(('BSGN','LSCR','CLAS','LTEX','REGN','ACTI','DOOR',
+    'FLOR','FURN','GRAS','STAT','ALCH','AMMO','APPA','BOOK','INGR','KEYM',
+    'LIGH','MISC','SGST','SLGM','WEAP','TREE','ARMO','CLOT','CREA','MGEF','EFSH',))
+graphicsEfshAttrs = (
+    'flags','unused1','memSBlend',
+    'memBlendOp','memZFunc','fillRed','fillGreen','fillBlue',
+    'unused2','fillAIn','fillAFull','fillAOut','fillAPRatio',
+    'fillAAmp','fillAFreq','fillAnimSpdU','fillAnimSpdV','edgeOff',
+    'edgeRed','edgeGreen','edgeBlue','unused3','edgeAIn',
+    'edgeAFull','edgeAOut','edgeAPRatio','edgeAAmp','edgeAFreq',
+    'fillAFRatio','edgeAFRatio','memDBlend','partSBlend',
+    'partBlendOp','partZFunc','partDBlend','partBUp',
+    'partBFull','partBDown','partBFRatio',
+    'partBPRatio','partLTime','partLDelta',
+    'partNSpd','partNAcc','partVel1','partVel2',
+    'partVel3','partAcc1','partAcc2','partAcc3',
+    'partKey1','partKey2','partKey1Time',
+    'partKey2Time','key1Red','key1Green',
+    'key1Blue','unused4','key2Red','key2Green',
+    'key2Blue','unused5','key3Red','key3Green',
+    'key3Blue','unused6','key1A','key2A',
+    'key3A','key1Time','key2Time','key3Time',
+    'partNSpdDelta','partRot',
+    'partRotDelta','partRotSpeed',
+    'partRotSpeedDelta',FID,'addonModels',
+    'holesStartTime','holesEndTime',
+    'holesStartVal','holesEndVal',
+    'edgeWidth','edgeRed','edgeGreen',
+    'edgeBlue','unused7','explosionWindSpeed',
+    'textureCountU','textureCountV',
+    'addonModelsFadeInTime','addonModelsFadeOutTime',
+    'addonModelsScaleStart','addonModelsScaleEnd',
+    'addonModelsScaleInTime','addonModelsScaleOutTime',
+)
+graphicsArmoAttrs = ('model2','maleIconPath','model4','femaleIconPath',)
+graphicsArmoClotAttrs = ()
+graphicsMgefAttrs = ()
+graphicsMgefFidAttrs = ('castingLight','hitShader','enchantShader',)
+graphicsCreaAttrs = ()
+graphicsDualModelRecs = ()
+graphicsIconOnlyRecs = ('LSCR','CLAS',)
+graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT',)
+graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM','WEAP',)
+#-------------------------------------------------------------------------------
+# Mod Record Elements ----------------------------------------------------------
+#-------------------------------------------------------------------------------
 FID = 'FID' #--Used by MelStruct classes to indicate fid elements.
 
 # Magic Info ------------------------------------------------------------------

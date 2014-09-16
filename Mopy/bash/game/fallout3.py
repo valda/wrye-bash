@@ -770,23 +770,8 @@ statsHeaders = (
 # SoundPatcher
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
-#soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH', 'MGEF', 'WEAP', 'WTHR'))
-# When I have the following line for soundsLongsTypesm I get the Trackeback in the comments
-# (('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR',))
-# Traceback (most recent call last):
-#   File "bash\basher.py", line 7048, in Execute
-#     patchFile.initData(SubProgress(progress,0,0.1)) #try to speed this up!
-#   File "bash\bosh.py", line 10459, in initData
-#     patcher.initData(SubProgress(progress,index))
-#   File "bash\bosh.py", line 15195, in initData
-#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
-#   File "bash\bosh.py", line 15195, in <genexpr>
-#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
-# AttributeError: 'MreWthr' object has no attribute 's'
-#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR'))
-#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF',))
 soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP',))
-soundsActiAttrs = ('dropSound','pickupSound','soundLooping','sound',)
+soundsActiAttrs = ('soundLooping','soundActivation',)
 soundsAddnAttrs = ('ambientSound',)
 soundsAlchAttrs = ('dropSound','pickupSound','soundConsume',)
 soundsAspcAttrs = ('soundLooping','useSoundFromRegion',)
@@ -795,9 +780,9 @@ soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
 soundsLighAttrs = ('sound',)
 soundsMgefAttrs = ('castingSound','boltSound','hitSound','areaSound',)
 soundsWthrAttrs = ('sounds',)
-soundsWeapAttrs = ('idleSound','equipSound','unequipSound','soundGunShot2D',
-                   'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo',
-                   'soundBlock',)
+soundsWeapAttrs = ('pickupSound','dropSound','soundGunShot3D','soundGunShot2D',
+    'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo','soundBlock','idleSound',
+    'equipSound','unequipSound','soundLevel',)
 
 #-------------------------------------------------------------------------------
 # CellImporter
@@ -829,9 +814,6 @@ cellRecFlags = {
 #-------------------------------------------------------------------------------
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
-graphicsLongsTypes = set(('BSGN','LSCR','CLAS','LTEX','REGN','ACTI','DOOR',
-    'FLOR','FURN','GRAS','STAT','ALCH','AMMO','APPA','BOOK','INGR','KEYM',
-    'LIGH','MISC','SGST','SLGM','WEAP','TREE','ARMO','CLOT','CREA','MGEF','EFSH',))
 graphicsEfshAttrs = (
     'flags','unused1','memSBlend',
     'memBlendOp','memZFunc','fillRed','fillGreen','fillBlue',
@@ -863,15 +845,21 @@ graphicsEfshAttrs = (
     'addonModelsScaleStart','addonModelsScaleEnd',
     'addonModelsScaleInTime','addonModelsScaleOutTime',
 )
-graphicsArmoAttrs = ('model2','maleIconPath','model4','femaleIconPath',)
-graphicsArmoClotAttrs = ()
-graphicsMgefAttrs = ()
-graphicsMgefFidAttrs = ('castingLight','hitShader','enchantShader',)
-graphicsCreaAttrs = ()
+# Removed in FO3/FNV 'SLGM', 'BSGN', 'FLOR', 'SGST', 'CLOT', 'SBSP', 'SKIL', 'LVSP', 'APPA',
+# From class: 'ARMA','ARMO','MGEF','EFSH','CREA',
+graphicsLongsTypes = set(('LSCR','CLAS','LTEX','ACTI','DOOR',
+    'FURN','GRAS','STAT','ALCH','AMMO','BOOK','INGR','KEYM',
+    'LIGH','MISC','WEAP','TREE','ARMA','ARMO','CREA','MGEF','EFSH',))
+graphicsIconOnlyRecs = ('LSCR','CLAS','LTEX',)
+graphicsModelOnlyRecs = ('ACTI','DOOR','FURN','GRAS','STAT',)
+graphicsIconModelRecs = ('ALCH','AMMO','BOOK','INGR','KEYM','LIGH','MISC','TREE','WEAP',)
 graphicsDualModelRecs = ()
-graphicsIconOnlyRecs = ('LSCR','CLAS',)
-graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT',)
-graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM','WEAP',)
+graphicsArmoAttrs = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath',)
+graphicsArmaAttrs = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath',)
+graphicsArmoClotAttrs = ()
+graphicsMgefAttrs = ('iconPath','model',)
+graphicsMgefFidAttrs = ('effectShader','light','objectDisplayShader','cefEnchantment',)
+graphicsCreaAttrs = ('model','bodyParts','nift_p',)
 #-------------------------------------------------------------------------------
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -5397,6 +5385,45 @@ class MreWrld(MelRecord):
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
 #------------------------------------------------------------------------------
+class MelPnamNam0Handler(MelStructA):
+    """Handle older truncated PNAM for WTHR subrecord."""
+    def __init__(self,type,attr):
+        MelStructA.__init__(self,type,'3Bs3Bs3Bs3Bs',attr,
+            'riseRed','riseGreen','riseBlue',('unused1',null1),
+            'dayRed','dayGreen','dayBlue',('unused2',null1),
+            'setRed','setGreen','setBlue',('unused3',null1),
+            'nightRed','nightGreen','nightBlue',('unused4',null1),
+            )
+
+    def loadData(self,record,ins,type,size,readId):
+        """Handle older truncated PNAM for WTHR subrecord."""
+        if (type == 'PNAM' and size == 64) or (type == 'NAM0' and size == 160):
+            MelStructA.loadData(self,record,ins,type,size,readId)
+            return
+        elif (type == 'PNAM' and size == 48) or (type == 'NAM0' and size == 120):
+            oldFormat = '3Bs3Bs3Bs'
+            ## Following code works completely, but it's depend on the implementation of MelStructA.loadData and MelStruct.loadData.
+            # newFormat = self.format
+            # self.format = oldFormat # temporarily set to older format
+            # MelStructA.loadData(self,record,ins,type,size,readId)
+            # self.format = newFormat
+            ## Following code is redundant but independent and robust.
+            selfDefault = self.getDefault
+            recordAppend = record.__getattribute__(self.attr).append
+            selfAttrs = self.attrs
+            itemSize = struct.calcsize(oldFormat)
+            for x in xrange(size/itemSize):
+                target = selfDefault()
+                recordAppend(target)
+                target.__slots__ = selfAttrs
+                unpacked = ins.unpack(oldFormat,itemSize,readId)
+                setter = target.__setattr__
+                for attr,value,action in zip(selfAttrs,unpacked,self.actions):
+                    if action: value = action(value)
+                    setter(attr,value)
+        else:
+            raise ModSizeError(record.inName,record.recType+'.'+type,(64 if type == 'PNAM' else 160),size,True)
+
 class MreWthr(MelRecord):
     """Weather record."""
     classType = 'WTHR'
@@ -5413,8 +5440,20 @@ class MreWthr(MelRecord):
         MelModel(),
         MelBase('LNAM','unknown1'),
         MelStruct('ONAM','4B','cloudSpeed0','cloudSpeed1','cloudSpeed3','cloudSpeed4'),
-        MelBase('PNAM','cloudColors'),
-        MelBase('NAM0','daytimeColors'),
+        # MelPnamNam0Handler('PNAM','cloudColors'),
+        MelStructA('PNAM','3Bs3Bs3Bs3Bs','cloudColors',
+            'riseRed','riseGreen','riseBlue',('unused1',null1),
+            'dayRed','dayGreen','dayBlue',('unused2',null1),
+            'setRed','setGreen','setBlue',('unused3',null1),
+            'nightRed','nightGreen','nightBlue',('unused4',null1),
+            ),
+        # MelPnamNam0Handler('NAM0','daytimeColors'),
+        MelStructA('NAM0','3Bs3Bs3Bs3Bs','daytimeColors',
+            'riseRed','riseGreen','riseBlue',('unused1',null1),
+            'dayRed','dayGreen','dayBlue',('unused2',null1),
+            'setRed','setGreen','setBlue',('unused3',null1),
+            'nightRed','nightGreen','nightBlue',('unused4',null1),
+            ),
         MelStruct('FNAM','6f','fogDayNear','fogDayFar','fogNightNear','fogNightFar','fogDayPower','fogNightPower'),
         MelBase('INAM','_inam'), #--Should be a struct. Maybe later.
         MelStruct('DATA','15B',

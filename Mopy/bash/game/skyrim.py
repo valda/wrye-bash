@@ -1722,14 +1722,13 @@ GmstTweaks = [
 allTags = sorted((
     u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music', u'C.Name',
     u'C.Owner', u'C.RecordFlags', u'C.Water', u'Deactivate', u'Delev', u'Filter',
-    u'NoMerge', u'Relev', u'Stats',
+    u'Graphics', u'NoMerge', u'Relev', u'Sound', u'Stats',
     ))
 
 #--Patchers available when building a Bashed Patch
 patchers = (
-    u'AliasesPatcher', u'CellImporter', u'GmstTweaker',
-    u'ListsMerger', u'PatchMerger',
-    u'StatsPatcher',
+    u'AliasesPatcher', u'CellImporter', u'GmstTweaker', u'GraphicsPatcher',
+    u'ListsMerger', u'PatchMerger', u'SoundPatcher', u'StatsPatcher',
     )
 
 #--CBash patchers available when building a Bashed Patch
@@ -1823,23 +1822,8 @@ statsHeaders = (
 # SoundPatcher
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
-#soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH', 'MGEF', 'WEAP', 'WTHR'))
-# When I have the following line for soundsLongsTypesm I get the Trackeback in the comments
-# (('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR',))
-# Traceback (most recent call last):
-#   File "bash\basher.py", line 7048, in Execute
-#     patchFile.initData(SubProgress(progress,0,0.1)) #try to speed this up!
-#   File "bash\bosh.py", line 10459, in initData
-#     patcher.initData(SubProgress(progress,index))
-#   File "bash\bosh.py", line 15195, in initData
-#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
-#   File "bash\bosh.py", line 15195, in <genexpr>
-#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
-# AttributeError: 'MreWthr' object has no attribute 's'
-#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR'))
-#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF',))
-soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP',))
-soundsActiAttrs = ('dropSound','pickupSound','sound',)
+soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH', 'MGEF', 'WEAP', 'WTHR',))
+soundsActiAttrs = ('dropSound','pickupSound',)
 soundsAddnAttrs = ('ambientSound',)
 soundsAlchAttrs = ('dropSound','pickupSound','soundConsume',)
 soundsAspcAttrs = ('ambientSound',)
@@ -1848,8 +1832,9 @@ soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
 soundsLighAttrs = ('sound',)
 soundsMgefAttrs = ('sounds',)
 soundsWthrAttrs = ('sounds',)
-soundsWeapAttrs = ('attackSound','attackSound2D','attackLoopSound',
-                   'attackFailSound','idleSound','equipSound','unequipSound',)
+soundsWeapAttrs = ('pickupSound','dropSound','attackSound','attackSound2D',
+                   'attackLoopSound','attackFailSound','idleSound',
+                   'equipSound','unequipSound',)
 
 #-------------------------------------------------------------------------------
 # CellImporter
@@ -1903,9 +1888,6 @@ cellRecFlags = {
 #-------------------------------------------------------------------------------
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
-graphicsLongsTypes = set(('LSCR','CLAS','LTEX','REGN','ACTI','DOOR',
-    'FLOR','FURN','GRAS','STAT','ALCH','AMMO','APPA','BOOK','INGR','KEYM',
-    'LIGH','MISC','SLGM','WEAP','TREE','ARMO','MGEF','EFSH',))
 graphicsEfshAttrs = (
     'unused1','memSBlend','memBlendOp','memZFunc','fillRed',
     'fillGreen','fillBlue','unused2','fillAlphaIn','fillFullAlpha',
@@ -1941,15 +1923,22 @@ graphicsEfshAttrs = (
     'flags','fillTextScaleU',
     'fillTextScaleV','sceneGraphDepthLimit',
 )
+graphicsLongsTypes = set((
+    'ACTI', 'ALCH', 'AMMO', 'ARMA', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'DOOR', 'EFSH', 'FLOR', 'FURN',
+    'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'MGEF', 'MISC', 'SLGM', 'STAT', 'TREE',
+    'WEAP',
+))
+# From class: 'ARMO','ARMA','MGEF','EFSH',
+graphicsIconOnlyRecs = ('CLAS','LSCR',)
+graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT','TREE',)
+graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM',)
+graphicsDualModelRecs = ('WEAP',)
+graphicsArmaAttrs = ('male_model','female_model','male_model_1st','female_model_1st',)
 graphicsArmoAttrs = ('model2','maleIconPath','model4','femaleIconPath',)
 graphicsArmoClotAttrs = ()
 graphicsMgefAttrs = ()
 graphicsMgefFidAttrs = ('castingLight','hitShader','enchantShader',)
 graphicsCreaAttrs = ()
-graphicsDualModelRecs = ('WEAP',)
-graphicsIconOnlyRecs = ('LSCR','CLAS',)
-graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT',)
-graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM','WEAP',)
 #-------------------------------------------------------------------------------
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -2448,7 +2437,7 @@ class MelEffects(MelGroups):
     def __init__(self,attr='effects'):
         """Initialize elements."""
         MelGroups.__init__(self,attr,
-            MelFid('EFID','baseEffect'),
+            MelFid('EFID','name'), # baseEffect, name
             MelStruct('EFIT','f2I','magnitude','area','duration',),
             MelConditions(),
             )
@@ -3411,7 +3400,8 @@ class MreAlch(MelRecord,MreHasEffects):
         MelLString('DESC','description'),
         MelModel(),
         MelDestructible(),
-        MelIcons(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
         MelOptStruct('YNAM','I',(FID,'pickupSound')),
         MelOptStruct('ZNAM','I',(FID,'dropSound')),
         MelOptStruct('ETYP','I',(FID,'equipType')),
@@ -3439,7 +3429,8 @@ class MreAmmo(MelRecord):
         MelBounds(),
         MelLString('FULL','full'),
         MelModel(),
-        MelIcons(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
         MelDestructible(),
         MelFid('YNAM','pickupSound'),
         MelFid('ZNAM','dropSound'),
@@ -3482,7 +3473,8 @@ class MreAppa(MelRecord):
         MelBounds(),
         MelLString('FULL','full'),
         MelModel(),
-        MelIcons(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
         MelDestructible(),
         MelFid('YNAM','pickupSound'),
         MelFid('ZNAM','dropSound'),
@@ -3730,7 +3722,8 @@ class MreBook(MelRecord):
         MelBounds(),
         MelLString('FULL','full'),
         MelModel(),
-        MelIcons(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
         MelLString('DESC','description'),
         MelDestructible(),
         MelOptStruct('YNAM','I',(FID,'pickupSound')),
@@ -4057,7 +4050,8 @@ class MreClas(MelRecord):
         MelString('EDID','eid'),
         MelLString('FULL','full'),
         MelLString('DESC','description'),
-        MelIcons(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
         MelStruct('DATA','4sb19BfI4B','unknown','teaches','maximumtraininglevel',
                   'skillWeightsOneHanded','skillWeightsTwoHanded',
                   'skillWeightsArchery','skillWeightsBlock',
@@ -4744,7 +4738,8 @@ class MreEyes(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelLString('FULL','full'),
-        MelIcons(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
         MelStruct('DATA','B',(EyesTypeFlags,'flags',0L)),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
@@ -5611,7 +5606,8 @@ class MreIngr(MelRecord,MreHasEffects):
         MelLString('FULL','full'),
         MelCountedFidList('KWDA', 'keywords', 'KSIZ', '<I'),
         MelModel(),
-        MelIcons(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
         MelFid('ETYP','equipmentType',),
         MelFid('YNAM','pickupSound'),
         MelFid('ZNAM','dropSound'),
@@ -5713,7 +5709,8 @@ class MreKeym(MelRecord):
         MelBounds(),
         MelLString('FULL','full'),
         MelModel(),
-        MelIcons(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
         MelDestructible(),
         MelFid('YNAM','pickupSound'),
         MelFid('ZNAM','dropSound'),
@@ -5913,7 +5910,8 @@ class MreLigh(MelRecord):
         MelModel(),
         MelDestructible(),
         MelLString('FULL','full'),
-        MelIcons(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
         # fe = 'Flicker Effect'
         MelStruct('DATA','iI4BI6fIf','duration','radius','red','green','blue',
                   'unknown',(LighTypeFlags,'flags',0L),'falloffExponent','fov',
@@ -5932,7 +5930,8 @@ class MreLscr(MelRecord):
 
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelIcons(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
         MelLString('DESC','description'),
         MelConditions(),
         MelFid('NNAM','loadingScreenNIF'),
@@ -6194,7 +6193,8 @@ class MreMisc(MelRecord):
         MelBounds(),
         MelLString('FULL','full'),
         MelModel(),
-        MelIcons(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
         MelDestructible(),
         MelOptStruct('YNAM','I',(FID,'pickupSound')),
         MelOptStruct('ZNAM','I',(FID,'dropSound')),
@@ -7030,7 +7030,8 @@ class MrePerk(MelRecord):
         MelVmad(),
         MelLString('FULL','full'),
         MelLString('DESC','description'),
-        MelIcons(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
         MelConditions(),
         MelGroup('_data',
             MelPerkData('DATA', 'BBBBB', ('trait',0), ('minLevel',0), ('ranks',0), ('playable',0), ('hidden',0)),
@@ -7560,7 +7561,8 @@ class MreSlgm(MelRecord):
         MelBounds(),
         MelLString('FULL','full'),
         MelModel(),
-        MelIcons(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
         MelDestructible(),
         MelFid('YNAM','pickupSound'),
         MelFid('ZNAM','dropSound'),
@@ -8149,7 +8151,8 @@ class MreWeap(MelRecord):
         MelBounds(),
         MelLString('FULL','full'),
         MelModel('model1','MODL'),
-        MelIcons(),
+        MelString('ICON','iconPath'),
+        MelString('MICO','smallIconPath'),
         MelFid('EITM','enchantment',),
         MelOptStruct('EAMT','H','enchantPoints'),
         MelDestructible(),
@@ -8173,10 +8176,10 @@ class MreWeap(MelRecord):
         MelFid('NAM8','unequipSound',),
         MelStruct('DATA','IfH','value','weight','damage',),
         MelStruct('DNAM','B3s2fH2sf4s4B2f2I5f12si8si4sf','animationType','unknown1',
-                  'speed','reach',(WeapFlags1,'dnamFlags1',0L),'unknown2','sightFOV',
+                  'speed','reach',(WeapFlags1,'dnamFlags1',None),'unknown2','sightFOV',
                   'unknown3','baseVATSToHitChance','attackAnimation',
                   'numProjectiles','embeddedWeaponAVunused','minRange',
-                  'maxRange','onHit',(WeapFlags2,'dnamFlags2',0L),
+                  'maxRange','onHit',(WeapFlags2,'dnamFlags2',None),
                   'animationAttackMultiplier','unknown4','rumbleLeftMotorStrength',
                   'rumbleRightMotorStrength','rumbleDuration','unknown5',
                   'skill','unknown6','resist','unknown7','stagger',),
@@ -8308,6 +8311,56 @@ class MreWrld(MelRecord):
 
 # # Many Things Marked MelBase that need updated
 #------------------------------------------------------------------------------
+class MelPnamNam0Handler(MelStructA):
+    """Handle older truncated PNAM for WTHR subrecord."""
+    def __init__(self,type,attr):
+        MelStructA.__init__(self,type,'3Bs3Bs3Bs3Bs',attr,
+            'riseRed','riseGreen','riseBlue',('unused1',null1),
+            'dayRed','dayGreen','dayBlue',('unused2',null1),
+            'setRed','setGreen','setBlue',('unused3',null1),
+            'nightRed','nightGreen','nightBlue',('unused4',null1),
+            )
+
+    def loadData(self,record,ins,type,size,readId):
+        """Handle older truncated PNAM for WTHR subrecord."""
+        if (type == 'PNAM' and size == 512) or (type == 'NAM0' and size == 272):
+            MelStructA.loadData(self,record,ins,type,size,readId)
+            return
+        elif type == 'PNAM' and size == 64:
+            # 16 X 4 Layers
+            oldFormat = '3Bs3Bs3Bs3Bs'
+            selfDefault = self.getDefault
+            recordAppend = record.__getattribute__(self.attr).append
+            selfAttrs = self.attrs
+            itemSize = struct.calcsize(oldFormat)
+            for x in xrange(size/itemSize):
+                target = selfDefault()
+                recordAppend(target)
+                target.__slots__ = selfAttrs
+                unpacked = ins.unpack(oldFormat,itemSize,readId)
+                setter = target.__setattr__
+                for attr,value,action in zip(selfAttrs,unpacked,self.actions):
+                    if action: value = action(value)
+                    setter(attr,value)
+        elif (type == 'NAM0' and size == 208) or (type == 'NAM0' and size == 224):
+            # 16 X 13 Layers
+            oldFormat = '3Bs3Bs3Bs3Bs'
+            selfDefault = self.getDefault
+            recordAppend = record.__getattribute__(self.attr).append
+            selfAttrs = self.attrs
+            itemSize = struct.calcsize(oldFormat)
+            for x in xrange(size/itemSize):
+                target = selfDefault()
+                recordAppend(target)
+                target.__slots__ = selfAttrs
+                unpacked = ins.unpack(oldFormat,itemSize,readId)
+                setter = target.__setattr__
+                for attr,value,action in zip(selfAttrs,unpacked,self.actions):
+                    if action: value = action(value)
+                    setter(attr,value)
+        else:
+            raise ModSizeError(record.inName,record.recType+'.'+type,(512 if type == 'PNAM' else 272),size,True)
+
 class MreWthr(MelRecord):
     """Weather"""
     classType = 'WTHR'
@@ -8403,9 +8456,21 @@ class MreWthr(MelRecord):
         MelBase('ONAM','unused'),
         MelBase('RNAM','cloudSpeedY'),
         MelBase('QNAM','cloudSpeedX'),
-        MelBase('PNAM','cloudColors'),
-        MelBase('JNAM','cloudAlphas'),
-        MelBase('NAM0','weatherColors'),
+        # MelPnamNam0Handler('PNAM','cloudColors'),
+        MelStructA('PNAM','3Bs3Bs3Bs3Bs','cloudColors',
+            'riseRed','riseGreen','riseBlue',('unused1',null1),
+            'dayRed','dayGreen','dayBlue',('unused2',null1),
+            'setRed','setGreen','setBlue',('unused3',null1),
+            'nightRed','nightGreen','nightBlue',('unused4',null1),
+            ),
+        MelStructA('JNAM','4f','cloudAlphas','sunAlpha','dayAlpha','setAlpha','nightAlpha',),
+        # MelPnamNam0Handler('NAM0','daytimeColors'),
+        MelStructA('NAM0','3Bs3Bs3Bs3Bs','daytimeColors',
+            'riseRed','riseGreen','riseBlue',('unused1',null1),
+            'dayRed','dayGreen','dayBlue',('unused2',null1),
+            'setRed','setGreen','setBlue',('unused3',null1),
+            'nightRed','nightGreen','nightBlue',('unused4',null1),
+            ),
         MelStruct('FNAM','8f','dayNear','dayFar','nightNear','nightFar',
                   'dayPower','nightPower','dayMax','nightMax',),
         MelStruct('DATA','B2s16B','windSpeed',('unknown',null2),'transDelta',

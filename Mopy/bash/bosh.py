@@ -12273,56 +12273,44 @@ class GraphicsPatcher(ImportPatcher):
         #--Type Fields
         recAttrs_class = self.recAttrs_class = {}
         recFidAttrs_class = self.recFidAttrs_class = {}
-        # Not available in Skyrim yet AVIF, LAND, PERK, PACK, QUST, RACE, SCEN, REFR, REGN
+        # Not available in Skyrim yet LAND, PERK, PACK, QUST, RACE, SCEN, REFR, REGN
         # Look into why these records are not included, are they part of other patchers?
         # no 'model' attr: 'EYES', 'AVIF', 'MICN',
         # Would anyone ever change these: 'PERK', 'QUST', 'SKIL', 'REPU'
-        if bush.game.fsName == u'Skyrim':
-            for recClass in (MreRecord.type_class[x] for x in ('LSCR','CLAS','LTEX',)):
-                recAttrs_class[recClass] = ('iconPath','iconPath2',)
-        else:
-            for recClass in (MreRecord.type_class[x] for x in ('BSGN','LSCR','CLAS','LTEX','REGN')):
-                recAttrs_class[recClass] = ('iconPath','iconPath2',)
-        # no 'iconPath' attr:
-        for recClass in (MreRecord.type_class[x] for x in ('ACTI','DOOR','FLOR','FURN','GRAS','STAT')):
+        for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsIconOnlyRecs):
+            recAttrs_class[recClass] = ('iconPath',)
+        # no 'iconPath' attr: 'ADDN', 'ANIO', 'ARTO', 'BPTD', 'CAMS', 'CLMT',
+        # 'CONT', 'EXPL', 'HAZD', 'HPDT', 'IDLM',  'IPCT', 'MATO', 'MSTT',
+        # 'PROJ', 'TACT', 'TREE',
+        for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsModelOnlyRecs):
             recAttrs_class[recClass] = ('model',)
         # no'model' and 'iconpath' attr: 'COBJ', 'HAIR', 'NOTE', 'CCRD', 'CHIP', 'CMNY', 'IMOD',
         # Is 'RACE' included in race patcher?
+        for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsIconModelRecs):
+            recAttrs_class[recClass] = ('iconPath','model',)
         if bush.game.fsName == u'Skyrim':
-            for recClass in (MreRecord.type_class[x] for x in ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM','WEAP','TREE')):
-                recAttrs_class[recClass] = ('iconsIaM.iconPath','model')
-        else:
-            for recClass in (MreRecord.type_class[x] for x in ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SGST','SLGM','WEAP','TREE')):
-                recAttrs_class[recClass] = ('iconPath','model')
-        if bush.game.fsName == u'Skyrim':
+            for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsDualModelRecs):
+                recAttrs_class[recClass] = ('model1','model2','iconPath')
+        if bush.game.fsName in (u'Skyrim', u'FalloutNV', u'Fallout3',):
             for recClass in (MreRecord.type_class[x] for x in ('ARMO',)):
-                recAttrs_class[recClass] = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath','flags')
-        else:
-            for recClass in (MreRecord.type_class[x] for x in ('ARMO','CLOT')):
-                recAttrs_class[recClass] = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath','flags')
+                recAttrs_class[recClass] = bush.game.graphicsArmoAttrs
+        if bush.game.fsName in (u'Skyrim', u'FalloutNV', u'Fallout3',):
+            for recClass in (MreRecord.type_class[x] for x in ('ARMA',)):
+                recAttrs_class[recClass] = bush.game.graphicsArmaAttrs
+        if bush.game.fsName == u'Oblivion':
+            for recClass in (MreRecord.type_class[x] for x in ('ARMO','CLOT',)):
+                recAttrs_class[recClass] = bush.game.graphicsArmoClotAttrs
         if bush.game.fsName in (u'Oblivion', u'FalloutNV', u'Fallout3',):
             for recClass in (MreRecord.type_class[x] for x in ('CREA',)):
-                recAttrs_class[recClass] = ('bodyParts','nift_p')
+                recAttrs_class[recClass] = bush.game.graphicsCreaAttrs
         # Why does Graphics have a seperate entry for Fids when SoundPatcher does not?
         for recClass in (MreRecord.type_class[x] for x in ('MGEF',)):
-            recAttrs_class[recClass] = ('iconPath','model')
-            recFidAttrs_class[recClass] = ('effectShader','enchantEffect','light')
+            recAttrs_class[recClass] = bush.game.graphicsMgefAttrs
+            recFidAttrs_class[recClass] = bush.game.graphicsMgefFidAttrs
         for recClass in (MreRecord.type_class[x] for x in ('EFSH',)):
-            recAttrs_class[recClass] = ('particleTexture','fillTexture','flags','unused1','memSBlend',
-                                        'memBlendOp','memZFunc','fillRed','fillGreen','fillBlue','unused2',
-                                        'fillAIn','fillAFull','fillAOut','fillAPRatio','fillAAmp','fillAFreq',
-                                        'fillAnimSpdU','fillAnimSpdV','edgeOff','edgeRed','edgeGreen',
-                                        'edgeBlue','unused3','edgeAIn','edgeAFull','edgeAOut','edgeAPRatio',
-                                        'edgeAAmp','edgeAFreq','fillAFRatio','edgeAFRatio','memDBlend',
-                                        'partSBlend','partBlendOp','partZFunc','partDBlend','partBUp',
-                                        'partBFull','partBDown','partBFRatio','partBPRatio','partLTime',
-                                        'partLDelta','partNSpd','partNAcc','partVel1','partVel2','partVel3',
-                                        'partAcc1','partAcc2','partAcc3','partKey1','partKey2','partKey1Time',
-                                        'partKey2Time','key1Red','key1Green','key1Blue','unused4','key2Red',
-                                        'key2Green','key2Blue','unused5','key3Red','key3Green','key3Blue',
-                                        'unused6','key1A','key2A','key3A','key1Time','key2Time','key3Time')
+            recAttrs_class[recClass] = bush.game.graphicsEfshAttrs
         #--Needs Longs
-        self.longTypes = set(('BSGN','LSCR','CLAS','LTEX','REGN','ACTI','DOOR','FLOR','FURN','GRAS','STAT','ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SGST','SLGM','WEAP','TREE','ARMO','CLOT','CREA','MGEF','EFSH'))
+        self.longTypes = bush.game.graphicsLongsTypes
 
     def initData(self,progress):
         """Get graphics from source files."""

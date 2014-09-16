@@ -12273,12 +12273,15 @@ class GraphicsPatcher(ImportPatcher):
         #--Type Fields
         recAttrs_class = self.recAttrs_class = {}
         recFidAttrs_class = self.recFidAttrs_class = {}
-        # Not available in Skyrim yet AVIF, LAND, PERK, PACK, QUST, RACE, SCEN, REFR, REGN
+        # Not available in Skyrim yet LAND, PERK, PACK, QUST, RACE, SCEN, REFR, REGN
         # Look into why these records are not included, are they part of other patchers?
         # no 'model' attr: 'EYES', 'AVIF', 'MICN',
         # Would anyone ever change these: 'PERK', 'QUST', 'SKIL', 'REPU'
         for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsIconOnlyRecs):
             recAttrs_class[recClass] = ('iconPath',)
+        # no 'iconPath' attr: 'ADDN', 'ANIO', 'ARTO', 'BPTD', 'CAMS', 'CLMT',
+        # 'CONT', 'EXPL', 'HAZD', 'HPDT', 'IDLM',  'IPCT', 'MATO', 'MSTT',
+        # 'PROJ', 'TACT', 'TREE',
         for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsModelOnlyRecs):
             recAttrs_class[recClass] = ('model',)
         # no'model' and 'iconpath' attr: 'COBJ', 'HAIR', 'NOTE', 'CCRD', 'CHIP', 'CMNY', 'IMOD',
@@ -12291,6 +12294,9 @@ class GraphicsPatcher(ImportPatcher):
         if bush.game.fsName in (u'Skyrim', u'FalloutNV', u'Fallout3',):
             for recClass in (MreRecord.type_class[x] for x in ('ARMO',)):
                 recAttrs_class[recClass] = bush.game.graphicsArmoAttrs
+        if bush.game.fsName in (u'Skyrim', u'FalloutNV', u'Fallout3',):
+            for recClass in (MreRecord.type_class[x] for x in ('ARMA',)):
+                recAttrs_class[recClass] = bush.game.graphicsArmaAttrs
         if bush.game.fsName == u'Oblivion':
             for recClass in (MreRecord.type_class[x] for x in ('ARMO','CLOT',)):
                 recAttrs_class[recClass] = bush.game.graphicsArmoClotAttrs

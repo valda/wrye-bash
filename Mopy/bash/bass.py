@@ -26,4 +26,4 @@
 without worrying about circular imports."""
 
 language = None
-AppVersion = u"306.0.04"
+AppVersion = u"306.0.05"

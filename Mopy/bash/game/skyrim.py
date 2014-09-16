@@ -8311,6 +8311,56 @@ class MreWrld(MelRecord):
 
 # # Many Things Marked MelBase that need updated
 #------------------------------------------------------------------------------
+class MelPnamNam0Handler(MelStructA):
+    """Handle older truncated PNAM for WTHR subrecord."""
+    def __init__(self,type,attr):
+        MelStructA.__init__(self,type,'3Bs3Bs3Bs3Bs',attr,
+            'riseRed','riseGreen','riseBlue',('unused1',null1),
+            'dayRed','dayGreen','dayBlue',('unused2',null1),
+            'setRed','setGreen','setBlue',('unused3',null1),
+            'nightRed','nightGreen','nightBlue',('unused4',null1),
+            )
+
+    def loadData(self,record,ins,type,size,readId):
+        """Handle older truncated PNAM for WTHR subrecord."""
+        if (type == 'PNAM' and size == 512) or (type == 'NAM0' and size == 272):
+            MelStructA.loadData(self,record,ins,type,size,readId)
+            return
+        elif type == 'PNAM' and size == 64:
+            # 16 X 4 Layers
+            oldFormat = '3Bs3Bs3Bs3Bs'
+            selfDefault = self.getDefaults
+            recordAppend = record.__getattribute__(self.attr).append
+            selfAttrs = self.attrs
+            itemSize = struct.calcsize(oldFormat)
+            for x in xrange(size/itemSize):
+                target = selfDefault()
+                recordAppend(target)
+                target.__slots__ = selfAttrs
+                unpacked = ins.unpack(oldFormat,itemSize,readId)
+                setter = target.__setattr__
+                for attr,value,action in zip(selfAttrs,unpacked,self.actions):
+                    if action: value = action(value)
+                    setter(attr,value)
+        elif type == 'NAM0' and size == 208:
+            # 16 X 13 Layers
+            oldFormat = '3Bs3Bs3Bs3Bs'
+            selfDefault = self.getDefaults
+            recordAppend = record.__getattribute__(self.attr).append
+            selfAttrs = self.attrs
+            itemSize = struct.calcsize(oldFormat)
+            for x in xrange(size/itemSize):
+                target = selfDefault()
+                recordAppend(target)
+                target.__slots__ = selfAttrs
+                unpacked = ins.unpack(oldFormat,itemSize,readId)
+                setter = target.__setattr__
+                for attr,value,action in zip(selfAttrs,unpacked,self.actions):
+                    if action: value = action(value)
+                    setter(attr,value)
+        else:
+            raise ModSizeError(record.inName,record.recType+'.'+type,(512 if type == 'PNAM' else 272),size,True)
+
 class MreWthr(MelRecord):
     """Weather"""
     classType = 'WTHR'
@@ -8406,9 +8456,9 @@ class MreWthr(MelRecord):
         MelBase('ONAM','unused'),
         MelBase('RNAM','cloudSpeedY'),
         MelBase('QNAM','cloudSpeedX'),
-        MelBase('PNAM','cloudColors'),
+        MelPnamNam0Handler('PNAM','cloudColors'),
         MelBase('JNAM','cloudAlphas'),
-        MelBase('NAM0','weatherColors'),
+        MelPnamNam0Handler('NAM0','daytimeColors'),
         MelStruct('FNAM','8f','dayNear','dayFar','nightNear','nightFar',
                   'dayPower','nightPower','dayMax','nightMax',),
         MelStruct('DATA','B2s16B','windSpeed',('unknown',null2),'transDelta',

@@ -1722,12 +1722,12 @@ GmstTweaks = [
 allTags = sorted((
     u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music', u'C.Name',
     u'C.Owner', u'C.RecordFlags', u'C.Water', u'Deactivate', u'Delev', u'Filter',
-    u'NoMerge', u'Relev', u'Sound', u'Stats',
+    u'Graphics', u'NoMerge', u'Relev', u'Sound', u'Stats',
     ))
 
 #--Patchers available when building a Bashed Patch
 patchers = (
-    u'AliasesPatcher', u'CellImporter', u'GmstTweaker',
+    u'AliasesPatcher', u'CellImporter', u'GmstTweaker', u'GraphicsPatcher',
     u'ListsMerger', u'PatchMerger', u'SoundPatcher', u'StatsPatcher',
     )
 

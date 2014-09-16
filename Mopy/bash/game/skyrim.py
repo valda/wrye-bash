@@ -1722,13 +1722,14 @@ GmstTweaks = [
 allTags = sorted((
     u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music', u'C.Name',
     u'C.Owner', u'C.RecordFlags', u'C.Water', u'Deactivate', u'Delev', u'Filter',
-    u'Graphics', u'NoMerge', u'Relev', u'Sound', u'Stats',
+    u'Graphics', u'Invent', u'NoMerge', u'Relev', u'Sound', u'Stats',
     ))
 
 #--Patchers available when building a Bashed Patch
 patchers = (
     u'AliasesPatcher', u'CellImporter', u'GmstTweaker', u'GraphicsPatcher',
-    u'ListsMerger', u'PatchMerger', u'SoundPatcher', u'StatsPatcher',
+    u'ImportInventory', u'ListsMerger', u'PatchMerger', u'SoundPatcher',
+    u'StatsPatcher',
     )
 
 #--CBash patchers available when building a Bashed Patch
@@ -1940,9 +1941,12 @@ graphicsMgefAttrs = ()
 graphicsMgefFidAttrs = ('castingLight','hitShader','enchantShader',)
 graphicsCreaAttrs = ()
 #-------------------------------------------------------------------------------
+# Inventory Patcher
+#-------------------------------------------------------------------------------
+inventoryTypes = ('NPC_','CONT',)
+#-------------------------------------------------------------------------------
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
-# Constants
 FID = 'FID' #--Used by MelStruct classes to indicate fid elements.
 
 # Magic Info ------------------------------------------------------------------
@@ -4110,7 +4114,7 @@ class MreCobj(MelRecord):
     class MelCobjCnto(MelGroups):
         def __init__(self):
             MelGroups.__init__(self,'items',
-                MelStruct('CNTO','=2I',(FID,'item',None),'count'),
+                MelStruct('CNTO','=Ii',(FID,'item',None),'count'),
                 MelCoed(),
                 )
 
@@ -6406,14 +6410,14 @@ class MreNavm(MelRecord):
 #------------------------------------------------------------------------------
 class MelNpcCnto(MelGroups):
     def __init__(self):
-        MelGroups.__init__(self,'container',
-            MelStruct('CNTO','=2I',(FID,'item',None),'count'),
+        MelGroups.__init__(self,'items',
+            MelStruct('CNTO','=Ii',(FID,'item',None),'count'),
             MelCoed(),
             )
 
     def dumpData(self,record,out):
         # Only write the COCT/CNTO/COED subrecords if count > 0
-        out.packSub('COCT','I',len(record.container))
+        out.packSub('COCT','I',len(record.items))
         MelGroups.dumpData(self,record,out)
 
 class MreNpc(MelRecord):
@@ -6638,7 +6642,7 @@ class MreNpc(MelRecord):
         MelOptStruct('NAMA', '<IiII', 'nose', 'unknown', 'eyes', 'mouth'),
         MelGroups('face_tint_layer',
             MelStruct('TINI', '<H', 'tint_item'),
-            MelStruct('TINC', '<4B', 'r', 'g', 'b' ,'a'),
+            MelStruct('TINC', '<4B', 'tintRed', 'tintGreen', 'tintBlue' ,'tintAlpha'),
             MelStruct('TINV', '<i', 'tint_value'),
             MelStruct('TIAS', '<h', 'preset'),
             ),

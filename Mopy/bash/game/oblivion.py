@@ -1681,6 +1681,10 @@ graphicsMgefAttrs = ('iconPath','model',)
 graphicsMgefFidAttrs = ('effectShader','enchantEffect','light',)
 graphicsCreaAttrs = ('bodyParts','nift_p',)
 #-------------------------------------------------------------------------------
+# Inventory Patcher
+#-------------------------------------------------------------------------------
+inventoryTypes = ('CREA','NPC_','CONT',)
+#-------------------------------------------------------------------------------
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
 FID = 'FID' #--Used by MelStruct classes to indicate fid elements.

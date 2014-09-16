@@ -699,14 +699,14 @@ GmstTweaks = [
 allTags = sorted((
     u'C.Climate', u'C.Light', u'C.Music', u'C.Name', u'C.Owner', u'C.RecordFlags',
     u'C.Water', u'Deactivate', u'Deflst', u'Delev', u'Destructible', u'Factions',
-    u'Filter', u'Names', u'NoMerge', u'Relations', u'Relev', u'Sound',
+    u'Filter', u'Invent', u'Names', u'NoMerge', u'Relations', u'Relev', u'Sound',
     u'Stats', u'WeaponMods',
     ))
 
 #--Patcher available when building a Bashed Patch (referenced by class name)
 patchers = (
     u'AliasesPatcher', u'CellImporter', u'DestructiblePatcher', u'FidListsMerger',
-    u'GmstTweaker', u'ImportFactions', u'ImportRelations',
+    u'GmstTweaker', u'ImportFactions', u'ImportInventory', u'ImportRelations',
     u'ListsMerger', u'NamesPatcher', u'PatchMerger', 'SoundPatcher', u'StatsPatcher',
     u'WeaponModsPatcher',
     )
@@ -905,6 +905,10 @@ graphicsArmoClotAttrs = ()
 graphicsMgefAttrs = ('iconPath','model',)
 graphicsMgefFidAttrs = ('effectShader','light','objectDisplayShader','cefEnchantment',)
 graphicsCreaAttrs = ('model','bodyParts','nift_p',)
+#-------------------------------------------------------------------------------
+# Inventory Patcher
+#-------------------------------------------------------------------------------
+inventoryTypes = ('CREA','NPC_','CONT',)
 #-------------------------------------------------------------------------------
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------

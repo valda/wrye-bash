@@ -1606,7 +1606,7 @@ statsHeaders = (
 # SoundPatcher
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
-soundsLongsTypes = set(('ACTI','CONT','DOOR','LIGH','MGEF','WTHR','WEAP',))
+soundsLongsTypes = set(('ACTI','CONT','DOOR','LIGH','MGEF','SOUN','WTHR','WEAP',))
 soundsActiAttrs = ('sound',)
 soundsAddnAttrs = ()
 soundsAlchAttrs = ()
@@ -1615,6 +1615,11 @@ soundsContAttrs = ('soundOpen','soundClose',)
 soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
 soundsLighAttrs = ('sound',)
 soundsMgefAttrs = ('castingSound','boltSound','hitSound','areaSound',)
+soundsSnctAttrs = ()
+soundsSndrAttrs = ()
+soundsSopmAttrs = ()
+soundsSounAttrs = ('soundFile','minDist1','maxDist1','freqAdj1','minDist2',
+                   'maxDist2','freqAdj2','staticAtten','stopTime','startTime',)
 soundsWthrAttrs = ('sounds',)
 soundsWeapAttrs = ()
 
@@ -1680,6 +1685,10 @@ graphicsArmoClotAttrs = ('maleBody','maleWorld','maleIconPath','femaleBody','fem
 graphicsMgefAttrs = ('iconPath','model',)
 graphicsMgefFidAttrs = ('effectShader','enchantEffect','light',)
 graphicsCreaAttrs = ('bodyParts','nift_p',)
+#-------------------------------------------------------------------------------
+# Inventory Patcher
+#-------------------------------------------------------------------------------
+inventoryTypes = ('CREA','NPC_','CONT',)
 #-------------------------------------------------------------------------------
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -3806,10 +3815,13 @@ class MreSoun(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelString('FNAM','soundFile'),
-        MelSounSndd('SNDD','=2BbsH2s','minDistance', 'maxDistance', 'freqAdjustment', ('unused1',null1),
-            (_flags,'flags'), ('unused2',null2)),
-        MelOptStruct('SNDX','=2BbsH2sH2B',('minDistance',None), ('maxDistance',None), ('freqAdjustment',None), ('unused1',null1),
-            (_flags,'flags',None), ('unused2',null2), ('staticAtten',None),('stopTime',None),('startTime',None),)
+        MelSounSndd('SNDD','=2BbsH2s','minDist1','maxDist1',
+                    'freqAdj1',('unused1',null1),(_flags,'flags'),
+                    ('unused2',null2)),
+        MelOptStruct('SNDX','=2BbsH2sH2B',('minDist2',None),
+                    ('maxDist2',None),('freqAdj2',None),
+                    ('unused3',null1),(_flags,'flags',None),('unused4',null2),
+                    ('staticAtten',None),('stopTime',None),('startTime',None),)
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 

@@ -1720,15 +1720,17 @@ GmstTweaks = [
 
 #--Tags supported by this game
 allTags = sorted((
-    u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music', u'C.Name',
-    u'C.Owner', u'C.RecordFlags', u'C.Water', u'Deactivate', u'Delev', u'Filter',
-    u'Graphics', u'NoMerge', u'Relev', u'Sound', u'Stats',
+    u'C.Acoustic', u'C.Climate', u'C.Encounter', u'C.ImageSpace', u'C.Light',
+    u'C.Location', u'C.LTemplate', u'C.Music', u'C.Name', u'C.Owner',
+    u'C.RecordFlags', u'C.Water', u'Deactivate', u'Delev', u'Filter', u'Graphics',
+    u'Invent', u'NoMerge', u'Relev', u'Sound', u'Stats',
     ))
 
 #--Patchers available when building a Bashed Patch
 patchers = (
     u'AliasesPatcher', u'CellImporter', u'GmstTweaker', u'GraphicsPatcher',
-    u'ListsMerger', u'PatchMerger', u'SoundPatcher', u'StatsPatcher',
+    u'ImportInventory', u'ListsMerger', u'PatchMerger', u'SoundPatcher',
+    u'StatsPatcher',
     )
 
 #--CBash patchers available when building a Bashed Patch
@@ -1822,7 +1824,8 @@ statsHeaders = (
 # SoundPatcher
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
-soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH', 'MGEF', 'WEAP', 'WTHR',))
+soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH',
+                        'MGEF', 'SNCT', 'SNDR', 'SOPM', 'SOUN', 'WEAP', 'WTHR',))
 soundsActiAttrs = ('dropSound','pickupSound',)
 soundsAddnAttrs = ('ambientSound',)
 soundsAlchAttrs = ('dropSound','pickupSound','soundConsume',)
@@ -1831,6 +1834,17 @@ soundsContAttrs = ('soundOpen','soundClose',)
 soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
 soundsLighAttrs = ('sound',)
 soundsMgefAttrs = ('sounds',)
+soundsSnctAttrs = ('parent','staticVolumeMultiplier',)
+soundsSndrAttrs = ('category','sounds','outputModel','looping','rumbleSendValue',
+                   'pctFrequencyShift','pctFrequencyVariance','priority',
+                   'dbVariance','staticAttenuation',)
+soundsSopmAttrs = ('reverbSendpct','outputType','ch0_l','ch0_r','ch0_c','ch0_lFE',
+                   'ch0_rL','ch0_rR','ch0_bL','ch0_bR','ch1_l','ch1_r','ch1_c',
+                   'ch1_lFE','ch1_rL','ch1_rR','ch1_bL','ch1_bR','ch2_l','ch2_r',
+                   'ch2_c','ch2_lFE','ch2_rL','ch2_rR','ch2_bL','ch2_bR',
+                   'minDistance','maxDistance','curve1','curve2','curve3',
+                   'curve4','curve5',)
+soundsSounAttrs = ('soundDescriptor',)
 soundsWthrAttrs = ('sounds',)
 soundsWeapAttrs = ('pickupSound','dropSound','attackSound','attackSound2D',
                    'attackLoopSound','attackFailSound','idleSound',
@@ -1940,9 +1954,12 @@ graphicsMgefAttrs = ()
 graphicsMgefFidAttrs = ('castingLight','hitShader','enchantShader',)
 graphicsCreaAttrs = ()
 #-------------------------------------------------------------------------------
+# Inventory Patcher
+#-------------------------------------------------------------------------------
+inventoryTypes = ('NPC_','CONT',)
+#-------------------------------------------------------------------------------
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
-# Constants
 FID = 'FID' #--Used by MelStruct classes to indicate fid elements.
 
 # Magic Info ------------------------------------------------------------------
@@ -4110,7 +4127,7 @@ class MreCobj(MelRecord):
     class MelCobjCnto(MelGroups):
         def __init__(self):
             MelGroups.__init__(self,'items',
-                MelStruct('CNTO','=2I',(FID,'item',None),'count'),
+                MelStruct('CNTO','=Ii',(FID,'item',None),'count'),
                 MelCoed(),
                 )
 
@@ -6406,14 +6423,14 @@ class MreNavm(MelRecord):
 #------------------------------------------------------------------------------
 class MelNpcCnto(MelGroups):
     def __init__(self):
-        MelGroups.__init__(self,'container',
-            MelStruct('CNTO','=2I',(FID,'item',None),'count'),
+        MelGroups.__init__(self,'items',
+            MelStruct('CNTO','=Ii',(FID,'item',None),'count'),
             MelCoed(),
             )
 
     def dumpData(self,record,out):
         # Only write the COCT/CNTO/COED subrecords if count > 0
-        out.packSub('COCT','I',len(record.container))
+        out.packSub('COCT','I',len(record.items))
         MelGroups.dumpData(self,record,out)
 
 class MreNpc(MelRecord):
@@ -6638,7 +6655,7 @@ class MreNpc(MelRecord):
         MelOptStruct('NAMA', '<IiII', 'nose', 'unknown', 'eyes', 'mouth'),
         MelGroups('face_tint_layer',
             MelStruct('TINI', '<H', 'tint_item'),
-            MelStruct('TINC', '<4B', 'r', 'g', 'b' ,'a'),
+            MelStruct('TINC', '<4B', 'tintRed', 'tintGreen', 'tintBlue' ,'tintAlpha'),
             MelStruct('TINV', '<i', 'tint_value'),
             MelStruct('TIAS', '<h', 'preset'),
             ),
@@ -7711,10 +7728,8 @@ class MreSndr(MelRecord):
         MelString('EDID','eid'),
         MelBase('CNAM','cnam_p'),
         MelFid('GNAM','category',),
-        MelFid('SNAM','alternateSoundFor',),
-        MelGroups('sounds',
-            MelString('ANAM','fileName',),
-            ),
+        MelFid('SNAM','altSoundFor',),
+        MelStrings('ANAM','sounds',),
         MelFid('ONAM','outputModel',),
         MelLString('FNAM','string'),
         MelConditions(),
@@ -7753,13 +7768,13 @@ class MreSopm(MelRecord):
 
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelStruct('NAM1','B2sB',(SopmFlags,'flags',0L),'unknown','reverbSendpct',),
+        MelStruct('NAM1','B2sB',(SopmFlags,'flags',0L),'unknown1','reverbSendpct',),
         MelBase('FNAM','fnam_p'),
         MelStruct('MNAM','I','outputType',),
         MelBase('CNAM','cnam_p'),
         MelBase('SNAM','snam_p'),
         MelSopmData(),
-        MelStruct('ANAM','4s2f5B','unknown','minDistance','maxDistance',
+        MelStruct('ANAM','4s2f5B','unknown2','minDistance','maxDistance',
                   'curve1','curve2','curve3','curve4','curve5',
                    dumpExtra='extraData',),
         )
@@ -8446,30 +8461,30 @@ class MreWthr(MelRecord):
         MelString('J0TX','cloudTextureLayer_26'),
         MelString('K0TX','cloudTextureLayer_27'),
         MelString('L0TX','cloudTextureLayer_28'),
-        MelBase('DNAM','unused'),
-        MelBase('CNAM','unused'),
-        MelBase('ANAM','unused'),
-        MelBase('BNAM','unused'),
+        MelBase('DNAM','dnam_p'),
+        MelBase('CNAM','cnam_p'),
+        MelBase('ANAM','anam_p'),
+        MelBase('BNAM','bnam_p'),
         MelBase('LNAM','lnam_p'),
         MelFid('MNAM','precipitationType',),
         MelFid('NNAM','visualEffect',),
-        MelBase('ONAM','unused'),
+        MelBase('ONAM','onam_p'),
         MelBase('RNAM','cloudSpeedY'),
         MelBase('QNAM','cloudSpeedX'),
         # MelPnamNam0Handler('PNAM','cloudColors'),
         MelStructA('PNAM','3Bs3Bs3Bs3Bs','cloudColors',
-            'riseRed','riseGreen','riseBlue',('unused1',null1),
-            'dayRed','dayGreen','dayBlue',('unused2',null1),
-            'setRed','setGreen','setBlue',('unused3',null1),
-            'nightRed','nightGreen','nightBlue',('unused4',null1),
+            'riseRedPnam','riseGreenPnam','riseBluePnam',('unused1',null1),
+            'dayRedPnam','dayGreenPnam','dayBluePnam',('unused2',null1),
+            'setRedPnam','setGreenPnam','setBluePnam',('unused3Pnam',null1),
+            'nightRedPnam','nightGreenPnam','nightBluePnam',('unused4',null1),
             ),
         MelStructA('JNAM','4f','cloudAlphas','sunAlpha','dayAlpha','setAlpha','nightAlpha',),
         # MelPnamNam0Handler('NAM0','daytimeColors'),
         MelStructA('NAM0','3Bs3Bs3Bs3Bs','daytimeColors',
-            'riseRed','riseGreen','riseBlue',('unused1',null1),
-            'dayRed','dayGreen','dayBlue',('unused2',null1),
-            'setRed','setGreen','setBlue',('unused3',null1),
-            'nightRed','nightGreen','nightBlue',('unused4',null1),
+            'riseRed','riseGreen','riseBlue',('unused5',null1),
+            'dayRed','dayGreen','dayBlue',('unused6',null1),
+            'setRed','setGreen','setBlue',('unused7',null1),
+            'nightRed','nightGreen','nightBlue',('unused8',null1),
             ),
         MelStruct('FNAM','8f','dayNear','dayFar','nightNear','nightFar',
                   'dayPower','nightPower','dayMax','nightMax',),
@@ -8486,8 +8501,8 @@ class MreWthr(MelRecord):
         MelStruct('IMSP','4I',(FID,'imageSpacesSunrise'),(FID,'imageSpacesDay'),
                   (FID,'imageSpacesSunset'),(FID,'imageSpacesNight'),),
         MelBase('DALC','directionalAmbientLightingColors'),
-        MelBase('NAM2','unused'),
-        MelBase('NAM3','unused'),
+        MelBase('NAM2','nam2_p'),
+        MelBase('NAM3','nam3_p'),
         MelModel('aurora','MODL'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()

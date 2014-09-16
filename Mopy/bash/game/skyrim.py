@@ -1722,14 +1722,13 @@ GmstTweaks = [
 allTags = sorted((
     u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music', u'C.Name',
     u'C.Owner', u'C.RecordFlags', u'C.Water', u'Deactivate', u'Delev', u'Filter',
-    u'NoMerge', u'Relev', u'Stats',
+    u'NoMerge', u'Relev', u'Sound', u'Stats',
     ))
 
 #--Patchers available when building a Bashed Patch
 patchers = (
     u'AliasesPatcher', u'CellImporter', u'GmstTweaker',
-    u'ListsMerger', u'PatchMerger',
-    u'StatsPatcher',
+    u'ListsMerger', u'PatchMerger', u'SoundPatcher', u'StatsPatcher',
     )
 
 #--CBash patchers available when building a Bashed Patch
@@ -1823,23 +1822,8 @@ statsHeaders = (
 # SoundPatcher
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
-#soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH', 'MGEF', 'WEAP', 'WTHR'))
-# When I have the following line for soundsLongsTypesm I get the Trackeback in the comments
-# (('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR',))
-# Traceback (most recent call last):
-#   File "bash\basher.py", line 7048, in Execute
-#     patchFile.initData(SubProgress(progress,0,0.1)) #try to speed this up!
-#   File "bash\bosh.py", line 10459, in initData
-#     patcher.initData(SubProgress(progress,index))
-#   File "bash\bosh.py", line 15195, in initData
-#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
-#   File "bash\bosh.py", line 15195, in <genexpr>
-#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
-# AttributeError: 'MreWthr' object has no attribute 's'
-#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR'))
-#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF',))
-soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP',))
-soundsActiAttrs = ('dropSound','pickupSound','sound',)
+soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH', 'MGEF', 'WEAP', 'WTHR',))
+soundsActiAttrs = ('dropSound','pickupSound',)
 soundsAddnAttrs = ('ambientSound',)
 soundsAlchAttrs = ('dropSound','pickupSound','soundConsume',)
 soundsAspcAttrs = ('ambientSound',)
@@ -1848,8 +1832,9 @@ soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
 soundsLighAttrs = ('sound',)
 soundsMgefAttrs = ('sounds',)
 soundsWthrAttrs = ('sounds',)
-soundsWeapAttrs = ('attackSound','attackSound2D','attackLoopSound',
-                   'attackFailSound','idleSound','equipSound','unequipSound',)
+soundsWeapAttrs = ('pickupSound','dropSound','attackSound','attackSound2D',
+                   'attackLoopSound','attackFailSound','idleSound',
+                   'equipSound','unequipSound',)
 
 #-------------------------------------------------------------------------------
 # CellImporter
@@ -1903,9 +1888,6 @@ cellRecFlags = {
 #-------------------------------------------------------------------------------
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
-graphicsLongsTypes = set(('LSCR','CLAS','LTEX','REGN','ACTI','DOOR',
-    'FLOR','FURN','GRAS','STAT','ALCH','AMMO','APPA','BOOK','INGR','KEYM',
-    'LIGH','MISC','SLGM','WEAP','TREE','ARMO','MGEF','EFSH',))
 graphicsEfshAttrs = (
     'unused1','memSBlend','memBlendOp','memZFunc','fillRed',
     'fillGreen','fillBlue','unused2','fillAlphaIn','fillFullAlpha',
@@ -1941,15 +1923,22 @@ graphicsEfshAttrs = (
     'flags','fillTextScaleU',
     'fillTextScaleV','sceneGraphDepthLimit',
 )
+graphicsLongsTypes = set((
+    'ACTI', 'ALCH', 'AMMO', 'ARMA', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'DOOR', 'EFSH', 'FLOR', 'FURN',
+    'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'MGEF', 'MISC', 'SLGM', 'STAT', 'TREE',
+    'WEAP',
+))
+# From class: 'ARMO','ARMA','MGEF','EFSH',
+graphicsIconOnlyRecs = ('CLAS','LSCR',)
+graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT','TREE',)
+graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM',)
+graphicsDualModelRecs = ('WEAP',)
+graphicsArmaAttrs = ('male_model','female_model','male_model_1st','female_model_1st',)
 graphicsArmoAttrs = ('model2','maleIconPath','model4','femaleIconPath',)
 graphicsArmoClotAttrs = ()
 graphicsMgefAttrs = ()
 graphicsMgefFidAttrs = ('castingLight','hitShader','enchantShader',)
 graphicsCreaAttrs = ()
-graphicsDualModelRecs = ('WEAP',)
-graphicsIconOnlyRecs = ('LSCR','CLAS',)
-graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT',)
-graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM','WEAP',)
 #-------------------------------------------------------------------------------
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -2448,7 +2437,7 @@ class MelEffects(MelGroups):
     def __init__(self,attr='effects'):
         """Initialize elements."""
         MelGroups.__init__(self,attr,
-            MelFid('EFID','baseEffect'),
+            MelFid('EFID','name'), # baseEffect, name
             MelStruct('EFIT','f2I','magnitude','area','duration',),
             MelConditions(),
             )
@@ -8187,10 +8176,10 @@ class MreWeap(MelRecord):
         MelFid('NAM8','unequipSound',),
         MelStruct('DATA','IfH','value','weight','damage',),
         MelStruct('DNAM','B3s2fH2sf4s4B2f2I5f12si8si4sf','animationType','unknown1',
-                  'speed','reach',(WeapFlags1,'dnamFlags1',0L),'unknown2','sightFOV',
+                  'speed','reach',(WeapFlags1,'dnamFlags1',None),'unknown2','sightFOV',
                   'unknown3','baseVATSToHitChance','attackAnimation',
                   'numProjectiles','embeddedWeaponAVunused','minRange',
-                  'maxRange','onHit',(WeapFlags2,'dnamFlags2',0L),
+                  'maxRange','onHit',(WeapFlags2,'dnamFlags2',None),
                   'animationAttackMultiplier','unknown4','rumbleLeftMotorStrength',
                   'rumbleRightMotorStrength','rumbleDuration','unknown5',
                   'skill','unknown6','resist','unknown7','stagger',),

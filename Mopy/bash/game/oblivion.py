@@ -1606,22 +1606,7 @@ statsHeaders = (
 # SoundPatcher
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
-#soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH', 'MGEF', 'WEAP', 'WTHR'))
-# When I have the following line for soundsLongsTypesm I get the Trackeback in the comments
-# (('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR',))
-# Traceback (most recent call last):
-#   File "bash\basher.py", line 7048, in Execute
-#     patchFile.initData(SubProgress(progress,0,0.1)) #try to speed this up!
-#   File "bash\bosh.py", line 10459, in initData
-#     patcher.initData(SubProgress(progress,index))
-#   File "bash\bosh.py", line 15195, in initData
-#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
-#   File "bash\bosh.py", line 15195, in <genexpr>
-#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
-# AttributeError: 'MreWthr' object has no attribute 's'
-#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR'))
-#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF',))
-soundsLongsTypes = set(('ACTI','ALCH','CONT','DOOR','LIGH','MGEF','WTHR','WEAP',))
+soundsLongsTypes = set(('ACTI','CONT','DOOR','LIGH','MGEF','WTHR','WEAP',))
 soundsActiAttrs = ('sound',)
 soundsAddnAttrs = ()
 soundsAlchAttrs = ()
@@ -1663,9 +1648,6 @@ cellRecFlags = {
 #-------------------------------------------------------------------------------
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
-graphicsLongsTypes = set(('BSGN','LSCR','CLAS','LTEX','REGN','ACTI','DOOR',
-    'FLOR','FURN','GRAS','STAT','ALCH','AMMO','APPA','BOOK','INGR','KEYM',
-    'LIGH','MISC','SGST','SLGM','WEAP','TREE','ARMO','CLOT','CREA','MGEF','EFSH'))
 graphicsEfshAttrs = (
     'particleTexture','fillTexture','flags','unused1','memSBlend',
     'memBlendOp','memZFunc','fillRed','fillGreen','fillBlue',
@@ -1683,15 +1665,21 @@ graphicsEfshAttrs = (
     'key3Red','key3Green','key3Blue','unused6','key1A','key2A',
     'key3A','key1Time','key2Time','key3Time'
 )
+graphicsLongsTypes = set((
+    'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'BSGN', 'CLAS', 'CLOT', 'CREA',
+    'DOOR', 'EFSH', 'FLOR', 'FURN', 'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'LTEX',
+    'MGEF', 'MISC', 'REGN', 'SGST', 'SLGM', 'STAT', 'TREE', 'WEAP',
+    ))
+graphicsIconOnlyRecs = ('BSGN','LSCR','CLAS','LTEX','REGN',)
+graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT',)
+graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SGST','SLGM','WEAP','TREE',)
+graphicsDualModelRecs = ()
 graphicsArmoAttrs = () # Use ArmoClotAttrs
+graphicsArmaAttrs = ()
 graphicsArmoClotAttrs = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath','flags',)
 graphicsMgefAttrs = ('iconPath','model',)
 graphicsMgefFidAttrs = ('effectShader','enchantEffect','light',)
 graphicsCreaAttrs = ('bodyParts','nift_p',)
-graphicsDualModelRecs = ()
-graphicsIconOnlyRecs = ('BSGN','LSCR','CLAS','LTEX','REGN',)
-graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT',)
-graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SGST','SLGM','WEAP','TREE',)
 #-------------------------------------------------------------------------------
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------

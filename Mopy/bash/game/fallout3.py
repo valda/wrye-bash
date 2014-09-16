@@ -770,23 +770,8 @@ statsHeaders = (
 # SoundPatcher
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
-#soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH', 'MGEF', 'WEAP', 'WTHR'))
-# When I have the following line for soundsLongsTypesm I get the Trackeback in the comments
-# (('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR',))
-# Traceback (most recent call last):
-#   File "bash\basher.py", line 7048, in Execute
-#     patchFile.initData(SubProgress(progress,0,0.1)) #try to speed this up!
-#   File "bash\bosh.py", line 10459, in initData
-#     patcher.initData(SubProgress(progress,index))
-#   File "bash\bosh.py", line 15195, in initData
-#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
-#   File "bash\bosh.py", line 15195, in <genexpr>
-#     temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
-# AttributeError: 'MreWthr' object has no attribute 's'
-#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF', 'WTHR'))
-#soundsLongsTypes = set(('ACTI', 'CONT', 'DOOR' 'LIGH', 'MGEF',))
 soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP',))
-soundsActiAttrs = ('dropSound','pickupSound','soundLooping','sound',)
+soundsActiAttrs = ('soundLooping','soundActivation',)
 soundsAddnAttrs = ('ambientSound',)
 soundsAlchAttrs = ('dropSound','pickupSound','soundConsume',)
 soundsAspcAttrs = ('soundLooping','useSoundFromRegion',)
@@ -795,9 +780,9 @@ soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
 soundsLighAttrs = ('sound',)
 soundsMgefAttrs = ('castingSound','boltSound','hitSound','areaSound',)
 soundsWthrAttrs = ('sounds',)
-soundsWeapAttrs = ('idleSound','equipSound','unequipSound','soundGunShot2D',
-                   'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo',
-                   'soundBlock',)
+soundsWeapAttrs = ('pickupSound','dropSound','soundGunShot3D','soundGunShot2D',
+    'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo','soundBlock','idleSound',
+    'equipSound','unequipSound','soundLevel',)
 
 #-------------------------------------------------------------------------------
 # CellImporter
@@ -829,9 +814,6 @@ cellRecFlags = {
 #-------------------------------------------------------------------------------
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
-graphicsLongsTypes = set(('BSGN','LSCR','CLAS','LTEX','REGN','ACTI','DOOR',
-    'FLOR','FURN','GRAS','STAT','ALCH','AMMO','APPA','BOOK','INGR','KEYM',
-    'LIGH','MISC','SGST','SLGM','WEAP','TREE','ARMO','CLOT','CREA','MGEF','EFSH',))
 graphicsEfshAttrs = (
     'flags','unused1','memSBlend',
     'memBlendOp','memZFunc','fillRed','fillGreen','fillBlue',
@@ -863,15 +845,21 @@ graphicsEfshAttrs = (
     'addonModelsScaleStart','addonModelsScaleEnd',
     'addonModelsScaleInTime','addonModelsScaleOutTime',
 )
-graphicsArmoAttrs = ('model2','maleIconPath','model4','femaleIconPath',)
-graphicsArmoClotAttrs = ()
-graphicsMgefAttrs = ()
-graphicsMgefFidAttrs = ('castingLight','hitShader','enchantShader',)
-graphicsCreaAttrs = ()
+# Removed in FO3/FNV 'SLGM', 'BSGN', 'FLOR', 'SGST', 'CLOT', 'SBSP', 'SKIL', 'LVSP', 'APPA',
+# From class: 'ARMA','ARMO','MGEF','EFSH','CREA',
+graphicsLongsTypes = set(('LSCR','CLAS','LTEX','ACTI','DOOR',
+    'FURN','GRAS','STAT','ALCH','AMMO','BOOK','INGR','KEYM',
+    'LIGH','MISC','WEAP','TREE','ARMA','ARMO','CREA','MGEF','EFSH',))
+graphicsIconOnlyRecs = ('LSCR','CLAS','LTEX',)
+graphicsModelOnlyRecs = ('ACTI','DOOR','FURN','GRAS','STAT',)
+graphicsIconModelRecs = ('ALCH','AMMO','BOOK','INGR','KEYM','LIGH','MISC','TREE','WEAP',)
 graphicsDualModelRecs = ()
-graphicsIconOnlyRecs = ('LSCR','CLAS',)
-graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT',)
-graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM','WEAP',)
+graphicsArmoAttrs = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath',)
+graphicsArmaAttrs = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath',)
+graphicsArmoClotAttrs = ()
+graphicsMgefAttrs = ('iconPath','model',)
+graphicsMgefFidAttrs = ('effectShader','light','objectDisplayShader','cefEnchantment',)
+graphicsCreaAttrs = ('model','bodyParts','nift_p',)
 #-------------------------------------------------------------------------------
 # Mod Record Elements ----------------------------------------------------------
 #-------------------------------------------------------------------------------

@@ -15175,10 +15175,21 @@ class SoundPatcher(ImportPatcher):
             recAttrs_class[recClass] = bush.game.soundsLighAttrs
         for recClass in (MreRecord.type_class[x] for x in ('MGEF',)):
             recAttrs_class[recClass] = bush.game.soundsMgefAttrs
-        for recClass in (MreRecord.type_class[x] for x in ('WTHR',)):
-            recAttrs_class[recClass] = bush.game.soundsWthrAttrs
+        if bush.game.fsName == u'Skyrim':
+            for recClass in (MreRecord.type_class[x] for x in ('SNCT',)):
+                recAttrs_class[recClass] = bush.game.soundsSnctAttrs
+        if bush.game.fsName == u'Skyrim':
+            for recClass in (MreRecord.type_class[x] for x in ('SNDR',)):
+                recAttrs_class[recClass] = bush.game.soundsSndrAttrs
+        if bush.game.fsName == u'Skyrim':
+            for recClass in (MreRecord.type_class[x] for x in ('SOPM',)):
+                recAttrs_class[recClass] = bush.game.soundsSopmAttrs
+        for recClass in (MreRecord.type_class[x] for x in ('SOUN',)):
+            recAttrs_class[recClass] = bush.game.soundsSounAttrs
         for recClass in (MreRecord.type_class[x] for x in ('WEAP',)):
             recAttrs_class[recClass] = bush.game.soundsWeapAttrs
+        for recClass in (MreRecord.type_class[x] for x in ('WTHR',)):
+            recAttrs_class[recClass] = bush.game.soundsWthrAttrs
         #--Needs Longs
         self.longTypes = bush.game.soundsLongsTypes
 

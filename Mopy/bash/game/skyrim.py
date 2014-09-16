@@ -8329,7 +8329,7 @@ class MelPnamNam0Handler(MelStructA):
         elif type == 'PNAM' and size == 64:
             # 16 X 4 Layers
             oldFormat = '3Bs3Bs3Bs3Bs'
-            selfDefault = self.getDefaults
+            selfDefault = self.getDefault
             recordAppend = record.__getattribute__(self.attr).append
             selfAttrs = self.attrs
             itemSize = struct.calcsize(oldFormat)
@@ -8345,7 +8345,7 @@ class MelPnamNam0Handler(MelStructA):
         elif (type == 'NAM0' and size == 208) or (type == 'NAM0' and size == 224):
             # 16 X 13 Layers
             oldFormat = '3Bs3Bs3Bs3Bs'
-            selfDefault = self.getDefaults
+            selfDefault = self.getDefault
             recordAppend = record.__getattribute__(self.attr).append
             selfAttrs = self.attrs
             itemSize = struct.calcsize(oldFormat)
@@ -8456,9 +8456,21 @@ class MreWthr(MelRecord):
         MelBase('ONAM','unused'),
         MelBase('RNAM','cloudSpeedY'),
         MelBase('QNAM','cloudSpeedX'),
-        MelPnamNam0Handler('PNAM','cloudColors'),
+        # MelPnamNam0Handler('PNAM','cloudColors'),
+        MelStructA('PNAM','3Bs3Bs3Bs3Bs','cloudColors',
+            'riseRed','riseGreen','riseBlue',('unused1',null1),
+            'dayRed','dayGreen','dayBlue',('unused2',null1),
+            'setRed','setGreen','setBlue',('unused3',null1),
+            'nightRed','nightGreen','nightBlue',('unused4',null1),
+            ),
         MelStructA('JNAM','4f','cloudAlphas','sunAlpha','dayAlpha','setAlpha','nightAlpha',),
-        MelPnamNam0Handler('NAM0','daytimeColors'),
+        # MelPnamNam0Handler('NAM0','daytimeColors'),
+        MelStructA('NAM0','3Bs3Bs3Bs3Bs','daytimeColors',
+            'riseRed','riseGreen','riseBlue',('unused1',null1),
+            'dayRed','dayGreen','dayBlue',('unused2',null1),
+            'setRed','setGreen','setBlue',('unused3',null1),
+            'nightRed','nightGreen','nightBlue',('unused4',null1),
+            ),
         MelStruct('FNAM','8f','dayNear','dayFar','nightNear','nightFar',
                   'dayPower','nightPower','dayMax','nightMax',),
         MelStruct('DATA','B2s16B','windSpeed',('unknown',null2),'transDelta',

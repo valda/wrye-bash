@@ -5408,7 +5408,7 @@ class MelPnamNam0Handler(MelStructA):
             # MelStructA.loadData(self,record,ins,type,size,readId)
             # self.format = newFormat
             ## Following code is redundant but independent and robust.
-            selfDefault = self.getDefaults
+            selfDefault = self.getDefault
             recordAppend = record.__getattribute__(self.attr).append
             selfAttrs = self.attrs
             itemSize = struct.calcsize(oldFormat)
@@ -5440,8 +5440,20 @@ class MreWthr(MelRecord):
         MelModel(),
         MelBase('LNAM','unknown1'),
         MelStruct('ONAM','4B','cloudSpeed0','cloudSpeed1','cloudSpeed3','cloudSpeed4'),
-        MelPnamNam0Handler('PNAM','cloudColors'),
-        MelPnamNam0Handler('NAM0','daytimeColors'),
+        # MelPnamNam0Handler('PNAM','cloudColors'),
+        MelStructA('PNAM','3Bs3Bs3Bs3Bs','cloudColors',
+            'riseRed','riseGreen','riseBlue',('unused1',null1),
+            'dayRed','dayGreen','dayBlue',('unused2',null1),
+            'setRed','setGreen','setBlue',('unused3',null1),
+            'nightRed','nightGreen','nightBlue',('unused4',null1),
+            ),
+        # MelPnamNam0Handler('NAM0','daytimeColors'),
+        MelStructA('NAM0','3Bs3Bs3Bs3Bs','daytimeColors',
+            'riseRed','riseGreen','riseBlue',('unused1',null1),
+            'dayRed','dayGreen','dayBlue',('unused2',null1),
+            'setRed','setGreen','setBlue',('unused3',null1),
+            'nightRed','nightGreen','nightBlue',('unused4',null1),
+            ),
         MelStruct('FNAM','6f','fogDayNear','fogDayFar','fogNightNear','fogNightFar','fogDayPower','fogNightPower'),
         MelBase('INAM','_inam'), #--Should be a struct. Maybe later.
         MelStruct('DATA','15B',

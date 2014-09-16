@@ -6049,7 +6049,7 @@ class MelPnamNam0Handler(MelStructA):
             # MelStructA.loadData(self,record,ins,type,size,readId)
             # self.format = newFormat
             ## Following code is redundant but independent and robust.
-            selfDefault = self.getDefaults
+            selfDefault = self.getDefault
             recordAppend = record.__getattribute__(self.attr).append
             selfAttrs = self.attrs
             itemSize = struct.calcsize(oldFormat)

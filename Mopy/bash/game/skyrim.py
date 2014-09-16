@@ -8457,7 +8457,7 @@ class MreWthr(MelRecord):
         MelBase('RNAM','cloudSpeedY'),
         MelBase('QNAM','cloudSpeedX'),
         MelPnamNam0Handler('PNAM','cloudColors'),
-        MelBase('JNAM','cloudAlphas'),
+        MelStructA('JNAM','cloudAlphas','4f','sunAlpha','dayAlpha','setAlpha','nightAlpha',),
         MelPnamNam0Handler('NAM0','daytimeColors'),
         MelStruct('FNAM','8f','dayNear','dayFar','nightNear','nightFar',
                   'dayPower','nightPower','dayMax','nightMax',),

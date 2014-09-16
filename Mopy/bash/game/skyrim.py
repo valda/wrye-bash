@@ -1824,7 +1824,8 @@ statsHeaders = (
 # SoundPatcher
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
-soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH', 'MGEF', 'WEAP', 'WTHR',))
+soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH',
+                        'MGEF', 'SNCT', 'SNDR', 'SOPM', 'SOUN', 'WEAP', 'WTHR',))
 soundsActiAttrs = ('dropSound','pickupSound',)
 soundsAddnAttrs = ('ambientSound',)
 soundsAlchAttrs = ('dropSound','pickupSound','soundConsume',)
@@ -1833,6 +1834,17 @@ soundsContAttrs = ('soundOpen','soundClose',)
 soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
 soundsLighAttrs = ('sound',)
 soundsMgefAttrs = ('sounds',)
+soundsSnctAttrs = ('parent','staticVolumeMultiplier',)
+soundsSndrAttrs = ('category','sounds','outputModel','looping','rumbleSendValue',
+                   'pctFrequencyShift','pctFrequencyVariance','priority',
+                   'dbVariance','staticAttenuation',)
+soundsSopmAttrs = ('reverbSendpct','outputType','ch0_l','ch0_r','ch0_c','ch0_lFE',
+                   'ch0_rL','ch0_rR','ch0_bL','ch0_bR','ch1_l','ch1_r','ch1_c',
+                   'ch1_lFE','ch1_rL','ch1_rR','ch1_bL','ch1_bR','ch2_l','ch2_r',
+                   'ch2_c','ch2_lFE','ch2_rL','ch2_rR','ch2_bL','ch2_bR',
+                   'minDistance','maxDistance','curve1','curve2','curve3',
+                   'curve4','curve5',)
+soundsSounAttrs = ('soundDescriptor',)
 soundsWthrAttrs = ('sounds',)
 soundsWeapAttrs = ('pickupSound','dropSound','attackSound','attackSound2D',
                    'attackLoopSound','attackFailSound','idleSound',
@@ -7716,10 +7728,8 @@ class MreSndr(MelRecord):
         MelString('EDID','eid'),
         MelBase('CNAM','cnam_p'),
         MelFid('GNAM','category',),
-        MelFid('SNAM','alternateSoundFor',),
-        MelGroups('sounds',
-            MelString('ANAM','fileName',),
-            ),
+        MelFid('SNAM','altSoundFor',),
+        MelStrings('ANAM','sounds',),
         MelFid('ONAM','outputModel',),
         MelLString('FNAM','string'),
         MelConditions(),
@@ -7758,13 +7768,13 @@ class MreSopm(MelRecord):
 
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelStruct('NAM1','B2sB',(SopmFlags,'flags',0L),'unknown','reverbSendpct',),
+        MelStruct('NAM1','B2sB',(SopmFlags,'flags',0L),'unknown1','reverbSendpct',),
         MelBase('FNAM','fnam_p'),
         MelStruct('MNAM','I','outputType',),
         MelBase('CNAM','cnam_p'),
         MelBase('SNAM','snam_p'),
         MelSopmData(),
-        MelStruct('ANAM','4s2f5B','unknown','minDistance','maxDistance',
+        MelStruct('ANAM','4s2f5B','unknown2','minDistance','maxDistance',
                   'curve1','curve2','curve3','curve4','curve5',
                    dumpExtra='extraData',),
         )

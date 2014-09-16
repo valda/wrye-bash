@@ -814,7 +814,7 @@ statsHeaders = (
 # SoundPatcher
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
-soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','WTHR','WEAP',))
+soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','SOUN','WTHR','WEAP',))
 soundsActiAttrs = ('soundLooping','soundActivation',)
 soundsAddnAttrs = ('ambientSound',)
 soundsAlchAttrs = ('dropSound','pickupSound','soundConsume',)
@@ -823,6 +823,13 @@ soundsContAttrs = ('soundOpen','soundClose','soundRandomLooping',)
 soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
 soundsLighAttrs = ('sound',)
 soundsMgefAttrs = ('castingSound','boltSound','hitSound','areaSound',)
+soundsSnctAttrs = ()
+soundsSndrAttrs = ()
+soundsSopmAttrs = ()
+soundsSounAttrs = ('soundFile','minDist1','maxDist1','freqAdj1','staticAtten1',
+                   'stopTime1','startTime1','point0','point1','point2','point3',
+                   'point4','reverb','priority','xLoc','yLoc','minDist2','maxDist2',
+                   'freqAdj2',)
 soundsWthrAttrs = ('sounds',)
 soundsWeapAttrs = ('pickupSound','dropSound','soundGunShot3D','soundGunShot2D',
     'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo','soundBlock','idleSound',
@@ -5481,13 +5488,13 @@ class MreSoun(MelRecord):
                   'boundX2','boundY2','boundZ2'),
         MelString('FNAM','soundFile'),
         MelStruct('RNAM','B','_rnam'),
-        MelOptStruct('SNDD','=2BbsIh2B6h3i',('minDistance',0), ('maxDistance',0),
-                    ('freqAdjustment',0), ('unused1',null1),(_flags,'flags',0L),
-                    ('staticAtten',0),('stopTime',0),('startTime',0),
+        MelOptStruct('SNDD','=2BbsIh2B6h3i',('minDist1',0), ('maxDist1',0),
+                    ('freqAdj1',0), ('unused1',null1),(_flags,'flags',0L),
+                    ('staticAtten1',0),('stopTime1',0),('startTime1',0),
                     ('point0',0),('point1',0),('point2',0),('point3',0),('point4',0),
                     ('reverb',0),('priority',0), ('xLoc',0), ('yLoc',0),),
-        MelSounSndx('SNDX','=2BbsIh2B',('minDistance',0), ('maxDistance',0),
-                   ('freqAdjustment',0), ('unused1',null1),(_flags,'flags',0L),
+        MelSounSndx('SNDX','=2BbsIh2B',('minDist2',0), ('maxDist2',0),
+                   ('freqAdj2',0), ('unused1',null1),(_flags,'flags',0L),
                    ('staticAtten',0),('stopTime',0),('startTime',0),),
         MelBase('ANAM','_anam'), #--Should be a struct. Maybe later.
         MelBase('GNAM','_gnam'), #--Should be a struct. Maybe later.

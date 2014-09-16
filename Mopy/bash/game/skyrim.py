@@ -8342,7 +8342,7 @@ class MelPnamNam0Handler(MelStructA):
                 for attr,value,action in zip(selfAttrs,unpacked,self.actions):
                     if action: value = action(value)
                     setter(attr,value)
-        elif type == 'NAM0' and size == 208:
+        elif (type == 'NAM0' and size == 208) or (type == 'NAM0' and size == 224):
             # 16 X 13 Layers
             oldFormat = '3Bs3Bs3Bs3Bs'
             selfDefault = self.getDefaults

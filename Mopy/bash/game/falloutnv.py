@@ -821,28 +821,27 @@ statsHeaders = (
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
 soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','SOUN','WTHR','WEAP',))
-soundsActiAttrs = ('soundLooping','soundActivation',)
-soundsAddnAttrs = ('ambientSound',)
-soundsAlchAttrs = ('dropSound','pickupSound','soundConsume',)
-soundsAspcAttrs = ('soundLooping','useSoundFromRegion',)
-soundsContAttrs = ('soundOpen','soundClose','soundRandomLooping',)
-soundsCreaAttrs = ('footWeight','inheritsSoundsFrom','sounds')
-soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
-soundsLighAttrs = ('sound',)
-soundsMgefAttrs = ('castingSound','boltSound','hitSound','areaSound',)
-# soundsRegnAttrs = ('entries.sounds',)
-soundsSnctAttrs = ()
-soundsSndrAttrs = ()
-soundsSopmAttrs = ()
-soundsSounAttrs = ('soundFile','minDist','maxDist','freqAdj','staticAtten',
-                   'stopTime','startTime','point0','point1','point2','point3',
-                   'point4','reverb','priority','xLoc','yLoc',)
-soundsWatrAttrs = ('sound',)
-soundsWthrAttrs = ('sounds',)
-soundsWeapAttrs = ('pickupSound','dropSound','soundGunShot3D','soundGunShot2D',
-    'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo','soundBlock','idleSound',
-    'equipSound','unequipSound','soundMod1Shoot3Ds','soundMod1Shoot2D',
-    'soundLevel',)
+soundsTypes = {
+    "ACTI": ('soundLooping','soundActivation',),
+    "ADDN": ('ambientSound',),
+    "ALCH": ('dropSound','pickupSound','soundConsume',),
+    "ASPC": ('soundLooping','useSoundFromRegion',),
+    "CONT": ('soundOpen','soundClose','soundRandomLooping',),
+    "CREA": ('footWeight','inheritsSoundsFrom','sounds'),
+    "DOOR": ('soundOpen','soundClose','soundLoop',),
+    "LIGH": ('sound',),
+    "MGEF": ('castingSound','boltSound','hitSound','areaSound',),
+#    "REGN": ('entries.sounds',),
+    "SOUN": ('soundFile','minDist','maxDist','freqAdj','staticAtten',
+             'stopTime','startTime','point0','point1','point2','point3',
+             'point4','reverb','priority','xLoc','yLoc',),
+    "WATR": ('sound',),
+    "WTHR": ('sounds',),
+    "WEAP": ('pickupSound','dropSound','soundGunShot3D','soundGunShot2D',
+             'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo','soundBlock','idleSound',
+             'equipSound','unequipSound','soundMod1Shoot3Ds','soundMod1Shoot2D',
+             'soundLevel',),
+}
 
 #-------------------------------------------------------------------------------
 # CellImporter

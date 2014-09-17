@@ -15179,8 +15179,8 @@ class SoundPatcher(ImportPatcher):
             recAttrs_class[recClass] = bush.game.soundsLighAttrs
         for recClass in (MreRecord.type_class[x] for x in ('MGEF',)):
             recAttrs_class[recClass] = bush.game.soundsMgefAttrs
-        for recClass in (MreRecord.type_class[x] for x in ('REGN',)):
-            recAttrs_class[recClass] = bush.game.soundsRegnAttrs
+        # for recClass in (MreRecord.type_class[x] for x in ('REGN',)):
+        #     recAttrs_class[recClass] = bush.game.soundsRegnAttrs
         if bush.game.fsName == u'Skyrim':
             for recClass in (MreRecord.type_class[x] for x in ('SNCT',)):
                 recAttrs_class[recClass] = bush.game.soundsSnctAttrs

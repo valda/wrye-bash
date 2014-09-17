@@ -1836,7 +1836,7 @@ soundsCreaAttrs = ()
 soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
 soundsLighAttrs = ('sound',)
 soundsMgefAttrs = ('sounds',)
-soundsRegnAttrs = ('sounds',)
+# soundsRegnAttrs = ('entries.sounds',)
 soundsSnctAttrs = ('parent','staticVolumeMultiplier',)
 soundsSndrAttrs = ('category','sounds','outputModel','looping','rumbleSendValue',
                    'pctFrequencyShift','pctFrequencyVariance','priority',
@@ -7302,7 +7302,7 @@ class MreRegn(MelRecord):
         MelGroups('entries',
             MelStruct('RDAT', 'I2B2s','entryType', (rdatFlags,'flags'), 'priority',
                      ('unused1',null2)),
-            MelLString('ICON','iconPath'),
+            MelString('ICON','iconPath'),
             # Dont Show RDMO and RDSA when entryType is <> 7
             MelFid('RDMO','music'),
             MelRegnStructA('RDSA', '2If', 'sounds', (FID, 'sound'), (sdflags, 'flags'), 'chance'),

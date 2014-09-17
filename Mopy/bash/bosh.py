@@ -15169,6 +15169,9 @@ class SoundPatcher(ImportPatcher):
             recAttrs_class[recClass] = bush.game.soundsAspcAttrs
         for recClass in (MreRecord.type_class[x] for x in ('CONT',)):
             recAttrs_class[recClass] = bush.game.soundsContAttrs
+        if bush.game.fsName in (u'Oblivion', u'FalloutNV', u'Fallout3',):
+            for recClass in (MreRecord.type_class[x] for x in ('CREA',)):
+                recAttrs_class[recClass] = bush.game.soundsCreaAttrs
         for recClass in (MreRecord.type_class[x] for x in ('DOOR',)):
             recAttrs_class[recClass] = bush.game.soundsDoorAttrs
         for recClass in (MreRecord.type_class[x] for x in ('LIGH',)):

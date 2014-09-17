@@ -1836,6 +1836,7 @@ soundsCreaAttrs = ()
 soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
 soundsLighAttrs = ('sound',)
 soundsMgefAttrs = ('sounds',)
+soundsRegnAttrs = ('sounds',)
 soundsSnctAttrs = ('parent','staticVolumeMultiplier',)
 soundsSndrAttrs = ('category','sounds','outputModel','looping','rumbleSendValue',
                    'pctFrequencyShift','pctFrequencyVariance','priority',
@@ -7319,7 +7320,7 @@ class MreRegn(MelRecord):
             MelRegnStructA('RDGS', 'I4s', 'grass', ('unknown',null4)),
             # Dont Show RDWT is <> 3
             MelRegnStructA('RDWT', '3I', 'weather', (FID, 'weather', None), 'chance', (FID, 'global', None)),
-
+        ),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 #------------------------------------------------------------------------------

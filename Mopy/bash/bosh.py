@@ -15190,6 +15190,8 @@ class SoundPatcher(ImportPatcher):
                 recAttrs_class[recClass] = bush.game.soundsSopmAttrs
         for recClass in (MreRecord.type_class[x] for x in ('SOUN',)):
             recAttrs_class[recClass] = bush.game.soundsSounAttrs
+        for recClass in (MreRecord.type_class[x] for x in ('WATR',)):
+            recAttrs_class[recClass] = bush.game.soundsWatrAttrs
         for recClass in (MreRecord.type_class[x] for x in ('WEAP',)):
             recAttrs_class[recClass] = bush.game.soundsWeapAttrs
         for recClass in (MreRecord.type_class[x] for x in ('WTHR',)):

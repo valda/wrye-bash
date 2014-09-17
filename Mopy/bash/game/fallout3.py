@@ -792,6 +792,7 @@ soundsSopmAttrs = ()
 soundsSounAttrs = ('soundFile','minDist','maxDist','freqAdj','staticAtten',
                    'stopTime','startTime','point0','point1','point2','point3',
                    'point4','reverb','priority','xLoc','yLoc',)
+soundsWatrAttrs = ('sound',)
 soundsWthrAttrs = ('sounds',)
 soundsWeapAttrs = ('pickupSound','dropSound','soundGunShot3D','soundGunShot2D',
     'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo','soundBlock','idleSound',
@@ -1278,10 +1279,10 @@ class MelDestructible(MelGroup):
         """Initialize elements."""
         MelGroup.__init__(self,attr,
             MelStruct('DEST','i2B2s','health','count',
-                     (MelDestructible.MelDestVatsFlags,'flags1',0L),'unused'),
+                     (MelDestructible.MelDestVatsFlags,'flagsDest',0L),'unused'),
             MelGroups('stages',
                 MelStruct('DSTD','=4Bi2Ii','health','index','damageStage',
-                          (MelDestructible.MelDestStageFlags,'flags2',0L),'selfDamagePerSecond',
+                          (MelDestructible.MelDestStageFlags,'flagsDest',0L),'selfDamagePerSecond',
                           (FID,'explosion',None),(FID,'debris',None),'debrisCount'),
                 MelString('DMDL','model'),
                 MelBase('DMDT','dmdt'),
@@ -2712,7 +2713,7 @@ class MreFact(MelRecord):
         MelString('EDID','eid'),
         MelString('FULL','full'),
         MelStructs('XNAM','IiI','relations',(FID,'faction'),'mod','combatReaction'),
-        MelFactData('DATA','2B2s',(_flags,'flags',0L),'flags2','unknown'),
+        MelFactData('DATA','2B2s',(_flags,'flags',0L),'flagsFact','unknown'),
         MelOptStruct('CNAM','f',('crimeGoldMultiplier',None)),
         MelGroups('ranks',
             MelStruct('RNAM','i','rank'),
@@ -3073,7 +3074,7 @@ class MreInfo(MelRecord):
                 MelStruct.dumpData(self,record,out)
     #--MelSet
     melSet = MelSet(
-        MelInfoData('DATA','HH','dialType','nextSpeaker',(_flags,'flags'),(_flags2,'flags2'),),
+        MelInfoData('DATA','HH','dialType','nextSpeaker',(_flags,'flags'),(_flags2,'flagsInfo'),),
         MelFid('QSTI','quests'),
         MelFid('TPIC','topic'),
         MelFid('PNAM','prevInfo'),
@@ -5212,7 +5213,7 @@ class MreWatr(MelRecord):
         MelStruct('ANAM','B','opacity'),
         MelStruct('FNAM','B',(_flags,'flags',0)),
         MelString('MNAM','material'),
-        MelFid('SNAM','sound'),
+        MelFid('SNAM','sound',),
         MelFid('XNAM','effect'),
         MelWatrData('DATA','10f3Bs3Bs3BsI32fH',('windVelocity',0.100),('windDirection',90.0),
             ('waveAmp',0.5),('waveFreq',1.0),('sunPower',50.0),('reflectAmt',0.5),

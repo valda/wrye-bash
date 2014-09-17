@@ -1825,11 +1825,12 @@ statsHeaders = (
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
 soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH',
-                        'MGEF', 'SNCT', 'SNDR', 'SOPM', 'SOUN', 'WEAP', 'WTHR',))
+                        'MGEF', 'SNCT', 'SNDR', 'SOPM', 'SOUN', 'WATR', 'WEAP',
+                        'WTHR',))
 soundsActiAttrs = ('dropSound','pickupSound',)
 soundsAddnAttrs = ('ambientSound',)
 soundsAlchAttrs = ('dropSound','pickupSound','soundConsume',)
-soundsAspcAttrs = ('ambientSound',)
+soundsAspcAttrs = ('ambientSound','regionData','reverb',)
 soundsContAttrs = ('soundOpen','soundClose',)
 soundsCreaAttrs = ()
 soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
@@ -1846,10 +1847,11 @@ soundsSopmAttrs = ('reverbSendpct','outputType','ch0_l','ch0_r','ch0_c','ch0_lFE
                    'minDistance','maxDistance','curve1','curve2','curve3',
                    'curve4','curve5',)
 soundsSounAttrs = ('soundDescriptor',)
+soundsWatrAttrs = ('openSound',)
 soundsWthrAttrs = ('sounds',)
 soundsWeapAttrs = ('pickupSound','dropSound','attackSound','attackSound2D',
                    'attackLoopSound','attackFailSound','idleSound',
-                   'equipSound','unequipSound',)
+                   'equipSound','unequipSound','detectionSoundLevel',)
 
 #-------------------------------------------------------------------------------
 # CellImporter

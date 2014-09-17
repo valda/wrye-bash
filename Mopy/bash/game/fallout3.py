@@ -658,10 +658,10 @@ GmstTweaks = [
 # 'NPC.Race','Actors.Skeleton', 'NpcFacesForceFullImport', 'MustBeActiveIfImported',
 # 'Deflst', 'Destructible'
 allTags = sorted((
-    u'Actors.Anims', u'C.Climate', u'C.Light', u'C.Music', u'C.Name', u'C.Owner', u'C.RecordFlags',
+    u'C.Climate', u'C.Light', u'C.Music', u'C.Name', u'C.Owner', u'C.RecordFlags',
     u'C.Water', u'Deactivate', u'Deflst', u'Delev', u'Destructible', u'Factions',
-    u'Filter', u'Invent', u'Names', u'NoMerge', u'Relations', u'Relev', u'Sound',
-    u'Stats',
+    u'Filter', u'Graphics', u'Invent', u'Names', u'NoMerge', u'Relations',
+    u'Relev', u'Sound', u'Stats',
     ))
 
 #--Patcher available when building a Bashed Patch (referenced by class name)

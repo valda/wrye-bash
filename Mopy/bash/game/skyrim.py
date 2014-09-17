@@ -2334,18 +2334,18 @@ class MelCTDAHandler(MelStructs):
             (target.param1,target.param2,target.runOn,target.reference,target.param3) = unpacked2
         elif size == 28:
             form12345 = form1+form2+form3+form4
-            unpacked2 = ins.unpack(form1234,16,readId)
+            unpacked2 = ins.unpack(form12345,16,readId)
             (target.param1,target.param2,target.runOn,target.reference) = unpacked2
             target.param3 = null4
         elif size == 24:
             form12345 = form1+form2+form3
-            unpacked2 = ins.unpack(form1234,12,readId)
+            unpacked2 = ins.unpack(form12345,12,readId)
             (target.param1,target.param2,target.runOn) = unpacked2
             target.reference = null4
             target.param3 = null4
         elif size == 20:
             form12345 = form1+form2
-            unpacked2 = ins.unpack(form1234,8,readId)
+            unpacked2 = ins.unpack(form12345,8,readId)
             (target.param1,target.param2) = unpacked2
             target.runOn = null4
             target.reference = null4

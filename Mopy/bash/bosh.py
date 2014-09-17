@@ -10872,6 +10872,7 @@ class CBash_PatchFile(ObModFile):
         if not len(self.loadMods): return
         #Parent records must be processed before any children
         #EYES,HAIR must be processed before RACE
+        #This should probably be updated for FO3/FNV/TES5
         groupOrder = ['GMST','GLOB','MGEF','CLAS','HAIR','EYES','RACE',
                       'SOUN','SKIL','SCPT','LTEX','ENCH','SPEL','BSGN',
                       'ACTI','APPA','ARMO','BOOK','CLOT','DOOR','INGR',

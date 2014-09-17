@@ -663,10 +663,10 @@ class ModFile:
         if 'MGEF' in self.tops:
             for record in self.MGEF.getActiveRecords():
                 if isinstance(record,MreRecord.type_class['MGEF']):
-                    if bush.game.fsName == u'Skyrim':
-                        mgef_school[record.eid] = record.magicSkill
-                    else:
+                    if bush.game.fsName == u'Oblivion':
                         mgef_school[record.eid] = record.school
+                    else:
+                        mgef_school[record.eid] = record.magicSkill
         return mgef_school
 
     def getMgefHostiles(self,refresh=False):

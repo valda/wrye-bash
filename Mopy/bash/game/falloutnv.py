@@ -5084,6 +5084,7 @@ class MreRcpe(MelRecord):
 
 #------------------------------------------------------------------------------
 class MreRefr(MelRecord):
+    """Placed Object"""
     classType = 'REFR'
     _flags = Flags(0L,Flags.getNames('visible', 'canTravelTo'))
     _parentFlags = Flags(0L,Flags.getNames('oppositeParent'))

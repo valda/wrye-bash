@@ -664,6 +664,12 @@ allTags = sorted((
     u'Relev', u'Sound', u'Stats',
     ))
 
+# ActorImporter, AliasesPatcher, AssortedTweaker, CellImporter, ContentsChecker,
+# DeathItemPatcher, DestructiblePatcher, FidListsMerger, GlobalsTweaker,
+# GmstTweaker, GraphicsPatcher, ImportFactions, ImportInventory, ImportRelations,
+# ImportScriptContents, ImportScripts, KFFZPatcher, ListsMerger, NamesPatcher,
+# NamesTweaker, NPCAIPackagePatcher, NpcFacePatcher, PatchMerger, RacePatcher,
+# RoadImporter, SoundPatcher, StatsPatcher, UpdateReferences,
 #--Patcher available when building a Bashed Patch (referenced by class name)
 patchers = (
     u'AliasesPatcher', u'CellImporter', u'DestructiblePatcher', u'FidListsMerger',

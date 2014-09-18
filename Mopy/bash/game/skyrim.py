@@ -1833,7 +1833,6 @@ soundsTypes = {
     "ALCH": ('dropSound','pickupSound','soundConsume',),
     "ASPC": ('ambientSound','regionData','reverb',),
     "CONT": ('soundOpen','soundClose',),
-    "CREA": (),
     "DOOR": ('soundOpen','soundClose','soundLoop',),
     "LIGH": ('sound',),
     "MGEF": ('sounds',),
@@ -1908,8 +1907,22 @@ cellRecFlags = {
 #-------------------------------------------------------------------------------
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
-graphicsEfshAttrs = (
-    'unused1','memSBlend','memBlendOp','memZFunc','fillRed',
+graphicsLongsTypes = set((
+    'ACTI', 'ALCH', 'AMMO', 'ARMA', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'DOOR', 'EFSH', 'FLOR', 'FURN',
+    'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'MGEF', 'MISC', 'SLGM', 'STAT', 'TREE',
+    'WEAP',
+))
+graphicsTypes = {
+    "ACTI": ('model',),
+    "ALCH": ('iconPath','model',),
+    "AMMO": ('iconPath','model',),
+    "APPA": ('iconPath','model',),
+    "ARMA": ('male_model','female_model','male_model_1st','female_model_1st',),
+    "ARMO": ('model2','maleIconPath','model4','femaleIconPath','addons',),
+    "BOOK": ('iconPath','model',),
+    "CLAS": ('iconPath',),
+    "DOOR": ('model',),
+    "EFSH": ('unused1','memSBlend','memBlendOp','memZFunc','fillRed',
     'fillGreen','fillBlue','unused2','fillAlphaIn','fillFullAlpha',
     'fillAlphaOut','fillAlphaRatio','fillAlphaAmp','fillAlphaPulse',
     'fillAnimSpeedU','fillAnimSpeedV','edgeEffectOff','edgeRed',
@@ -1941,24 +1954,22 @@ graphicsEfshAttrs = (
     'startFrameVariation','endFrame','loopStartFrame',
     'loopStartVariation','frameCount','frameCountVariation',
     'flags','fillTextScaleU',
-    'fillTextScaleV','sceneGraphDepthLimit',
-)
-graphicsLongsTypes = set((
-    'ACTI', 'ALCH', 'AMMO', 'ARMA', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'DOOR', 'EFSH', 'FLOR', 'FURN',
-    'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'MGEF', 'MISC', 'SLGM', 'STAT', 'TREE',
-    'WEAP',
-))
-# From class: 'ARMO','ARMA','MGEF','EFSH',
-graphicsIconOnlyRecs = ('CLAS','LSCR',)
-graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT','TREE',)
-graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM',)
-graphicsDualModelRecs = ('WEAP',)
-graphicsArmaAttrs = ('male_model','female_model','male_model_1st','female_model_1st',)
-graphicsArmoAttrs = ('model2','maleIconPath','model4','femaleIconPath','addons',)
-graphicsArmoClotAttrs = ()
-graphicsMgefAttrs = ()
-graphicsMgefFidAttrs = ('castingLight','hitShader','enchantShader',)
-graphicsCreaAttrs = ()
+    'fillTextScaleV','sceneGraphDepthLimit',),
+    "FLOR": ('model',),
+    "FURN": ('model',),
+    "GRAS": ('model',),
+    "INGR": ('iconPath','model',),
+    "KEYM": ('iconPath','model',),
+    "LIGH": ('iconPath','model',),
+    "LSCR": ('iconPath',),
+    "SLGM": ('iconPath','model',),
+    "STAT": ('model',),
+    "TREE": ('model',),
+    "WEAP": ('model1','model2','iconPath'),
+}
+graphicsFidTypes = {
+    "MGEF": ('castingLight','hitShader','enchantShader',)
+}
 #-------------------------------------------------------------------------------
 # Inventory Patcher
 #-------------------------------------------------------------------------------

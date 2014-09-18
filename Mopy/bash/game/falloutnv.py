@@ -1155,8 +1155,21 @@ cellRecFlags = {
 #-------------------------------------------------------------------------------
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
-graphicsEfshAttrs = (
-    'flags','unused1','memSBlend',
+graphicsLongsTypes = set(('LSCR','CLAS','LTEX','ACTI','DOOR',
+    'FURN','GRAS','STAT','ALCH','AMMO','BOOK','INGR','KEYM',
+    'LIGH','MISC','WEAP','TREE','ARMA','ARMO','CREA','MGEF','EFSH',
+    ))
+graphicsTypes = {
+    "ACTI": ('model',),
+    "ALCH": ('iconPath','model',),
+    "AMMO": ('iconPath','model',),
+    "ARMA": ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath',),
+    "ARMO": ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath',),
+    "BOOK": ('iconPath','model',),
+    "CLAS": ('iconPath',),
+    "CREA": ('bodyParts','nift_p',),
+    "DOOR": ('model',),
+    "EFSH": ('flags','unused1','memSBlend',
     'memBlendOp','memZFunc','fillRed','fillGreen','fillBlue',
     'unused2','fillAIn','fillAFull','fillAOut','fillAPRatio',
     'fillAAmp','fillAFreq','fillAnimSpdU','fillAnimSpdV','edgeOff',
@@ -1184,23 +1197,23 @@ graphicsEfshAttrs = (
     'textureCountU','textureCountV',
     'addonModelsFadeInTime','addonModelsFadeOutTime',
     'addonModelsScaleStart','addonModelsScaleEnd',
-    'addonModelsScaleInTime','addonModelsScaleOutTime',
-)
-# Removed in FO3/FNV 'SLGM', 'BSGN', 'FLOR', 'SGST', 'CLOT', 'SBSP', 'SKIL', 'LVSP', 'APPA',
-# From class: 'ARMA','ARMO','MGEF','EFSH','CREA',
-graphicsLongsTypes = set(('LSCR','CLAS','LTEX','ACTI','DOOR',
-    'FURN','GRAS','STAT','ALCH','AMMO','BOOK','INGR','KEYM',
-    'LIGH','MISC','WEAP','TREE','ARMA','ARMO','CREA','MGEF','EFSH',))
-graphicsIconOnlyRecs = ('LSCR','CLAS','LTEX',)
-graphicsModelOnlyRecs = ('ACTI','DOOR','FURN','GRAS','STAT',)
-graphicsIconModelRecs = ('ALCH','AMMO','BOOK','INGR','KEYM','LIGH','MISC','TREE','WEAP',)
-graphicsDualModelRecs = ()
-graphicsArmoAttrs = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath',)
-graphicsArmaAttrs = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath',)
-graphicsArmoClotAttrs = ()
-graphicsMgefAttrs = ('iconPath','model',)
-graphicsMgefFidAttrs = ('effectShader','light','objectDisplayShader','cefEnchantment',)
-graphicsCreaAttrs = ('model','bodyParts','nift_p',)
+    'addonModelsScaleInTime','addonModelsScaleOutTime',),
+    "FURN": ('model',),
+    "GRAS": ('model',),
+    "INGR": ('iconPath','model',),
+    "KEYM": ('iconPath','model',),
+    "LIGH": ('iconPath','model',),
+    "LSCR": ('iconPath',),
+    "LTEX": ('iconPath',),
+    "MGEF": ('iconPath','model',),
+    "MISC": ('iconPath','model',),
+    "STAT": ('model',),
+    "TREE": ('iconPath','model',),
+    "WEAP": ('iconPath','model',),
+}
+graphicsFidTypes = {
+    "MGEF": ('effectShader','light','objectDisplayShader','cefEnchantment',)
+}
 #-------------------------------------------------------------------------------
 # Inventory Patcher
 #-------------------------------------------------------------------------------

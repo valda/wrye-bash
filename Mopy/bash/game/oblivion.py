@@ -1607,24 +1607,19 @@ statsHeaders = (
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
 soundsLongsTypes = set(('ACTI','CONT','DOOR','LIGH','MGEF','SOUN','WTHR','WEAP',))
-soundsActiAttrs = ('sound',)
-soundsAddnAttrs = ()
-soundsAlchAttrs = ()
-soundsAspcAttrs = ()
-soundsContAttrs = ('soundOpen','soundClose',)
-soundsCreaAttrs = ('footWeight','inheritsSoundsFrom','sounds')
-soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
-soundsLighAttrs = ('sound',)
-soundsMgefAttrs = ('castingSound','boltSound','hitSound','areaSound',)
-# soundsRegnAttrs = ('entries.sounds',)
-soundsSnctAttrs = ()
-soundsSndrAttrs = ()
-soundsSopmAttrs = ()
-soundsSounAttrs = ('soundFile','minDist1','maxDist1','freqAdj1','minDist2',
-                   'maxDist2','freqAdj2','staticAtten','stopTime','startTime',)
-soundsWatrAttrs = ('sound',)
-soundsWthrAttrs = ('sounds',)
-soundsWeapAttrs = ()
+soundsTypes = {
+    "ACTI": ('sound',),
+    "CONT": ('soundOpen','soundClose',),
+    "CREA": ('footWeight','inheritsSoundsFrom','sounds'),
+    "DOOR": ('soundOpen','soundClose','soundLoop',),
+    "LIGH": ('sound',),
+    "MGEF": ('castingSound','boltSound','hitSound','areaSound',),
+#    "REGN": ('entries.sounds',),
+    "SOUN": ('soundFile','minDist1','maxDist1','freqAdj1','minDist2',
+             'maxDist2','freqAdj2','staticAtten','stopTime','startTime',),
+    "WATR": ('sound',),
+    "WTHR": ('sounds',),
+}
 
 #-------------------------------------------------------------------------------
 # CellImporter

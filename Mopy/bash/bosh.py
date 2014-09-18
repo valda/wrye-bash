@@ -15160,44 +15160,9 @@ class SoundPatcher(ImportPatcher):
         self.classestemp = set()
         #--Type Fields
         recAttrs_class = self.recAttrs_class = {}
-        for recClass in (MreRecord.type_class[x] for x in ('ACTI',)):
-            recAttrs_class[recClass] = bush.game.soundsActiAttrs
-        for recClass in (MreRecord.type_class[x] for x in ('ADDN',)):
-            recAttrs_class[recClass] = bush.game.soundsAddnAttrs
-        for recClass in (MreRecord.type_class[x] for x in ('ALCH',)):
-            recAttrs_class[recClass] = bush.game.soundsAlchAttrs
-        for recClass in (MreRecord.type_class[x] for x in ('ASPC',)):
-            recAttrs_class[recClass] = bush.game.soundsAspcAttrs
-        for recClass in (MreRecord.type_class[x] for x in ('CONT',)):
-            recAttrs_class[recClass] = bush.game.soundsContAttrs
-        if bush.game.fsName in (u'Oblivion', u'FalloutNV', u'Fallout3',):
-            for recClass in (MreRecord.type_class[x] for x in ('CREA',)):
-                recAttrs_class[recClass] = bush.game.soundsCreaAttrs
-        for recClass in (MreRecord.type_class[x] for x in ('DOOR',)):
-            recAttrs_class[recClass] = bush.game.soundsDoorAttrs
-        for recClass in (MreRecord.type_class[x] for x in ('LIGH',)):
-            recAttrs_class[recClass] = bush.game.soundsLighAttrs
-        for recClass in (MreRecord.type_class[x] for x in ('MGEF',)):
-            recAttrs_class[recClass] = bush.game.soundsMgefAttrs
-        # for recClass in (MreRecord.type_class[x] for x in ('REGN',)):
-        #     recAttrs_class[recClass] = bush.game.soundsRegnAttrs
-        if bush.game.fsName == u'Skyrim':
-            for recClass in (MreRecord.type_class[x] for x in ('SNCT',)):
-                recAttrs_class[recClass] = bush.game.soundsSnctAttrs
-        if bush.game.fsName == u'Skyrim':
-            for recClass in (MreRecord.type_class[x] for x in ('SNDR',)):
-                recAttrs_class[recClass] = bush.game.soundsSndrAttrs
-        if bush.game.fsName == u'Skyrim':
-            for recClass in (MreRecord.type_class[x] for x in ('SOPM',)):
-                recAttrs_class[recClass] = bush.game.soundsSopmAttrs
-        for recClass in (MreRecord.type_class[x] for x in ('SOUN',)):
-            recAttrs_class[recClass] = bush.game.soundsSounAttrs
-        for recClass in (MreRecord.type_class[x] for x in ('WATR',)):
-            recAttrs_class[recClass] = bush.game.soundsWatrAttrs
-        for recClass in (MreRecord.type_class[x] for x in ('WEAP',)):
-            recAttrs_class[recClass] = bush.game.soundsWeapAttrs
-        for recClass in (MreRecord.type_class[x] for x in ('WTHR',)):
-            recAttrs_class[recClass] = bush.game.soundsWthrAttrs
+        for recType, attrs in bush.game.soundsTypes.iteritems():
+            recClass = MreRecord.type_class[recType]
+            recAttrs_class[recClass] = attrs
         #--Needs Longs
         self.longTypes = bush.game.soundsLongsTypes
 

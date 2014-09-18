@@ -1827,32 +1827,34 @@ statsHeaders = (
 soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH',
                         'MGEF', 'SNCT', 'SNDR', 'SOPM', 'SOUN', 'WATR', 'WEAP',
                         'WTHR',))
-soundsActiAttrs = ('dropSound','pickupSound',)
-soundsAddnAttrs = ('ambientSound',)
-soundsAlchAttrs = ('dropSound','pickupSound','soundConsume',)
-soundsAspcAttrs = ('ambientSound','regionData','reverb',)
-soundsContAttrs = ('soundOpen','soundClose',)
-soundsCreaAttrs = ()
-soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
-soundsLighAttrs = ('sound',)
-soundsMgefAttrs = ('sounds',)
-# soundsRegnAttrs = ('entries.sounds',)
-soundsSnctAttrs = ('parent','staticVolumeMultiplier',)
-soundsSndrAttrs = ('category','sounds','outputModel','looping','rumbleSendValue',
-                   'pctFrequencyShift','pctFrequencyVariance','priority',
-                   'dbVariance','staticAttenuation',)
-soundsSopmAttrs = ('reverbSendpct','outputType','ch0_l','ch0_r','ch0_c','ch0_lFE',
-                   'ch0_rL','ch0_rR','ch0_bL','ch0_bR','ch1_l','ch1_r','ch1_c',
-                   'ch1_lFE','ch1_rL','ch1_rR','ch1_bL','ch1_bR','ch2_l','ch2_r',
-                   'ch2_c','ch2_lFE','ch2_rL','ch2_rR','ch2_bL','ch2_bR',
-                   'minDistance','maxDistance','curve1','curve2','curve3',
-                   'curve4','curve5',)
-soundsSounAttrs = ('soundDescriptor',)
-soundsWatrAttrs = ('openSound',)
-soundsWthrAttrs = ('sounds',)
-soundsWeapAttrs = ('pickupSound','dropSound','attackSound','attackSound2D',
-                   'attackLoopSound','attackFailSound','idleSound',
-                   'equipSound','unequipSound','detectionSoundLevel',)
+soundsTypes = {
+    "ACTI": ('dropSound','pickupSound',),
+    "ADDN": ('ambientSound',),
+    "ALCH": ('dropSound','pickupSound','soundConsume',),
+    "ASPC": ('ambientSound','regionData','reverb',),
+    "CONT": ('soundOpen','soundClose',),
+    "CREA": (),
+    "DOOR": ('soundOpen','soundClose','soundLoop',),
+    "LIGH": ('sound',),
+    "MGEF": ('sounds',),
+#    "REGN": ('entries.sounds',),
+    "SNCT": ('parent','staticVolumeMultiplier',),
+    "SNDR": ('category','sounds','outputModel','looping','rumbleSendValue',
+             'pctFrequencyShift','pctFrequencyVariance','priority',
+             'dbVariance','staticAttenuation',),
+    "SOPM": ('reverbSendpct','outputType','ch0_l','ch0_r','ch0_c','ch0_lFE',
+             'ch0_rL','ch0_rR','ch0_bL','ch0_bR','ch1_l','ch1_r','ch1_c',
+             'ch1_lFE','ch1_rL','ch1_rR','ch1_bL','ch1_bR','ch2_l','ch2_r',
+             'ch2_c','ch2_lFE','ch2_rL','ch2_rR','ch2_bL','ch2_bR',
+             'minDistance','maxDistance','curve1','curve2','curve3',
+             'curve4','curve5',),
+    "SOUN": ('soundDescriptor',),
+    "WATR": ('openSound',),
+    "WTHR": ('sounds',),
+    "WEAP": ('pickupSound','dropSound','attackSound','attackSound2D',
+             'attackLoopSound','attackFailSound','idleSound',
+             'equipSound','unequipSound','detectionSoundLevel',),
+}
 
 #-------------------------------------------------------------------------------
 # CellImporter

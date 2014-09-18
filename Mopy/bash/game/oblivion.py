@@ -1612,14 +1612,17 @@ soundsAddnAttrs = ()
 soundsAlchAttrs = ()
 soundsAspcAttrs = ()
 soundsContAttrs = ('soundOpen','soundClose',)
+soundsCreaAttrs = ('footWeight','inheritsSoundsFrom','sounds')
 soundsDoorAttrs = ('soundOpen','soundClose','soundLoop',)
 soundsLighAttrs = ('sound',)
 soundsMgefAttrs = ('castingSound','boltSound','hitSound','areaSound',)
+# soundsRegnAttrs = ('entries.sounds',)
 soundsSnctAttrs = ()
 soundsSndrAttrs = ()
 soundsSopmAttrs = ()
 soundsSounAttrs = ('soundFile','minDist1','maxDist1','freqAdj1','minDist2',
                    'maxDist2','freqAdj2','staticAtten','stopTime','startTime',)
+soundsWatrAttrs = ('sound',)
 soundsWthrAttrs = ('sounds',)
 soundsWeapAttrs = ()
 
@@ -3925,7 +3928,7 @@ class MreWatr(MelRecord):
         MelStruct('ANAM','B','opacity'),
         MelStruct('FNAM','B',(_flags,'flags',0)),
         MelString('MNAM','material'),
-        MelFid('SNAM','sound'),
+        MelFid('SNAM','sound',),
         MelWatrData('DATA', '11f3Bs3Bs3BsB3s10fH',('windVelocity',0.100),
                     ('windDirection',90.0),('waveAmp',0.5),('waveFreq',1.0),('sunPower',50.0),
                     ('reflectAmt',0.5),('fresnelAmt',0.0250),('xSpeed',0.0),('ySpeed',0.0),

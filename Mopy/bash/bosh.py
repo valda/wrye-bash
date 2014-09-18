@@ -663,10 +663,10 @@ class ModFile:
         if 'MGEF' in self.tops:
             for record in self.MGEF.getActiveRecords():
                 if isinstance(record,MreRecord.type_class['MGEF']):
-                    if bush.game.fsName == u'Skyrim':
-                        mgef_school[record.eid] = record.magicSkill
-                    else:
+                    if bush.game.fsName == u'Oblivion':
                         mgef_school[record.eid] = record.school
+                    else:
+                        mgef_school[record.eid] = record.magicSkill
         return mgef_school
 
     def getMgefHostiles(self,refresh=False):
@@ -10872,6 +10872,7 @@ class CBash_PatchFile(ObModFile):
         if not len(self.loadMods): return
         #Parent records must be processed before any children
         #EYES,HAIR must be processed before RACE
+        #This should probably be updated for FO3/FNV/TES5
         groupOrder = ['GMST','GLOB','MGEF','CLAS','HAIR','EYES','RACE',
                       'SOUN','SKIL','SCPT','LTEX','ENCH','SPEL','BSGN',
                       'ACTI','APPA','ARMO','BOOK','CLOT','DOOR','INGR',
@@ -15169,12 +15170,17 @@ class SoundPatcher(ImportPatcher):
             recAttrs_class[recClass] = bush.game.soundsAspcAttrs
         for recClass in (MreRecord.type_class[x] for x in ('CONT',)):
             recAttrs_class[recClass] = bush.game.soundsContAttrs
+        if bush.game.fsName in (u'Oblivion', u'FalloutNV', u'Fallout3',):
+            for recClass in (MreRecord.type_class[x] for x in ('CREA',)):
+                recAttrs_class[recClass] = bush.game.soundsCreaAttrs
         for recClass in (MreRecord.type_class[x] for x in ('DOOR',)):
             recAttrs_class[recClass] = bush.game.soundsDoorAttrs
         for recClass in (MreRecord.type_class[x] for x in ('LIGH',)):
             recAttrs_class[recClass] = bush.game.soundsLighAttrs
         for recClass in (MreRecord.type_class[x] for x in ('MGEF',)):
             recAttrs_class[recClass] = bush.game.soundsMgefAttrs
+        # for recClass in (MreRecord.type_class[x] for x in ('REGN',)):
+        #     recAttrs_class[recClass] = bush.game.soundsRegnAttrs
         if bush.game.fsName == u'Skyrim':
             for recClass in (MreRecord.type_class[x] for x in ('SNCT',)):
                 recAttrs_class[recClass] = bush.game.soundsSnctAttrs
@@ -15186,6 +15192,8 @@ class SoundPatcher(ImportPatcher):
                 recAttrs_class[recClass] = bush.game.soundsSopmAttrs
         for recClass in (MreRecord.type_class[x] for x in ('SOUN',)):
             recAttrs_class[recClass] = bush.game.soundsSounAttrs
+        for recClass in (MreRecord.type_class[x] for x in ('WATR',)):
+            recAttrs_class[recClass] = bush.game.soundsWatrAttrs
         for recClass in (MreRecord.type_class[x] for x in ('WEAP',)):
             recAttrs_class[recClass] = bush.game.soundsWeapAttrs
         for recClass in (MreRecord.type_class[x] for x in ('WTHR',)):

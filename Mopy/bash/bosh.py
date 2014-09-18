@@ -12278,38 +12278,29 @@ class GraphicsPatcher(ImportPatcher):
         # Look into why these records are not included, are they part of other patchers?
         # no 'model' attr: 'EYES', 'AVIF', 'MICN',
         # Would anyone ever change these: 'PERK', 'QUST', 'SKIL', 'REPU'
-        for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsIconOnlyRecs):
-            recAttrs_class[recClass] = ('iconPath',)
+        # for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsIconOnlyRecs):
+        #     recAttrs_class[recClass] = ('iconPath',)
         # no 'iconPath' attr: 'ADDN', 'ANIO', 'ARTO', 'BPTD', 'CAMS', 'CLMT',
         # 'CONT', 'EXPL', 'HAZD', 'HPDT', 'IDLM',  'IPCT', 'MATO', 'MSTT',
         # 'PROJ', 'TACT', 'TREE',
-        for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsModelOnlyRecs):
-            recAttrs_class[recClass] = ('model',)
+        # for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsModelOnlyRecs):
+        #     recAttrs_class[recClass] = ('model',)
         # no'model' and 'iconpath' attr: 'COBJ', 'HAIR', 'NOTE', 'CCRD', 'CHIP', 'CMNY', 'IMOD',
         # Is 'RACE' included in race patcher?
-        for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsIconModelRecs):
-            recAttrs_class[recClass] = ('iconPath','model',)
-        if bush.game.fsName == u'Skyrim':
-            for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsDualModelRecs):
-                recAttrs_class[recClass] = ('model1','model2','iconPath')
-        if bush.game.fsName in (u'Skyrim', u'FalloutNV', u'Fallout3',):
-            for recClass in (MreRecord.type_class[x] for x in ('ARMO',)):
-                recAttrs_class[recClass] = bush.game.graphicsArmoAttrs
-        if bush.game.fsName in (u'Skyrim', u'FalloutNV', u'Fallout3',):
-            for recClass in (MreRecord.type_class[x] for x in ('ARMA',)):
-                recAttrs_class[recClass] = bush.game.graphicsArmaAttrs
-        if bush.game.fsName == u'Oblivion':
-            for recClass in (MreRecord.type_class[x] for x in ('ARMO','CLOT',)):
-                recAttrs_class[recClass] = bush.game.graphicsArmoClotAttrs
-        if bush.game.fsName in (u'Oblivion', u'FalloutNV', u'Fallout3',):
-            for recClass in (MreRecord.type_class[x] for x in ('CREA',)):
-                recAttrs_class[recClass] = bush.game.graphicsCreaAttrs
+        # for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsIconModelRecs):
+        #     recAttrs_class[recClass] = ('iconPath','model',)
+
+        for recType, attrs in bush.game.graphicsTypes.iteritems():
+            recClass = MreRecord.type_class[recType]
+            recAttrs_class[recClass] = attrs
+
         # Why does Graphics have a seperate entry for Fids when SoundPatcher does not?
-        for recClass in (MreRecord.type_class[x] for x in ('MGEF',)):
-            recAttrs_class[recClass] = bush.game.graphicsMgefAttrs
-            recFidAttrs_class[recClass] = bush.game.graphicsMgefFidAttrs
-        for recClass in (MreRecord.type_class[x] for x in ('EFSH',)):
-            recAttrs_class[recClass] = bush.game.graphicsEfshAttrs
+        # for recClass in (MreRecord.type_class[x] for x in ('MGEF',)):
+        #     recFidAttrs_class[recClass] = bush.game.graphicsMgefFidAttrs
+        for recType, attrs in bush.game.graphicsFidTypes.iteritems():
+            recClass = MreRecord.type_class[recType]
+            recFidAttrs_class[recClass] = attrs
+
         #--Needs Longs
         self.longTypes = bush.game.graphicsLongsTypes
 

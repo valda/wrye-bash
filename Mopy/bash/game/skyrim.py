@@ -1833,7 +1833,6 @@ soundsTypes = {
     "ALCH": ('dropSound','pickupSound','soundConsume',),
     "ASPC": ('ambientSound','regionData','reverb',),
     "CONT": ('soundOpen','soundClose',),
-    "CREA": (),
     "DOOR": ('soundOpen','soundClose','soundLoop',),
     "LIGH": ('sound',),
     "MGEF": ('sounds',),
@@ -1948,17 +1947,48 @@ graphicsLongsTypes = set((
     'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'MGEF', 'MISC', 'SLGM', 'STAT', 'TREE',
     'WEAP',
 ))
+#        if bush.game.fsName == u'Skyrim':
+#            for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsDualModelRecs):
+#                recAttrs_class[recClass] = ('model1','model2','iconPath')
+
 # From class: 'ARMO','ARMA','MGEF','EFSH',
-graphicsIconOnlyRecs = ('CLAS','LSCR',)
-graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT','TREE',)
-graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM',)
-graphicsDualModelRecs = ('WEAP',)
-graphicsArmaAttrs = ('male_model','female_model','male_model_1st','female_model_1st',)
-graphicsArmoAttrs = ('model2','maleIconPath','model4','femaleIconPath','addons',)
-graphicsArmoClotAttrs = ()
-graphicsMgefAttrs = ()
-graphicsMgefFidAttrs = ('castingLight','hitShader','enchantShader',)
-graphicsCreaAttrs = ()
+#     recAttrs_class[recClass] = ('iconPath','model',)
+#     recAttrs_class[recClass] = ('iconPath',)
+#     recAttrs_class[recClass] = ('model',)
+#graphicsIconOnlyRecs = ('CLAS','LSCR',)
+#graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT','TREE',)
+#graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM',)
+#graphicsDualModelRecs = ('WEAP',)
+#graphicsArmaAttrs = ('male_model','female_model','male_model_1st','female_model_1st',)
+#graphicsArmoAttrs = ('model2','maleIconPath','model4','femaleIconPath','addons',)
+# graphicsArmoClotAttrs = ()
+# graphicsMgefAttrs = ()
+# graphicsCreaAttrs = ()
+graphicsTypes = {
+    "ACTI": ('model',),
+    "ALCH": ('iconPath','model',),
+    "AMMO": ('iconPath','model',),
+    "APPA": ('iconPath','model',),
+    "ARMA": ('male_model','female_model','male_model_1st','female_model_1st',),
+    "ARMO": ('model2','maleIconPath','model4','femaleIconPath','addons',),
+    "BOOK": ('iconPath','model',),
+    "CLAS": ('iconPath',),
+    "DOOR": ('model',),
+    "FLOR": ('model',),
+    "FURN": ('model',),
+    "GRAS": ('model',),
+    "INGR": ('iconPath','model',),
+    "KEYM": ('iconPath','model',),
+    "LIGH": ('iconPath','model',),
+    "LSCR": ('iconPath',),
+    "SLGM": ('iconPath','model',),
+    "STAT": ('model',),
+    "TREE": ('model',),
+    "WEAP": ('model1','model2','iconPath'),
+}
+graphicsFidTypes = {
+    "MGEF": ('castingLight','hitShader','enchantShader',)
+}
 #-------------------------------------------------------------------------------
 # Inventory Patcher
 #-------------------------------------------------------------------------------

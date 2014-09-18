@@ -1667,7 +1667,7 @@ graphicsTypes = {
     "BSGN": ('iconPath',),
     "CLAS": ('iconPath',),
     "CLOT": ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath','flags',),
-    "CREA": ('bodyParts','nift_p',)
+    "CREA": ('bodyParts','nift_p',),
     "DOOR": ('model',),
     "EFSH": ('particleTexture','fillTexture','flags','unused1','memSBlend',
     'memBlendOp','memZFunc','fillRed','fillGreen','fillBlue',

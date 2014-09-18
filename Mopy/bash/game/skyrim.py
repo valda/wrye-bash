@@ -1907,8 +1907,22 @@ cellRecFlags = {
 #-------------------------------------------------------------------------------
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
-graphicsEfshAttrs = (
-    'unused1','memSBlend','memBlendOp','memZFunc','fillRed',
+graphicsLongsTypes = set((
+    'ACTI', 'ALCH', 'AMMO', 'ARMA', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'DOOR', 'EFSH', 'FLOR', 'FURN',
+    'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'MGEF', 'MISC', 'SLGM', 'STAT', 'TREE',
+    'WEAP',
+))
+graphicsTypes = {
+    "ACTI": ('model',),
+    "ALCH": ('iconPath','model',),
+    "AMMO": ('iconPath','model',),
+    "APPA": ('iconPath','model',),
+    "ARMA": ('male_model','female_model','male_model_1st','female_model_1st',),
+    "ARMO": ('model2','maleIconPath','model4','femaleIconPath','addons',),
+    "BOOK": ('iconPath','model',),
+    "CLAS": ('iconPath',),
+    "DOOR": ('model',),
+    "EFSH": ('unused1','memSBlend','memBlendOp','memZFunc','fillRed',
     'fillGreen','fillBlue','unused2','fillAlphaIn','fillFullAlpha',
     'fillAlphaOut','fillAlphaRatio','fillAlphaAmp','fillAlphaPulse',
     'fillAnimSpeedU','fillAnimSpeedV','edgeEffectOff','edgeRed',
@@ -1940,40 +1954,7 @@ graphicsEfshAttrs = (
     'startFrameVariation','endFrame','loopStartFrame',
     'loopStartVariation','frameCount','frameCountVariation',
     'flags','fillTextScaleU',
-    'fillTextScaleV','sceneGraphDepthLimit',
-)
-graphicsLongsTypes = set((
-    'ACTI', 'ALCH', 'AMMO', 'ARMA', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'DOOR', 'EFSH', 'FLOR', 'FURN',
-    'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'MGEF', 'MISC', 'SLGM', 'STAT', 'TREE',
-    'WEAP',
-))
-#        if bush.game.fsName == u'Skyrim':
-#            for recClass in (MreRecord.type_class[x] for x in bush.game.graphicsDualModelRecs):
-#                recAttrs_class[recClass] = ('model1','model2','iconPath')
-
-# From class: 'ARMO','ARMA','MGEF','EFSH',
-#     recAttrs_class[recClass] = ('iconPath','model',)
-#     recAttrs_class[recClass] = ('iconPath',)
-#     recAttrs_class[recClass] = ('model',)
-#graphicsIconOnlyRecs = ('CLAS','LSCR',)
-#graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT','TREE',)
-#graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SLGM',)
-#graphicsDualModelRecs = ('WEAP',)
-#graphicsArmaAttrs = ('male_model','female_model','male_model_1st','female_model_1st',)
-#graphicsArmoAttrs = ('model2','maleIconPath','model4','femaleIconPath','addons',)
-# graphicsArmoClotAttrs = ()
-# graphicsMgefAttrs = ()
-# graphicsCreaAttrs = ()
-graphicsTypes = {
-    "ACTI": ('model',),
-    "ALCH": ('iconPath','model',),
-    "AMMO": ('iconPath','model',),
-    "APPA": ('iconPath','model',),
-    "ARMA": ('male_model','female_model','male_model_1st','female_model_1st',),
-    "ARMO": ('model2','maleIconPath','model4','femaleIconPath','addons',),
-    "BOOK": ('iconPath','model',),
-    "CLAS": ('iconPath',),
-    "DOOR": ('model',),
+    'fillTextScaleV','sceneGraphDepthLimit',),
     "FLOR": ('model',),
     "FURN": ('model',),
     "GRAS": ('model',),

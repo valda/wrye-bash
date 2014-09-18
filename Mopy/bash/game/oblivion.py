@@ -1651,8 +1651,25 @@ cellRecFlags = {
 #-------------------------------------------------------------------------------
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
-graphicsEfshAttrs = (
-    'particleTexture','fillTexture','flags','unused1','memSBlend',
+graphicsLongsTypes = set((
+    'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'BSGN', 'CLAS', 'CLOT', 'CREA',
+    'DOOR', 'EFSH', 'FLOR', 'FURN', 'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'LTEX',
+    'MGEF', 'MISC', 'REGN', 'SGST', 'SLGM', 'STAT', 'TREE', 'WEAP',
+    ))
+graphicsTypes = {
+    "ACTI": ('model',),
+    "ALCH": ('iconPath','model',),
+    "AMMO": ('iconPath','model',),
+    "APPA": ('iconPath','model',),
+    "ARMA": ('male_model','female_model','male_model_1st','female_model_1st',),
+    "ARMO": ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath','flags',),
+    "BOOK": ('iconPath','model',),
+    "BSGN": ('iconPath',),
+    "CLAS": ('iconPath',),
+    "CLOT": ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath','flags',),
+    "CREA": ('bodyParts','nift_p',)
+    "DOOR": ('model',),
+    "EFSH": ('particleTexture','fillTexture','flags','unused1','memSBlend',
     'memBlendOp','memZFunc','fillRed','fillGreen','fillBlue',
     'unused2','fillAIn','fillAFull','fillAOut','fillAPRatio',
     'fillAAmp','fillAFreq','fillAnimSpdU','fillAnimSpdV','edgeOff',
@@ -1666,23 +1683,27 @@ graphicsEfshAttrs = (
     'partKey2','partKey1Time','partKey2Time','key1Red','key1Green',
     'key1Blue','unused4','key2Red','key2Green','key2Blue','unused5',
     'key3Red','key3Green','key3Blue','unused6','key1A','key2A',
-    'key3A','key1Time','key2Time','key3Time'
-)
-graphicsLongsTypes = set((
-    'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMO', 'BOOK', 'BSGN', 'CLAS', 'CLOT', 'CREA',
-    'DOOR', 'EFSH', 'FLOR', 'FURN', 'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'LTEX',
-    'MGEF', 'MISC', 'REGN', 'SGST', 'SLGM', 'STAT', 'TREE', 'WEAP',
-    ))
-graphicsIconOnlyRecs = ('BSGN','LSCR','CLAS','LTEX','REGN',)
-graphicsModelOnlyRecs = ('ACTI','DOOR','FLOR','FURN','GRAS','STAT',)
-graphicsIconModelRecs = ('ALCH','AMMO','APPA','BOOK','INGR','KEYM','LIGH','MISC','SGST','SLGM','WEAP','TREE',)
-graphicsDualModelRecs = ()
-graphicsArmoAttrs = () # Use ArmoClotAttrs
-graphicsArmaAttrs = ()
-graphicsArmoClotAttrs = ('maleBody','maleWorld','maleIconPath','femaleBody','femaleWorld','femaleIconPath','flags',)
-graphicsMgefAttrs = ('iconPath','model',)
-graphicsMgefFidAttrs = ('effectShader','enchantEffect','light',)
-graphicsCreaAttrs = ('bodyParts','nift_p',)
+    'key3A','key1Time','key2Time','key3Time',),
+    "FLOR": ('model',),
+    "FURN": ('model',),
+    "GRAS": ('model',),
+    "INGR": ('iconPath','model',),
+    "KEYM": ('iconPath','model',),
+    "LIGH": ('iconPath','model',),
+    "LSCR": ('iconPath',),
+    "LTEX": ('iconPath',),
+    "MGEF": ('iconPath','model',),
+    "MISC": ('iconPath','model',),
+    "REGN": ('iconPath',),
+    "SGST": ('iconPath','model',),
+    "SLGM": ('iconPath','model',),
+    "STAT": ('model',),
+    "TREE": ('iconPath','model',),
+    "WEAP": ('iconPath','model',),
+}
+graphicsFidTypes = {
+    "MGEF": ('effectShader','enchantEffect','light',)
+}
 #-------------------------------------------------------------------------------
 # Inventory Patcher
 #-------------------------------------------------------------------------------

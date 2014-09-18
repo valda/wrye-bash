@@ -905,7 +905,9 @@ class MelLString(MelString):
     def loadData(self,record,ins,type,size,readId):
         value = ins.readLString(size,readId)
         record.__setattr__(self.attr,value)
-        if self._debug: print u' ',record.__getattribute__(self.attr)
+        # if self._debug: print u' ',record.__getattribute__(self.attr)
+        print value
+        print u' ',record.__getattribute__(self.attr)
 
 #------------------------------------------------------------------------------
 class MelStrings(MelString):

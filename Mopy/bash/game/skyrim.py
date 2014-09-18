@@ -1723,14 +1723,14 @@ allTags = sorted((
     u'C.Acoustic', u'C.Climate', u'C.Encounter', u'C.ImageSpace', u'C.Light',
     u'C.Location', u'C.LTemplate', u'C.Music', u'C.Name', u'C.Owner',
     u'C.RecordFlags', u'C.Water', u'Deactivate', u'Delev', u'Filter', u'Graphics',
-    u'Invent', u'NoMerge', u'Relev', u'Sound', u'Stats',
+    u'Invent', u'NoMerge', u'Relev', u'Sound', u'Stats', u'Names',
     ))
 
 #--Patchers available when building a Bashed Patch
 patchers = (
     u'AliasesPatcher', u'CellImporter', u'GmstTweaker', u'GraphicsPatcher',
     u'ImportInventory', u'ListsMerger', u'PatchMerger', u'SoundPatcher',
-    u'StatsPatcher',
+    u'StatsPatcher', u'NamesPatcher',
     )
 
 #--CBash patchers available when building a Bashed Patch

@@ -211,7 +211,7 @@ class ModReader:
     def setStringTable(self,table={}):
         if table is None:
             self.hasStrings = False
-            self.table = {}
+            self.strings = {}
         else:
             self.hasStrings = True
             self.strings = table
@@ -905,9 +905,7 @@ class MelLString(MelString):
     def loadData(self,record,ins,type,size,readId):
         value = ins.readLString(size,readId)
         record.__setattr__(self.attr,value)
-        # if self._debug: print u' ',record.__getattribute__(self.attr)
-        print value
-        print u' ',record.__getattribute__(self.attr)
+        if self._debug: print u' ',record.__getattribute__(self.attr)
 
 #------------------------------------------------------------------------------
 class MelStrings(MelString):
@@ -1543,6 +1541,7 @@ class MreRecord(object):
                 self.data = ins.read(self.size,type)
             if not self.__class__ == MreRecord:
                 with self.getReader() as reader:
+                    if ins.hasStrings: reader.setStringTable(ins.strings)
                     self.loadData(reader,reader.size)
         #--Discard raw data?
         if unpack == 2:

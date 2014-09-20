@@ -1047,7 +1047,9 @@ statsHeaders = (
 # SoundPatcher
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
-soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','SOUN','WTHR','WEAP',))
+soundsLongsTypes = set((
+    'ACTI', 'ADDN', 'ALCH', 'ASPC', 'CREA', 'CONT', 'DOOR', 'LIGH', 'MGEF', 'SOUN',
+    'WATR', 'WTHR', 'WEAP', 'TACT',))
 soundsTypes = {
     "ACTI": ('soundLooping','soundActivation',),
     "ADDN": ('ambientSound',),
@@ -1076,28 +1078,37 @@ soundsFidTypes = {
 # CellImporter
 #-------------------------------------------------------------------------------
 cellAutoKeys = (
-    u'C.Climate',u'C.Light',u'C.Water',u'C.Owner',u'C.Name',u'C.RecordFlags',u'C.Music')#,u'C.Maps')
+    u'C.Acoustic',u'C.Climate',u'C.Encounter',u'C.ImageSpace',u'C.Light',
+    u'C.LTemplate',u'C.Music',u'C.Name',u'C.Owner',u'C.RecordFlags',u'C.Water',)#,u'C.Maps')
 cellRecAttrs = {
+            u'C.Acoustic': ('acousticSpace',),
             u'C.Climate': ('climate',),
-            u'C.Music': ('music',),
-            u'C.Name': ('full',),
-            u'C.Owner': ('ownership',),
-            u'C.Water': ('water','waterHeight'),
+            u'C.Encounter': ('encounterZone',),
+            u'C.ImageSpace': ('imageSpace',),
             u'C.Light': ('ambientRed','ambientGreen','ambientBlue','unused1',
                         'directionalRed','directionalGreen','directionalBlue','unused2',
                         'fogRed','fogGreen','fogBlue','unused3',
                         'fogNear','fogFar','directionalXY','directionalZ',
-                        'directionalFade','fogClip'),
+                        'directionalFade','fogClip',),
+            u'C.LTemplate': ('lightTemplate',),
+            u'C.Music': ('music',),
+            u'C.Name': ('full',),
+            u'C.Owner': ('ownership',),
             u'C.RecordFlags': ('flags1',), # Yes seems funky but thats the way it is
+            u'C.Water': ('water','waterHeight',),
             }
 cellRecFlags = {
+            u'C.Acoustic': '',
             u'C.Climate': 'behaveLikeExterior',
+            u'C.Encounter': '',
+            u'C.ImageSpace': '',
+            u'C.Light': '',
+            u'C.LTemplate': '',
             u'C.Music': '',
             u'C.Name': '',
             u'C.Owner': 'publicPlace',
-            u'C.Water': 'hasWater',
-            u'C.Light': '',
             u'C.RecordFlags': '',
+            u'C.Water': 'hasWater',
             }
 #-------------------------------------------------------------------------------
 # GraphicsPatcher

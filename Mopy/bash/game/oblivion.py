@@ -1610,7 +1610,7 @@ soundsLongsTypes = set(('ACTI','CONT','DOOR','LIGH','MGEF','SOUN','WTHR','WEAP',
 soundsTypes = {
     "ACTI": ('sound',),
     "CONT": ('soundOpen','soundClose',),
-    "CREA": ('footWeight','inheritsSoundsFrom','sounds'),
+    "CREA": ('footWeight','inheritsSoundsFrom','sounds',),
     "DOOR": ('soundOpen','soundClose','soundLoop',),
     "LIGH": ('sound',),
     "MGEF": ('castingSound','boltSound','hitSound','areaSound',),
@@ -1637,7 +1637,7 @@ cellRecAttrs = {
             u'C.Name': ('full',),
             u'C.Owner': ('ownership',),
             u'C.RecordFlags': ('flags1',), # Yes seems funky but thats the way it is
-            u'C.Water': ('water','waterHeight'),
+            u'C.Water': ('water','waterHeight',),
             }
 cellRecFlags = {
             u'C.Climate': 'behaveLikeExterior',

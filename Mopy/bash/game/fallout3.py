@@ -1113,9 +1113,10 @@ cellRecFlags = {
 #-------------------------------------------------------------------------------
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
-graphicsLongsTypes = set(('LSCR','CLAS','LTEX','ACTI','DOOR',
-    'FURN','GRAS','STAT','ALCH','AMMO','BOOK','INGR','KEYM',
-    'LIGH','MISC','WEAP','TREE','ARMA','ARMO','CREA','MGEF','EFSH',
+graphicsLongsTypes = set((
+    'ACTI', 'ALCH', 'AMMO', 'ARMA', 'ARMO', 'BOOK', 'CLAS', 'CREA', 'DOOR', 'EFSH',
+    'FURN', 'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'LTEX', 'MGEF', 'MISC', 'STAT',
+    'TREE', 'WEAP', 'MGEF',
     ))
 graphicsTypes = {
     "ACTI": ('model',),

@@ -1048,8 +1048,9 @@ statsHeaders = (
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
 soundsLongsTypes = set((
-    'ACTI', 'ADDN', 'ALCH', 'ASPC', 'CREA', 'CONT', 'DOOR', 'LIGH', 'MGEF', 'SOUN',
-    'WATR', 'WTHR', 'WEAP', 'TACT',))
+    'ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'CREA', 'DOOR', 'LIGH', 'MGEF', 'SOUN',
+    'WATR', 'WTHR', 'WEAP', 'TACT',
+))
 soundsTypes = {
     "ACTI": ('soundLooping','soundActivation',),
     "ADDN": ('ambientSound',),

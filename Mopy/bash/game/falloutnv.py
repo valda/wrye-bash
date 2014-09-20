@@ -1102,7 +1102,10 @@ statsHeaders = (
 # SoundPatcher
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
-soundsLongsTypes = set(('ACTI','ADDN','ALCH','ASPC','CONT','DOOR','LIGH','MGEF','SOUN','WTHR','WEAP',))
+soundsLongsTypes = set((
+    'ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'CREA', 'DOOR', 'LIGH', 'MGEF', 'SOUN',
+    'WATR', 'WTHR', 'WEAP', 'TACT',
+))
 soundsTypes = {
     "ACTI": ('soundLooping','soundActivation',),
     "ADDN": ('ambientSound',),
@@ -1167,9 +1170,10 @@ cellRecFlags = {
 #-------------------------------------------------------------------------------
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
-graphicsLongsTypes = set(('LSCR','CLAS','LTEX','ACTI','DOOR',
-    'FURN','GRAS','STAT','ALCH','AMMO','BOOK','INGR','KEYM',
-    'LIGH','MISC','WEAP','TREE','ARMA','ARMO','CREA','MGEF','EFSH',
+graphicsLongsTypes = set((
+    'ACTI', 'ALCH', 'AMMO', 'ARMA', 'ARMO', 'BOOK', 'CLAS', 'CREA', 'DOOR', 'EFSH',
+    'FURN', 'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'LTEX', 'MGEF', 'MISC', 'STAT',
+    'TREE', 'WEAP', 'MGEF',
     ))
 graphicsTypes = {
     "ACTI": ('model',),

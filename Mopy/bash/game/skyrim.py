@@ -1886,7 +1886,7 @@ soundsFidTypes = {
 #-------------------------------------------------------------------------------
 cellAutoKeys = (
     u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music', u'C.Name', u'C.Owner',
-    u'C.RecordFlags', u'C.Water',)#,u'C.Maps')
+    u'C.RecordFlags', u'C.Water',u'C.ShowSky',)#,u'C.Maps')
 
 cellRecAttrs = {
             u'C.Acoustic': ('acousticSpace',),
@@ -1929,33 +1929,25 @@ cellRecFlags = {
             u'C.RecordFlags': '',
             u'C.Owner': 'publicPlace',
             u'C.Water': 'hasWater',
+            u'C.ShowSky': 'useSkyLighting',
             }
 #-------------------------------------------------------------------------------
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
 graphicsLongsTypes = set((
-    'ACTI', 'ADDN', 'ALCH', 'AMMO', 'ANIO', 'APPA', 'ARMA', 'ARMO', 'ARTO', 'BOOK',
-    'BPTD', 'CAMS', 'CLAS', 'CLMT', 'CONT', 'DOOR', 'EFSH', 'EXPL', 'EYES', 'FLOR',
-    'FURN', 'GRAS', 'HAZD', 'HDPT', 'IDLM', 'INGR', 'IPCT', 'KEYM', 'LIGH', 'LSCR',
-    'MATO', 'MISC', 'MSTT', 'PROJ', 'SCRL', 'SLGM', 'STAT', 'TACT', 'TREE', 'WEAP',
-    'WRLD', 'WTHR', 'MGEF',
+'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMA', 'ARMO', 'BOOK', 'CLAS', 'DOOR', 'EFSH',
+'FLOR', 'FURN', 'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'SLGM', 'STAT', 'TREE',
+'WEAP', 'MGEF',
 ))
 graphicsTypes = {
     "ACTI": ('model',),
-    "ADDN": ('model',),
     "ALCH": ('iconPath','model',),
     "AMMO": ('iconPath','model',),
-    "ANIO": ('iconPath','model',),
     "APPA": ('iconPath','model',),
     "ARMA": ('male_model','female_model','male_model_1st','female_model_1st',),
     "ARMO": ('model2','maleIconPath','model4','femaleIconPath','addons',),
-    "ARTO": ('model',),
     "BOOK": ('iconPath','model',),
-    "BPTD": ('model',),
-    "CAMS": ('model',),
     "CLAS": ('iconPath',),
-    "CLMT": ('model',),
-    "CONT": ('model',),
     "DOOR": ('model',),
     "EFSH": ('unused1','memSBlend','memBlendOp','memZFunc','fillRed',
     'fillGreen','fillBlue','unused2','fillAlphaIn','fillFullAlpha',
@@ -1990,31 +1982,17 @@ graphicsTypes = {
     'loopStartVariation','frameCount','frameCountVariation',
     'flags','fillTextScaleU',
     'fillTextScaleV','sceneGraphDepthLimit',),
-    "EXPL": ('model',),
-    "EYES": ('iconPath',),
     "FLOR": ('model',),
     "FURN": ('model',),
     "GRAS": ('model',),
-    "HAZD": ('model',),
-    "HDPT": ('model',),
-    "IDLM": ('model',),
     "INGR": ('iconPath','model',),
-    "IPCT": ('model',),
     "KEYM": ('iconPath','model',),
     "LIGH": ('iconPath','model',),
     "LSCR": ('iconPath',),
-    "MATO": ('model',),
-    "MISC": ('iconPath','model',),
-    "MSTT": ('model',),
-    "PROJ": ('model',),
-    "SCRL": ('model',),
     "SLGM": ('iconPath','model',),
     "STAT": ('model',),
-    "TACT": ('model',),
     "TREE": ('model',),
     "WEAP": ('model1','model2','iconPath','firstPersonModelObject',),
-    "WRLD": ('cloudModel',),
-    "WTHR": ('aurora',),
 }
 graphicsFidTypes = {
     "MGEF": ('castingLight','hitShader','enchantShader',)

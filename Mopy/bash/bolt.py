@@ -1023,8 +1023,8 @@ class Path(object):
     @staticmethod
     def getCase(name):
         """Return the normpath+normcase for specified name/path object."""
+        if not name: return name
         if isinstance(name,Path): return name._cs
-        elif not name: return name
         elif isinstance(name,str): name = _unicode(name)
         return os.path.normcase(os.path.normpath(name))
 

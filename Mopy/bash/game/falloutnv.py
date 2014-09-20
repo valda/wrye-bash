@@ -1124,6 +1124,9 @@ soundsTypes = {
              'equipSound','unequipSound','soundMod1Shoot3Ds','soundMod1Shoot2D',
              'soundLevel',),
 }
+soundsFidTypes = {
+    "TACT": ('sound',),
+}
 
 #-------------------------------------------------------------------------------
 # CellImporter

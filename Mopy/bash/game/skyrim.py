@@ -4124,10 +4124,10 @@ class MreClmt(MelRecord):
     melSet = MelSet(
         MelString('EDID','eid'),
         MelGroups('weatherTypes',
-            MelStruct('WLST','IiI',(FID,'weather',None),'chance',(FID,'global',None),),
+            MelStructA('WLST','IiI',(FID,'weather',None),'chance',(FID,'global',None),),
             ),
-        MelLString('FNAM','sunPath'),
-        MelLString('GNAM','glarePath'),
+        MelString('FNAM','sunPath'),
+        MelString('GNAM','glarePath'),
         MelModel(),
         MelStruct('TNAM','6B','riseBegin','riseEnd','setBegin','setEnd',
                   'volatility','phaseLength',),

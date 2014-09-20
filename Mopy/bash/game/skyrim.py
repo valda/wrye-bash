@@ -7500,6 +7500,27 @@ class MreRegn(MelRecord):
             # elif record.entryType == 5 and self.subType == 'ICON':
             #     MelString.dumpData(self,record,out)
 
+    class MelRegnGroups(MelGroups):
+        def loadData(self,record,ins,type,size,readId):
+            """Reads data from ins into record attribute."""
+            if type == self.type0:
+                target = self.getDefault()
+                record.__getattribute__(self.attr).append(target)
+            else:
+                targets = record.__getattribute__(self.attr)
+                if targets:
+                    target = targets[-1]
+                # BPNN for NVVoidBodyPartData, NVraven02
+                # What does this do?
+                elif type == 'RDSA':
+                    target = self.getDefault()
+                    record.__getattribute__(self.attr).append(target)
+            slots = []
+            for element in self.elements:
+                slots.extend(element.getSlotsUsed())
+            target.__slots__ = slots
+            self.loaders[type].loadData(target,ins,type,size,readId)
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelStruct('RCLR','3Bs','mapRed','mapBlue','mapGreen',('unused1',null1)),
@@ -7507,7 +7528,7 @@ class MreRegn(MelRecord):
         MelGroups('areas',
             MelStruct('RPLI','I','edgeFalloff'),
             MelStructA('RPLD','2f','points','posX','posY')),
-        MelGroups('entries',
+        MelRegnGroups('entries',
             MelStruct('RDAT', 'I2B2s','entryType', (rdatFlags,'flags'), 'priority',
                      ('unused1',null2)),
             MelString('ICON','iconPath'),

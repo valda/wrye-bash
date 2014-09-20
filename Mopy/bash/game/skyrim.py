@@ -1824,21 +1824,39 @@ statsHeaders = (
 # SoundPatcher
 #-------------------------------------------------------------------------------
 # Needs longs in SoundPatcher
-soundsLongsTypes = set(('ACTI', 'ADDN', 'ALCH', 'ASPC', 'CONT', 'DOOR', 'LIGH',
-                        'MGEF', 'SNCT', 'SNDR', 'SOPM', 'SOUN', 'WATR', 'WEAP',
-                        'WTHR',))
+soundsLongsTypes = set((
+    'ACTI', 'ADDN', 'ALCH', 'AMMO', 'APPA', 'ARMA', 'ARMO', 'ASPC', 'BOOK', 'CONT',
+    'DOOR', 'FLOR', 'INGR', 'IPCT', 'KEYM', 'LIGH', 'MGEF', 'MISC', 'MSTT', 'SCRL',
+    'SLGM', 'SNCT', 'SNDR', 'SOPM', 'TREE', 'WATR', 'WEAP', 'WTHR', 'EXPL', 'HAZD',
+    'SNDR', 'SOUN', 'TACT',
+))
 soundsTypes = {
     "ACTI": ('dropSound','pickupSound',),
     "ADDN": ('ambientSound',),
     "ALCH": ('dropSound','pickupSound','soundConsume',),
+    "AMMO": ('pickupSound','dropSound',),
+    "APPA": ('pickupSound','dropSound',),
+    "ARMA": ('footstepSound',),
+    "ARMO": ('pickupSound','dropSound',),
     "ASPC": ('ambientSound','regionData','reverb',),
+    "BOOK": ('pickupSound','dropSound',),
     "CONT": ('soundOpen','soundClose',),
     "DOOR": ('soundOpen','soundClose','soundLoop',),
+    "FLOR": ('harvestSound',),
+    "INGR": ('pickupSound','dropSound',),
+    "IPCT": ('sound1','sound2',),
+    "KEYM": ('pickupSound','dropSound',),
     "LIGH": ('sound',),
+    #Needs to loop over all the sounds
     "MGEF": ('sounds',),
-#    "REGN": ('entries.sounds',),
+#    "REGN": ('entries',),
+    "MISC": ('pickupSound','dropSound',),
+    "MSTT": ('sound',),
+    "SCRL": ('pickupSound','dropSound',),
+    "SLGM": ('pickupSound','dropSound',),
     "SNCT": ('parent','staticVolumeMultiplier',),
-    "SNDR": ('category','sounds','outputModel','looping','rumbleSendValue',
+    # Sounds does not need to loop here
+    "SNDR": ('sounds','looping','rumbleSendValue',
              'pctFrequencyShift','pctFrequencyVariance','priority',
              'dbVariance','staticAttenuation',),
     "SOPM": ('reverbSendpct','outputType','ch0_l','ch0_r','ch0_c','ch0_lFE',
@@ -1847,12 +1865,20 @@ soundsTypes = {
              'ch2_c','ch2_lFE','ch2_rL','ch2_rR','ch2_bL','ch2_bR',
              'minDistance','maxDistance','curve1','curve2','curve3',
              'curve4','curve5',),
-    "SOUN": ('soundDescriptor',),
+    "TREE": ('harvestSound',),
     "WATR": ('openSound',),
-    "WTHR": ('sounds',),
     "WEAP": ('pickupSound','dropSound','attackSound','attackSound2D',
              'attackLoopSound','attackFailSound','idleSound',
              'equipSound','unequipSound','detectionSoundLevel',),
+    #Needs to loop over all the sounds
+    "WTHR": ('sounds',),
+}
+soundsFidTypes = {
+    "EXPL": ('sound1','sound2',),
+    "HAZD": ('sound',),
+    "SNDR": ('category','outputModel',),
+    "SOUN": ('soundDescriptor',),
+    "TACT": ('soundLoop',),
 }
 
 #-------------------------------------------------------------------------------
@@ -1888,7 +1914,7 @@ cellRecAttrs = {
             u'C.Name': ('full',),
             u'C.Owner': ('ownership',),
             u'C.RecordFlags': ('flags1',), # Yes seems funky but thats the way it is
-            u'C.Water': ('water','waterHeight'),
+            u'C.Water': ('water','waterHeight',),
             }
 cellRecFlags = {
             u'C.Acoustic': '',
@@ -1908,19 +1934,28 @@ cellRecFlags = {
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
 graphicsLongsTypes = set((
-    'ACTI', 'ALCH', 'AMMO', 'ARMA', 'APPA', 'ARMO', 'BOOK', 'CLAS', 'DOOR', 'EFSH', 'FLOR', 'FURN',
-    'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'MGEF', 'MISC', 'SLGM', 'STAT', 'TREE',
-    'WEAP',
+    'ACTI', 'ADDN', 'ALCH', 'AMMO', 'ANIO', 'APPA', 'ARMA', 'ARMO', 'ARTO', 'BOOK',
+    'BPTD', 'CAMS', 'CLAS', 'CLMT', 'CONT', 'DOOR', 'EFSH', 'EXPL', 'EYES', 'FLOR',
+    'FURN', 'GRAS', 'HAZD', 'HDPT', 'IDLM', 'INGR', 'IPCT', 'KEYM', 'LIGH', 'LSCR',
+    'MATO', 'MISC', 'MSTT', 'PROJ', 'SCRL', 'SLGM', 'STAT', 'TACT', 'TREE', 'WEAP',
+    'WRLD', 'WTHR', 'MGEF',
 ))
 graphicsTypes = {
     "ACTI": ('model',),
+    "ADDN": ('model',),
     "ALCH": ('iconPath','model',),
     "AMMO": ('iconPath','model',),
+    "ANIO": ('iconPath','model',),
     "APPA": ('iconPath','model',),
     "ARMA": ('male_model','female_model','male_model_1st','female_model_1st',),
     "ARMO": ('model2','maleIconPath','model4','femaleIconPath','addons',),
+    "ARTO": ('model',),
     "BOOK": ('iconPath','model',),
+    "BPTD": ('model',),
+    "CAMS": ('model',),
     "CLAS": ('iconPath',),
+    "CLMT": ('model',),
+    "CONT": ('model',),
     "DOOR": ('model',),
     "EFSH": ('unused1','memSBlend','memBlendOp','memZFunc','fillRed',
     'fillGreen','fillBlue','unused2','fillAlphaIn','fillFullAlpha',
@@ -1955,17 +1990,31 @@ graphicsTypes = {
     'loopStartVariation','frameCount','frameCountVariation',
     'flags','fillTextScaleU',
     'fillTextScaleV','sceneGraphDepthLimit',),
+    "EXPL": ('model',),
+    "EYES": ('iconPath',),
     "FLOR": ('model',),
     "FURN": ('model',),
     "GRAS": ('model',),
+    "HAZD": ('model',),
+    "HDPT": ('model',),
+    "IDLM": ('model',),
     "INGR": ('iconPath','model',),
+    "IPCT": ('model',),
     "KEYM": ('iconPath','model',),
     "LIGH": ('iconPath','model',),
     "LSCR": ('iconPath',),
+    "MATO": ('model',),
+    "MISC": ('iconPath','model',),
+    "MSTT": ('model',),
+    "PROJ": ('model',),
+    "SCRL": ('model',),
     "SLGM": ('iconPath','model',),
     "STAT": ('model',),
+    "TACT": ('model',),
     "TREE": ('model',),
-    "WEAP": ('model1','model2','iconPath'),
+    "WEAP": ('model1','model2','iconPath','firstPersonModelObject',),
+    "WRLD": ('cloudModel',),
+    "WTHR": ('aurora',),
 }
 graphicsFidTypes = {
     "MGEF": ('castingLight','hitShader','enchantShader',)

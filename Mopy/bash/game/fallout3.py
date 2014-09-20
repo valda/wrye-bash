@@ -1068,6 +1068,9 @@ soundsTypes = {
              'soundGunShot3DLooping','soundMeleeSwingGunNoAmmo','soundBlock','idleSound',
              'equipSound','unequipSound','soundLevel',),
 }
+soundsFidTypes = {
+    "TACT": ('sound',),
+}
 
 #-------------------------------------------------------------------------------
 # CellImporter

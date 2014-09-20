@@ -12431,7 +12431,7 @@ class GraphicsPatcher(ImportPatcher):
         log.setHeader(u'= '+self.__class__.name)
         log(u'=== '+_(u'Source Mods'))
         for mod in self.sourceMods:
-            log(u'* '+mod.s)
+            log(u'* ' +mod.s)
         log(u'\n=== '+_(u'Modified Records'))
         for type,count in sorted(type_count.iteritems()):
             if count: log(u'* %s: %d' % (type,count))
@@ -15151,9 +15151,13 @@ class SoundPatcher(ImportPatcher):
         self.classestemp = set()
         #--Type Fields
         recAttrs_class = self.recAttrs_class = {}
+        recFidAttrs_class = self.recFidAttrs_class = {}
         for recType, attrs in bush.game.soundsTypes.iteritems():
             recClass = MreRecord.type_class[recType]
             recAttrs_class[recClass] = attrs
+        for recType, attrs in bush.game.soundsFidTypes.iteritems():
+            recClass = MreRecord.type_class[recType]
+            recFidAttrs_class[recClass] = attrs
         #--Needs Longs
         self.longTypes = bush.game.soundsLongsTypes
 
@@ -15179,9 +15183,22 @@ class SoundPatcher(ImportPatcher):
                 if recClass.classType not in srcFile.tops: continue
                 self.srcClasses.add(recClass)
                 self.classestemp.add(recClass)
+                recFidAttrs = self.recFidAttrs_class.get(recClass, None)
                 for record in srcFile.tops[recClass.classType].getActiveRecords():
                     fid = mapper(record.fid)
-                    temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
+                    if recFidAttrs:
+                        attr_fidvalue = dict((attr,record.__getattribute__(attr)) for attr in recFidAttrs)
+                        for fidvalue in attr_fidvalue.values():
+                            if fidvalue and (fidvalue[0] is None or fidvalue[0] not in self.patchFile.loadSet):
+                                #Ignore the record. Another option would be to just ignore the attr_fidvalue result
+                                mod_skipcount = self.patchFile.patcher_mod_skipcount.setdefault(self.name,{})
+                                mod_skipcount[srcMod] = mod_skipcount.setdefault(srcMod, 0) + 1
+                                break
+                        else:
+                            temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
+                            temp_id_data[fid].update(attr_fidvalue)
+                    else:
+                        temp_id_data[fid] = dict((attr,record.__getattribute__(attr)) for attr in recAttrs)
             for master in masters:
                 if not master in modInfos: continue # or break filter mods
                 if master in cachedMasters:

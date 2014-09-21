@@ -2734,7 +2734,7 @@ class MelString16(MelString):
     """Represents a mod record string element."""
     def loadData(self,record,ins,type,size,readId):
         """Reads data from ins into record attribute."""
-        strLen = ins.unpack('H',2,readId)
+        strLen, = ins.unpack('H',2,readId)
         value = ins.readString(strLen,readId)
         record.__setattr__(self.attr,value)
         if self._debug: print u' ',record.__getattribute__(self.attr)
@@ -2769,7 +2769,7 @@ class MelString32(MelString):
     """Represents a mod record string element."""
     def loadData(self,record,ins,type,size,readId):
         """Reads data from ins into record attribute."""
-        strLen = ins.unpack('I',4,readId)
+        strLen, = ins.unpack('I',4,readId)
         value = ins.readString(strLen,readId)
         record.__setattr__(self.attr,value)
         if self._debug: print u' ',record.__getattribute__(self.attr)
@@ -2807,11 +2807,15 @@ class MelVmad(MelBase):
     class FragmentInfo(object):
         __slots__ = ('unk','fileName',)
         def __init__(self):
-            self.unk = 0
+            self.unk = 2
             self.fileName = u''
 
         def loadData(self,ins,Type,readId):
             if Type == 'INFO':
+                # INFO record fragment scripts are by default stored in a TIF file,
+                # i.e., a file named "TIF_<editorID>_<formID>". Since most INFO records
+                # do not have an editorID, this actually ends up being "TIF__<formID>"
+                # (with two underscores, not one).
                 raise Exception(u"Fragment Scripts for 'INFO' records are not implemented.")
             elif Type == 'PACK':
                 self.unk,count = ins.unpack('=bB',2,readId)
@@ -2825,6 +2829,8 @@ class MelVmad(MelBase):
                 self.unk,count = ins.unpack('=bH',3,readId)
                 self.fileName = ins.readString16(-1,readId)
             elif Type == 'SCEN':
+                # SCEN record fragment scripts are by default stored in a SF file,
+                # i.e., a file named "SF_<editorID>_<formID>".
                 raise Exception(u"Fragment Scripts for 'SCEN' records are not implemented.")
             else:
                 raise Exception(u"Unexpected Fragment Scripts for record type '%s'." % Type)
@@ -2861,7 +2867,7 @@ class MelVmad(MelBase):
             self.fragmentName = u''
 
         def loadData(self,ins,readId):
-            self.unk = ins.unpack('=b',1,readId)
+            self.unk, = ins.unpack('=b',1,readId)
             self.scriptName = ins.readString16(-1,readId)
             self.fragmentName = ins.readString16(-1,readId)
 
@@ -2896,17 +2902,17 @@ class MelVmad(MelBase):
             return data
 
     class QUSTFragment(object):
-        __slots__ = ('index','unk1','unk2','unk3','scriptName','fragmentName',)
+        __slots__ = ('index','unk1','logentry','unk2','scriptName','fragmentName',)
         def __init__(self):
             self.index = -1
             self.unk1 = 0
-            self.unk2 = 0
-            self.unk3 = 0
+            self.logentry = 0
+            self.unk2 = 1
             self.scriptName = u''
             self.fragmentName = u''
 
         def loadData(self,ins,readId):
-            self.index,self.unk1,self.unk2,self.unk3 = ins.unpack('=Hhib',9,readId)
+            self.index,self.unk1,self.logentry,self.unk2 = ins.unpack('=Hhib',9,readId)
             self.scriptName = ins.readString16(-1,readId)
             self.fragmentName = ins.readString16(-1,readId)
 
@@ -2914,7 +2920,7 @@ class MelVmad(MelBase):
             structPack = struct.pack
             scriptName = _encode(self.scriptName)
             fragmentName = _encode(self.fragmentName)
-            data = structPack('=HhibH',self.index,self.unk1,self.unk2,self.unk3,len(scriptName)) + scriptName
+            data = structPack('=HhibH',self.index,self.unk1,self.logentry,self.unk2,len(scriptName)) + scriptName
             data += structPack('=H',len(fragmentName)) + fragmentName
             return data
 
@@ -2929,10 +2935,10 @@ class MelVmad(MelBase):
                    }
 
     class Property(object):
-        __slots__ = ('name','unk','value',)
+        __slots__ = ('name','status','value',)
         def __init__(self):
             self.name = u''
-            self.unk = 1
+            self.status = 1
             self.value = None
 
         def loadData(self,ins,version,objFormat,readId):
@@ -2940,10 +2946,10 @@ class MelVmad(MelBase):
             # Script Property
             self.name = ins.readString16(-1,readId)
             if version >= 4:
-                Type,self.unk = insUnpack('=2B',2,readId)
+                Type,self.status = insUnpack('=2B',2,readId)
             else:
                 Type, = insUnpack('=B',1,readId)
-                self.unk = 1
+                self.status = 1
             # Data
             if Type == 1:
                 # Object (8 Bytes)
@@ -3003,48 +3009,53 @@ class MelVmad(MelBase):
             # Type 1 - Object Reference
             if isinstance(value,tuple):
                 # Object Format 1 - (Fid, Aid, NULL)
-                data += structPack('=BBIHH',1,self.unk,value[0],value[1],0)
+                #data += structPack('=BBIHH',1,self.status,value[0],value[1],0)
+                # Object Format 2 - (NULL, Aid, Fid)
+                data += structPack('=BBHHI',1,self.status,0,value[1],value[0])
             # Type 2 - String
             elif isinstance(value,basestring):
                 value = _encode(value)
-                data += structPack('=BBH',2,self.unk,len(value))+value
+                data += structPack('=BBH',2,self.status,len(value))+value
             # Type 3 - Int
-            elif isinstance(value,(int,long)):
-                data += structPack('=BBi',3,self.unk,value)
+            elif isinstance(value,(int,long)) and not isinstance(value,bool):
+                data += structPack('=BBi',3,self.status,value)
             # Type 4 - Float
             elif isinstance(value,float):
-                data += structPack('=BBf',4,self.unk,value)
+                data += structPack('=BBf',4,self.status,value)
             # Type 5 - Bool
             elif isinstance(value,bool):
-                data += structPack('=BBb',5,self.unk,value)
-            # Type 11 -> 15 - lists
+                data += structPack('=BBb',5,self.status,value)
+            # Type 11 -> 15 - lists, Only supported if vmad version >= 5
             elif isinstance(value,list):
                 # Empty list, fail to object refereneces?
                 count = len(value)
                 if not count:
-                    data += structPack('=BBI',11,self.unk,count)
+                    data += structPack('=BBI',11,self.status,count)
                 else:
                     Type = value[0]
                     # Type 11 - Object References
                     if isinstance(Type,tuple):
-                        value = list(from_iterable([x+(0,) for x in value]))
-                        # value = [fid,aid,NULL, fid,aid,NULL, ...]
-                        data += structPack('=BBI'+count*'IHH',11,self.unk,count,*value)
+                        # Object Format 1 - value = [fid,aid,NULL, fid,aid,NULL, ...]
+                        #value = list(from_iterable([x+(0,) for x in value]))
+                        #data += structPack('=BBI'+count*'IHH',11,self.status,count,*value)
+                        # Object Format 2 - value = [NULL,aid,fid, NULL,aid,fid, ...]
+                        value = list(from_iterable([(0,aid,fid) for fid,aid in value]))
+                        data += structPack('=BBI'+count*'HHI',11,self.status,count,*value)
                     # Type 12 - Strings
                     elif isinstance(Type,basestring):
-                        data += structPack('=BBI',12,self.unk,count)
+                        data += structPack('=BBI',12,self.status,count)
                         for string in value:
                             string = _encode(string)
                             data += structPack('=H',len(string))+string
                     # Type 13 - Ints
-                    elif isinstance(Type,(int,long)):
-                        data += structPack('=BBI'+`count`+'i',13,self.unk,count,*value)
+                    elif isinstance(Type,(int,long)) and not isinstance(Type,bool):
+                        data += structPack('=BBI'+`count`+'i',13,self.status,count,*value)
                     # Type 14 - Floats
                     elif isinstance(Type,float):
-                        data += structPack('=BBI'+`count`+'f',14,self.unk,count,*value)
+                        data += structPack('=BBI'+`count`+'f',14,self.status,count,*value)
                     # Type 15 - Bools
                     elif isinstance(Type,bool):
-                        data += structPack('=BBI'+`count`+'b',15,self.unk,count,*value)
+                        data += structPack('=BBI'+`count`+'b',15,self.status,count,*value)
                     else:
                         raise Exception(u'Unrecognized VMAD property type: %s' % type(Type))
             else:
@@ -3052,10 +3063,10 @@ class MelVmad(MelBase):
             return data
 
     class Script(object):
-        __slots__ = ('name','unk','properties',)
+        __slots__ = ('name','status','properties',)
         def __init__(self):
             self.name = u''
-            self.unk = 0
+            self.status = 0
             self.properties = []
 
         def loadData(self,ins,version,objFormat,readId):
@@ -3065,9 +3076,9 @@ class MelVmad(MelBase):
             # Script Entry
             self.name = ins.readString16(-1,readId)
             if version >= 4:
-                self.unk,propCount = ins.unpack('=BH',3,readId)
+                self.status,propCount = ins.unpack('=BH',3,readId)
             else:
-                self.unk = 0
+                self.status = 0
                 propCount, = ins.unpack('=H',2,readId)
             # Properties
             for x in xrange(propCount):
@@ -3081,8 +3092,8 @@ class MelVmad(MelBase):
             # scriptName
             name = _encode(self.name)
             data = structPack('=H',len(name))+name
-            # unkown, property count
-            data += structPack('=BH',self.unk,len(self.properties))
+            # status, property count
+            data += structPack('=BH',self.status,len(self.properties))
             # properties
             for prop in self.properties:
                 data += prop.dumpData()
@@ -3091,28 +3102,33 @@ class MelVmad(MelBase):
         def mapFids(self,record,function,save=False):
             for prop in self.properties:
                 value = prop.value
-                # Type 1 - Object Reference
+                # Type 1 - Object Reference: (fid,aid)
                 if isinstance(value,tuple):
                     value = (function(value[0]),value[1])
                     if save:
                         prop.value = value
-                # Type 11 - List of Object References
+                # Type 11 - List of Object References: [(fid,aid), (fid,aid), ...]
                 elif isinstance(value,list) and value and isinstance(value[0],tuple):
                     value = [(function(x[0]),x[1]) for x in value]
                     if save:
                         prop.value = value
 
     class Alias(object):
-        __slots__ = ('unk1','aid','unk2','unk3','scripts',)
+        __slots__ = ('fid','aid','scripts',)
         def __init__(self):
-            self.unk1 = 0
+            self.fid = None
             self.aid = 0
-            self.unk2 = 0
-            self.unk3 = 0
             self.scripts = []
 
-        def loadData(self,ins,version,readId):
-            self.unk1,self.aid,self.unk2,self.unk3,objFormat,count = ins.unpack('=hHihhH',14)
+        def loadData(self,ins,version,objFormat,readId):
+            insUnpack = ins.unpack
+            if objFormat == 1:
+                self.fid,self.aid,nul = insUnpack('=IHH',8,readId)
+            else:
+                nul,self.aid,self.fid = insUnpack('=HHI',8,readId)
+            # _version - always the same as the primary script's version.
+            # _objFormat - always the same as the primary script's objFormat.
+            _version,_objFormat,count = insUnpack('=hhH',6,readId)
             Script = MelVmad.Script
             self.scripts = []
             scriptAppend = self.scripts.append
@@ -3121,7 +3137,21 @@ class MelVmad(MelBase):
                 script.loadData(ins,version,objFormat,readId)
                 scriptAppend(script)
 
+        def dumpData(self):
+            structPack = struct.pack
+            # Object Format 2 - (NULL, Aid, Fid)
+            data = structPack('=HHI',0,self.aid,self.fid)
+            # vmad version, object format, script count
+            data += structPack('=3H',5,2,len(self.scripts))
+            # Primary Scripts
+            for script in self.scripts:
+                data += script.dumpData()
+            return data
+
         def mapFids(self,record,function,save=False):
+            if self.fid:
+                fid = function(self.fid)
+                if save: self.fid = fid
             for script in self.scripts:
                 script.mapFids(record,function,save)
 
@@ -3149,7 +3179,7 @@ class MelVmad(MelBase):
             # Script Fragments
             if insTell() < endOfField:
                 self.fragmentInfo = MelVmad.FragmentInfo()
-                Type = record._Type
+                Type = record.recType
                 fragCount = self.fragmentInfo.loadData(ins,Type,readId)
                 self.fragments = []
                 fragAppend = self.fragments.append
@@ -3160,13 +3190,13 @@ class MelVmad(MelBase):
                     fragAppend(frag)
                 # Alias Scripts
                 if Type == 'QUST':
-                    aliasCount = ins.unpack('=H',2,readId)
+                    aliasCount, = ins.unpack('=H',2,readId)
                     Alias = MelVmad.Alias
                     self.aliases = []
                     aliasAppend = self.aliases.append
                     for x in xrange(aliasCount):
                         alias = Alias()
-                        alias.loadData(ins,version,readId)
+                        alias.loadData(ins,version,objFormat,readId)
                         aliasAppend(alias)
                 else:
                     self.aliases = None
@@ -3178,20 +3208,21 @@ class MelVmad(MelBase):
         def dumpData(self,record):
             structPack = struct.pack
             # Header
-            data = structPack('=3H',4,1,len(self.scripts)) # vmad version, object format, script count
+            #data = structPack('=3H',4,1,len(self.scripts)) # vmad version, object format, script count
+            data = structPack('=3H',5,2,len(self.scripts)) # vmad version, object format, script count
             # Primary Scripts
             for script in self.scripts:
                 data += script.dumpData()
             # Script Fragments
             if self.fragments:
-                Type = record._Type
+                Type = record.recType
                 data += self.fragmentInfo.dumpData(Type,len(self.fragments))
                 for frag in self.fragments:
                     data += frag.dumpData()
                 if Type == 'QUST':
                     # Alias Scripts
                     aliases = self.aliases
-                    data += structPack('=H',2,len(aliases))
+                    data += structPack('=H',len(aliases))
                     for alias in aliases:
                         data += alias.dumpData()
             return data
@@ -7229,13 +7260,221 @@ class MreProj(MelRecord):
 #------------------------------------------------------------------------------
 # Marker for organization please don't remove ---------------------------------
 # QUST ------------------------------------------------------------------------
+class MelItems(MelGroups):
+    """Handle writing out a preceding COCT subrecord for count of CNTO/COED subrecords."""
+    NullLoader = MelNull('ANY')
+    def __init__(self, attr='items'):
+        MelGroups.__init__(self,attr,
+            MelStruct('CNTO','=Ii',(FID,'item',None),'count'),
+            MelOptStruct('COED','=IIf',(FID,'owner'),(FID,'glob'), ('rank'))
+            )
+
+    def getLoaders(self, loaders):
+        MelGroups.getLoaders(self,loaders)
+        loaders['COCT'] = MelItems.NullLoader
+
+    def dumpData(self,record,out):
+        value = record.__getattribute__(self.attr)
+        # Only write the COCT/CNTO/COED subrecords if count > 0
+        if value:
+            out.packSub('COCT','<I',len(value))
+            MelGroups.dumpData(self,record,out)
+
 class MreQust(MelRecord):
     """Quest"""
     classType = 'QUST'
+    _questFlags = Flags(0,Flags.getNames(
+        (0,'startGameEnabled'),
+        (2,'wildernessEncounter'),
+        (3,'allowRepeatedStages'),
+        (8,'runOnce'),
+        (9,'excludeFromDialogueExport'),
+        (10,'warnOnAliasFillFailure'),
+    ))
+    _stageFlags = Flags(0,Flags.getNames(
+        (0,'unknown0'),
+        (1,'startUpStage'),
+        (2,'startDownStage'),
+        (3,'keepInstanceDataFromHereOn'),
+    ))
+    stageEntryFlags = Flags(0,Flags.getNames('complete','fail'))
+    objectiveFlags = Flags(0,Flags.getNames('oredWithPrevious'))
+    targetFlags = Flags(0,Flags.getNames('ignoresLocks'))
+    aliasFlags = Flags(0,Flags.getNames(
+        (0,'reservesLocationReference'),
+        (1,'optional'),
+        (2,'questObject'),
+        (3,'allowReuseInQuest'),
+        (4,'allowDead'),
+        (5,'inLoadedArea'),
+        (6,'essential'),
+        (7,'allowDisabled'),
+        (8,'storesText'),
+        (9,'allowReserved'),
+        (10,'protected'),
+        (11,'noFillType'),
+        (12,'allowDestroyed'),
+        (13,'closest'),
+        (14,'usesStoredText'),
+        (15,'initiallyDisabled'),
+        (16,'allowCleared'),
+        (17,'clearsNameWhenRemoved'),
+    ))
+
+    #--Condition loader
+    class MelQuestLoaders(DataDict):
+        """Since CTDA/CIS1/CIS2 and FNAM subrecords occur in two different places,
+        we need to replace ordinary 'loaders' dictionary with a 'dictionary' that will
+        return the correct element to handle the CTDA/CIS1/CIS2/FNAM subrecord. 'Correct'
+        element is determined by which other subrecords have been encountered."""
+        def __init__(self,loaders,
+                     dialogueConditions,
+                     eventConditions,
+                     stages,
+                     objectives,
+                     aliases,
+                     description,
+                     targets
+            ):
+            self.data = loaders
+            self.type_conditions = {
+                'EDID':dialogueConditions,
+                'NEXT':eventConditions,
+                'INDX':stages,
+                'QOBJ':objectives,
+                'ALID':aliases,
+                'ALED':targets,
+            }
+            self.conditions = dialogueConditions
+            self.type_fnam = {
+                'EDID':objectives,
+                'ANAM':aliases,
+            }
+            self.fnam = objectives
+            self.type_nnam = {
+                'EDID':objectives,
+                'ANAM':description,
+            }
+            self.nnam = objectives
+            self.type_targets = {
+                'EDID':objectives,
+                'ANAM':targets,
+            }
+            self.targets = objectives
+        def __getitem__(self,key):
+            if key in ('CTDA','CIS1','CIS2'): return self.conditions
+            if key == 'FNAM': return self.fnam
+            if key == 'NNAM': return self.nnam
+            if key == 'QSTA': return self.targets
+            self.conditions = self.type_conditions.get(key, self.conditions)
+            self.fnam = self.type_fnam.get(key, self.fnam)
+            self.nnam = self.type_nnam.get(key, self.nnam)
+            self.targets = self.type_targets.get(key, self.targets)
+            return self.data[key]
+
+    class MelAliasGroups(MelGroups):
+        def loadData(self,record,ins,type,size,readId):
+            """Reads data from ins into record attribute."""
+            if type in ('ALST','ALLS'):
+                target = self.getDefault()
+                record.__getattribute__(self.attr).append(target)
+            else:
+                target = record.__getattribute__(self.attr)[-1]
+            slots = []
+            for element in self.elements:
+                slots.extend(element.getSlotsUsed())
+            target.__slots__ = slots
+            self.loaders[type].loadData(target,ins,type,size,readId)
 
     melSet = MelSet(
         MelString('EDID','eid'),
         MelVmad(),
+        MelLString('FULL','full'),
+        MelStruct('DNAM','=H2BiI',(_questFlags,'questFlags',0L),'priority','formVersion','unknown','questType'),
+        MelStruct('ENAM','4s','event'),
+        MelFids('QTGL','textDisplayGlobals'),
+        MelString('FLTR','objectWindowFilter'),
+        MelConditions('dialogueConditions'),
+        MelBase('NEXT','marker'),
+        MelConditions('eventConditions'),
+        MelGroups('stages',
+            MelStruct('INDX','hBb','index',(_stageFlags,'flags',0L),'unknown'),
+            MelGroups('logEntries',
+                MelStruct('QSDT','B',(stageEntryFlags,'stageFlags',0L)),
+                MelConditions(),
+                MelLString('CNAM','text'),
+                MelFid('NAM0', 'nextQuest'),
+                ),
+            ),
+        MelGroups('objectives',
+            MelStruct('QOBJ','h','index'),
+            MelStruct('FNAM','I',(objectiveFlags,'flags',0L)),
+            MelLString('NNAM','description'),
+            MelGroups('targets',
+                MelStruct('QSTA','iB3s','alias',(targetFlags,'flags'),('unused1',null3)),
+                MelConditions(),
+                ),
+            ),
+        MelBase('ANAM','aliasMarker'),
+        MelAliasGroups('aliases',
+            MelOptStruct('ALST','I',('aliasId',None)),
+            MelOptStruct('ALLS','I',('aliasIdLocation',None)),
+            MelString('ALID', 'aliasName'),
+            MelStruct('FNAM','I',(aliasFlags,'flags',0L)),
+            MelOptStruct('ALFI','i',('forcedIntoAlias',None)),
+            MelFid('ALFL','specificLocation'),
+            MelFid('ALFR','forcedReference'),
+            MelFid('ALUA','uniqueActor'),
+            MelGroup('locationAliasReference',
+                MelStruct('ALFA','I','alias'),
+                MelFid('KNAM','keyword'),
+                MelFid('ALRT','referenceType'),
+                ),
+            MelGroup('externalAliasReference',
+                MelFid('ALEQ','quest'),
+                MelStruct('ALEA','I','alias'),
+                ),
+            MelGroup('createReferenceToObject',
+                MelFid('ALCO','object'),
+                MelStruct('ALCA','I','createAt'),
+                MelStruct('ALCL','I','createLevel'),
+                ),
+            MelGroup('findMatchingReferenceNearAlias',
+                MelStruct('ALNA','I','alias'),
+                MelStruct('ALNT','I','type'),
+                ),
+            MelGroup('findMatchingReferenceFromEvent',
+                MelStruct('ALFE','4s',('fromEvent',null4)),
+                MelStruct('ALFD','4s',('eventData',null4)),
+                ),
+            MelConditions(),
+            MelCountedFidList('KWDA', 'keywords', 'KSIZ', '<I'),
+            MelItems(),
+            MelFid('SPOR','spectatorOverridePackageList'),
+            MelFid('OCOR','observeDeadBodyOverridePackageList'),
+            MelFid('GWOR','guardWarnOverridePackageList'),
+            MelFid('ECOR','combatOverridePackageList'),
+            MelFid('ALDN','displayName'),
+            MelFids('ALSP','aliasSpells'),
+            MelFids('ALFC','aliasFactions'),
+            MelFids('ALPC','aliasPackageData'),
+            MelFid('VTCK','voiceType'),
+            MelBase('ALED','aliasEnd'),
+            ),
+        MelLString('NNAM','description'),
+        MelGroups('targets',
+            MelStruct('QSTA','iB3s','alias',(targetFlags,'flags'),('unused1',null3)),
+            MelConditions(),
+            ),
+        )
+    melSet.loaders = MelQuestLoaders(melSet.loaders,
+                                     melSet.elements[7],  # dialogueConditions
+                                     melSet.elements[9],  # eventConditions
+                                     melSet.elements[10], # stages
+                                     melSet.elements[11], # objectives
+                                     melSet.elements[13], # aliases
+                                     melSet.elements[14], # description
+                                     melSet.elements[15], # targets
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -7244,7 +7483,7 @@ class MreQust(MelRecord):
 # Marker for organization please don't remove ---------------------------------
 # RACE ------------------------------------------------------------------------
 class MreRace(MelRecord):
-    """Quest"""
+    """Race"""
     classType = 'RACE'
 
     melSet = MelSet(
@@ -8920,6 +9159,10 @@ mergeClasses = (
         MreRfct, MreScrl, MreShou, MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm,
         MreSoun, MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap,
         MreWoop, MreWthr,
+
+
+        ####### for debug
+        MreQust,
     )
 
 #--Extra read classes: these record types will always be loaded, even if patchers

@@ -1721,9 +1721,10 @@ GmstTweaks = [
 #--Tags supported by this game
 allTags = sorted((
     u'C.Acoustic', u'C.Climate', u'C.Encounter', u'C.ImageSpace', u'C.Light',
-    u'C.Location', u'C.LTemplate', u'C.Music', u'C.Name', u'C.Owner',
-    u'C.RecordFlags', u'C.Water', u'Deactivate', u'Delev', u'Filter', u'Graphics',
-    u'Invent', u'NoMerge', u'Relev', u'Sound', u'Stats', u'Names',
+    u'C.Location', u'C.SkyLighting', u'C.LTemplate', u'C.Music', u'C.Name',
+    u'C.Owner', u'C.RecordFlags', u'C.Water', u'Deactivate', u'Delev',
+    u'Filter', u'Graphics', u'Invent', u'NoMerge', u'Relev', u'Sound',
+    u'Stats', u'Names',
     ))
 
 #--Patchers available when building a Bashed Patch
@@ -1892,7 +1893,7 @@ stringSoundsTypes = ()
 #-------------------------------------------------------------------------------
 cellAutoKeys = (
     u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music', u'C.Name', u'C.Owner',
-    u'C.RecordFlags', u'C.Water',u'C.ShowSky',)#,u'C.Maps')
+    u'C.RecordFlags', u'C.SkyLighting', u'C.Water',)#,u'C.Maps')
 
 cellRecAttrs = {
             u'C.Acoustic': ('acousticSpace',),
@@ -1924,7 +1925,7 @@ cellRecAttrs = {
             }
 cellRecFlags = {
             u'C.Acoustic': '',
-            u'C.Climate': 'behaveLikeExterior',
+            u'C.Climate': 'showSky',
             u'C.Encounter': '',
             u'C.ImageSpace': '',
             u'C.Light': '',
@@ -1932,10 +1933,10 @@ cellRecFlags = {
             u'C.LTemplate': '',
             u'C.Music': '',
             u'C.Name': '',
-            u'C.RecordFlags': '',
             u'C.Owner': 'publicPlace',
+            u'C.RecordFlags': '',
+            u'C.SkyLighting': 'useSkyLighting',
             u'C.Water': 'hasWater',
-            u'C.ShowSky': 'useSkyLighting',
             }
 #-------------------------------------------------------------------------------
 # GraphicsPatcher
@@ -3981,7 +3982,7 @@ class MreCell(MelRecord):
         (5,'publicPlace'),
         (6,'handChanged'),
         # showSky
-        (7,'behaveLikeExterior'),
+        (7,'showSky'),
         ))
 
     CellDataFlags2 = bolt.Flags(0L,bolt.Flags.getNames(

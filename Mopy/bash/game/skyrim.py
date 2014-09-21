@@ -1829,9 +1829,9 @@ statsHeaders = (
 # Needs longs in SoundPatcher
 soundsLongsTypes = set((
     'ACTI', 'ADDN', 'ALCH', 'AMMO', 'APPA', 'ARMA', 'ARMO', 'ASPC', 'BOOK', 'CONT',
-    'DOOR', 'FLOR', 'INGR', 'IPCT', 'KEYM', 'LIGH', 'MGEF', 'MISC', 'MSTT', 'SCRL',
-    'SLGM', 'SNCT', 'SNDR', 'SOPM', 'TREE', 'WATR', 'WEAP', 'WTHR', 'EXPL', 'HAZD',
-    'SNDR', 'SOUN', 'TACT',
+    'DOOR', 'EFSH', 'EXPL', 'FLOR', 'HAZD', 'INGR', 'IPCT', 'KEYM', 'LIGH', 'MGEF',
+    'MISC', 'MSTT', 'SCRL', 'SLGM', 'SNCT', 'SNDR', 'SOPM', 'SOUN', 'TACT', 'TREE',
+    'WATR', 'WEAP', 'WTHR',
 ))
 soundsTypes = {
     "ACTI": ('dropSound','pickupSound',),
@@ -1845,21 +1845,24 @@ soundsTypes = {
     "BOOK": ('pickupSound','dropSound',),
     "CONT": ('soundOpen','soundClose',),
     "DOOR": ('soundOpen','soundClose','soundLoop',),
+    "EFSH": ('ambientSound',),
+    "EXPL": ('sound1','sound2',),
     "FLOR": ('harvestSound',),
+    "HAZD": ('sound',),
     "INGR": ('pickupSound','dropSound',),
     "IPCT": ('sound1','sound2',),
     "KEYM": ('pickupSound','dropSound',),
     "LIGH": ('sound',),
     #Needs to loop over all the sounds
     "MGEF": ('sounds',),
-#    "REGN": ('entries',),
+    # "REGN": ('entries',),
     "MISC": ('pickupSound','dropSound',),
     "MSTT": ('sound',),
     "SCRL": ('pickupSound','dropSound',),
     "SLGM": ('pickupSound','dropSound',),
     "SNCT": ('parent','staticVolumeMultiplier',),
     # Sounds does not need to loop here
-    "SNDR": ('sounds','looping','rumbleSendValue',
+    "SNDR": ('category','outputModel','sounds','looping','rumbleSendValue',
              'pctFrequencyShift','pctFrequencyVariance','priority',
              'dbVariance','staticAttenuation',),
     "SOPM": ('reverbSendpct','outputType','ch0_l','ch0_r','ch0_c','ch0_lFE',
@@ -1868,6 +1871,8 @@ soundsTypes = {
              'ch2_c','ch2_lFE','ch2_rL','ch2_rR','ch2_bL','ch2_bR',
              'minDistance','maxDistance','curve1','curve2','curve3',
              'curve4','curve5',),
+    "SOUN": ('soundDescriptor',),
+    "TACT": ('soundLoop',),
     "TREE": ('harvestSound',),
     "WATR": ('openSound',),
     "WEAP": ('pickupSound','dropSound','attackSound','attackSound2D',
@@ -1877,11 +1882,6 @@ soundsTypes = {
     "WTHR": ('sounds',),
 }
 soundsFidTypes = {
-    "EXPL": ('sound1','sound2',),
-    "HAZD": ('sound',),
-    "SNDR": ('category','outputModel',),
-    "SOUN": ('soundDescriptor',),
-    "TACT": ('soundLoop',),
 }
 
 #-------------------------------------------------------------------------------

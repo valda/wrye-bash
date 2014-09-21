@@ -1770,7 +1770,9 @@ statsTypes = {
         'LIGH':('eid', 'weight', 'value', 'duration'),
         'MISC':('eid', 'weight', 'value'),
         'SLGM':('eid', 'weight', 'value'),
-        'WEAP':('eid', 'weight', 'value', 'damage', 'speed', 'reach', 'enchantPoints'),
+        'WEAP':('eid', 'weight', 'value', 'damage', 'speed', 'reach',
+                'enchantPoints', 'stagger', 'critDamage','criticalMultiplier',
+                'criticalEffect',),
     }
 statsHeaders = (
                 #--Alch

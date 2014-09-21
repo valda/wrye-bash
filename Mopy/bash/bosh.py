@@ -14074,6 +14074,135 @@ class CBash_ImportScripts(CBash_ImportPatcher):
         self.class_mod_count = {}
 
 #------------------------------------------------------------------------------
+class ImportStringSounds(ImportPatcher):
+    """Merge changes to actor inventories."""
+    name = _(u'Import String Sounds')
+    text = _(u"Merges changes to String Sounds.")
+    autoKey = (u'S.Sound',u'S.SoundOnly')
+    iiMode = True
+
+    #--Patch Phase ------------------------------------------------------------
+    def initPatchFile(self,patchFile,loadMods):
+        """Prepare to handle specified patch mod. All functions are called after this."""
+        Patcher.initPatchFile(self,patchFile,loadMods)
+        self.id_deltas = {}
+        self.srcMods = self.getConfigChecked()
+        self.srcMods = [x for x in self.srcMods if (x in modInfos and x in patchFile.allMods)]
+        self.stringsOnlyMods = set(x for x in self.srcMods if
+            (x in patchFile.mergeSet and set((u'S.SoundOnly',)) & modInfos[x].getBashTags()))
+        self.isActive = bool(self.srcMods)
+        self.masters = set()
+        for srcMod in self.srcMods:
+            self.masters |= set(modInfos[srcMod].header.masters)
+        self.allMods = self.masters | set(self.srcMods)
+        self.mod_id_entries = {}
+        self.touched = set()
+
+    def initData(self,progress):
+        """Get data from source files."""
+        if not self.isActive or not self.srcMods: return
+        loadFactory = LoadFactory(False,'OTFT',) # needs changed
+        progress.setFull(len(self.srcMods))
+        for index,srcMod in enumerate(self.srcMods):
+            srcInfo = modInfos[srcMod]
+            srcFile = ModFile(srcInfo,loadFactory)
+            srcFile.load(True)
+            mapper = srcFile.getLongMapper()
+            for block in (srcFile.OTFT):
+                for record in block.getActiveRecords():
+                    self.touched.add(mapper(record.fid))
+            progress.plus()
+
+    def getReadClasses(self):
+        """Returns load factory classes needed for reading."""
+        return bush.game.stringSoundsTypes if self.isActive else ()
+
+    def getWriteClasses(self):
+        """Returns load factory classes needed for writing."""
+        return bush.game.stringSoundsTypes if self.isActive else ()
+
+    def scanModFile(self, modFile, progress):
+        """Add record from modFile."""
+        if not self.isActive: return
+        touched = self.touched
+        id_deltas = self.id_deltas
+        mod_id_entries = self.mod_id_entries
+        mapper = modFile.getLongMapper()
+        modName = modFile.fileInfo.name
+        #--Master or source?
+        if modName in self.allMods:
+            id_entries = mod_id_entries[modName] = {}
+            modFile.convertToLongFids(bush.game.stringSoundsTypes)
+            for type in bush.game.stringSoundsTypes:
+                for record in getattr(modFile,type).getActiveRecords():
+                    if record.fid in touched:
+                        id_entries[record.fid] = record.items[:]
+        #--Source mod?
+        if modName in self.srcMods:
+            id_entries = {}
+            for master in modFile.tes4.masters:
+                if master in mod_id_entries:
+                    id_entries.update(mod_id_entries[master])
+            for fid,entries in mod_id_entries[modName].iteritems():
+                masterEntries = id_entries.get(fid)
+                if masterEntries is None: continue
+                masterItems = set(x.item for x in masterEntries)
+                modItems = set(x.item for x in entries)
+                removeItems = masterItems - modItems
+                addItems = modItems - masterItems
+                addEntries = [x for x in entries if x.item in addItems]
+                deltas = self.id_deltas.get(fid)
+                if deltas is None: deltas = self.id_deltas[fid] = []
+                deltas.append((removeItems,addEntries))
+        #--Keep record?
+        if modFile.fileInfo.name not in self.stringsOnlyMods:
+            for type in bush.game.stringSoundsTypes:
+                patchBlock = getattr(self.patchFile,type)
+                id_records = patchBlock.id_records
+                for record in getattr(modFile,type).getActiveRecords():
+                    fid = mapper(record.fid)
+                    if fid in touched and fid not in id_records:
+                        patchBlock.setRecord(record.getTypeCopy(mapper))
+
+    def buildPatch(self,log,progress):
+        """Applies delta to patchfile."""
+        if not self.isActive: return
+        keep = self.patchFile.getKeeper()
+        id_deltas = self.id_deltas
+        mod_count = {}
+        for type in bush.game.stringSoundsTypes:
+            for record in getattr(self.patchFile,type).records:
+                changed = False
+                deltas = id_deltas.get(record.fid)
+                if not deltas: continue
+                removable = set(x.item for x in record.items)
+                for removeItems,addEntries in reversed(deltas):
+                    if removeItems:
+                        #--Skip if some items to be removed have already been removed
+                        if not removeItems.issubset(removable): continue
+                        record.items = [x for x in record.items if x.item not in removeItems]
+                        removable -= removeItems
+                        changed = True
+                    if addEntries:
+                        current = set(x.item for x in record.items)
+                        for entry in addEntries:
+                            if entry.item not in current:
+                                record.items.append(entry)
+                                changed = True
+                if changed:
+                    keep(record.fid)
+                    mod = record.fid[0]
+                    mod_count[mod] = mod_count.get(mod,0) + 1
+        #--Log
+        log.setHeader(u'= '+self.__class__.name)
+        log(u'=== '+_(u'Source Mods'))
+        for mod in self.srcMods:
+            log(u'* '+mod.s)
+        log(u'\n=== '+_(u'Inventories Changed: %d') % sum(mod_count.values()))
+        for mod in modInfos.getOrdered(mod_count):
+            log(u'* %s: %3d' % (mod.s,mod_count[mod]))
+
+#------------------------------------------------------------------------------
 class ImportInventory(ImportPatcher):
     """Merge changes to actor inventories."""
     name = _(u'Import Inventory')

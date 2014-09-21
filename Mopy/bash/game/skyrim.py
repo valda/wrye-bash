@@ -5741,7 +5741,7 @@ class MreIpctData(MelStruct):
     def __init__(self,type='DATA'):
         MelStruct.__init__(self,type,'fI2fI2B2s','effectDuration','effectOrientation',
                   'angleThreshold','placementRadius','soundLevel',
-                  (MreIpctData.IpctTypeFlags,'flags',0L),'impactResult','unknown',),
+                  (MreIpctData.IpctTypeFlags,'flags',None),'impactResult','unknown',),
 
     def loadData(self,record,ins,type,size,readId):
         """Handle older truncated DATA for IPCT subrecord."""

@@ -1887,7 +1887,7 @@ soundsFidTypes = {
 #-------------------------------------------------------------------------------
 # Strings SoundPatcher
 #-------------------------------------------------------------------------------
-stringSoundsTypes = ()
+stringSoundsRecs = ()
 #-------------------------------------------------------------------------------
 # CellImporter
 #-------------------------------------------------------------------------------
@@ -9166,8 +9166,6 @@ mergeClasses = (
         MreRfct, MreScrl, MreShou, MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm,
         MreSoun, MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap,
         MreWoop, MreWthr,
-
-
         ####### for debug
         MreQust,
     )
@@ -9200,6 +9198,8 @@ def init():
         MreSoun, MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap,
         MreWoop, MreWthr,
         MreCell, MreWrld, # MreNavm, MreNavi
+        ####### for debug
+        MreQust,
         MreHeader,
         ))
 

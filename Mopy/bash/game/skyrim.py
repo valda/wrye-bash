@@ -1721,9 +1721,10 @@ GmstTweaks = [
 #--Tags supported by this game
 allTags = sorted((
     u'C.Acoustic', u'C.Climate', u'C.Encounter', u'C.ImageSpace', u'C.Light',
-    u'C.Location', u'C.LTemplate', u'C.Music', u'C.Name', u'C.Owner',
-    u'C.RecordFlags', u'C.Water', u'Deactivate', u'Delev', u'Filter', u'Graphics',
-    u'Invent', u'NoMerge', u'Relev', u'Sound', u'Stats', u'Names',
+    u'C.Location', u'C.SkyLighting', u'C.LTemplate', u'C.Music', u'C.Name',
+    u'C.Owner', u'C.RecordFlags', u'C.Water', u'Deactivate', u'Delev',
+    u'Filter', u'Graphics', u'Invent', u'NoMerge', u'Relev', u'Sound',
+    u'Stats', u'Names',
     ))
 
 #--Patchers available when building a Bashed Patch
@@ -1770,7 +1771,9 @@ statsTypes = {
         'LIGH':('eid', 'weight', 'value', 'duration'),
         'MISC':('eid', 'weight', 'value'),
         'SLGM':('eid', 'weight', 'value'),
-        'WEAP':('eid', 'weight', 'value', 'damage', 'speed', 'reach', 'enchantPoints'),
+        'WEAP':('eid', 'weight', 'value', 'damage', 'speed', 'reach',
+                'enchantPoints', 'stagger', 'critDamage','criticalMultiplier',
+                'criticalEffect',),
     }
 statsHeaders = (
                 #--Alch
@@ -1826,9 +1829,9 @@ statsHeaders = (
 # Needs longs in SoundPatcher
 soundsLongsTypes = set((
     'ACTI', 'ADDN', 'ALCH', 'AMMO', 'APPA', 'ARMA', 'ARMO', 'ASPC', 'BOOK', 'CONT',
-    'DOOR', 'FLOR', 'INGR', 'IPCT', 'KEYM', 'LIGH', 'MGEF', 'MISC', 'MSTT', 'SCRL',
-    'SLGM', 'SNCT', 'SNDR', 'SOPM', 'TREE', 'WATR', 'WEAP', 'WTHR', 'EXPL', 'HAZD',
-    'SNDR', 'SOUN', 'TACT',
+    'DOOR', 'EFSH', 'EXPL', 'FLOR', 'HAZD', 'INGR', 'IPCT', 'KEYM', 'LIGH', 'MGEF',
+    'MISC', 'MSTT', 'SCRL', 'SLGM', 'SNCT', 'SNDR', 'SOPM', 'SOUN', 'TACT', 'TREE',
+    'WATR', 'WEAP', 'WTHR',
 ))
 soundsTypes = {
     "ACTI": ('dropSound','pickupSound',),
@@ -1842,21 +1845,24 @@ soundsTypes = {
     "BOOK": ('pickupSound','dropSound',),
     "CONT": ('soundOpen','soundClose',),
     "DOOR": ('soundOpen','soundClose','soundLoop',),
+    "EFSH": ('ambientSound',),
+    "EXPL": ('sound1','sound2',),
     "FLOR": ('harvestSound',),
+    "HAZD": ('sound',),
     "INGR": ('pickupSound','dropSound',),
     "IPCT": ('sound1','sound2',),
     "KEYM": ('pickupSound','dropSound',),
     "LIGH": ('sound',),
     #Needs to loop over all the sounds
     "MGEF": ('sounds',),
-#    "REGN": ('entries',),
+    # "REGN": ('entries',),
     "MISC": ('pickupSound','dropSound',),
     "MSTT": ('sound',),
     "SCRL": ('pickupSound','dropSound',),
     "SLGM": ('pickupSound','dropSound',),
     "SNCT": ('parent','staticVolumeMultiplier',),
     # Sounds does not need to loop here
-    "SNDR": ('sounds','looping','rumbleSendValue',
+    "SNDR": ('category','outputModel','sounds','looping','rumbleSendValue',
              'pctFrequencyShift','pctFrequencyVariance','priority',
              'dbVariance','staticAttenuation',),
     "SOPM": ('reverbSendpct','outputType','ch0_l','ch0_r','ch0_c','ch0_lFE',
@@ -1865,6 +1871,8 @@ soundsTypes = {
              'ch2_c','ch2_lFE','ch2_rL','ch2_rR','ch2_bL','ch2_bR',
              'minDistance','maxDistance','curve1','curve2','curve3',
              'curve4','curve5',),
+    "SOUN": ('soundDescriptor',),
+    "TACT": ('soundLoop',),
     "TREE": ('harvestSound',),
     "WATR": ('openSound',),
     "WEAP": ('pickupSound','dropSound','attackSound','attackSound2D',
@@ -1874,19 +1882,18 @@ soundsTypes = {
     "WTHR": ('sounds',),
 }
 soundsFidTypes = {
-    "EXPL": ('sound1','sound2',),
-    "HAZD": ('sound',),
-    "SNDR": ('category','outputModel',),
-    "SOUN": ('soundDescriptor',),
-    "TACT": ('soundLoop',),
 }
 
+#-------------------------------------------------------------------------------
+# Strings SoundPatcher
+#-------------------------------------------------------------------------------
+stringSoundsRecs = ()
 #-------------------------------------------------------------------------------
 # CellImporter
 #-------------------------------------------------------------------------------
 cellAutoKeys = (
     u'C.Acoustic', u'C.Climate', u'C.Light', u'C.Location', u'C.Music', u'C.Name', u'C.Owner',
-    u'C.RecordFlags', u'C.Water',u'C.ShowSky',)#,u'C.Maps')
+    u'C.RecordFlags', u'C.SkyLighting', u'C.Water',)#,u'C.Maps')
 
 cellRecAttrs = {
             u'C.Acoustic': ('acousticSpace',),
@@ -1918,7 +1925,7 @@ cellRecAttrs = {
             }
 cellRecFlags = {
             u'C.Acoustic': '',
-            u'C.Climate': 'behaveLikeExterior',
+            u'C.Climate': 'showSky',
             u'C.Encounter': '',
             u'C.ImageSpace': '',
             u'C.Light': '',
@@ -1926,18 +1933,18 @@ cellRecFlags = {
             u'C.LTemplate': '',
             u'C.Music': '',
             u'C.Name': '',
-            u'C.RecordFlags': '',
             u'C.Owner': 'publicPlace',
+            u'C.RecordFlags': '',
+            u'C.SkyLighting': 'useSkyLighting',
             u'C.Water': 'hasWater',
-            u'C.ShowSky': 'useSkyLighting',
             }
 #-------------------------------------------------------------------------------
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
 graphicsLongsTypes = set((
-'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMA', 'ARMO', 'BOOK', 'CLAS', 'DOOR', 'EFSH',
-'FLOR', 'FURN', 'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'SLGM', 'STAT', 'TREE',
-'WEAP', 'MGEF',
+    'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMA', 'ARMO', 'BOOK', 'CLAS', 'CONT', 'DOOR',
+    'EFSH', 'FLOR', 'FURN', 'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'SLGM', 'STAT',
+    'TREE', 'WEAP', 'MGEF', 'WTHR',
 ))
 graphicsTypes = {
     "ACTI": ('model',),
@@ -1946,8 +1953,9 @@ graphicsTypes = {
     "APPA": ('iconPath','model',),
     "ARMA": ('male_model','female_model','male_model_1st','female_model_1st',),
     "ARMO": ('model2','maleIconPath','model4','femaleIconPath','addons',),
-    "BOOK": ('iconPath','model',),
+    "BOOK": ('iconPath','model','inventoryArt',),
     "CLAS": ('iconPath',),
+    "CONT": ('model',),
     "DOOR": ('model',),
     "EFSH": ('unused1','memSBlend','memBlendOp','memZFunc','fillRed',
     'fillGreen','fillBlue','unused2','fillAlphaIn','fillFullAlpha',
@@ -1993,6 +2001,7 @@ graphicsTypes = {
     "STAT": ('model',),
     "TREE": ('model',),
     "WEAP": ('model1','model2','iconPath','firstPersonModelObject',),
+    "WTHR": ('wthrAmbientColors',),
 }
 graphicsFidTypes = {
     "MGEF": ('castingLight','hitShader','enchantShader',)
@@ -3975,7 +3984,7 @@ class MreCell(MelRecord):
         (5,'publicPlace'),
         (6,'handChanged'),
         # showSky
-        (7,'behaveLikeExterior'),
+        (7,'showSky'),
         ))
 
     CellDataFlags2 = bolt.Flags(0L,bolt.Flags.getNames(
@@ -5734,7 +5743,7 @@ class MreIpctData(MelStruct):
     def __init__(self,type='DATA'):
         MelStruct.__init__(self,type,'fI2fI2B2s','effectDuration','effectOrientation',
                   'angleThreshold','placementRadius','soundLevel',
-                  (MreIpctData.IpctTypeFlags,'flags',0L),'impactResult','unknown',),
+                  (MreIpctData.IpctTypeFlags,'flags',None),'impactResult','unknown',),
 
     def loadData(self,record,ins,type,size,readId):
         """Handle older truncated DATA for IPCT subrecord."""
@@ -5915,22 +5924,26 @@ class MreLctn(MelRecord):
 
 # Verified for 305
 #------------------------------------------------------------------------------
-class MelLgtmData(MelStruct):
-    def __init__(self,type='DALC'):
-        MelStruct.__init__(self,type,'=4B4B4B4B4B4B4Bf',
-            'redXplus','greenXplus','blueXplus','unknownXplus', # 'X+'
-            'redXminus','greenXminus','blueXminus','unknownXminus', # 'X-'
-            'redYplus','greenYplus','blueYplus','unknownYplus', # 'Y+'
-            'redYminus','greenYminus','blueYminus','unknownYminus', # 'Y-'
-            'redZplus','greenZplus','blueZplus','unknownZplus', # 'Z+'
-            'redZminus','greenZminus','blueZminus','unknownZminus', # 'Z-'
-            'redSpec','greenSpec','blueSpec','unknownSpec', # Specular Color Values
-            'fresnelPower' # Fresnel Power
-        )
-
 class MreLgtm(MelRecord):
     """Lgtm Item"""
     classType = 'LGTM'
+
+    class MelLgtmDalc(MelStruct):
+        """Handle older truncated DALC for LGTM subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 32:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 24:
+                unpacked = ins.unpack('=4B4B4B4B4B4B',size,readId)
+            else:
+                raise ModSizeError(record.inName,readId,32,size,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked
 
     melSet = MelSet(
         MelString('EDID','eid'),
@@ -5947,8 +5960,16 @@ class MreLgtm(MelRecord):
             'fogMax','lightFaceStart','lightFadeEnd',
             ('unknownData2',null4),
             ),
-        # 32 Bytes
-        MelLgtmData(),
+        MelLgtmDalc('DALC','=4B4B4B4B4B4B4Bf',
+            'redXplus','greenXplus','blueXplus','unknownXplus', # 'X+'
+            'redXminus','greenXminus','blueXminus','unknownXminus', # 'X-'
+            'redYplus','greenYplus','blueYplus','unknownYplus', # 'Y+'
+            'redYminus','greenYminus','blueYminus','unknownYminus', # 'Y-'
+            'redZplus','greenZplus','blueZplus','unknownZplus', # 'Z+'
+            'redZminus','greenZminus','blueZminus','unknownZminus', # 'Z-'
+            'redSpec','greenSpec','blueSpec','unknownSpec', # Specular Color Values
+            'fresnelPower', # Fresnel Power
+            ),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -9033,6 +9054,23 @@ class MreWthr(MelRecord):
             (5, 'skyStaticsFollowsSunPosition'),
         ))
 
+    class MelWthrDalc(MelStruct):
+        """Handle older truncated DALC for WTHR subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 32:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 24:
+                unpacked = ins.unpack('=4B4B4B4B4B4B',size,readId)
+            else:
+                raise ModSizeError(record.inName,readId,32,size,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelString('\x300TX','cloudTextureLayer_0'),
@@ -9103,7 +9141,18 @@ class MreWthr(MelRecord):
         MelFids('TNAM','skyStatics',),
         MelStruct('IMSP','4I',(FID,'imageSpacesSunrise'),(FID,'imageSpacesDay'),
                   (FID,'imageSpacesSunset'),(FID,'imageSpacesNight'),),
-        MelBase('DALC','directionalAmbientLightingColors'),
+        MelGroups('wthrAmbientColors',
+            MelWthrDalc('DALC','=4B4B4B4B4B4B4Bf',
+                'redXplus','greenXplus','blueXplus','unknownXplus', # 'X+'
+                'redXminus','greenXminus','blueXminus','unknownXminus', # 'X-'
+                'redYplus','greenYplus','blueYplus','unknownYplus', # 'Y+'
+                'redYminus','greenYminus','blueYminus','unknownYminus', # 'Y-'
+                'redZplus','greenZplus','blueZplus','unknownZplus', # 'Z+'
+                'redZminus','greenZminus','blueZminus','unknownZminus', # 'Z-'
+                'redSpec','greenSpec','blueSpec','unknownSpec', # Specular Color Values
+                'fresnelPower', # Fresnel Power
+                ),
+            ),
         MelBase('NAM2','nam2_p'),
         MelBase('NAM3','nam3_p'),
         MelModel('aurora','MODL'),
@@ -9159,8 +9208,6 @@ mergeClasses = (
         MreRfct, MreScrl, MreShou, MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm,
         MreSoun, MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap,
         MreWoop, MreWthr,
-
-
         ####### for debug
         MreQust,
     )
@@ -9193,6 +9240,8 @@ def init():
         MreSoun, MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap,
         MreWoop, MreWthr,
         MreCell, MreWrld, # MreNavm, MreNavi
+        ####### for debug
+        MreQust,
         MreHeader,
         ))
 

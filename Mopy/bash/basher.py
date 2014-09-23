@@ -8043,6 +8043,8 @@ class CBash_RoadImporter(bosh.CBash_RoadImporter,ListPatcher): pass
 class SoundPatcher(bosh.SoundPatcher,ListPatcher): pass
 class CBash_SoundPatcher(bosh.CBash_SoundPatcher,ListPatcher): pass
 
+class ImportStringSounds(bosh.ImportStringSounds,ListPatcher): pass
+
 class StatsPatcher(bosh.StatsPatcher,ListPatcher): pass
 class CBash_StatsPatcher(bosh.CBash_StatsPatcher,ListPatcher): pass
 

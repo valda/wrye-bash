@@ -1942,9 +1942,9 @@ cellRecFlags = {
 # GraphicsPatcher
 #-------------------------------------------------------------------------------
 graphicsLongsTypes = set((
-'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMA', 'ARMO', 'BOOK', 'CLAS', 'DOOR', 'EFSH',
-'FLOR', 'FURN', 'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'SLGM', 'STAT', 'TREE',
-'WEAP', 'MGEF',
+    'ACTI', 'ALCH', 'AMMO', 'APPA', 'ARMA', 'ARMO', 'BOOK', 'CLAS', 'CONT', 'DOOR',
+    'EFSH', 'FLOR', 'FURN', 'GRAS', 'INGR', 'KEYM', 'LIGH', 'LSCR', 'SLGM', 'STAT',
+    'TREE', 'WEAP', 'MGEF', 'WTHR',
 ))
 graphicsTypes = {
     "ACTI": ('model',),
@@ -1953,8 +1953,9 @@ graphicsTypes = {
     "APPA": ('iconPath','model',),
     "ARMA": ('male_model','female_model','male_model_1st','female_model_1st',),
     "ARMO": ('model2','maleIconPath','model4','femaleIconPath','addons',),
-    "BOOK": ('iconPath','model',),
+    "BOOK": ('iconPath','model','inventoryArt',),
     "CLAS": ('iconPath',),
+    "CONT": ('model',),
     "DOOR": ('model',),
     "EFSH": ('unused1','memSBlend','memBlendOp','memZFunc','fillRed',
     'fillGreen','fillBlue','unused2','fillAlphaIn','fillFullAlpha',
@@ -2000,6 +2001,7 @@ graphicsTypes = {
     "STAT": ('model',),
     "TREE": ('model',),
     "WEAP": ('model1','model2','iconPath','firstPersonModelObject',),
+    "WTHR": ('wthrAmbientColors',),
 }
 graphicsFidTypes = {
     "MGEF": ('castingLight','hitShader','enchantShader',)
@@ -5922,22 +5924,26 @@ class MreLctn(MelRecord):
 
 # Verified for 305
 #------------------------------------------------------------------------------
-class MelLgtmData(MelStruct):
-    def __init__(self,type='DALC'):
-        MelStruct.__init__(self,type,'=4B4B4B4B4B4B4Bf',
-            'redXplus','greenXplus','blueXplus','unknownXplus', # 'X+'
-            'redXminus','greenXminus','blueXminus','unknownXminus', # 'X-'
-            'redYplus','greenYplus','blueYplus','unknownYplus', # 'Y+'
-            'redYminus','greenYminus','blueYminus','unknownYminus', # 'Y-'
-            'redZplus','greenZplus','blueZplus','unknownZplus', # 'Z+'
-            'redZminus','greenZminus','blueZminus','unknownZminus', # 'Z-'
-            'redSpec','greenSpec','blueSpec','unknownSpec', # Specular Color Values
-            'fresnelPower' # Fresnel Power
-        )
-
 class MreLgtm(MelRecord):
     """Lgtm Item"""
     classType = 'LGTM'
+
+    class MelLgtmDalc(MelStruct):
+        """Handle older truncated DALC for LGTM subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 32:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 24:
+                unpacked = ins.unpack('=4B4B4B4B4B4B',size,readId)
+            else:
+                raise ModSizeError(record.inName,readId,32,size,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked
 
     melSet = MelSet(
         MelString('EDID','eid'),
@@ -5954,8 +5960,16 @@ class MreLgtm(MelRecord):
             'fogMax','lightFaceStart','lightFadeEnd',
             ('unknownData2',null4),
             ),
-        # 32 Bytes
-        MelLgtmData(),
+        MelLgtmDalc('DALC','=4B4B4B4B4B4B4Bf',
+            'redXplus','greenXplus','blueXplus','unknownXplus', # 'X+'
+            'redXminus','greenXminus','blueXminus','unknownXminus', # 'X-'
+            'redYplus','greenYplus','blueYplus','unknownYplus', # 'Y+'
+            'redYminus','greenYminus','blueYminus','unknownYminus', # 'Y-'
+            'redZplus','greenZplus','blueZplus','unknownZplus', # 'Z+'
+            'redZminus','greenZminus','blueZminus','unknownZminus', # 'Z-'
+            'redSpec','greenSpec','blueSpec','unknownSpec', # Specular Color Values
+            'fresnelPower', # Fresnel Power
+            ),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
@@ -9040,6 +9054,23 @@ class MreWthr(MelRecord):
             (5, 'skyStaticsFollowsSunPosition'),
         ))
 
+    class MelWthrDalc(MelStruct):
+        """Handle older truncated DALC for WTHR subrecord."""
+        def loadData(self,record,ins,type,size,readId):
+            if size == 32:
+                MelStruct.loadData(self,record,ins,type,size,readId)
+                return
+            elif size == 24:
+                unpacked = ins.unpack('=4B4B4B4B4B4B',size,readId)
+            else:
+                raise ModSizeError(record.inName,readId,32,size,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelString('\x300TX','cloudTextureLayer_0'),
@@ -9110,7 +9141,18 @@ class MreWthr(MelRecord):
         MelFids('TNAM','skyStatics',),
         MelStruct('IMSP','4I',(FID,'imageSpacesSunrise'),(FID,'imageSpacesDay'),
                   (FID,'imageSpacesSunset'),(FID,'imageSpacesNight'),),
-        MelBase('DALC','dalc_p'),
+        MelGroups('wthrAmbientColors',
+            MelWthrDalc('DALC','=4B4B4B4B4B4B4Bf',
+                'redXplus','greenXplus','blueXplus','unknownXplus', # 'X+'
+                'redXminus','greenXminus','blueXminus','unknownXminus', # 'X-'
+                'redYplus','greenYplus','blueYplus','unknownYplus', # 'Y+'
+                'redYminus','greenYminus','blueYminus','unknownYminus', # 'Y-'
+                'redZplus','greenZplus','blueZplus','unknownZplus', # 'Z+'
+                'redZminus','greenZminus','blueZminus','unknownZminus', # 'Z-'
+                'redSpec','greenSpec','blueSpec','unknownSpec', # Specular Color Values
+                'fresnelPower', # Fresnel Power
+                ),
+            ),
         MelBase('NAM2','nam2_p'),
         MelBase('NAM3','nam3_p'),
         MelModel('aurora','MODL'),

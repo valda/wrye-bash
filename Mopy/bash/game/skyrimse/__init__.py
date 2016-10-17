@@ -23,7 +23,7 @@
 # =============================================================================
 
 """This modules defines static data for use by bush, when TES V:
-   Skyrim is set at the active game."""
+   Skyrim Special Edition is set at the active game."""
 import re
 import struct
 from .constants import *
@@ -41,23 +41,23 @@ from .records import MreCell, MreWrld, MreFact, MreAchr, MreDial, MreInfo, \
     MreLctn, MreTact, MreBptd, MreDobj, MreLscr, MreDlvw, MreTree, MreWatr, \
     MreFlor, MreEyes, MreWeap, MreIngr, MreClfm, MreMesg, MreLigh, MreExpl, \
     MreLcrt, MreStat, MreAmmo, MreSmqn, MreImad, MreSoun, MreAvif, MreCont, \
-    MreIpct, MreAspc, MreRela, MreEfsh, MreSnct, MreOtft
+    MreIpct, MreAspc, MreRela, MreEfsh, MreSnct, MreOtft, MreVoli
 from ...brec import MreGlob, BaseRecordHeader, ModError
 
 #--Name of the game to use in UI.
-displayName = u'Skyrim'
+displayName = u'Skyrim Special Edition'
 #--Name of the game's filesystem folder.
-fsName = u'Skyrim'
+fsName = u'Skyrim Special Edition'
 #--Alternate display name to use instead of "Wrye Bash for ***"
 altName = u'Wrye Smash'
 #--Name of game's default ini file.
-defaultIniFile = u'Skyrim_default.ini'
+defaultIniFile = u'Skyrim_Default.ini'
 
 #--Exe to look for to see if this is the right game
-exe = u'TESV.exe'
+exe = u'SkyrimSE.exe'
 
 #--Registry keys to read to find the install location
-regInstallKeys = (u'Bethesda Softworks\\Skyrim', u'Installed Path')
+regInstallKeys = (u'Bethesda Softworks\\Skyrim Special Edition', u'Installed Path')
 
 #--patch information
 patchURL = u'' # Update via steam
@@ -151,7 +151,7 @@ dontSkipDirs = {
 #Folders BAIN should never check
 SkipBAINRefresh = {
     #Use lowercase names
-    u'tes5edit backups',
+    u'sseedit backups',
 }
 
 #--Some stuff dealing with INI files
@@ -166,8 +166,8 @@ class ini:
 #--Save Game format stuff
 class ess:
     # Save file capabilities
-    canReadBasic = True         # All the basic stuff needed for the Saves Tab
-    canEditMasters = True       # Adjusting save file masters
+    canReadBasic = False         # All the basic stuff needed for the Saves Tab
+    canEditMasters = False       # Adjusting save file masters
     canEditMore = False         # No advanced editing
     ext = u'.ess'               # Save file extension
 
@@ -275,8 +275,6 @@ masterFiles = [
     u'Update.esm',
     ]
 
-namesPatcherMaster = re.compile(ur"^Skyrim.esm$",re.I|re.U)
-
 #The pickle file for this game. Holds encoded GMST IDs from the big list below.
 pklfile = r'bash\db\Skyrim_ids.pkl'
 
@@ -340,23 +338,16 @@ ignoreDataFiles = {
 ignoreDataFilePrefixes = {
 }
 ignoreDataDirs = {
-    u'LSData'
 }
 
 #--Tags supported by this game
 allTags = sorted((
-    u'C.Acoustic', u'C.Climate', u'C.Encounter', u'C.ImageSpace', u'C.Light',
-    u'C.Location', u'C.SkyLighting', u'C.Music', u'C.Name', u'C.Owner',
-    u'C.RecordFlags', u'C.Regions', u'C.Water', u'Deactivate', u'Delev',
-    u'Filter', u'Graphics', u'Invent', u'NoMerge', u'Relev', u'Sound',
-    u'Stats', u'Names',
+    u'Deactivate', u'Delev', u'Invent', u'NoMerge', u'Relev',
     ))
 
 #--Gui patcher classes available when building a Bashed Patch
 patchers = (
-    u'AliasesPatcher', u'CellImporter', u'GmstTweaker', u'GraphicsPatcher',
-    u'ImportInventory', u'ListsMerger', u'PatchMerger', u'SoundPatcher',
-    u'StatsPatcher', u'NamesPatcher',
+    u'GmstTweaker', u'ImportInventory', u'ListsMerger',
     )
 
 #--CBash Gui patcher classes available when building a Bashed Patch
@@ -456,8 +447,8 @@ class esp:
                 'VTYP', 'MATT', 'IPCT', 'IPDS', 'ARMA', 'ECZN', 'LCTN', 'MESG',
                 'RGDL', 'DOBJ', 'LGTM', 'MUSC', 'FSTP', 'FSTS', 'SMBN', 'SMQN',
                 'SMEN', 'DLBR', 'MUST', 'DLVW', 'WOOP', 'SHOU', 'EQUP', 'RELA',
-                'SCEN', 'ASTP', 'OTFT', 'ARTO', 'MATO', 'MOVT', 'SNDR', 'DUAL',
-                'SNCT', 'SOPM', 'COLL', 'CLFM', 'REVB', ]
+                'SCEN', 'ASTP', 'OTFT', 'ARTO', 'MATO', 'VOLI', 'MOVT', 'SNDR',
+                'DUAL', 'SNCT', 'SOPM', 'COLL', 'CLFM', 'REVB', ]
 
     #--Dict mapping 'ignored' top types to un-ignored top types.
     topIgTypes = dict(
@@ -573,7 +564,7 @@ mergeClasses = (
     MreMust, MreNpc, MreOtft, MreProj, MreRegn, MreRela, MreRevb, MreRfct,
     MreScrl, MreShou, MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr,
     MreSopm, MreSoun, MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst,
-    MreVtyp, MreWatr, MreWeap, MreWoop, MreWthr,
+    MreVtyp, MreWatr, MreWeap, MreWoop, MreWthr, MreVoli,
     ####### for debug
     MreQust,
 )
@@ -608,7 +599,7 @@ def init():
         MreRegn, MreRela, MreRevb, MreRfct, MreScrl, MreShou, MreSlgm, MreSmbn,
         MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun, MreSpel, MreSpgd,
         MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWoop,
-        MreWthr, MreCell, MreWrld,
+        MreWthr, MreCell, MreWrld, MreVoli,
         ####### for debug
         MreQust, MreHeader,
     ))

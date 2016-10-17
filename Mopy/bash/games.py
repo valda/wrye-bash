@@ -704,9 +704,20 @@ class AsteriskGame(Game):
     def _write_modfile(self, path, lord, active):
         _write_plugins_txt_(path, lord, active, _star=True)
 
+# AsteriskGame overrides
+class SkyrimSE(AsteriskGame):
+
+    must_be_active_if_present = (bolt.GPath(u'Update.esm'),
+                                 bolt.GPath(u'Dawnguard.esm'),
+                                 bolt.GPath(u'Hearthfires.esm'),
+                                 bolt.GPath(u'Dragonborn.esm'),)
+
+# Game factory
 def game_factory(name, mod_infos, plugins_txt_path, loadorder_txt_path=None):
     if name == u'Skyrim':
         return TextfileGame(mod_infos, plugins_txt_path, loadorder_txt_path)
+    elif name == u'Skyrim Special Edition':
+        return SkyrimSE(mod_infos, plugins_txt_path)
     elif name == u'Fallout4':
         return AsteriskGame(mod_infos, plugins_txt_path)
     else:

@@ -42,7 +42,7 @@ from .records import MreCell, MreWrld, MreFact, MreAchr, MreDial, MreInfo, \
     MreLctn, MreTact, MreBptd, MreDobj, MreLscr, MreDlvw, MreTree, MreWatr, \
     MreFlor, MreEyes, MreWeap, MreIngr, MreClfm, MreMesg, MreLigh, MreExpl, \
     MreLcrt, MreStat, MreAmmo, MreSmqn, MreImad, MreSoun, MreAvif, MreCont, \
-    MreIpct, MreAspc, MreRela, MreEfsh, MreSnct, MreOtft, MreVoli
+    MreIpct, MreAspc, MreRela, MreEfsh, MreSnct, MreOtft, MreVoli, MreLens
 from ...brec import MreGlob, BaseRecordHeader, ModError
 
 #--Name of the game to use in UI.
@@ -367,7 +367,7 @@ allTags = sorted((
 
 #--Gui patcher classes available when building a Bashed Patch
 patchers = (
-    u'GmstTweaker', u'ImportInventory', u'ListsMerger',
+    u'GmstTweaker', u'ImportInventory', u'ListsMerger', u'PatchMerger',
     )
 
 #--CBash Gui patcher classes available when building a Bashed Patch
@@ -468,7 +468,7 @@ class esp:
                 'RGDL', 'DOBJ', 'LGTM', 'MUSC', 'FSTP', 'FSTS', 'SMBN', 'SMQN',
                 'SMEN', 'DLBR', 'MUST', 'DLVW', 'WOOP', 'SHOU', 'EQUP', 'RELA',
                 'SCEN', 'ASTP', 'OTFT', 'ARTO', 'MATO', 'VOLI', 'MOVT', 'SNDR',
-                'DUAL', 'SNCT', 'SOPM', 'COLL', 'CLFM', 'REVB', ]
+                'DUAL', 'SNCT', 'SOPM', 'COLL', 'CLFM', 'REVB', 'LENS', ]
 
     #--Dict mapping 'ignored' top types to un-ignored top types.
     topIgTypes = dict(
@@ -584,7 +584,7 @@ mergeClasses = (
     MreMust, MreNpc, MreOtft, MreProj, MreRegn, MreRela, MreRevb, MreRfct,
     MreScrl, MreShou, MreSlgm, MreSmbn, MreSmen, MreSmqn, MreSnct, MreSndr,
     MreSopm, MreSoun, MreSpel, MreSpgd, MreStat, MreTact, MreTree, MreTxst,
-    MreVtyp, MreWatr, MreWeap, MreWoop, MreWthr, MreVoli,
+    MreVtyp, MreWatr, MreWeap, MreWoop, MreWthr, MreVoli, MreLens,
     ####### for debug
     MreQust,
 )
@@ -619,7 +619,7 @@ def init():
         MreRegn, MreRela, MreRevb, MreRfct, MreScrl, MreShou, MreSlgm, MreSmbn,
         MreSmen, MreSmqn, MreSnct, MreSndr, MreSopm, MreSoun, MreSpel, MreSpgd,
         MreStat, MreTact, MreTree, MreTxst, MreVtyp, MreWatr, MreWeap, MreWoop,
-        MreWthr, MreCell, MreWrld, MreVoli,
+        MreWthr, MreCell, MreWrld, MreVoli, MreLens,
         ####### for debug
         MreQust, MreHeader,
     ))

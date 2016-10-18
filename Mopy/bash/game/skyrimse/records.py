@@ -3901,6 +3901,10 @@ class MreLtex(MelRecord):
     """Landscape Texture."""
     classType = 'LTEX'
 
+    LtexSnowFlags = Flags(0L,Flags.getNames(
+            (0, 'snow'),
+        ))
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelFid('TNAM','textureSet',),
@@ -3908,10 +3912,11 @@ class MreLtex(MelRecord):
         MelStruct('HNAM','BB','friction','restitution',),
         MelStruct('SNAM','B','textureSpecularExponent',),
         MelFids('GNAM','grasses'),
+        MelStruct('INAM','I',(LtexSnowFlags,'flags',0L),),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified for 305
+# Updated for SSE
 #------------------------------------------------------------------------------
 class MreLeveledList(MreLeveledListBase):
     """Skyrim Leveled item/creature/spell list."""
@@ -3990,14 +3995,18 @@ class MreMato(MelRecord):
             (0, 'singlePass'),
         ))
 
+    MatoSnowFlags = Flags(0L,Flags.getNames(
+            (0, 'snow'),
+        ))
+
     class MelMatoData(MelStruct):
         """Handle older truncated DATA for MATO subrecord."""
         def loadData(self, record, ins, sub_type, size, readId):
-            if size == 48:
+            if size == 52:
                 MelStruct.loadData(self, record, ins, sub_type, size, readId)
                 return
             elif size == 28:
-                unpacked = ins.unpack('fffffff',size,readId)
+                unpacked = ins.unpack('7f',size,readId)
             else:
                 raise ModSizeError(record.inName,readId,48,size,True)
             unpacked += self.defaults[len(unpacked):]
@@ -4013,15 +4022,17 @@ class MreMato(MelRecord):
         MelGroups('wordsOfPower',
             MelBase('DNAM','propertyData',),
             ),
-        MelMatoData('DATA','11fI','falloffScale','falloffBias','noiseUVScale',
-                  'materialUVScale','projectionVectorX','projectionVectorY',
-                  'projectionVectorZ','normalDampener',
-                  'singlePassColor','singlePassColor',
-                  'singlePassColor',(MatoTypeFlags,'flags',0L),),
-        )
+        MelMatoData('DATA','11fIB3s','falloffScale','falloffBias',
+                    'noiseUVScale','materialUVScale','projectionVectorX',
+                    'projectionVectorY','projectionVectorZ','normalDampener',
+                    'singlePassColorRed','singlePassColorGreen',
+                    'singlePassColorBlue',
+                    (MatoTypeFlags,'singlePassFlags',0L),
+                    (MatoSnowFlags,'snowflags',0L),'unkMato1'),
+    )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified for 305
+# Updated for SSE
 #------------------------------------------------------------------------------
 class MreMatt(MelRecord):
     """Material Type Record."""
@@ -6389,18 +6400,41 @@ class MreSpgd(MelRecord):
 class MreStat(MelRecord):
     """Static model record."""
     classType = 'STAT'
+
+    LtexSnowFlags = Flags(0L,Flags.getNames(
+            (0, 'consideredSnow'),
+        ))
+
+    class MelStatDnam(MelStruct):
+        """Handle older truncated DNAM for STAT subrecord."""
+        def loadData(self, record, ins, sub_type, size, readId):
+            if size == 12:
+                MelStruct.loadData(self, record, ins, sub_type, size, readId)
+                return
+            elif size == 8:
+                unpacked = ins.unpack('fI',size,readId)
+            else:
+                raise ModSizeError(record.inName,readId,8,size,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelBounds(),
         MelModel(),
-        MelStruct('DNAM','fI','maxAngle30to120',(FID,'material'),),
+        MelStatDnam('DNAM','fIB3s','maxAngle30to120',(FID,'material'),
+                    (LtexSnowFlags,'snowflag',0L),('unkStat1',null3),),
         # Contains null-terminated mesh filename followed by random data
         # up to 260 bytes and repeats 4 times
         MelBase('MNAM','distantLOD'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified for 305
+# Updated for SSE
 # MNAM Should use a custom unpacker if needed for the patcher otherwise MelBase
 #------------------------------------------------------------------------------
 class MreTact(MelRecord):
@@ -6517,7 +6551,7 @@ class MreWatr(MelRecord):
         MelFid('XNAM','spell',),
         MelFid('INAM','imageSpace',),
         MelStruct('DATA','H','damagePerSecond'),
-        MelStruct('DNAM','7f4s2f3Bs3Bs3Bs4s43f','unknown1','unknown2','unknown3',
+        MelStruct('DNAM','7f4s2f3Bs3Bs3Bs4s44f','unknown1','unknown2','unknown3',
                   'unknown4','specularPropertiesSunSpecularPower',
                   'waterPropertiesReflectivityAmount',
                   'waterPropertiesFresnelAmount',('unknown5',null4),
@@ -6560,19 +6594,21 @@ class MreWatr(MelRecord):
                   'depthPropertiesReflections','depthPropertiesRefraction',
                   'depthPropertiesNormals','depthPropertiesSpecularLighting',
                   'specularPropertiesSunSparklePower',
+                  'noisePropertiesFlowmapScale',
                   ),
         MelBase('GNAM','unused2'),
         # Linear Velocity
         MelStruct('NAM0','3f','linv_x','linv_y','linv_z',),
         # Angular Velocity
         MelStruct('NAM1','3f','andv_x','andv_y','andv_z',),
-        MelString('NAM2','noiseTexture'),
-        MelString('NAM3','unused3'),
-        MelString('NAM4','unused4'),
+        MelString('NAM2','noiseTextureLayer1'),
+        MelString('NAM3','noiseTextureLayer2'),
+        MelString('NAM4','noiseTextureLayer3'),
+        MelString('NAM5','flowNormalsNoiseTexture'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified for 305
+# Updated for SSE
 #------------------------------------------------------------------------------
 class MreWeap(MelRecord):
     """Weapon"""
@@ -6673,14 +6709,16 @@ class MreWeap(MelRecord):
                   'rumbleLeftMotorStrength','rumbleRightMotorStrength',
                   'rumbleDuration',('dnamUnk5',null4+null4+null4),'skill',
                   ('dnamUnk6',null4+null4),'resist',('dnamUnk7',null4),'stagger',),
-        MelStruct('CRDT','H2sfB3sI','critDamage',('crdtUnk1',null2),'criticalMultiplier',
-                  (WeapFlags3,'criticalFlags',0L),('crdtUnk2',null3),(FID,'criticalEffect',None),),
+        MelStruct('CRDT','H2sfB3s4sI4s','critDamage',('crdtUnk1',null2),
+                  'criticalMultiplier',(WeapFlags3,'criticalFlags',0L),
+                  ('crdtUnk2',null3),('crdtUnk3',null4),
+                  (FID,'criticalEffect',None),('crdtUnk4',null4),),
         MelStruct('VNAM','I','detectionSoundLevel'),
         MelFid('CNAM','template',),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified for 305
+# Updated for SSE
 #------------------------------------------------------------------------------
 class MreWoop(MelRecord):
     """Word of Power"""
@@ -6943,6 +6981,10 @@ class MreWthr(MelRecord):
         MelFids('TNAM','skyStatics',),
         MelStruct('IMSP','4I',(FID,'imageSpacesSunrise'),(FID,'imageSpacesDay'),
                   (FID,'imageSpacesSunset'),(FID,'imageSpacesNight'),),
+        MelStruct('HNAM','4I',(FID,'volumetricLightingSunrise'),
+                  (FID,'volumetricLightingDay'),
+                  (FID,'volumetricLightingSunset'),
+                  (FID,'volumetricLightingNight'),),
         MelWthrDalc('DALC','=4B4B4B4B4B4B4Bf','wthrAmbientColors',
             'redXplus','greenXplus','blueXplus','unknownXplus', # 'X+'
             'redXminus','greenXminus','blueXminus','unknownXminus', # 'X-'
@@ -6959,11 +7001,11 @@ class MreWthr(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified for 305
+# Updated for SSE
 # Some things Marked MelBase could be updated if mitigation needed
 #------------------------------------------------------------------------------
 class MreVoli(MelRecord):
-    """Word of Power"""
+    """Volumetric Lighting"""
     classType = 'VOLI'
     melSet = MelSet(
         MelString('EDID','eid'),
@@ -6982,4 +7024,29 @@ class MreVoli(MelRecord):
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Needs updated
+# Added in SSE
+#------------------------------------------------------------------------------
+class MreLens(MelRecord):
+    """Lens Flare"""
+    classType = 'LENS'
+
+    LensFlareFlags = Flags(0L,Flags.getNames(
+            (0, 'rotates'),
+            (1, 'shrinksWhenOccluded'),
+        ))
+
+    melSet = MelSet(
+        MelString('EDID','eid'),
+        MelStruct('CNAM','f','colorInfluence'),
+        MelStruct('DNAM','f','fadeDistanceRadiusScale'),
+        MelStruct('LFSP','I','count'),
+        MelGroups('lensFlareSprites',
+            MelString('DNAM','spriteID'),
+            MelString('FNAM','texture'),
+            MelStruct('LFSD','f','tint','width','height','position',
+                      'angularFade','opacity',(LensFlareFlags,'flags',0L),),
+            )
+        )
+    __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
+
+# Added in SSE

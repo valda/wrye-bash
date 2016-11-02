@@ -6388,14 +6388,19 @@ class MreSpgd(MelRecord):
     """Spgd Item"""
     classType = 'SPGD'
 
+    SpgdDataFlags = Flags(0L,Flags.getNames(
+            (0, 'rain'),
+            (1, 'snow'),
+        ))
+
     melSet = MelSet(
         MelString('EDID','eid'),
-        MelSpgdData(),
+        MelBase('DATA', 'data_p'), # Form version 44 broken for now
         MelString('ICON','icon'),
         )
     __slots__ = MelRecord.__slots__ + melSet.getSlotsUsed()
 
-# Verified for 305
+# Updated for SSE
 #------------------------------------------------------------------------------
 class MreStat(MelRecord):
     """Static model record."""

@@ -6420,7 +6420,7 @@ class MreStat(MelRecord):
             elif size == 8:
                 unpacked = ins.unpack('fI',size,readId)
             else:
-                raise ModSizeError(record.inName,readId,8,size,True)
+                raise ModSizeError(record.inName,readId,12,size,True)
             unpacked += self.defaults[len(unpacked):]
             setter = record.__setattr__
             for attr,value,action in zip(self.attrs,unpacked,self.actions):

@@ -6675,6 +6675,23 @@ class MreWeap(MelRecord):
             (7, 'nonplayable'),
         ))
 
+    class MelWeapCrdt(MelStruct):
+        """Handle older truncated CRDT for WEAP subrecord."""
+        def loadData(self, record, ins, sub_type, size, readId):
+            if size == 24:
+                MelStruct.loadData(self, record, ins, sub_type, size, readId)
+                return
+            elif size == 16:
+                raise ModSizeError(record.inName,readId,24,size,True,oldSkyrim='True')
+            else:
+                raise ModSizeError(record.inName,readId,24,size,True)
+            unpacked += self.defaults[len(unpacked):]
+            setter = record.__setattr__
+            for attr,value,action in zip(self.attrs,unpacked,self.actions):
+                if callable(action): value = action(value)
+                setter(attr,value)
+            if self._debug: print unpacked
+
     melSet = MelSet(
         MelString('EDID','eid'),
         MelVmad(),
@@ -6715,7 +6732,7 @@ class MreWeap(MelRecord):
                   'rumbleLeftMotorStrength','rumbleRightMotorStrength',
                   'rumbleDuration',('dnamUnk5',null4+null4+null4),'skill',
                   ('dnamUnk6',null4+null4),'resist',('dnamUnk7',null4),'stagger',),
-        MelStruct('CRDT','H2sfB3s4sI4s','critDamage',('crdtUnk1',null2),
+        MelWeapCrdt('CRDT','H2sfB3s4sI4s','critDamage',('crdtUnk1',null2),
                   'criticalMultiplier',(WeapFlags3,'criticalFlags',0L),
                   ('crdtUnk2',null3),('crdtUnk3',null4),
                   (FID,'criticalEffect',None),('crdtUnk4',null4),),
